@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/sina/Downloads/Compressed/front/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ky/values-ky.xml",
+            "outputFile": "/home/sina/FlutterProject/DT Project/my_university/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ky/values-ky.xml",
             "map": [
                 {
                     "source": "/home/sina/.gradle/caches/transforms-2/files-2.1/a528b13ac93e64cafa3d0480e2c93207/core-1.1.0/res/values-ky/values-ky.xml",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_university/screens/books_screen.dart';
 import 'package:my_university/screens/email_verfication_screen.dart';
+import 'package:my_university/screens/filter_screen.dart';
 import 'package:my_university/screens/home_screen.dart';
 import 'package:my_university/screens/login_screen.dart';
 import 'package:my_university/screens/registeration_screen.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         accentColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      initialRoute: LoginScreen.id,
+      initialRoute: HomeScreen.id,
       routes: {
         RegisterationScreen.id: (context) => RegisterationScreen(),
         LoginScreen.id: (context) => LoginScreen(),
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         EmailVerificationScreen.id: (context) => EmailVerificationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         BooksScreen.id: (context) => BooksScreen(),
+        FilterScreen.id: (context) => FilterScreen(),
       },
     );
   }
