@@ -168,7 +168,7 @@ class _ProductPageState extends State<ProductPage> {
                   top: 8.0, bottom: bottomPadding != 20 ? 20 : bottomPadding),
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: [
+                      colors:[
                         Color.fromRGBO(255, 255, 255, 0),
                         Color.fromRGBO(253, 192, 84, 0.5),
                         Color.fromRGBO(253, 192, 84, 1),
