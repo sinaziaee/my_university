@@ -1,4 +1,4 @@
-#Sat Nov 14 19:03:29 IRST 2020
+#Sat Nov 14 20:42:15 IRST 2020
 base.0=G\:\\Develover\\my_university\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

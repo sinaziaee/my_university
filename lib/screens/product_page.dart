@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'dart:convert' as convert;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,7 @@ import 'package:my_university/components/product.dart';
 import 'package:my_university/screens/product_display.dart';
 import '../app_properties.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_university/components/product.dart';
 
 
 get_book(int stockId, String token) async{
@@ -18,7 +20,7 @@ get_book(int stockId, String token) async{
     HttpHeaders.authorizationHeader: 'Token 4132b2c84b33da1e99704dc7c3f7f0f879ab67d4'
   });
 
-  print(result.statusCode);
+  //print(result.statusCode);
 
   print('hell2222222');
   print(result.body);
@@ -59,7 +61,9 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+
   final Product product;
+
 
   _ProductPageState(this.product);
 
@@ -67,6 +71,8 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double bottomPadding = MediaQuery.of(context).padding.bottom;
+
+
 
     Widget viewProductButton  = InkWell(
       onTap: () => Navigator.of(context)
@@ -78,12 +84,13 @@ class _ProductPageState extends State<ProductPage> {
             gradient: mainButton,
             boxShadow: [
               BoxShadow(
-                color: Colors.purple.shade400,
+                color: Color.fromRGBO(253, 192, 84, 1),
                 offset: Offset(0, 5),
                 blurRadius: 10.0,
               )
             ],
-            borderRadius: BorderRadius.circular(9.0)),
+            borderRadius: BorderRadius.circular(9.0)
+        ),
         child: Center(
           child: Text("نمایش محصول",
               style: const TextStyle(
@@ -115,97 +122,127 @@ class _ProductPageState extends State<ProductPage> {
               fontSize: 18.0),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  height: 80.0,
-                ),
-                ProductDisplay(product: product),
-                SizedBox(
-                  height: 16.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0,right: 16.0),
-                  child: Text(
-                    product.name,
-                    style: const TextStyle(
-                        color: const Color(0xFFFEFEFE),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20.0),
-                  ),
-                ),
+      body: FutureBuilder(
+        future: http.get(
+            'http://danibazi9.pythonanywhere.com/api/bookbse/stocks?stockID=1',
+            headers: {
+              HttpHeaders.authorizationHeader:
+              'Token 4132b2c84b33da1e99704dc7c3f7f0f879ab67d4'
+            }),
 
-                SizedBox(
-                  height: 24.0,
-                ),
+          builder: (context, snap){
+            if (snap.hasData && snap.connectionState == ConnectionState.done){
+              http.Response response = snap.data;
+              Map result = convert.jsonDecode(response.body);
 
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 90,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFFFF),
-                          borderRadius: BorderRadius.circular(4.0),
-                          border:
-                          Border.all(color: Color(0xFFFFFF), width: 0.5),
+              var product_book = Product('http://danibazi9.pythonanywhere.com' + result['image'],
+              result['book'].toString(),
+                  result['description'].toString(),
+              result['price']
+              );
+
+              return Stack(
+                children: <Widget>[
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 80.0,
                         ),
-                        child: Center(
-                          child: new Text("Details",
-                              style: const TextStyle(
-                                  color: const Color(0xeefefefe),
-                                  fontWeight: FontWeight.w300,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0)),
+                        ProductDisplay(product: product_book),
+                        SizedBox(
+                          height: 16.0,
                         ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 16.0,
-                ),
-                Padding(
-                    padding:
-                    EdgeInsets.only(left: 20.0, right: 40.0, bottom: 130),
-                    child: new Text(
-                        product.description,
-                        style: const TextStyle(
-                            color: Color.fromRGBO(253, 192, 84, 1),
-                            fontWeight: FontWeight.w800,
-                            fontFamily: "NunitoSans",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0)))
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: EdgeInsets.only(
-                  top: 8.0, bottom: bottomPadding != 20 ? 20 : bottomPadding),
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors:[
-                        Color.fromRGBO(255, 255, 255, 0),
-                        Color.fromRGBO(253, 192, 84, 0.5),
-                        Color.fromRGBO(253, 192, 84, 1),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0,right: 16.0),
+                          child: Text(
+                            product.name,
+                            style: const TextStyle(
+                                color: const Color(0xFFFEFEFE),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.0),
+                          ),
+                        ),
+
+                        SizedBox(
+                          height: 24.0,
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 90,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFFFF),
+                                  borderRadius: BorderRadius.circular(4.0),
+                                  border:
+                                  Border.all(color: Color(0xFFFFFF), width: 0.5),
+                                ),
+                                child: Center(
+                                  child: new Text("Details",
+                                      style: const TextStyle(
+                                          color: const Color(0xeefefefe),
+                                          fontWeight: FontWeight.w300,
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 12.0)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        Padding(
+                            padding:
+                            EdgeInsets.only(left: 20.0, right: 40.0, bottom: 130),
+                            child: new Text(
+                                product.description,
+                                style: const TextStyle(
+                                    color: Color.fromRGBO(253, 192, 84, 1),
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: "NunitoSans",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 16.0)))
                       ],
-                      begin: FractionalOffset.topCenter,
-                      end: FractionalOffset.bottomCenter)),
-              width: width,
-              height: 120,
-              child: Center(
-                  child: viewProductButton),
-            ),
-          ),
-        ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          top: 8.0, bottom: bottomPadding != 20 ? 20 : bottomPadding),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors:[
+                                Color.fromRGBO(255, 255, 255, 0),
+                                Color.fromRGBO(253, 192, 84, 0.5),
+                                Color.fromRGBO(253, 192, 84, 1),
+                              ],
+                              begin: FractionalOffset.topCenter,
+                              end: FractionalOffset.bottomCenter)),
+                      width: width,
+                      height: 120,
+                      child: Center(
+                          child: viewProductButton),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+
+            else{
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+          }
       ),
     );
   }
