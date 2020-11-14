@@ -52,9 +52,10 @@ List<Product> products = [
 
 class ProductPage extends StatefulWidget {
   static String id = 'product_screen';
+  int book_id;
   //final Product product;
 
-  //ProductPage({Key key, this.product}) : super(key: key);
+  ProductPage({this.book_id}) ;
 
   @override
   _ProductPageState createState() => _ProductPageState(products[1]);
@@ -66,6 +67,8 @@ class _ProductPageState extends State<ProductPage> {
 
 
   _ProductPageState(this.product);
+
+  get book_id => this.book_id;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +127,7 @@ class _ProductPageState extends State<ProductPage> {
       ),
       body: FutureBuilder(
         future: http.get(
-            'http://danibazi9.pythonanywhere.com/api/bookbse/stocks?stockID=1',
+            'http://danibazi9.pythonanywhere.com/api/bookbse/stocks?stockID=${book_id}',
             headers: {
               HttpHeaders.authorizationHeader:
               'Token 4132b2c84b33da1e99704dc7c3f7f0f879ab67d4'
