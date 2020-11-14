@@ -1,9 +1,32 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_university/components/product.dart';
 import 'package:my_university/screens/product_display.dart';
 import '../app_properties.dart';
+import 'package:http/http.dart' as http;
+
+
+get_book(int stockId, String token) async{
+
+  print('hell111111');
+
+// http.get('http://danibazi9.pythonanywhere.com/api/bookbse/stocks?stockID=$stockId');
+  http.Response result = await http.get('http://danibazi9.pythonanywhere.com/api/bookbse/stocks?stockID=1', headers: {
+    HttpHeaders.authorizationHeader: 'Token 4132b2c84b33da1e99704dc7c3f7f0f879ab67d4'
+  });
+
+  print(result.statusCode);
+
+  print('hell2222222');
+  print(result.body);
+
+}
+
+
+
 
 
 List<Product> products = [
@@ -13,7 +36,7 @@ List<Product> products = [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
       102.99),
   Product(
-      'assets/Holiday.png',
+      'assets/images/book-1.png',
       'کتاب هالیدی فیزیک عمومی',
       '  کتابی بسیار زیبا و با قابلیت دو گانه سوزی مناسب برای همه فصول جادار زیبا مطمئن',
       //'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Nec nam aliquam sem et tortor consequat id porta nibh. Orci porta non pulvinar neque laoreet suspendisse. Id nibh tortor id aliquet. Dui sapien eget mi proin. Viverra vitae congue eu consequat ac felis donec. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Vulputate mi sit amet mauris commodo quis imperdiet. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Sit amet cursus sit amet dictum sit amet justo. Mattis pellentesque id nibh tortor. Sed blandit libero volutpat sed cras ornare arcu dui. Fermentum et sollicitudin ac orci phasellus. Ipsum nunc aliquet bibendum enim facilisis gravida. Viverra suspendisse potenti nullam ac tortor. Dapibus ultrices in iaculis nunc sed. Nisi porta lorem mollis aliquam ut porttitor leo a. Phasellus egestas tellus rutrum tellus pellentesque. Et malesuada fames ac turpis egestas maecenas pharetra convallis. Commodo ullamcorper a lacus vestibulum sed arcu non odio. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Eros in cursus turpis massa. Eget mauris pharetra et ultrices neque.',
@@ -26,6 +49,7 @@ List<Product> products = [
 ];
 
 class ProductPage extends StatefulWidget {
+  static String id = 'product_screen';
   //final Product product;
 
   //ProductPage({Key key, this.product}) : super(key: key);
@@ -54,7 +78,7 @@ class _ProductPageState extends State<ProductPage> {
             gradient: mainButton,
             boxShadow: [
               BoxShadow(
-                color: Color.fromRGBO(253, 192, 84, 1),
+                color: Colors.purple.shade400,
                 offset: Offset(0, 5),
                 blurRadius: 10.0,
               )
@@ -73,7 +97,7 @@ class _ProductPageState extends State<ProductPage> {
     );
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(253, 192, 84, 1),
+      backgroundColor: Colors.purple.shade300,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -153,7 +177,7 @@ class _ProductPageState extends State<ProductPage> {
                     child: new Text(
                         product.description,
                         style: const TextStyle(
-                            color: Color(0xFFF12FFF),
+                            color: Color.fromRGBO(253, 192, 84, 1),
                             fontWeight: FontWeight.w800,
                             fontFamily: "NunitoSans",
                             fontStyle: FontStyle.normal,
