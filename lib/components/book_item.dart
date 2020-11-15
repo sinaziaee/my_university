@@ -51,7 +51,8 @@ class MyBookItem extends StatelessWidget {
                         padding: EdgeInsets.only(top: 10),
                         child: FadeInImage(
                           width: 60,
-                          placeholder: AssetImage('assets/images/book-1.png'),
+                          height: 60,
+                          placeholder: AssetImage('assets/images/not_found.png'),
                           image: NetworkImage(url ?? baseUrl),
                         ),
                       ),
@@ -98,8 +99,8 @@ class MyBookItem extends StatelessWidget {
                     width: 100,
                     height: 25,
                     decoration: BoxDecoration(
-                      color: kProgressIndicator,
-                      border: Border.all(color: kProgressIndicator),
+                      color: kPrimaryColor,
+                      border: Border.all(color: kPrimaryColor),
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(10),
                         topLeft: Radius.circular(10),
@@ -118,8 +119,8 @@ class MyBookItem extends StatelessWidget {
                 height: 10,
                 width: size.width * .65,
                 decoration: BoxDecoration(
-                  border: Border.all(color: kProgressIndicator),
-                  color: kProgressIndicator,
+                  border: Border.all(color: kPrimaryColor),
+                  color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(7),
                 ),
               ),

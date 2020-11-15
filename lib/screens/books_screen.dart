@@ -5,6 +5,8 @@ import 'package:my_university/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+import 'package:my_university/screens/filter_screen.dart';
+
 String url = 'https://jsonplaceholder.typicode.com/todos';
 
 class BooksScreen extends StatefulWidget {
@@ -20,60 +22,61 @@ class _BooksScreenState extends State<BooksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(child: SafeArea(
-        child: Container(
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                top: 10,
-                right: 15,
-                left: 15,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          onChanged: (val){
-                            print(val.trim());
-                          },
-                          controller: controller,
-                          cursorColor: Colors.black,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.search,
-                          textDirection: TextDirection.rtl,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search..."),
-                        ),
-                      ),
-                      Material(
-                        type: MaterialType.transparency,
-                        shape: CircleBorder(),
-                        child: IconButton(
-                          splashColor: Colors.grey,
-                          icon: Icon(
-                            FontAwesomeIcons.filter,
-                            color: kProgressIndicator,
-                            size: 20,
-                          ),
-                          onPressed: () {
-                            Scaffold.of(context).openDrawer();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ), preferredSize: Size.fromHeight(80)),
+      // appBar: PreferredSize(child: SafeArea(
+      //   child: Container(
+      //     child: Stack(
+      //       children: <Widget>[
+      //         Positioned(
+      //           top: 10,
+      //           right: 15,
+      //           left: 15,
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //                 color: Colors.grey[200],
+      //                 borderRadius: BorderRadius.circular(20)),
+      //             child: Row(
+      //               children: <Widget>[
+      //                 Expanded(
+      //                   child: TextField(
+      //                     onChanged: (val){
+      //                       print(val.trim());
+      //                     },
+      //                     controller: controller,
+      //                     cursorColor: Colors.black,
+      //                     keyboardType: TextInputType.text,
+      //                     textInputAction: TextInputAction.search,
+      //                     textDirection: TextDirection.rtl,
+      //                     decoration: InputDecoration(
+      //                         border: InputBorder.none,
+      //                         contentPadding:
+      //                         EdgeInsets.symmetric(horizontal: 15),
+      //                         hintText: "Search..."),
+      //                   ),
+      //                 ),
+      //                 Material(
+      //                   type: MaterialType.transparency,
+      //                   shape: CircleBorder(),
+      //                   child: IconButton(
+      //                     splashColor: Colors.grey,
+      //                     icon: Icon(
+      //                       FontAwesomeIcons.filter,
+      //                       color: kProgressIndicator,
+      //                       size: 20,
+      //                     ),
+      //                     onPressed: () {
+      //                       Scaffold.of(context).openDrawer();
+      //                     },
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ), preferredSize: Size.fromHeight(80)),
+      appBar: FloatAppBar(controller: controller,),
       body: RefreshIndicator(
         onRefresh: () {
           return _refresh();
@@ -83,6 +86,13 @@ class _BooksScreenState extends State<BooksScreen> {
           child: FutureBuilder(
               future: http.get(url),
               builder: (context, snapshot) {
+                // return ListView.builder(
+                //   itemCount: 10,
+                //   itemBuilder: (context, index) {
+                //     // return Container(child: Text('$index: ${mapList[index]['title']}'), color: Colors.red, margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),);
+                //     return MyBookItem('url','title', 'description', 'category','2000', onPressed());
+                //   },
+                // );
                 if (snapshot.hasData) {
                   if (snapshot.data != null) {
                     if (snapshot.connectionState == ConnectionState.done) {
@@ -224,11 +234,11 @@ class FloatAppBar extends StatelessWidget with PreferredSizeWidget {
                         splashColor: Colors.grey,
                         icon: Icon(
                           FontAwesomeIcons.filter,
-                          color: kProgressIndicator,
+                          color: kPrimaryColor,
                           size: 20,
                         ),
                         onPressed: () {
-                          Scaffold.of(context).openDrawer();
+                          onPressed(context);
                         },
                       ),
                     ),
@@ -240,6 +250,10 @@ class FloatAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
       ),
     );
+  }
+
+  onPressed(BuildContext context){
+    Navigator.pushNamed(context, FilterScreen.id);
   }
 
   @override

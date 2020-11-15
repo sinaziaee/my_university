@@ -125,14 +125,13 @@ class _LoginScreenState extends State<LoginScreen> {
       _showDialog(context, 'Fill student ID');
       return;
     }
-    if(student_id.length != 8) {
+    if (student_id.length != 8) {
       _showDialog(context, 'Bad student ID format');
       return;
     }
-    try{
+    try {
       int.parse(student_id);
-    }
-    catch(e){
+    } catch (e) {
       _showDialog(context, 'Bad student ID format');
       return;
     }
@@ -153,22 +152,20 @@ class _LoginScreenState extends State<LoginScreen> {
       //   'password': password.trim(),
       //   'student_id': int.parse(student_id.trim()),
       // };
-      http.Response result = await http.get('$url/api/users-list/${int.parse(student_id)}');
+      http.Response result =
+          await http.get('$url/api/users-list/${int.parse(student_id)}');
       if (result.statusCode == 201 || result.statusCode == 200) {
         setState(() {
           showSpinner = false;
         });
         Map jsonResponse = convert.jsonDecode(result.body);
-        String pass = jsonResponse[
-          'password'
-        ];
-        if(pass == this.password){
+        String pass = jsonResponse['password'];
+        if (pass == this.password) {
           _showDialog(context, 'success');
           Future.delayed(Duration(milliseconds: 600), () {
             Navigator.popAndPushNamed(context, HomeScreen.id);
           });
-        }
-        else {
+        } else {
           _showDialog(context, 'Wrong password');
         }
       } else if (result.statusCode == 404) {
@@ -202,8 +199,13 @@ class _LoginScreenState extends State<LoginScreen> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 20,),
-          Text(message, style: TextStyle(fontSize: 20),),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            message,
+            style: TextStyle(fontSize: 20),
+          ),
           // Row(
           //   children: [
           //     Expanded(
@@ -215,13 +217,14 @@ class _LoginScreenState extends State<LoginScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('Done!', style: TextStyle(color: kPrimaryColor),),
+            child: Text(
+              'Done!',
+              style: TextStyle(color: kPrimaryColor),
+            ),
           ),
         ],
       ),
     );
     showDialog(context: context, child: dialog);
   }
-
-
 }
