@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 #Fri Nov 13 06:58:58 ACDT 2020
 base.0=/home/sina/FlutterProject/DT Project/my_university/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+=======
+#Sat Nov 14 20:42:15 IRST 2020
+base.0=G\:\\Develover\\my_university\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+path.0=classes.dex
+>>>>>>> detail_page
 renamed.0=classes.dex
 path.0=classes.dex
