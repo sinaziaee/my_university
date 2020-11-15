@@ -1,10 +1,14 @@
 {
     "logs": [
         {
+<<<<<<< HEAD
             "outputFile": "/home/sina/FlutterProject/DT Project/my_university/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-gu/values-gu.xml",
+=======
+            "outputFile": "G:\\Develover_2\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-gu\\values-gu.xml",
+>>>>>>> chat_screen
             "map": [
                 {
-                    "source": "/home/sina/.gradle/caches/transforms-2/files-2.1/a528b13ac93e64cafa3d0480e2c93207/core-1.1.0/res/values-gu/values-gu.xml",
+                    "source": "C:\\Users\\asus\\.gradle\\caches\\transforms-2\\files-2.1\\a528b13ac93e64cafa3d0480e2c93207\\core-1.1.0\\res\\values-gu\\values-gu.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
