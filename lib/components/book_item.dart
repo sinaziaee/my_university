@@ -56,7 +56,7 @@ class BookItem extends StatelessWidget {
                       height: 120,
                       fit: BoxFit.cover,
                       placeholder: AssetImage('assets/images/book_unknown.png'),
-                      image: NetworkImage(url),
+                      image: (url!='')?NetworkImage(url): AssetImage('assets/images/book_unknown.png'),
                     ),
                   ),
                 ),

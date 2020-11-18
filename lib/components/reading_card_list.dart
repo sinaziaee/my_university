@@ -32,27 +32,21 @@ class ReadingListCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(29),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, 10),
-                    blurRadius: 33,
-                    color: kShadowColor,
-                  ),
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //     offset: Offset(0, 10),
+                //     blurRadius: 33,
+                //     color: kShadowColor,
+                //   ),
+                // ],
               ),
             ),
           ),
-          Image.asset(
-            image,
+          FadeInImage(
             width: 150,
-          ),
-          Positioned(
-            top: 35,
-            right: 10,
-            child: Column(
-              children: <Widget>[
-              ],
-            ),
+            height: 150,
+            image: (image != '')?NetworkImage(image):AssetImage('assets/images/book-1.png'),
+            placeholder: AssetImage('assets/images/book-1.png'),
           ),
           Positioned(
             top: 160,
@@ -60,6 +54,7 @@ class ReadingListCard extends StatelessWidget {
               height: 85,
               width: 202,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_university/constants.dart';
+import '../constants.dart';
+
 
 class FilterScreen extends StatefulWidget {
   static String id = 'filter_screen';
