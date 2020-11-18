@@ -1,16 +1,18 @@
+import 'package:dt_front/screens/chat_screen.dart';
+import 'package:dt_front/screens/filter_screen.dart';
+import 'package:dt_front/screens/new_book.dart';
+import 'package:dt_front/screens/product_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:my_university/screens/books_screen.dart';
-import 'package:my_university/screens/email_verfication_screen.dart';
-import 'package:my_university/screens/filter_screen.dart';
-import 'package:my_university/screens/home_screen.dart';
-import 'package:my_university/screens/login_screen.dart';
-import 'package:my_university/screens/product_page.dart';
-import 'package:my_university/screens/registeration_screen.dart';
-import 'package:my_university/screens/welcome_screen.dart';
-import 'package:my_university/components/report_Problem_Dialogue.dart';
 
 import 'constants.dart';
+import 'screens/books_screen.dart';
+import 'screens/email_verfication_screen.dart';
+import 'screens/history_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/registeration_screen.dart';
 import 'screens/splash_screen.dart';
+import 'screens/welcome_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,9 +28,9 @@ class MyApp extends StatelessWidget {
         accentColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      initialRoute: HomeScreen.id,
+      initialRoute: LoginScreen.id,
       routes: {
-        report_problem.id : (context) => report_problem(),
+        ProductPage.id: (context) => ProductPage(),
         RegisterationScreen.id: (context) => RegisterationScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         WelcomeScreen.id: (context) => WelcomeScreen(),
@@ -36,7 +38,10 @@ class MyApp extends StatelessWidget {
         EmailVerificationScreen.id: (context) => EmailVerificationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         BooksScreen.id: (context) => BooksScreen(),
-        ProductPage.id:(context) => ProductPage(),
+        HistoryScreen.id: (context) => HistoryScreen(),
+        FilterScreen.id: (context) => FilterScreen(),
+        NewBook.id: (context) => NewBook(),
+        ChatScreen.id: (context) => ChatScreen(),
       },
     );
   }
