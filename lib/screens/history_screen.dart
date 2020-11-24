@@ -153,6 +153,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       itemBuilder: (context, index) {
                                         return ReadingListCard(
                                           onPressed: () {
+                                            print('tradeId: ' + mapList[index]['id'].toString());
                                             onPressed(
                                               mapList[index]['id'],
                                               token,
@@ -228,8 +229,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         }
                                         // return SizedBox();
                                         return Container(
-                                          height: 200,
+                                          height: size.height*0.6,
                                           child: ListView.builder(
+                                            shrinkWrap: true,
                                             itemCount: tradeCount,
                                             itemBuilder: (context, index) {
                                               return TradeItem(
@@ -241,6 +243,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 buyer: mapList[index]['buyer'],
                                                 seller_username: mapList[index]['seller_username'],
                                                 buyer_username: mapList[index]['client_username'],
+                                                onPressed: (){
+                                                  onPressed(
+                                                    mapList[index]['id'],
+                                                    token,
+                                                    false,
+                                                  );
+                                                },
                                               );
                                             },
                                           ),
@@ -276,6 +285,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   onPressed(int id, String token, bool isVisible) async{
     print('username: $username');
+    print('trade: $id');
     var result = await Navigator.pushNamed(context, TradeScreen.id, arguments: {
       'trade_id': id,
       'token': token,

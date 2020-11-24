@@ -66,6 +66,15 @@ class _TradeScreenState extends State<TradeScreen> {
         backgroundColor: Colors.orange.shade500,
         elevation: 0.0,
         iconTheme: IconThemeData(color: darkGrey),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     cancelDialog();
+        //   },
+        //   icon: Icon(
+        //     Icons.cancel,
+        //     color: Colors.white,
+        //   ),
+        // ),
         actions: [
           IconButton(
             icon: Icon(
@@ -80,7 +89,7 @@ class _TradeScreenState extends State<TradeScreen> {
         title: Text(
           ' جزئیات کتاب',
           style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w500, fontSize: 18.0),
+              color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30.0),
         ),
       ),
       body: FutureBuilder(
@@ -106,6 +115,11 @@ class _TradeScreenState extends State<TradeScreen> {
                   price = result['price'];
                   seller_id = result['seller'];
                   buyer_id = result['buyer'];
+                  if (seller_id == userId) {
+                    otherId = buyer_id;
+                  } else {
+                    otherId = seller_id;
+                  }
                   seller_username = result['seller_username'];
                   buyer_username = result['client_username'];
                   print(result);
@@ -343,7 +357,7 @@ class _TradeScreenState extends State<TradeScreen> {
     );
   }
 
-  _showDialog(String title) async{
+  _showDialog(String title) async {
     var result = await showDialog(
       context: context,
       child: AlertDialog(
@@ -380,11 +394,13 @@ class _TradeScreenState extends State<TradeScreen> {
         'buyer': buyer_id,
       }),
     );
-    var jsonResponse = convert.jsonDecode(
-        convert.utf8.decode(response.bodyBytes));
+    var jsonResponse =
+        convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
     print(jsonResponse);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200 || response.statusCode == 201) {
       _showDialog('کتاب به $seller_username نسبت داده شد .');
+    } else {
+      _showDialog('مشکلی پیش آمد');
     }
   }
 
@@ -393,10 +409,12 @@ class _TradeScreenState extends State<TradeScreen> {
     print(text);
     if (text.trim().length < 1) {
       // pass
+      _showDialog('لطفا شکایت خود را وارد کنید ');
     } else {
-      http.Response result = await http.post(reportUrl,
+      http.Response result = await http.post('$reportUrl/?tradeID=$tradeId',
           headers: {
             HttpHeaders.authorizationHeader: token,
+            "content-type": "application/json",
           },
           body: convert.jsonEncode({
             "trade": tradeId,
@@ -404,9 +422,55 @@ class _TradeScreenState extends State<TradeScreen> {
             "accused": otherId,
             "text": text,
           }));
+      print(result.statusCode);
+      if (result.statusCode >= 400) {
+        // Navigator.pop(context);
+        _showDialog('مشکلی پیش آمد.');
+      } else {
+        // Navigator.pop(context);
+        _showDialog('شکایت شما با موفقیت ثبت شد.');
+      }
       print(result.body);
     }
-    Navigator.pop(context);
+  }
+
+  cancelDialog() async {
+    var result = await showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(
+          'آیا مطمین از لغو رزرو هستید ؟',
+          textDirection: TextDirection.rtl,
+        ),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FlatButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: Text(
+                'آره',
+                style: TextStyle(color: Colors.green),
+              ),
+            ),
+            SizedBox(
+              width: 50,
+            ),
+            FlatButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: Text(
+                'نه',
+                style: TextStyle(color: Colors.green),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (result == true) {}
   }
 
   _checkAccessibility() async {

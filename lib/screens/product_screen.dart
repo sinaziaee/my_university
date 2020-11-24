@@ -55,12 +55,13 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
     stock_id = args['stock_id'];
-    book_id = args['book_id'];
+    book_id = args['bookId'];
     token = args['token'];
     seller_id = args['seller_id'];
     seller_username = args['seller_username'];
     buyer_username = args['buyer_username'];
     buyerId = args['buyer'];
+    print('buyer: $buyerId');
     bool vis = args['isVisible'];
     if(vis != null){
       isVisible = vis;
@@ -387,6 +388,9 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   acceptRequest() async {
+    print('*************************');
+    print('bookId: $book_id');
+    print('*************************');
     if(buyerId == null){
       print('buyerId is null');
     }
@@ -401,6 +405,7 @@ class _ProductPageState extends State<ProductPage> {
         'state': false,
         'description': description,
         'book': book_id,
+        'bookId': book_id,
         'stock_id': stock_id,
       }),
       headers: {
@@ -408,6 +413,12 @@ class _ProductPageState extends State<ProductPage> {
       },
     );
     var jsonResponse = convert.jsonDecode(utf8.decode(response.bodyBytes));
+    if(response.statusCode > 400){
+      _showDialog('مشکلی پیش آمد');
+    }
+    else{
+      _showDialog('درخواست کاربر قبول شد.');
+    }
     print(jsonResponse);
   }
 
@@ -426,6 +437,7 @@ class _ProductPageState extends State<ProductPage> {
           "content-type": "application/json",
         },
         body: convert.jsonEncode({
+          'bookId': book_id,
           "book": book_id,
           "seller": seller_id,
           "client": userId,
@@ -447,8 +459,8 @@ class _ProductPageState extends State<ProductPage> {
     // });
   }
 
-  _showDialog(String title) {
-    showDialog(
+  _showDialog(String title) async{
+    var result = await showDialog(
       context: context,
       child: AlertDialog(
         title: Text(
@@ -457,7 +469,7 @@ class _ProductPageState extends State<ProductPage> {
         ),
         content: FlatButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           },
           child: Text(
             'باشه !',
@@ -467,6 +479,9 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
     );
+    if(result == true){
+      Navigator.pop(context, true);
+    }
   }
 
   _checkAccessibility() async {

@@ -1,7 +1,10 @@
+import 'package:dt_front/screens/chat_rooms_screen.dart';
 import 'package:dt_front/screens/chat_screen.dart';
+import 'package:dt_front/screens/demand_books.dart';
 import 'package:dt_front/screens/filter_screen.dart';
 import 'package:dt_front/screens/new_book.dart';
 import 'package:dt_front/screens/product_screen.dart';
+import 'package:dt_front/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -42,6 +45,9 @@ class MyApp extends StatelessWidget {
         FilterScreen.id: (context) => FilterScreen(),
         NewBook.id: (context) => NewBook(),
         ChatScreen.id: (context) => ChatScreen(),
+        ChatRoomsScreen.id: (context) => ChatRoomsScreen(),
+        DemandBookScreen.id: (context) => DemandBookScreen(),
+        TradeScreen.id: (context) => TradeScreen(),
       },
     );
   }

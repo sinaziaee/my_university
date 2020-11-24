@@ -89,6 +89,9 @@ class _DemandBookScreenState extends State<DemandBookScreen> {
                   return ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      print('***************************');
+                      print(mapList[index]);
+                      print('***************************');
                       return MyBookItem(
                         name: mapList[index]['name'],
                         author: mapList[index]['author'],
@@ -102,7 +105,7 @@ class _DemandBookScreenState extends State<DemandBookScreen> {
                             : 'فروشنده : ${mapList[index]['seller_username']}',
                         onPressed: () {
                           onPressed(
-                            mapList[index]['id'],
+                            mapList[index]['bookId'],
                             token,
                             mapList[index]['seller'],
                             mapList[index]['seller_username'],
@@ -133,15 +136,23 @@ class _DemandBookScreenState extends State<DemandBookScreen> {
   }
 
   onPressed(
-      int id, String token, int seller, String seller_username, int buyer, int stock_id, String buyer_username) {
-    Navigator.pushNamed(context, ProductPage.id, arguments: {
+      int id, String token, int seller, String seller_username, int buyer, int stock_id, String buyer_username) async{
+    print('***************************');
+    print('id is: $id');
+    print('stockId is: $stock_id');
+    print('***************************');
+    var result = await Navigator.pushNamed(context, ProductPage.id, arguments: {
       'book_id': id,
+      'bookId': id,
       'token': token,
       'seller_id': seller,
       'seller_username': seller_username,
       'buyer': buyer,
-      'buyer': buyer_username,
+      'buyer_username': buyer_username,
       'stock_id': stock_id,
     });
+    if (result == true){
+      Navigator.pop(context);
+    }
   }
 }

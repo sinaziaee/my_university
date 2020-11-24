@@ -359,12 +359,14 @@ class _BooksScreenState extends State<BooksScreen> {
   }
 
   onPressed(int id, String token, int seller_id, String username, int book_id) {
+    print('book:::::: $book_id');
     Navigator.pushNamed(context, ProductPage.id, arguments: {
       'stock_id': id,
       'token': token,
       'seller_id': seller_id,
       'seller_username': username,
-      'book_id': book_id
+      'book_id': book_id,
+      'bookId': book_id,
     });
   }
 
