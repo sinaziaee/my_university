@@ -1,4 +1,5 @@
 import 'package:dt_front/screens/books_screen.dart';
+import 'package:dt_front/screens/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -32,9 +33,10 @@ class GridDashboard extends StatelessWidget {
     img: "assets/images/elmos.png",
   );
   Items item5 = new Items(
-    title: "درباره ما",
+    title: "گفتگو ها",
     subtitle: "گروه برنامه نویسی دولاور",
     img: "assets/images/logo.png",
+    dest: ChatRoomsScreen.id,
   );
   Items item6 = new Items(
     title: "سوالات متداول",

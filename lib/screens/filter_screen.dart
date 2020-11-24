@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class FilterScreen extends StatefulWidget {
   static String id = 'filter_screen';
@@ -11,12 +14,39 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  double lowPrice = 20000;
-  double highPrice = 50000;
-  RangeValues rangeValues = RangeValues(10000, 100000);
+  Map args;
+
+  String selectedFaculty, token, selectedBookName;
+  int selectedBookId;
+  String facultiesUrl = '$baseUrl/api/bookbse/faculties';
+  TextEditingController searchController = TextEditingController();
+  TextEditingController minController = TextEditingController();
+  TextEditingController maxController = TextEditingController();
+  int min = 0, max = 200000;
 
   @override
   Widget build(BuildContext context) {
+    args = ModalRoute.of(context).settings.arguments;
+    String search = args['search'];
+    String faculty = args['faculty'];
+    int min = args['min'];
+    int max = args['max'];
+    if (search != null) {
+      searchController.text = search;
+    }
+    if (faculty != null && selectedFaculty == null) {
+      selectedFaculty = faculty;
+    }
+    if (min != null) {
+      // rangeValues = RangeValues(min * 1.0, max * 1.0);
+      this.min = min;
+      minController.text = min.toString();
+    }
+    if (max != null) {
+      // rangeValues = RangeValues(min * 1.0, max * 1.0);
+      this.max = max;
+      maxController.text = max.toString();
+    }
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -55,6 +85,10 @@ class _FilterScreenState extends State<FilterScreen> {
                     height: 45,
                     child: TextField(
                       cursorColor: kPrimaryColor,
+                      controller: searchController,
+                      onChanged: (val) {
+                        print(searchController.text);
+                      },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -79,7 +113,8 @@ class _FilterScreenState extends State<FilterScreen> {
                           child: InkWell(
                             highlightColor: Colors.black,
                             onTap: () {
-                              _openDialog();
+                              // _openDialog();
+                              _showFacultiesDialog();
                             },
                             child: Container(
                               padding: EdgeInsets.only(
@@ -101,7 +136,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Icon(Icons.arrow_drop_down),
-                                    Text('همه دسته ها'),
+                                    Text(selectedFaculty ?? 'همه دانشکده ها'),
                                   ],
                                 ),
                               ),
@@ -113,7 +148,7 @@ class _FilterScreenState extends State<FilterScreen> {
                         width: 80,
                         padding: EdgeInsets.only(right: 10),
                         child: Text(
-                          'دسته آگهی :',
+                          'دانشکده :',
                           textDirection: TextDirection.rtl,
                         ),
                       ),
@@ -134,27 +169,42 @@ class _FilterScreenState extends State<FilterScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     child: ListTile(
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(rangeValues.start.round().toString() + 'ت '),
-                          SizedBox(width: size.width * 0.2),
-                          Text(rangeValues.end.round().toString() + 'ت '),
-                        ],
+                      trailing: Text('حداقل قیمت  '),
+                      title: Container(
+                        height: 40,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: minController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
                       ),
-                      trailing: Text('بازه ی قیمت'),
-                      title: RangeSlider(
-                          activeColor: kPrimaryColor,
-                          inactiveColor: Colors.grey,
-                          values: rangeValues,
-                          min: 0,
-                          max: 200000,
-                          onChanged: (val) {
-                            setState(() {
-                              print(val);
-                              rangeValues = val;
-                            });
-                          }),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    child: ListTile(
+                      trailing: Text('حداکثر قیمت  '),
+                      title: Container(
+                        height: 40,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: maxController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -169,7 +219,9 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                   MaterialButton(
                     padding: EdgeInsets.symmetric(vertical: 10),
-                    onPressed: () {},
+                    onPressed: () {
+                      onPressed();
+                    },
                     color: kPrimaryColor,
                     minWidth: size.width - 40,
                     height: size.height * 0.05,
@@ -207,126 +259,120 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
-  _openDialog() {
-    AlertDialog alertDialog = AlertDialog(
-      title: Text(
-        'انتخاب',
-        textDirection: TextDirection.rtl,
-        style: TextStyle(color: Colors.grey[600]),
-      ),
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده کامپیوتر');
+  _showFacultiesDialog() async {
+    http.Response response = await http
+        .get(facultiesUrl, headers: {HttpHeaders.authorizationHeader: token});
+    var jsonResponse =
+        convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+    List<Map> mapList = [];
+    int count = 0;
+    for (Map each in jsonResponse) {
+      count++;
+      mapList.add(each);
+    }
+    if (count == 0) {
+      showDialog(
+        context: context,
+        child: AlertDialog(
+          content: Center(
+            child: Text('دانشکده ای وجود ندارد'),
+          ),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        child: AlertDialog(
+          content: Container(
+            height: 400,
+            width: 200,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: count,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    selectedFaculty = mapList[index]['name'];
+                    print(selectedFaculty);
+                    setState(() {
+
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        mapList[index]['name'],
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               },
-              child: Text(
-                'دانشکده کامپیوتر',
-                textAlign: TextAlign.end,
-              ),
             ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده عمومی');
-              },
-              child: Text(
-                'دانشکده عمومی',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده معارف');
-              },
-              child: Text(
-                'دانشکده معارف',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده برق');
-              },
-              child: Text(
-                'دانشکده برق',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده شیمی');
-              },
-              child: Text(
-                'دانشکده شیمی',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده فیزیک');
-              },
-              child: Text(
-                'دانشکده فیزیک',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده مهندسی شیمی');
-              },
-              child: Text(
-                'دانشکده مهندسی شیمی',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده مکانیک');
-              },
-              child: Text(
-                'دانشکده مکانیک',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده معماری');
-              },
-              child: Text(
-                'دانشکده معماری',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده عمران');
-              },
-              child: Text(
-                'دانشکده عمران',
-                textAlign: TextAlign.end,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                onPressed('دانشکده علوم کامپیوتر');
-              },
-              child: Text(
-                'دانشکده علوم کامپیوتر',
-                textAlign: TextAlign.end,
-              ),
-            ),
-          ],
+          ),
+        ),
+      );
+    }
+  }
+
+  openDialog(String title) {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(
+          title,
+          textDirection: TextDirection.rtl,
+        ),
+        content: FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('باشه!'),
         ),
       ),
     );
-    showDialog(context: context, child: alertDialog);
   }
 
-  onPressed(String name) {
-    print(name);
-    Navigator.pop(context);
+  onPressed() {
+    String search = searchController.text;
+    if(this.min > this.max){
+      openDialog('حداقل قیمت نمیتواند از حداکثر قیمت بیشتر باشد.');
+    }
+    if(this.min > 200000){
+      minController.text = '200000';
+      this.min = 200000;
+    }
+    if(this.max > 200000){
+      minController.text = '200000';
+      this.max = 200000;
+    }
+    if(this.min < 0){
+      minController.text = '0';
+      this.min = 0;
+    }
+    if(this.max < 0){
+      maxController.text = '0';
+      this.max = 0;
+    }
+    if (search.trim().length == 0) {
+      search = null;
+    }
+    String faculty = selectedFaculty;
+    print('selected faculty: $selectedFaculty');
+    int min, max;
+    if(minController.text.length != 0 && maxController.text.length != 0){
+      min = int.parse(minController.text);
+      max = int.parse(maxController.text);
+    }
+
+    print('min: $min ,  max: $max');
+    // Navigator.pop(context, {'search': search, "faculty": faculty, "min": min, "max": max});
+    Map map = {'search': search, "faculty": faculty, "min": min, "max": max};
+    Navigator.pop(context, map);
   }
 }

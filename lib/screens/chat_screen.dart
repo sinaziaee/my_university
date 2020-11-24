@@ -1,35 +1,58 @@
 import 'package:dt_front/components/message_bubble.dart';
+import 'package:dt_front/screens/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'dart:convert' as convert;
 
+int room, currentUserId;
+String myUsername, otherUsername;
+
 class ChatScreen extends StatelessWidget {
   Map args;
   static String id = 'chat_screen';
 
+  String firstName, lastName;
+
   @override
   Widget build(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
-    int room = args['room'] ?? 1;
-    String fistName = args['first_name'] ?? 'first';
-    String lastName = args['last_name'] ?? 'last';
-    int sender_id = args['sender_id'];
-    final title = fistName + ' ' + lastName;
+    room = args['room'];
+    // firstName = args['first_name'] ?? 'first';
+    // lastName = args['last_name'] ?? 'last';
+    myUsername = args['username'];
+    currentUserId = args['user_id'];
+    otherUsername = args['other_username'];
+    print('room: $room');
+    print('username: $myUsername');
+    final title = otherUsername;
+    // getData();
+    // return Scaffold();
     return MyHomePage(
-      title: title,
+      title: '$titleگفتگو با ',
       channel: IOWebSocketChannel.connect(
           'ws://192.168.43.126:8000/api/chat/$room/'),
     );
   }
+// getData(){
+//   print(room.toString());
+//   print(firstName);
+//   print(currentUserId.toString());
+// }
 }
 
 class MyHomePage extends StatefulWidget {
   final String title;
   final WebSocketChannel channel;
-  final String username = 'admin';
+  final int currentUserId;
 
-  MyHomePage({Key key, @required this.title, @required this.channel})
+  // final String username = 'admin';
+
+  MyHomePage(
+      {Key key,
+      @required this.title,
+      @required this.channel,
+      this.currentUserId})
       : super(key: key);
 
   @override
@@ -57,8 +80,18 @@ class _MyHomePageState extends State<MyHomePage> {
     int count = 0;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.purple.shade300,
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.chevron_right),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -72,18 +105,30 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (snapshot.hasData) {
                     // print(snapshot.data);
                     final result = convert.jsonDecode(snapshot.data);
+                    // print(result);
                     if (result['command'] == 'new_message') {
                       count++;
                       // print(result['message']['content']);
-
-                      list.insert(
-                        0,
-                        MessageBubble(
-                          timestamp: result['message']['timestamp'],
-                          text: result['message']['content'],
-                          isMe: true,
-                        ),
-                      );
+                      print(result['message']['sender']);
+                      if (myUsername == result['message']['sender']) {
+                        list.insert(
+                          0,
+                          MessageBubble(
+                            timestamp: result['message']['timestamp'],
+                            text: result['message']['content'],
+                            isMe: true,
+                          ),
+                        );
+                      } else {
+                        list.insert(
+                          0,
+                          MessageBubble(
+                            timestamp: result['message']['timestamp'],
+                            text: result['message']['content'],
+                            isMe: false,
+                          ),
+                        );
+                      }
                     } else {
                       list = [];
                       count = 0;
@@ -93,13 +138,26 @@ class _MyHomePageState extends State<MyHomePage> {
                         count++;
                         // print(each_message['content']);
                         // print("*"+each_message['sender']+"*");
-                        list.add(
-                          MessageBubble(
-                            timestamp: each_message['timestamp'],
-                            text: each_message['content'],
-                            isMe: (widget.username == each_message['sender']) ? true : false,
-                          ),
-                        );
+                        // print(each_message['sender']);
+                        // print('*$username* + *${each_message['sender']}*');
+                        // (username.toString() == result['sender'].toString()) ? print(true): print(false);
+                        if (myUsername == each_message['sender']) {
+                          list.add(
+                            MessageBubble(
+                              timestamp: each_message['timestamp'],
+                              text: each_message['content'],
+                              isMe: true,
+                            ),
+                          );
+                        } else {
+                          list.add(
+                            MessageBubble(
+                              timestamp: each_message['timestamp'],
+                              text: each_message['content'],
+                              isMe: false,
+                            ),
+                          );
+                        }
                       }
                     }
                     // return Container();
@@ -161,8 +219,8 @@ class _MyHomePageState extends State<MyHomePage> {
       widget.channel.sink.add(convert.jsonEncode({
         'message': _controller.text,
         'command': 'new_message',
-        'sender': 2,
-        'room_id': 2,
+        'sender': myUsername,
+        'room_id': room,
       }));
       _controller.text = '';
     }
@@ -171,11 +229,9 @@ class _MyHomePageState extends State<MyHomePage> {
   get_data() {
     widget.channel.sink.add(convert.jsonEncode({
       'command': 'fetch_messages',
-      'room_id': 2,
+      'room_id': room,
     }));
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
-    print('**************************');
-    print(DateTime.now());
   }
 
   @override

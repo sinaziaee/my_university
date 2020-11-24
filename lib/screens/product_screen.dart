@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:convert' as convert;
 
@@ -8,17 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import 'chat_screen.dart';
 
+bool showSpinner = false;
+bool isVisible = false;
 class ProductPage extends StatefulWidget {
   static String id = 'product_screen';
-  int book_id;
-  String token;
-
-  //final Product product;
-
-  ProductPage({this.book_id, this.token});
 
   @override
   _ProductPageState createState() => _ProductPageState();
@@ -27,15 +26,48 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   Map args;
 
-  String token;
-  int book_id, seller_id;
+  bool isBuyer = true;
+  String text = 'درخواست', messageText = "گفت و گو";
+
+  String token, username, seller_username, image, description, buyer_username;
+  int stock_id, seller_id, userId, tradeId, buyerId, price, book_id;
+
+  String reportUrl = '$baseUrl/api/bookbse/trades/report';
+  String stockUrl = '$baseUrl/api/bookbse/stocks/';
+  String demandUrl = '$baseUrl/api/bookbse/demands/';
+
+  Future<String> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    userId = prefs.getInt('user_id');
+    username = prefs.getString('username');
+    if (seller_id == userId) {
+      isBuyer = false;
+      text = 'قبول درخواست';
+      messageText = "گفت و گو";
+    }
+    return token;
+  }
+
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
+    stock_id = args['stock_id'];
     book_id = args['book_id'];
     token = args['token'];
     seller_id = args['seller_id'];
+    seller_username = args['seller_username'];
+    buyer_username = args['buyer_username'];
+    buyerId = args['buyer'];
+    bool vis = args['isVisible'];
+    if(vis != null){
+      isVisible = vis;
+    }
+
+    print('***********************');
+    print('stock_id: $stock_id');
 
     double width = MediaQuery.of(context).size.width;
     double bottomPadding = MediaQuery.of(context).padding.bottom;
@@ -58,7 +90,7 @@ class _ProductPageState extends State<ProductPage> {
             ],
             borderRadius: BorderRadius.circular(9.0)),
         child: Center(
-          child: Text("گفت و گو با فروشنده ",
+          child: Text(messageText,
               style: const TextStyle(
                   color: const Color(0xfffefefe),
                   fontWeight: FontWeight.w600,
@@ -67,13 +99,6 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
     );
-
-    TextEditingController controller = TextEditingController();
-
-    postRequest() {
-      print(controller.text);
-      Navigator.pop(context);
-    }
 
     openDialog() {
       showDialog(
@@ -104,9 +129,9 @@ class _ProductPageState extends State<ProductPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                color: Colors.purple.shade300,
+                color: Colors.deepOrange,
                 onPressed: () {
-                  postRequest();
+                  postReport();
                 },
                 child: Text(
                   'ثبت شکایت',
@@ -122,11 +147,15 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          openDialog();
-        },
-        child: Icon(Icons.camera),
+      floatingActionButton: Visibility(
+        visible: false,
+        child: FloatingActionButton(
+          onPressed: () {
+            openDialog();
+          },
+          backgroundColor: Colors.deepOrange,
+          child: Icon(Icons.campaign),
+        ),
       ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -149,248 +178,181 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
       body: FutureBuilder(
-        future: http.get(
-            'http://danibazi9.pythonanywhere.com/api/bookbse/stocks?stockID=$book_id',
-            headers: {HttpHeaders.authorizationHeader: this.token}),
-        builder: (context, snap) {
-          if (snap.hasData && snap.connectionState == ConnectionState.done) {
-            http.Response response = snap.data;
-            Map result =
-                convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-            print(result);
-            var product_book = Product(
-              'http://danibazi9.pythonanywhere.com/media/' + result['image'],
-              result['name'].toString(),
-              result['description'].toString(),
-              result['price'],
-              result['publisher'],
-              result['author'],
-            );
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            return FutureBuilder(
+              future: http.get('$stockUrl?stockID=$stock_id',
+                  headers: {HttpHeaders.authorizationHeader: this.token}),
+              builder: (context, snap) {
+                if (snap.hasData &&
+                    snap.connectionState == ConnectionState.done) {
+                  http.Response response = snap.data;
 
-            // return Container();
+                  Map result = convert
+                      .jsonDecode(convert.utf8.decode(response.bodyBytes));
+                  // print(result);
+                  image = '$baseUrl/media/${result['image']}';
+                  price = result['price'];
+                  description = result['description'];
+                  print(result);
+                  var product_book = Product(
+                    '$baseUrl/media/' + result['image'],
+                    result['name'].toString(),
+                    result['description'].toString(),
+                    result['price'],
+                    result['publisher'],
+                    result['author'],
+                  );
 
-            return Stack(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 80.0,
-                      ),
-                      ProductDisplay(product: product_book),
-                      SizedBox(
-                        height: 16.0,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                  // return Container();
+
+                  return Stack(
+                    children: <Widget>[
+                      SingleChildScrollView(
+                        child: Column(
                           children: [
-                            Text(
-                              'نام کتاب',
-                              style: TextStyle(fontSize: 25),
+                            SizedBox(
+                              height: 30.0,
                             ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(product_book.name),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'توضیحات',
-                              style: TextStyle(fontSize: 25),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(product_book.description),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        'نویسنده',
-                                        style: TextStyle(fontSize: 25),
-                                      ),
-                                    ],
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  FlatButton(
+                                    onPressed: () {
+                                      requestForBook();
+                                    },
+                                    color: Colors.orange,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: EdgeInsets.only(
+                                        left: 20, right: 20, top: 5, bottom: 5),
+                                    child: Text(
+                                      text,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16.0,
+                            ),
+                            ProductDisplay(product: product_book),
+                            SizedBox(
+                              height: 16.0,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'نام کتاب',
+                                    style: TextStyle(fontSize: 25),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 30),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(product_book.name),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'توضیحات',
+                                    style: TextStyle(fontSize: 25),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 30),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(product_book.description),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
                                     children: [
-                                      Text(product_book.author),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              'نویسنده',
+                                              style: TextStyle(fontSize: 25),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 30),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text(product_book.author),
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          // Expanded(
-                          //   child: Column(
-                          //     children: [
-                          //       Padding(
-                          //         padding: EdgeInsets.only(right: 10),
-                          //         child: Row(
-                          //           mainAxisAlignment: MainAxisAlignment.end,
-                          //           children: [
-                          //             Text(
-                          //               'ناشر',
-                          //               style: TextStyle(fontSize: 25),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       ),
-                          //       Padding(
-                          //         padding: EdgeInsets.only(right: 10),
-                          //         child: Row(
-                          //           mainAxisAlignment: MainAxisAlignment.end,
-                          //           children: [
-                          //             Text(product_book.author),
-                          //           ],
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                        ],
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: 8.0,
+                              bottom: bottomPadding != 20 ? 20 : bottomPadding),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                Color.fromRGBO(255, 255, 255, 0),
+                                Color.fromRGBO(253, 192, 84, 0.5),
+                                Color.fromRGBO(253, 192, 84, 1),
+                              ],
+                                  begin: FractionalOffset.topCenter,
+                                  end: FractionalOffset.bottomCenter)),
+                          width: width,
+                          height: 120,
+                          child: Center(child: viewProductButton),
+                        ),
                       ),
                     ],
-                  ),
-                  // child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: <Widget>[
-                  //       SizedBox(
-                  //         height: 80.0,
-                  //       ),
-                  //       ProductDisplay(product: product_book),
-                  //       SizedBox(
-                  //         height: 16.0,
-                  //       ),
-                  //       Padding(
-                  //         padding:
-                  //             const EdgeInsets.only(left: 20.0, right: 16.0),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.end,
-                  //           children: [
-                  //             RichText(
-                  //                 textAlign: TextAlign.right,
-                  //                 textDirection: TextDirection.rtl,
-                  //                 text: TextSpan(
-                  //                   text: product_book.name,
-                  //                   style: const TextStyle(
-                  //                       color: Colors.black,
-                  //                       fontWeight: FontWeight.w200,
-                  //                       fontFamily: "Montserrat",
-                  //                       fontSize: 20.0),
-                  //                 )),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         height: 24.0,
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 20.0),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.end,
-                  //           children: <Widget>[
-                  //             Container(
-                  //               width: 90,
-                  //               height: 40,
-                  //               decoration: BoxDecoration(
-                  //                 color: Color(0xFFFFFF),
-                  //                 borderRadius: BorderRadius.circular(4.0),
-                  //                 border: Border.all(
-                  //                     color: Color(0xFFFFFF), width: 0.5),
-                  //               ),
-                  //               child: Center(
-                  //                 child: new Text(
-                  //                   "توضیحات",
-                  //                   style: const TextStyle(
-                  //                       color: Colors.grey,
-                  //                       fontWeight: FontWeight.w300,
-                  //                       fontStyle: FontStyle.normal,
-                  //                       fontFamily: "Montserrat",
-                  //                       fontSize: 20),
-                  //                 ),
-                  //               ),
-                  //             )
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         height: 16.0,
-                  //       ),
-                  //       Padding(
-                  //         padding: EdgeInsets.only(
-                  //             left: 20.0, right: 40.0, bottom: 130),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.end,
-                  //           children: [
-                  //             RichText(
-                  //               text: TextSpan(
-                  //                 text: product_book.description,
-                  //                 style: const TextStyle(
-                  //                     color: Colors.black,
-                  //                     fontWeight: FontWeight.w200,
-                  //                     fontFamily: "NunitoSans",
-                  //                     fontStyle: FontStyle.normal,
-                  //                     fontSize: 16.0),
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ]),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        top: 8.0,
-                        bottom: bottomPadding != 20 ? 20 : bottomPadding),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [
-                          Color.fromRGBO(255, 255, 255, 0),
-                          Color.fromRGBO(253, 192, 84, 0.5),
-                          Color.fromRGBO(253, 192, 84, 1),
-                        ],
-                            begin: FractionalOffset.topCenter,
-                            end: FractionalOffset.bottomCenter)),
-                    width: width,
-                    height: 120,
-                    child: Center(child: viewProductButton),
-                  ),
-                ),
-              ],
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             );
           } else {
             return Center(
@@ -398,36 +360,147 @@ class _ProductPageState extends State<ProductPage> {
             );
           }
         },
+        future: getToken(),
+      ),
+    );
+  }
+
+  postReport() async {
+    String text = controller.text;
+    print(text);
+    if (text.trim().length < 1) {
+      // pass
+    } else {
+      http.Response result = await http.post(reportUrl,
+          headers: {
+            HttpHeaders.authorizationHeader: token,
+          },
+          body: convert.jsonEncode({
+            "trade": tradeId,
+            "accuser": userId,
+            "accused": seller_id,
+            "text": text,
+          }));
+      print(result.body);
+    }
+    Navigator.pop(context);
+  }
+
+  acceptRequest() async {
+    if(buyerId == null){
+      print('buyerId is null');
+    }
+    String acceptUrl = '${demandUrl}accept/';
+    http.Response response = await http.post(
+      acceptUrl,
+      body: convert.jsonEncode({
+        'seller': seller_id,
+        'client': buyerId,
+        'image': image,
+        'price': price,
+        'state': false,
+        'description': description,
+        'book': book_id,
+        'stock_id': stock_id,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    var jsonResponse = convert.jsonDecode(utf8.decode(response.bodyBytes));
+    print(jsonResponse);
+  }
+
+  requestForBook() async {
+    if (isBuyer == false) {
+      acceptRequest();
+      return;
+    }
+    print('stock_id: $stock_id');
+    print('seller: $seller_id');
+    print('client: $userId');
+    print('image: $image');
+    http.Response response = await http.post(demandUrl,
+        headers: {
+          HttpHeaders.authorizationHeader: token,
+          "content-type": "application/json",
+        },
+        body: convert.jsonEncode({
+          "book": book_id,
+          "seller": seller_id,
+          "client": userId,
+          'imageUrl': image,
+          'price':price,
+          'description': description,
+          'stock_id': stock_id,
+        }));
+    print(response.statusCode);
+    var jsonResponse = convert.jsonDecode(utf8.decode(response.bodyBytes));
+    print(jsonResponse);
+    if (response.statusCode == 400) {
+      _showDialog('شما قبلا برای این کتاب درخواست داده اید.');
+      return;
+    }
+    _showDialog('درخواست خرید برای فروشنده فرستاده شد');
+    // setState(() {
+    //   showSpinner = false;
+    // });
+  }
+
+  _showDialog(String title) {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(
+          title,
+          textDirection: TextDirection.rtl,
+        ),
+        content: FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(
+            'باشه !',
+            style: TextStyle(color: kPrimaryColor),
+            textDirection: TextDirection.rtl,
+          ),
+        ),
       ),
     );
   }
 
   _checkAccessibility() async {
     String chatUrl = '$baseUrl/api/room-list/create';
-    print('*********************************');
-    print(seller_id);
-    print(token);
-    http.Response response = await http.post(
+    var response = await getChatRoom(chatUrl);
+    int room_id = convert.jsonDecode(response.body)['room_id'];
+    if(username == seller_username){
+      Navigator.pushNamed(context, ChatScreen.id, arguments: {
+        'room': room_id,
+        'user_id': userId,
+        'username': username,
+        'other_username': buyer_username,
+      });
+    }
+    else {
+      Navigator.pushNamed(context, ChatScreen.id, arguments: {
+        'room': room_id,
+        'user_id': userId,
+        'username': username,
+        'other_username': seller_username,
+      });
+    }
+  }
+
+  Future<http.Response> getChatRoom(String chatUrl) {
+    return http.post(
       chatUrl,
-      headers: {
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: token,
-        "Accept": "application/json",
-        "content-type": "application/json",
       },
-      body: convert.jsonEncode({
+      body: jsonEncode(<String, int>{
         'user_id': seller_id,
       }),
     );
-    print(response.body);
-    // print('seller_id:' + seller_id.toString());
-    // print('token:' + token);
-    // print(response.statusCode);
-    // Map jsonResponse = convert.jsonDecode(response.body);
-    // print(jsonResponse);
-    Navigator.pushNamed(context, ChatScreen.id, arguments: {
-      'room': 1,
-      'first_name': 'sina',
-      'last_name': 'ziaee',
-    });
   }
 }
