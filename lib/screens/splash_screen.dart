@@ -1,5 +1,5 @@
-import 'package:dt_front/components/default_button.dart';
-import 'package:dt_front/components/splash_content.dart';
+import 'package:my_university/components/default_button.dart';
+import 'package:my_university/components/splash_content.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';

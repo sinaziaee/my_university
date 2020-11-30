@@ -1,5 +1,5 @@
-import 'package:dt_front/components/message_bubble.dart';
-import 'package:dt_front/screens/chat_rooms_screen.dart';
+import 'package:my_university/components/message_bubble.dart';
+import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';

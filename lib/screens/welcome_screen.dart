@@ -1,5 +1,5 @@
-import 'package:dt_front/components/rounded_button.dart';
-import 'package:dt_front/screens/login_screen.dart';
+import 'package:my_university/components/rounded_button.dart';
+import 'package:my_university/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:dt_front/screens/product_screen.dart';
+import 'package:my_university/screens/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import '../constants.dart';
-import 'package:dt_front/components/history_book_item.dart';
+import 'package:my_university/components/history_book_item.dart';
 
 class DemandBookScreen extends StatefulWidget {
   static String id = 'demand_screen';

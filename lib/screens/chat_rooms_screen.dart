@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:dt_front/components/chat_item.dart';
-import 'package:dt_front/constants.dart';
-import 'package:dt_front/screens/chat_screen.dart';
+import 'package:my_university/components/chat_item.dart';
+import 'package:my_university/constants.dart';
+import 'package:my_university/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;

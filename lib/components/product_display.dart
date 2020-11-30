@@ -1,4 +1,4 @@
-import 'package:dt_front/components/product.dart';
+import 'package:my_university/components/product.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';

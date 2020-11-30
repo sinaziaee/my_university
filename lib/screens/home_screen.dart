@@ -1,4 +1,4 @@
-import 'package:dt_front/screens/books_screen.dart';
+import 'package:my_university/screens/books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';

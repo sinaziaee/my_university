@@ -1,10 +1,10 @@
-import 'package:dt_front/screens/chat_rooms_screen.dart';
-import 'package:dt_front/screens/chat_screen.dart';
-import 'package:dt_front/screens/demand_books.dart';
-import 'package:dt_front/screens/filter_screen.dart';
-import 'package:dt_front/screens/new_book.dart';
-import 'package:dt_front/screens/product_screen.dart';
-import 'package:dt_front/screens/trade_screen.dart';
+import 'package:my_university/screens/chat_rooms_screen.dart';
+import 'package:my_university/screens/chat_screen.dart';
+import 'package:my_university/screens/demand_books.dart';
+import 'package:my_university/screens/filter_screen.dart';
+import 'package:my_university/screens/new_book.dart';
+import 'package:my_university/screens/product_screen.dart';
+import 'package:my_university/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
