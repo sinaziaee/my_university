@@ -1,3 +1,4 @@
+import 'package:my_university/food/screens/time_screen.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:my_university/screens/chat_screen.dart';
 import 'package:my_university/screens/demand_books.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         ChatRoomsScreen.id: (context) => ChatRoomsScreen(),
         DemandBookScreen.id: (context) => DemandBookScreen(),
         TradeScreen.id: (context) => TradeScreen(),
+        TimeScreen.id : (context) => TimeScreen(),
       },
     );
   }
