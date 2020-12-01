@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/widgets/todayFood.dart';
 
 import '../../constants.dart';
@@ -151,7 +152,11 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
             SizedBox(width: 25.0),
             Expanded(
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    Navigator.pushNamed(context, Bucket.id);
+                  });
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
                 ),

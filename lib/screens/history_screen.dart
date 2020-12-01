@@ -272,7 +272,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 )
               ],
             );
-          } else {
+          }
+
+          else {
             return Center(
               child: CircularProgressIndicator(),
             );

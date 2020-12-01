@@ -10,6 +10,8 @@ import '../constants.dart';
 
 
 class Index extends StatefulWidget {
+  static String id = 'Index';
+
   @override
   _IndexState createState() => _IndexState();
 }

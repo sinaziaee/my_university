@@ -3,6 +3,8 @@ import 'package:my_university/food/screens/food_history_screen.dart';
 import 'package:my_university/food/widgets/order_card.dart';
 
 class Bucket extends StatefulWidget {
+  static String id = 'bucket_screen';
+
   @override
   _BucketState createState() => _BucketState();
 }
