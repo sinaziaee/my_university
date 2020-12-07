@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 
 class AllFoods {
+
   final String name;
   final String price;
   final String image;

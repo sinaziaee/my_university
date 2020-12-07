@@ -1,5 +1,8 @@
 import 'package:my_university/food/index.dart';
+import 'package:my_university/food/screens/AllFoodDetails.dart';
+import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
+import 'package:my_university/food/widgets/todayFood.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:my_university/screens/chat_screen.dart';
 import 'package:my_university/screens/demand_books.dart';
@@ -10,6 +13,7 @@ import 'package:my_university/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+import 'food/screens/TodayFoodDetails.dart';
 import 'screens/books_screen.dart';
 import 'screens/email_verfication_screen.dart';
 import 'screens/history_screen.dart';
@@ -52,6 +56,9 @@ class MyApp extends StatelessWidget {
         TradeScreen.id: (context) => TradeScreen(),
         TimeScreen.id : (context) => TimeScreen(),
         Index.id : (context) => Index(),
+        TodayFoodDetails.id : (context) => TodayFoodDetails(),
+        AllFoodDetails.id : (context) => AllFoodDetails(),
+        Bucket.id : (context) => Bucket(),
       },
     );
   }

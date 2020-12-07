@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_university/food/screens/food_history_screen.dart';
 import 'package:my_university/food/widgets/order_card.dart';
+import 'package:my_university/food/widgets/todayFood.dart';
 
 class Bucket extends StatefulWidget {
   static String id = 'bucket_screen';
@@ -10,17 +11,50 @@ class Bucket extends StatefulWidget {
 }
 
 class _BucketState extends State<Bucket> {
+
+  List<TodayFoods>
+  TodayFoodList = [
+    TodayFoods(
+      name: "جوج",
+      price: 18000,
+      image: "assets/joojeh.png",
+    ),
+    TodayFoods(
+      name: "سلطانی",
+      price: 20000,
+      image: "assets/mix.png",
+    ),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView(
-        padding: EdgeInsets.symmetric(vertical:50,horizontal: 10.0),
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          OrderCard(),
-          OrderCard(),
-        ],
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        height: 300,
+        child: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemCount: TodayFoodList.length,
+          itemBuilder: (context, index) {
+            print(TodayFoodList[index].name);
+            return OrderCard(
+
+              name: TodayFoodList[index].name,
+              price: TodayFoodList[index].price,
+              picture: TodayFoodList[index].image,
+
+
+              // name: mapList[index]['name'],
+              // price: mapList[index]['cost'],
+              // picture: mapList[index]['image'],
+              // description: mapList[index]['description'],
+            );
+          },
+        ),
       ),
       bottomNavigationBar: _buildTotalContainer(),
     );

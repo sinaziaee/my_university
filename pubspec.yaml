@@ -39,6 +39,7 @@ dependencies:
   dio: ^3.0.10
   google_fonts: ^1.1.1
   bottom_navy_bar: ^5.4.0
+  intl: ^0.16.1
 
 
 

@@ -4,17 +4,39 @@ import 'package:my_university/food/widgets/allfoods.dart';
 import '../../constants.dart';
 
 class AllFoodDetails extends StatefulWidget {
-  final AllFoods product;
-  AllFoodDetails({this.product});
+  static String id = 'AllDetail_screen';
+
+
+  final String name;
+  final int price;
+  final String picture ;
+
+
+  AllFoodDetails({this.name, this.price, this.picture});
 
   @override
   _AllFoodDetailsState createState() => _AllFoodDetailsState();
 }
 
 class _AllFoodDetailsState extends State<AllFoodDetails> {
+
+  String name;
+  int price;
+  String picture ;
+  String description;
   int counter = 1;
+
+
   @override
   Widget build(BuildContext context) {
+
+    Map args = ModalRoute.of(context).settings.arguments;
+    name = args["namefood"];
+    price = args["price"];
+    picture = args["image"];
+    description = args["desc"];
+
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,15 +49,6 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.more_horiz,
-        //       color: kBlackColor,
-        //     ),
-        //     onPressed: () {},
-        //   )
-        // ],
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 18.0),
@@ -44,15 +57,19 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
           children: [
             Expanded(
               child: Center(
-                child: Image.asset(
-                  widget.product.image,
+                child: FadeInImage(
                   fit: BoxFit.fill,
+                  image: (picture != null)
+                      ? NetworkImage("http://danibazi9.pythonanywhere.com/$picture")
+                      : AssetImage('assets/joojeh.png'),
+                  placeholder: AssetImage('assets/joojeh.png')
+                  ,
                 ),
               ),
             ),
             SizedBox(height: 25.0),
             Text(
-              widget.product.name,
+              name,
               style: kTitle1Style.copyWith(fontSize: 23.0),
             ),
             SizedBox(height: 25.0),
@@ -60,52 +77,52 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
               children: [
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if(counter>1){
-                            counter--;
-                          }
-                        });
-                      },
-                      child: Container(
-                        width: 40.0,
-                        height: 40.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: kGreyColor),
-                        ),
-                        child: Icon(
-                          Icons.remove,
-                          color: kOrangeColor,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 15.0),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     setState(() {
+                    //       if(counter>1){
+                    //         counter--;
+                    //       }
+                    //     });
+                    //   },
+                    //   child: Container(
+                    //     width: 40.0,
+                    //     height: 40.0,
+                    //     decoration: BoxDecoration(
+                    //       shape: BoxShape.circle,
+                    //       border: Border.all(color: kGreyColor),
+                    //     ),
+                    //     child: Icon(
+                    //       Icons.remove,
+                    //       color: kOrangeColor,
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(width: 15.0),
                     Text(
-                      counter.toString(),
-                      style: kTitle1Style,
+                      "رستوران بسته است",
+                      style: kDescriptionStyle.copyWith(color: Colors.red),
                     ),
-                    SizedBox(width: 15.0),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          counter++;
-                        });
-                      },
-                      child: Container(
-                        width: 40.0,
-                        height: 40.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: kOrangeColor),
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: kOrangeColor,
-                        ),
-                      ),
-                    ),
+                    // SizedBox(width: 15.0),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     setState(() {
+                    //       counter++;
+                    //     });
+                    //   },
+                    //   child: Container(
+                    //     width: 40.0,
+                    //     height: 40.0,
+                    //     decoration: BoxDecoration(
+                    //       shape: BoxShape.circle,
+                    //       border: Border.all(color: kOrangeColor),
+                    //     ),
+                    //     child: Icon(
+                    //       Icons.add,
+                    //       color: kOrangeColor,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 Spacer(),
@@ -114,7 +131,7 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "\ تومان ${widget.product.price}",
+                      "\ تومان ${price}",
                       style: kTitle1Style.copyWith(fontSize: 25.0),
                     ),
                   ],
@@ -122,12 +139,8 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
               ],
             ),
             SizedBox(height: 25.0),
-            Text(
-              "$counter pc (${widget.product.weight}) gram",
-              style: kSubtitleStyle.copyWith(color: kOrangeColor),
-            ),
-            SizedBox(height: 25.0),
-            Text(widget.product.description, style: kDescriptionStyle),
+            Align(alignment: Alignment.topRight,
+                child: Container(child: Text(description, style: kDescriptionStyle))),
           ],
         ),
       ),
@@ -136,31 +149,19 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
         padding: EdgeInsets.symmetric(horizontal: 35.0),
         child: Row(
           children: [
-            // IconButton(
-            //   icon: Icon(
-            //     isLiked ? Icons.favorite : Icons.favorite_border,
-            //     color: Colors.red,
-            //   ),
-            //   onPressed: () {
-            //     setState(() {
-            //       (!isLiked) ? isLiked = true : isLiked = false;
-            //     });
-            //   },
-            // ),
-            SizedBox(width: 25.0),
-            // Expanded(
-            //   child: RaisedButton(
-            //     onPressed: () {},
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(25.0),
-            //     ),
-            //     color: kOrangeColor,
-            //     child: Text(
-            //       "Add to Bucket",
-            //       style: kTitle2Style.copyWith(color: Colors.white),
-            //     ),
-            //   ),
-            // )
+
+            Expanded(
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                color: kOrangeColor,
+                child: Text(
+                  "لطفا در زمان رزرو خرید کنید",
+                  style: kTitle2Style.copyWith(color: Colors.white),
+                ),
+              ),
+            )
           ],
         ),
       ),

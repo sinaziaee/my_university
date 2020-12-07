@@ -32,7 +32,6 @@ screenAwareSize(int size, BuildContext context) {
   double baseHeight = 640.0;
   return size * MediaQuery.of(context).size.height / baseHeight;
 }
-
 const kOrangeColor = Color(0xFFFFA451);
 const kOrangeAccentColor = Color(0xFFFEE6A7);
 const kGreyColor = Color(0xFFB2B4C1);
@@ -68,5 +67,6 @@ var kDescriptionStyle = GoogleFonts.roboto(
   fontSize: 16.0,
   color: kBrownColor,
   height: 1.5,
+
 );
 

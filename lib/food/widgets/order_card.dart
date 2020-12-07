@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:my_university/food/widgets/todayFood.dart';
 
 class OrderCard extends StatefulWidget {
+  final String name;
+  final int price;
+  final String picture ;
+
+
+  OrderCard({this.name, this.price, this.picture,});
+
   _OrderCardState createState() => _OrderCardState();
 }
 
 class _OrderCardState extends State<OrderCard> {
+
+  String name ;
+  int price ;
+  String picture  ;
+  int remain ;
   int number = 1;
+
+  // List<TodayFoods> TodayFoodList = [
+  //   TodayFoods(
+  //     name: "جوج",
+  //     price: 18000,
+  //     image: "assets/joojeh.png",
+  //   ),
+  //   TodayFoods(
+  //     name: "سلطانی",
+  //     price: 20000,
+  //     image: "assets/mix.png",
+  //   ),
+  // ];
+
+
 
   @override
   Widget build(BuildContext context) {
+
+    Map args = ModalRoute.of(context).settings.arguments;
+    // name = args["namefood"];
+    // price = args["price"];
+    // picture = args["image"];
+    remain = args["remain"];
+
+
+
     return Card(
+
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
         child: Row(
@@ -32,13 +70,16 @@ class _OrderCardState extends State<OrderCard> {
                     InkWell(
                         onTap: () {
                           setState(() {
-                            number++;
+                            if(number< remain){
+                              number++;
+                            }
                           });
+
                         },
                         child: Icon(Icons.keyboard_arrow_up,
                             color: Color(0xFFD3D3D3))),
                     Text(
-                      "$number",
+                      number.toString(),
                       style: TextStyle(fontSize: 18.0, color: Colors.grey),
                     ),
                     InkWell(
@@ -48,6 +89,7 @@ class _OrderCardState extends State<OrderCard> {
                               number--;
                             }
                           });
+
                         },
                         child: Icon(Icons.keyboard_arrow_down,
                             color: Color(0xFFD3D3D3))),
@@ -61,17 +103,23 @@ class _OrderCardState extends State<OrderCard> {
             Container(
               height: 70.0,
               width: 70.0,
+              // child: Image(
+              //   image: AssetImage(picture),
+              // ),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/joojeh.png"),
-                      fit: BoxFit.cover),
-                  // borderRadius: BorderRadius.circular(35.0),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //       color: Colors.black,
-                  //       blurRadius: 5.0,
-                  //       offset: Offset(0.0, 2.0))
-                  // ]
+                      image: AssetImage(widget.picture),
+                      fit: BoxFit.cover
+
+                  ),
+
+                  borderRadius: BorderRadius.circular(35.0),
+                  boxShadow: [
+                    BoxShadow(
+                        // color: Colors.black,
+                        blurRadius: 5.0,
+                        offset: Offset(0.0, 2.0))
+                  ]
               ),
             ),
             SizedBox(
@@ -82,12 +130,12 @@ class _OrderCardState extends State<OrderCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "چلو جوجه",
+                  widget.name,
                   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 5.0),
                 Text(
-                  "30000",
+                  widget.price.toString(),
                   style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.orangeAccent,

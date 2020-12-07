@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:my_university/food/index.dart';
 import 'package:my_university/food/widgets/timeCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +30,6 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
   int pendingCount = 0;
   var ServeTimeUrl = "http://danibazi9.pythonanywhere.com/api/food/user/serve/all";
   List reserves = new List();
-  // String token = "Token b27f62eb5016a937e753014d45fe0ee27c10e720";
   String start_time ;
   String end_time ;
   
@@ -141,28 +141,31 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
                                     );
                                   }
                                   // return SizedBox();
-                                  return Container(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      // scrollDirection: Axis.vertical,
-                                      itemCount: pendingCount,
-                                      itemBuilder: (context, index) {
-                                        return TimeCard(
-                                          // onPressed: () {
-                                          //   print('tradeId: ' + mapList[index]['id'].toString());
-                                          //   onPressed(
-                                          //     mapList[index]['id'],
-                                          //     token,
-                                          //     (username == mapList[index]['seller_username'])? true : false,
-                                          //   );
-                                          // },
-                                          // text: (username == mapList[index]['seller_username']) ? 'برای فروش': 'برای خرید',
-                                          // image: mapList[index]['image'],
-                                          start_time: mapList[index]['start_serve_time'],
-                                          end_time: mapList[index]['end_serve_time'],
-                                          // ontap: _onTap(),
-                                        );
-                                      },
+                                  return SingleChildScrollView(
+                                    child: Container(
+                                      height: 300,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        // scrollDirection: Axis.vertical,
+                                        itemCount: pendingCount,
+                                        itemBuilder: (context, index) {
+                                          return TimeCard(
+                                            // onPressed: () {
+                                            //   print('tradeId: ' + mapList[index]['id'].toString());
+                                            //   onPressed(
+                                            //     mapList[index]['id'],
+                                            //     token,
+                                            //     (username == mapList[index]['seller_username'])? true : false,
+                                            //   );
+                                            // },
+                                            // text: (username == mapList[index]['seller_username']) ? 'برای فروش': 'برای خرید',
+                                            // image: mapList[index]['image'],
+                                            start_time: mapList[index]['start_serve_time'],
+                                            end_time: mapList[index]['end_serve_time'],
+                                            // ontap: _onTap(),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   );
                                 } else {
@@ -324,6 +327,20 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
   Future<FutureBuilder> _SetData() async {
     var url = "http://danibazi9.pythonanywhere.com/api/food/user/serve/all";
     print(token);
+
+    var now = new DateTime.now();
+    var formatter = new DateFormat('Hms');
+    String formattedDate = formatter.format(now);
+    print(formattedDate);
+    DateTime StartTime;
+    // for(int i = 0 ; i< start_time.length ; i++){
+    //    StartTime = DateTime(DateTime.parse(start_time()));
+    // }
+    print(StartTime);
+    // if(now.isAfter(StartTime) && now.isBefore(end_time)){
+    //
+    // }
+
     var response = await http.get(url , headers: {
       HttpHeaders.authorizationHeader : token,
     });
