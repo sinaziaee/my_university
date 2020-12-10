@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_university/food/screens/food_history_screen.dart';
 import 'package:my_university/food/widgets/order_card.dart';
 import 'package:my_university/food/widgets/todayFood.dart';
+import 'package:my_university/screens/chat_rooms_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
 
 class Bucket extends StatefulWidget {
   static String id = 'bucket_screen';
@@ -12,47 +19,88 @@ class Bucket extends StatefulWidget {
 
 class _BucketState extends State<Bucket> {
 
+  int serveID;
+
+  String postFoodUrl = 'http://danibazi9.pythonanywhere.com/api/food/user/order/add/';
+
+  Future<String> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    userId = prefs.getInt('user_id');
+    return prefs.getString('token');
+  }
+
   List<TodayFoods>
   TodayFoodList = [
-    TodayFoods(
-      name: "جوج",
-      price: 18000,
-      image: "assets/joojeh.png",
-    ),
-    TodayFoods(
-      name: "سلطانی",
-      price: 20000,
-      image: "assets/mix.png",
-    ),
+    // TodayFoods(
+    //   name: "جوج",
+    //   price: 18000,
+    //   image: "assets/joojeh.png",
+    // ),
+    //
+    // TodayFoods(
+    //   name: "سلطانی",
+    //   price: 20000,
+    //   image: "assets/mix.png",
+    // ),
   ];
 
 
   @override
   Widget build(BuildContext context) {
 
+    Map args = ModalRoute.of(context).settings.arguments;
+    TodayFoodList = args["Todayfoodlist"];
+    // OrderCard.price = args["price"];
+    // OrderCard.picture = args["image"];
+    var remain = args["remain"];
+    serveID = args["serve_id"];
+
+    print(serveID);
+
+
+
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-        height: 300,
+        height: 500,
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemCount: TodayFoodList.length,
           itemBuilder: (context, index) {
+
+
+
+            TodayFoodList.add(
+                TodayFoods(
+                    image: TodayFoodList[index].image,
+                    price: TodayFoodList[index].price ,
+                    name: TodayFoodList[index].name ));
+
+
             print(TodayFoodList[index].name);
+            print(TodayFoodList[index].price);
+            print(TodayFoodList[index].image);
+
+
             return OrderCard(
+
 
               name: TodayFoodList[index].name,
               price: TodayFoodList[index].price,
               picture: TodayFoodList[index].image,
 
+              onremove: (){
+                print(")))");
+                TodayFoodList.removeAt(index);
+              }
 
-              // name: mapList[index]['name'],
-              // price: mapList[index]['cost'],
-              // picture: mapList[index]['image'],
-              // description: mapList[index]['description'],
+
             );
+
           },
         ),
       ),
@@ -60,7 +108,8 @@ class _BucketState extends State<Bucket> {
     );
   }
 
-  Widget _buildTotalContainer() {
+
+      Widget _buildTotalContainer() {
     return Container(
       height: 250.0,
       padding: EdgeInsets.only(
@@ -158,7 +207,7 @@ class _BucketState extends State<Bucket> {
               Padding(
                 padding: EdgeInsets.only(right: 30),
                 child: Text(
-                  "60000",
+                  "${TodayFoodList[0].price} ",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20.0,
@@ -174,6 +223,7 @@ class _BucketState extends State<Bucket> {
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               onTap: () {
+                // PostData();
                 Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => History()));
               },
               child: Container(
@@ -202,4 +252,35 @@ class _BucketState extends State<Bucket> {
       ),
     );
   }
+
+  // PostData() async {
+  //       http.Response httpResponse = await http.post(postFoodUrl,
+  //           headers: {
+  //             HttpHeaders.authorizationHeader: token,
+  //             "Accept": "application/json",
+  //             "content-type": "application/json",
+  //           },
+  //           body: convert.jsonEncode(
+  //             {
+  //               'serve_id': serveID,
+  //               // 'count': OrderCard.number,
+  //             },
+  //           ));
+  //       http.Response response;
+  //
+  //
+  //       if (httpResponse.statusCode == 201) {
+  //         Map jsonBody = convert.jsonDecode(httpResponse.body);
+  //         // selectedBookId = jsonBody['id'];
+  //       }
+  //
+  //       if (response.statusCode == 201) {
+  //         // _showDialog(context, "کتاب اضافه شد");
+  //       }
+  //       else {
+  //         print(response.body);
+  //         // _showDialog(context, "متاسفانه مشکلی پیش آمد.");
+  //       }
+  //     }
+
 }

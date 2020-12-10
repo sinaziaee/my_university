@@ -3,6 +3,7 @@ import 'dart:math';
 import "package:flutter/material.dart";
 import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/widgets/todayFood.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 
@@ -14,9 +15,10 @@ class TodayFoodDetails extends StatefulWidget {
   final int price;
   final String picture ;
   final Function onPressed;
+  final int servid ;
 
 
-  TodayFoodDetails({this.name, this.price, this.picture, this.onPressed});
+  TodayFoodDetails({this.name, this.price, this.picture, this.onPressed , this.servid});
 
   @override
   _TodayFoodDetailsState createState() => _TodayFoodDetailsState();
@@ -30,8 +32,18 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
    String description;
    Function onPressed;
    int remain ;
+   int servid ;
 
-  static int counter = 1;
+
+   // Future<String> getList() async {
+   //   SharedPreferences prefs = await SharedPreferences.getInstance();
+   //
+   //   return prefs.setString('list', name);
+   // }
+
+
+
+   static int counter = 1;
   @override
   Widget build(BuildContext context) {
 
@@ -41,8 +53,22 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
     picture = args["image"];
     description = args["desc"];
     remain = args["remain"];
+    servid = args["serve_id"];
 
-    print(name);
+    List<TodayFoods> TodayFoodList = [
+      // TodayFoods(
+      //   name: "جوج",
+      //   price: 18000,
+      //   image: "assets/joojeh.png",
+      // ),
+      //
+      // TodayFoods(
+      //   name: "سلطانی",
+      //   price: 20000,
+      //   image: "assets/mix.png",
+      // ),
+    ];
+
 
 
     return Scaffold(
@@ -65,7 +91,8 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
           children: [
             Expanded(
               child: Center(
-                child: FadeInImage(
+                child:
+                FadeInImage(
           fit: BoxFit.fill,
           image: (picture != null)
               ? NetworkImage("http://danibazi9.pythonanywhere.com/$picture")
@@ -169,13 +196,18 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
               child: RaisedButton(
                 onPressed: () {
                   setState(() {
+                    TodayFoodList.add(TodayFoods(name: name , price: price , image: picture));
+
                     Navigator.pushNamed(context, Bucket.id , arguments: {
-                      // "namefood": name,
-                      // "price": price,
-                      // "image": picture,
-                      "remain" : remain
+                       "namefood": name,
+                       "price": price,
+                       "image": picture,
+                      "remain" : remain,
+                      "serve_id" : servid,
+                      "Todayfoodlist" : TodayFoodList
                     });
-                  });
+                  }
+                  );
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),

@@ -38,13 +38,14 @@ class DeliveryTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    onPressed1( String name, int price , String image , String desc , int remain) async{
+    onPressed1(int id , String name, int price , String image , String desc , int remain) async{
       var result = await Navigator.pushNamed(context, TodayFoodDetails.id , arguments: {
         "namefood": name,
         "price": price,
         "image": image,
         "desc" : desc,
-        "remain" : remain
+        "remain" : remain,
+        "serve_id" : id
       });
     }
 
@@ -167,6 +168,7 @@ class DeliveryTab extends StatelessWidget {
                                 return TodayCard(
                                 onPressed: (){
                                   onPressed1(
+                                    mapList[index]["serve_id"],
                                     mapList[index]['name'],
                                     mapList[index]['cost'],
                                     mapList[index]['image'],
@@ -178,6 +180,7 @@ class DeliveryTab extends StatelessWidget {
                                   );
                                 },
 
+                                  id : mapList[index]['serve_id'],
                                   name: mapList[index]['name'],
                                   price: mapList[index]['cost'],
                                   picture: mapList[index]['image'],

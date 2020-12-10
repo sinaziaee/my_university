@@ -1,10 +1,13 @@
 class TodayFoods {
-  final String name;
-  final int price;
-  final String image;
+   String name;
+   int price;
+   String image;
+   int number = 1 ;
 
 
-  TodayFoods({this.image, this.name, this.price});
+
+  TodayFoods({this.image, this.name, this.price , this.number});
+
 }
 
 // List<TodayFoods> TodayFoodList = [

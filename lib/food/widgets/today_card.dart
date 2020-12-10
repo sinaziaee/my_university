@@ -87,6 +87,7 @@ import '../../constants.dart';
 
 class TodayCard extends StatelessWidget {
 
+  final int id ;
   final String name;
   final int price;
   final String picture ;
@@ -95,7 +96,7 @@ class TodayCard extends StatelessWidget {
   final int remain;
 
 
-  TodayCard({this.name, this.price, this.picture,
+  TodayCard({this.id,this.name, this.price, this.picture,
     this.onPressed , this.description, this.remain});
 
   @override
