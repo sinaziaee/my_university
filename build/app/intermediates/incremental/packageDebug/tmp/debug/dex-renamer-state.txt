@@ -1,4 +1,4 @@
-#Thu Dec 10 19:03:17 IRST 2020
-base.0=F\:\\Flutter_Project\\tahlilFood\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+#Fri Dec 11 03:44:04 IRST 2020
+base.0=D\:\\FlutterProjects\\front\\my_university\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

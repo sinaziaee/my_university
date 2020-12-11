@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:my_university/food/widgets/todayFood.dart';
+// import 'package:my_university/food/widgets/order.dart';
 //
 // import '../../constants.dart';
 //
@@ -79,7 +79,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:my_university/food/widgets/todayFood.dart';
+import 'file:///D:/FlutterProjects/front/my_university/lib/food/models/order.dart';
 
 import '../../constants.dart';
 

@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:my_university/food/screens/food_history_screen.dart';
 import 'package:my_university/food/widgets/order_card.dart';
-import 'package:my_university/food/widgets/todayFood.dart';
+import '../../constants.dart';
+import 'file:///D:/FlutterProjects/front/my_university/lib/food/models/order.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+import 'delivery_tab.dart';
 
 class Bucket extends StatefulWidget {
   static String id = 'bucket_screen';
@@ -18,10 +20,12 @@ class Bucket extends StatefulWidget {
 }
 
 class _BucketState extends State<Bucket> {
-
+  bool showSpinner = false;
   int serveID;
+  String orderAddUrl = '$baseUrl/api/food/user/order/add/';
 
-  String postFoodUrl = 'http://danibazi9.pythonanywhere.com/api/food/user/order/add/';
+  String postFoodUrl =
+      'http://danibazi9.pythonanywhere.com/api/food/user/order/add/';
 
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -30,37 +34,18 @@ class _BucketState extends State<Bucket> {
     return prefs.getString('token');
   }
 
-  List<TodayFoods>
-  TodayFoodList = [
-    // TodayFoods(
-    //   name: "جوج",
-    //   price: 18000,
-    //   image: "assets/joojeh.png",
-    // ),
-    //
-    // TodayFoods(
-    //   name: "سلطانی",
-    //   price: 20000,
-    //   image: "assets/mix.png",
-    // ),
-  ];
-
-
   @override
   Widget build(BuildContext context) {
-
-    Map args = ModalRoute.of(context).settings.arguments;
-    TodayFoodList = args["Todayfoodlist"];
-    // OrderCard.price = args["price"];
-    // OrderCard.picture = args["image"];
-    var remain = args["remain"];
-    serveID = args["serve_id"];
-
-    print(serveID);
-
-
-
-
+    int count = DeliveryTab.listTodayFoods.length;
+    if (count == 0) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Text('سبد غذا خالی است.', style: TextStyle(fontSize: 25), textDirection: TextDirection.rtl,),
+        ),
+        bottomNavigationBar: _buildTotalContainer(),
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -69,38 +54,23 @@ class _BucketState extends State<Bucket> {
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: TodayFoodList.length,
+          itemCount: count,
           itemBuilder: (context, index) {
-
-
-
-            TodayFoodList.add(
-                TodayFoods(
-                    image: TodayFoodList[index].image,
-                    price: TodayFoodList[index].price ,
-                    name: TodayFoodList[index].name ));
-
-
-            print(TodayFoodList[index].name);
-            print(TodayFoodList[index].price);
-            print(TodayFoodList[index].image);
-
-
             return OrderCard(
-
-
-              name: TodayFoodList[index].name,
-              price: TodayFoodList[index].price,
-              picture: TodayFoodList[index].image,
-
-              onremove: (){
-                print(")))");
-                TodayFoodList.removeAt(index);
-              }
-
-
+              name: DeliveryTab.listTodayFoods[index].name,
+              price: DeliveryTab.listTodayFoods[index].price,
+              picture: DeliveryTab.listTodayFoods[index].image,
+              number: DeliveryTab.listTodayFoods[index].number,
+              onDecrease: () {
+                onDecrease(index);
+              },
+              onIncrease: () {
+                onIncrease(index);
+              },
+              onRemove: () {
+                onRemove(index);
+              },
             );
-
           },
         ),
       ),
@@ -108,8 +78,36 @@ class _BucketState extends State<Bucket> {
     );
   }
 
+  onRemove(int index) {
+    DeliveryTab.listTodayFoods.removeAt(index);
+    setState(() {});
+  }
 
-      Widget _buildTotalContainer() {
+  onDecrease(int index) {
+    if(DeliveryTab.listTodayFoods[index].number == 0){
+      // pass
+    }
+    else {
+      DeliveryTab.listTodayFoods[index].number--;
+    }
+    setState(() {});
+  }
+
+  onIncrease(int index) {
+    DeliveryTab.listTodayFoods[index].number++;
+    setState(() {});
+  }
+
+  String getTotal(){
+    int count = 0;
+    for (int i=0;i<DeliveryTab.listTodayFoods.length;i++){
+      count += DeliveryTab.listTodayFoods[i].price * DeliveryTab.listTodayFoods[i].number;
+    }
+    print(count);
+    return count.toString();
+  }
+
+  Widget _buildTotalContainer() {
     return Container(
       height: 250.0,
       padding: EdgeInsets.only(
@@ -118,80 +116,8 @@ class _BucketState extends State<Bucket> {
       ),
       child: Column(
         children: <Widget>[
-          // Row(
-          //   mainAxisSize: MainAxisSize.max,
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: <Widget>[
-          //     Text(
-          //       "Subtotal",
-          //       style: TextStyle(
-          //           color: Color(0xFF9BA7C6),
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //     Text(
-          //       "23.0",
-          //       style: TextStyle(
-          //           color: Color(0xFF6C6D6D),
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //   ],
-          // ),
           SizedBox(
-            height: 10.0,
-          ),
-          // Row(
-          //   mainAxisSize: MainAxisSize.max,
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: <Widget>[
-          //     Text(
-          //       "Discount",
-          //       style: TextStyle(
-          //           color: Color(0xFF9BA7C6),
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //     Text(
-          //       "10.0",
-          //       style: TextStyle(
-          //           color: Color(0xFF6C6D6D),
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //   ],
-          // ),
-          SizedBox(
-            height: 10.0,
-          ),
-          // Row(
-          //   mainAxisSize: MainAxisSize.max,
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: <Widget>[
-          //     Text(
-          //       "Tax",
-          //       style: TextStyle(
-          //           color: Color(0xFF9BA7C6),
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //     Text(
-          //       "0.5",
-          //       style: TextStyle(
-          //           color: Color(0xFF6C6D6D),
-          //           fontSize: 16.0,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //   ],
-          // ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Divider(
-            height: 2.0,
-          ),
-          SizedBox(
-            height: 20.0,
+            height: 50.0,
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -207,7 +133,7 @@ class _BucketState extends State<Bucket> {
               Padding(
                 padding: EdgeInsets.only(right: 30),
                 child: Text(
-                  "${TodayFoodList[0].price} ",
+                  getTotal(),
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20.0,
@@ -223,8 +149,9 @@ class _BucketState extends State<Bucket> {
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               onTap: () {
-                // PostData();
-                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => History()));
+                postNewOrder();
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (BuildContext context) => History()));
               },
               child: Container(
                 height: 50.0,
@@ -253,34 +180,67 @@ class _BucketState extends State<Bucket> {
     );
   }
 
-  // PostData() async {
-  //       http.Response httpResponse = await http.post(postFoodUrl,
-  //           headers: {
-  //             HttpHeaders.authorizationHeader: token,
-  //             "Accept": "application/json",
-  //             "content-type": "application/json",
-  //           },
-  //           body: convert.jsonEncode(
-  //             {
-  //               'serve_id': serveID,
-  //               // 'count': OrderCard.number,
-  //             },
-  //           ));
-  //       http.Response response;
-  //
-  //
-  //       if (httpResponse.statusCode == 201) {
-  //         Map jsonBody = convert.jsonDecode(httpResponse.body);
-  //         // selectedBookId = jsonBody['id'];
-  //       }
-  //
-  //       if (response.statusCode == 201) {
-  //         // _showDialog(context, "کتاب اضافه شد");
-  //       }
-  //       else {
-  //         print(response.body);
-  //         // _showDialog(context, "متاسفانه مشکلی پیش آمد.");
-  //       }
-  //     }
+  postNewOrder() async {
+    Map map = Map();
+
+    List maps = [];
+    for (var each in DeliveryTab.listTodayFoods) {
+      maps.add(each.toMap());
+    }
+    map['food_list'] = maps;
+
+    http.Response response;
+
+    response = await http.post(
+      orderAddUrl,
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+      body: convert.jsonEncode(map),
+    );
+    if (response.statusCode >= 400) {
+      print(response.body);
+      _showDialog(context, "متاسفانه مشکلی پیش آمد.");
+    } else {
+      _showDialog(context, "غذا سرو شد");
+      DeliveryTab.listTodayFoods.clear();
+    }
+    setState(() {
+      showSpinner = false;
+    });
+  }
+
+  _showDialog(BuildContext context, String message) {
+    // Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
+    AlertDialog dialog = AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            message,
+            style: TextStyle(fontSize: 20),
+          ),
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              '!باشه',
+              style: TextStyle(color: kPrimaryColor),
+            ),
+          ),
+        ],
+      ),
+    );
+    showDialog(context: context, child: dialog);
+  }
 
 }
