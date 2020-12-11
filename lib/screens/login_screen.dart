@@ -1,8 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dt_front/components/already_have_an_account_acheck.dart';
-import 'package:dt_front/components/rounded_button.dart';
-import 'package:dt_front/components/rounded_input_field.dart';
-import 'package:dt_front/components/rounded_password_field.dart';
+import 'package:my_university/components/already_have_an_account_acheck.dart';
+import 'package:my_university/components/rounded_button.dart';
+import 'package:my_university/components/rounded_input_field.dart';
+import 'package:my_university/components/rounded_password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';

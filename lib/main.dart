@@ -1,13 +1,19 @@
-import 'package:dt_front/screens/chat_rooms_screen.dart';
-import 'package:dt_front/screens/chat_screen.dart';
-import 'package:dt_front/screens/demand_books.dart';
-import 'package:dt_front/screens/filter_screen.dart';
-import 'package:dt_front/screens/new_book.dart';
-import 'package:dt_front/screens/product_screen.dart';
-import 'package:dt_front/screens/trade_screen.dart';
+import 'package:my_university/food/index.dart';
+import 'package:my_university/food/screens/AllFoodDetails.dart';
+import 'package:my_university/food/screens/bucket_screen.dart';
+import 'package:my_university/food/screens/time_screen.dart';
+import 'file:///D:/FlutterProjects/front/my_university/lib/food/models/order.dart';
+import 'package:my_university/screens/chat_rooms_screen.dart';
+import 'package:my_university/screens/chat_screen.dart';
+import 'package:my_university/screens/demand_books.dart';
+import 'package:my_university/screens/filter_screen.dart';
+import 'package:my_university/screens/new_book.dart';
+import 'package:my_university/screens/product_screen.dart';
+import 'package:my_university/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+import 'food/screens/Today_food_details.dart';
 import 'screens/books_screen.dart';
 import 'screens/email_verfication_screen.dart';
 import 'screens/history_screen.dart';
@@ -48,6 +54,11 @@ class MyApp extends StatelessWidget {
         ChatRoomsScreen.id: (context) => ChatRoomsScreen(),
         DemandBookScreen.id: (context) => DemandBookScreen(),
         TradeScreen.id: (context) => TradeScreen(),
+        TimeScreen.id : (context) => TimeScreen(),
+        Index.id : (context) => Index(),
+        TodayFoodDetails.id : (context) => TodayFoodDetails(),
+        AllFoodDetails.id : (context) => AllFoodDetails(),
+        Bucket.id : (context) => Bucket(),
       },
     );
   }

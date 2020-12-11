@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:dt_front/components/reading_card_list.dart';
-import 'package:dt_front/components/trade_item.dart';
-import 'package:dt_front/screens/trade_screen.dart';
+import 'package:my_university/components/reading_card_list.dart';
+import 'package:my_university/components/trade_item.dart';
+import 'package:my_university/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -272,7 +272,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 )
               ],
             );
-          } else {
+          }
+
+          else {
             return Center(
               child: CircularProgressIndicator(),
             );

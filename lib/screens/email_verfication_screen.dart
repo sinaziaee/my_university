@@ -1,5 +1,5 @@
-import 'package:dt_front/components/rounded_button.dart';
-import 'package:dt_front/components/rounded_input_field.dart';
+import 'package:my_university/components/rounded_button.dart';
+import 'package:my_university/components/rounded_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';

@@ -2,11 +2,11 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dt_front/components/book_item.dart';
-import 'package:dt_front/screens/filter_screen.dart';
-import 'package:dt_front/screens/history_screen.dart';
-import 'package:dt_front/screens/new_book.dart';
-import 'package:dt_front/screens/product_screen.dart';
+import 'package:my_university/components/book_item.dart';
+import 'package:my_university/screens/filter_screen.dart';
+import 'package:my_university/screens/history_screen.dart';
+import 'package:my_university/screens/new_book.dart';
+import 'package:my_university/screens/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;

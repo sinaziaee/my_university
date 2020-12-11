@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:convert' as convert;
 
-import 'package:dt_front/components/product.dart';
-import 'package:dt_front/components/product_display.dart';
-import 'package:dt_front/screens/books_screen.dart';
+import 'package:my_university/components/product.dart';
+import 'package:my_university/components/product_display.dart';
+import 'package:my_university/screens/books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

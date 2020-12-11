@@ -1,5 +1,6 @@
-import 'package:dt_front/screens/books_screen.dart';
-import 'package:dt_front/screens/chat_rooms_screen.dart';
+import 'package:my_university/food/screens/time_screen.dart';
+import 'package:my_university/screens/books_screen.dart';
+import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,6 +22,7 @@ class GridDashboard extends StatelessWidget {
     title: "سامانه تغذیه",
     subtitle: "رزرو اتوماتیک غذا",
     img: "assets/images/food.png",
+    dest: TimeScreen.id,
   );
   Items item3 = new Items(
     title: "ثبت نام در رویداد ها",
