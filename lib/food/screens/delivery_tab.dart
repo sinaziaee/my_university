@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_university/food/models/order.dart';
 import 'package:my_university/food/screens/AllFoodDetails.dart';
 import 'package:my_university/food/screens/Today_food_details.dart';
 import 'package:my_university/food/widgets/AllFoodsCard.dart';
 import 'package:my_university/food/widgets/allfoods.dart';
-import 'file:///D:/FlutterProjects/front/my_university/lib/food/models/order.dart';
 import 'package:my_university/food/widgets/today_card.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
