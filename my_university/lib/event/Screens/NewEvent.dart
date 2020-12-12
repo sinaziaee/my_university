@@ -12,6 +12,12 @@ import '../../constants.dart';
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert' as convert;
 
+DateTime selectedDate = DateTime.now();
+String event_type;
+
+///*
+//*/
+
 class NewEvent extends StatefulWidget {
   static String id = 'new_event';
 
@@ -27,16 +33,21 @@ class _NewEventState extends State<NewEvent> {
   String bookUrl = '$baseUrl/api/bookbse/books/?bookID=0';
   String facultiesUrl = '$baseUrl/api/bookbse/faculties';
   String newBookUrl = '$baseUrl/api/bookbse/books/';
+
   TextEditingController nameController = TextEditingController();
+  TextEditingController organizerController = TextEditingController();
+  //xtEditingController  = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController authorController = TextEditingController();
-  TextEditingController publisherController = TextEditingController();
+  TextEditingController ownership = TextEditingController();
+  TextEditingController location = TextEditingController();
+  TextEditingController capacity = TextEditingController();
   TextEditingController priceController = TextEditingController();
 
   String selectedFaculty, token, selectedBookName;
   int selectedFacultyId, selectedBookId;
   int userId;
-  bool showSpinner = false, isAddingCompletelyNewBook = false;
+  bool showSpinner = false,
+      isAddingCompletelyNewBook = false;
   String base64Image;
 
   Future<String> getToken() async {
@@ -88,8 +99,101 @@ class _NewEventState extends State<NewEvent> {
     });
   }
 
+  _showEventTypesDialog(){
+
+    return showDialog(
+        context:  context,
+        child: AlertDialog(
+          content: Container(
+            height: 450,
+            width: 250,
+
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  //
+                  //ListView.builder(
+                       InkWell(
+                          onTap: (){
+                            setState(() {
+                              event_type = "Presence";
+                            });
+                            Navigator.pop(context);
+
+                        },
+
+                        child: Container(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          margin:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'حضوری',
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        ),
+                      ),
+
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            event_type = "Online";
+
+                          });
+                          Navigator.pop(context);
+
+                        },
+
+                        child: Container(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          margin:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'غیر حضوری',
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        ),
+                      )
+                ],
+
+              ),
+            ),
+          ),
+        )
+
+    );
+
+
+  }
+
   // *********************************************************************************************
-  @override
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
@@ -103,15 +207,26 @@ class _NewEventState extends State<NewEvent> {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                  })
+                  }
+              )
             ],
 
             title: Text(
               'ثبت رویداد جدید',
               textDirection: TextDirection.rtl,
-              style: TextStyle(color: kPrimaryColor ,
+              style: TextStyle(color: kPrimaryColor,
                 fontSize: 25,
               ),
+            ),
+
+            leading: IconButton(
+              icon: Icon(
+                Icons.calendar_today,
+                color: kPrimaryColor,
+              ),
+              onPressed: () {
+                showCalendarDialog();
+              },
             ),
 
             elevation: 1,
@@ -138,6 +253,146 @@ class _NewEventState extends State<NewEvent> {
                               height: 20,
                             ),
 
+                            Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:MainAxisAlignment.end ,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blueAccent.shade100,
+                                                spreadRadius: 5,
+                                                blurRadius: 15,
+                                                //offset: Offset(0, 7),
+                                              )
+                                            ]
+                                        ),
+
+                                        height: 40,
+                                        width: 100,
+                                        child: TextField(
+                                          controller: nameController,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'نام رویداد    ',
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
+
+                                  ),
+
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+
+                                  Row(
+                                    mainAxisAlignment:MainAxisAlignment.end ,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blueAccent.shade100,
+                                                spreadRadius: 5,
+                                                blurRadius: 15,
+                                                //offset: Offset(0, 7),
+                                              )
+                                            ]
+                                        ),
+
+                                        height: 40,
+                                        width: 100,
+                                        child: TextField(
+                                          controller: organizerController,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'برگزار کننده    ',
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
+
+                                  ),
+
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+
+
+                                  Row(
+                                    mainAxisAlignment:MainAxisAlignment.end ,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blueAccent.shade100,
+                                                spreadRadius: 5,
+                                                blurRadius: 15,
+                                                //offset: Offset(0, 7),
+                                              )
+                                            ]
+                                        ),
+
+                                        height: 40,
+                                        width: 200,
+                                        child: TextField(
+                                          controller: location,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'محل برگزاری    ',
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
+
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -146,7 +401,7 @@ class _NewEventState extends State<NewEvent> {
                                   child: Text(
                                     'عکس رویداد',
                                     style: TextStyle(
-                                      color: kPrimaryColor,
+                                        color: kPrimaryColor,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -157,6 +412,7 @@ class _NewEventState extends State<NewEvent> {
                             SizedBox(
                               height: 20,
                             ),
+
 
                             InkWell(
                               onTap: () {
@@ -284,20 +540,22 @@ class _NewEventState extends State<NewEvent> {
                                           fit: BoxFit.cover,
                                         ),
                                         // Uploader(file: _imageFile),
-                                      ] else ...[
-                                        Image(
-                                          width: 200,
-                                          height: 200,
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              'assets/images/add_image.png'),
-                                        ),
-                                      ]
+                                      ] else
+                                        ...[
+                                          Image(
+                                            width: 200,
+                                            height: 200,
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/images/add_image.png'),
+                                          ),
+                                        ]
                                     ],
                                   ),
                                 ),
                               ),
                             ),
+
 
                             if (imageFile != null) ...[
                               Row(
@@ -318,9 +576,10 @@ class _NewEventState extends State<NewEvent> {
                               ),
                             ]
 
-                            else ...[
-                              SizedBox(),
-                            ],
+                            else
+                              ...[
+                                SizedBox(),
+                              ],
 
                             SizedBox(
                               height: 20,
@@ -332,7 +591,6 @@ class _NewEventState extends State<NewEvent> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-
                                 ],
                               ),
                             ),
@@ -344,94 +602,25 @@ class _NewEventState extends State<NewEvent> {
                             if (isAddingCompletelyNewBook == false)
                               ...[]
 
-                            else ...[
+                            else
+                              ...[
 
-                              SizedBox(
-                                height: 10,
-                              ),
-
-                              Container(
-                                height: 45,
-                                margin: EdgeInsets.only(left: 15, right: 15),
-                                child: TextField(
-                                  textDirection: TextDirection.rtl,
-                                  controller: nameController,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: 10,
                                 ),
-                              ),
 
-                              SizedBox(
-                                height: 10,
-                              ),
 
-                              Container(
-                                height: 45,
-                                margin: EdgeInsets.only(left: 15, right: 15),
-                                child: TextField(
-                                  textDirection: TextDirection.rtl,
-                                  controller: publisherController,
-                                  textAlign: TextAlign.right,
-                                  decoration: InputDecoration(
-                                    hintText: 'نام ناشر',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-
-                              SizedBox(
-                                height: 10,
-                              ),
-
-                              Container(
-                                height: 45,
-                                margin: EdgeInsets.only(left: 15, right: 15),
-                                child: TextField(
-                                  textDirection: TextDirection.rtl,
-                                  controller: authorController,
-                                  textAlign: TextAlign.right,
-                                  decoration: InputDecoration(
-                                    hintText: 'نام نویسنده',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-
-                              SizedBox(
-                                height: 30,
-                              ),
-
-
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      width: 80,
-                                      padding: EdgeInsets.only(right: 10),
-                                      child: Text(
-                                        'دانشکده :',
-                                        textDirection: TextDirection.rtl,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                              ],
 
                             SizedBox(
                               height: 20,
                             ),
 
+
+                            //description
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -440,6 +629,7 @@ class _NewEventState extends State<NewEvent> {
                                   child: Text(
                                     'توضیحات',
                                     style: TextStyle(
+                                        color: kPrimaryColor,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -451,9 +641,11 @@ class _NewEventState extends State<NewEvent> {
                               height: 10,
                             ),
 
+
+                            //description
                             Container(
                               decoration: BoxDecoration(
-                                  boxShadow : [
+                                  boxShadow: [
                                     BoxShadow(
                                       color: Colors.blueAccent.shade100,
                                       spreadRadius: 5,
@@ -481,27 +673,158 @@ class _NewEventState extends State<NewEvent> {
                               height: 10,
                             ),
 
+
+                            //price
                             Container(
                               margin: EdgeInsets.only(left: 20, right: 20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              child: Column(
                                 children: [
-                                  Container(
-                                    height: 40,
-                                    width: 100,
-                                    child: TextField(
-                                      controller: priceController,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blueAccent
+                                                    .shade100,
+                                                spreadRadius: 5,
+                                                blurRadius: 15,
+                                                //offset: Offset(0, 7),
+                                              )
+                                            ]
+                                        ),
+
+                                        height: 40,
+                                        width: 100,
+                                        child: TextField(
+                                          controller: priceController,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Text(
+                                        'قیمت :   ',
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'قیمت :   ',
-                                    textDirection: TextDirection.rtl,
+
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.blueAccent
+                                                    .shade100,
+                                                spreadRadius: 5,
+                                                blurRadius: 15,
+                                                //offset: Offset(0, 7),
+                                              )
+                                            ]
+                                        ),
+
+                                        height: 40,
+                                        width: 100,
+                                        child: TextField(
+                                          controller: capacity,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'ظرفیت :   ',
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                        highlightColor: Colors.black,
+                                        onTap: () {
+                                          _showEventTypesDialog();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              right: 10,
+                                              left: 10,
+                                              top: 10,
+                                              bottom: 10),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[300],
+                                            borderRadius:
+                                            BorderRadius.circular(56),
+                                          ),
+                                          margin: EdgeInsets.only(
+                                            left: 5,
+                                            right: 5,
+                                            top: 2,
+                                            bottom: 2,
+                                          ),
+                                          child: Container(
+                                            color: Colors.grey[300],
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Icon(Icons.arrow_drop_down),
+                                                Text(event_type ??
+                                                    'گزینه ای انتخاب نشده'
+                                                    ,
+                                                    style: TextStyle(
+                                                      color: kPrimaryColor,
+                                                      fontSize: 15,
+                                                      //fontWeight: 5,
+                                                    )
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'نوع برگزاری',
+                                        textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -566,13 +889,14 @@ class _NewEventState extends State<NewEvent> {
     });
   }
 
+
   validateData() {
     String book_name = nameController.text;
     String book_description = descriptionController.text;
+    //String
 
 
-    postNewBook();
-
+    postNewEvent();
   }
 
   @override
@@ -607,33 +931,11 @@ class _NewEventState extends State<NewEvent> {
   }
 
 
-
-  postNewBook() async {
+  postNewEvent() async {
     setState(() {
       showSpinner = true;
     });
     try {
-      if (isAddingCompletelyNewBook) {
-        http.Response httpResponse = await http.post(newBookUrl,
-            headers: {
-              HttpHeaders.authorizationHeader: token,
-              "Accept": "application/json",
-              "content-type": "application/json",
-            },
-            body: convert.jsonEncode(
-              {
-                'name': nameController.text,
-                'author': authorController.text,
-                'publisher': publisherController.text,
-                'faculty': selectedFacultyId,
-                'field': 1,
-              },
-            ));
-        if (httpResponse.statusCode == 201) {
-          Map jsonBody = convert.jsonDecode(httpResponse.body);
-          selectedBookId = jsonBody['id'];
-        }
-      }
       http.Response response;
       if (imageFile.uri != null) {
         String base64file = convert.base64Encode(imageFile.readAsBytesSync());
@@ -646,17 +948,27 @@ class _NewEventState extends State<NewEvent> {
             "content-type": "application/json",
           },
           body: convert.json.encode({
-            'book': selectedBookId,
-            'price': int.parse(priceController.text),
-            'edition': 0,
-            'printno': 0,
-            'filename': imageFile.path.split('/').last,
+            'Name': nameController,
+            'Cost': int.parse(priceController.text),
+            'Capacity': descriptionController,
+            'Organizer': organizerController,
+            'Hold type' : event_type,
+            'Start time': 1,
+            'End time' : 1,
+            'Location': location,
+            'filename': imageFile.path
+                .split('/')
+                .last,
             'image': base64file,
             'description': descriptionController.text,
             'seller': userId,
           }),
         );
-      } else {
+      }
+
+      else {
+        String base64file = convert.base64Encode(imageFile.readAsBytesSync());
+
         response = await http.post(
           postStockUrl,
           headers: {
@@ -665,10 +977,18 @@ class _NewEventState extends State<NewEvent> {
             "content-type": "application/json",
           },
           body: convert.json.encode({
-            'book': selectedBookId,
-            'price': int.parse(priceController.text),
-            'edition': 0,
-            'printno': 0,
+            'Name': nameController,
+            'Cost': int.parse(priceController.text),
+            'Capacity': descriptionController,
+            'Organizer': organizerController,
+            'Hold type' : event_type,
+            'Start time': 1,
+            'End time' : 1,
+            'Location': 0,
+            'filename': imageFile.path
+                .split('/')
+                .last,
+            'image': base64file,
             'description': descriptionController.text,
             'seller': userId,
           }),
@@ -676,15 +996,19 @@ class _NewEventState extends State<NewEvent> {
       }
 
       if (response.statusCode == 201) {
-        _showDialog(context, "کتاب اضافه شد");
-      } else {
+        _showDialog(context, "رویداد اضافه شد");
+      }
+
+      else {
         print(response.body);
         _showDialog(context, "متاسفانه مشکلی پیش آمد.");
       }
       setState(() {
         showSpinner = false;
       });
-    } catch (e) {
+    }
+
+    catch (e) {
       print('myError: $e');
       setState(() {
         showSpinner = false;
@@ -733,103 +1057,17 @@ class _NewEventState extends State<NewEvent> {
     Navigator.pop(context);
   }
 
-  _showBooksDialog() async {
-    http.Response response = await http
-        .get(bookUrl, headers: {HttpHeaders.authorizationHeader: token});
-    var jsonResponse =
-    convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-    List<Map> mapList = [];
-    int count = 0;
-    for (Map each in jsonResponse) {
-      count++;
-      mapList.add(each);
-    }
-    if (count == 0) {
-      showDialog(
+  showCalendarDialog() async {
+    final DateTime picked = await showDatePicker(
         context: context,
-        child: AlertDialog(
-          content: Center(
-            child: Text('کتابی وجود ندارد'),
-          ),
-        ),
-      );
-    } else {
-      showDialog(
-        context: context,
-        child: AlertDialog(
-          content: Container(
-            height: 400,
-            width: 250,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: count,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          selectedBookId = mapList[index]['id'];
-                          isAddingCompletelyNewBook = false;
-                          setState(() {
-                            selectedBookName = mapList[index]['name'];
-                            nameController.text = selectedBookName;
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          margin:
-                          EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                mapList[index]['name'],
-                                textDirection: TextDirection.rtl,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Text(
-                                mapList[index]['author'],
-                                textDirection: TextDirection.rtl,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextButton.icon(
-                    onPressed: () {
-                      _newBookDialog();
-                    },
-                    icon: Icon(Icons.add),
-                    label: Text('اضافه کردن کتاب جدید'),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+        print(selectedDate);
+      });
   }
 
   _newBookDialog() {
