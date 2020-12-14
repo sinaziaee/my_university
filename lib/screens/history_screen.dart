@@ -38,67 +38,102 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: darkGrey),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.chevron_right, color: Colors.white,),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-        title: Padding(
-          padding: EdgeInsets.only(left: 30),
-          child: Text(
-            'تاریخچه',
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30.0),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   centerTitle: true,
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0.0,
+      //   iconTheme: IconThemeData(color: darkGrey),
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(Icons.chevron_right, color: Colors.white,),
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       },
+      //     ),
+      //   ],
+      //   title: Padding(
+      //     padding: EdgeInsets.only(left: 30),
+      //     child: Text(
+      //       'تاریخچه',
+      //       style: const TextStyle(
+      //           color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30.0),
+      //     ),
+      //   ),
+      // ),
       body: FutureBuilder(
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
-            return Stack(
-              children: [
-                Center(
-                  child: Transform.rotate(
-                    origin: Offset(140, -160),
-                    angle: 2.4,
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        left: 75,
-                        top: 40,
-                      ),
-                      height: size.height * 0.5,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(80),
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomLeft,
-                          colors : [Color(0xff6f35a5), Color(0xFFA885FF)],
-                        ),
-                      ),
+            return SafeArea(
+              child: Container(
+                  alignment: Alignment.topCenter,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/Home2.png"),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
+
+                  // Center(
+                  //   child: Transform.rotate(
+                  //     origin: Offset(140, -160),
+                  //     angle: 2.4,
+                  //     child: Container(
+                  //       margin: EdgeInsets.only(
+                  //         left: 75,
+                  //         top: 40,
+                  //       ),
+                  //       height: size.height * 0.5,
+                  //       width: double.infinity,
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(80),
+                  //         gradient: LinearGradient(
+                  //           begin: Alignment.bottomLeft,
+                  //           colors : [Color(0xff6f35a5), Color(0xFFA885FF)],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.asset(
+                              "assets/images/logo.png",
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        // SizedBox(height: 80,),
+                        Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Color(0xfffff8ee),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(50),
+                            topRight: Radius.circular(50),
+                          ),
+                        ),
+
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              padding: const EdgeInsets.fromLTRB(10,20,10,10),
                               child: RichText(
                                 text: TextSpan(
                                   style: Theme.of(context).textTheme.display1,
@@ -266,11 +301,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                          ),
+                      ],
+                    ),
+                  )
+
+              ),
             );
           }
 
