@@ -148,6 +148,8 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     return Scaffold(
+      backgroundColor: Color(0xfffff8ee),
+
       floatingActionButton: Visibility(
         visible: false,
         child: FloatingActionButton(
@@ -168,7 +170,8 @@ class _ProductPageState extends State<ProductPage> {
       //   iconTheme: IconThemeData(color: darkGrey),
       //   actions: [
       //     IconButton(
-      //       icon: Icon(Icons.chevron_right),
+      //       icon: Icon(Icons.chevron_right , color: Colors.black,
+      //         size: 35, ),
       //       onPressed: () {
       //         Navigator.pop(context);
       //       },
@@ -212,149 +215,187 @@ class _ProductPageState extends State<ProductPage> {
 
                   // return Container();
 
-                  return Stack(
-                    children: <Widget>[
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-
-                              // child: Row(
-                              //   mainAxisAlignment: MainAxisAlignment.end,
-                              //   children: [
-                              //     FlatButton(
-                              //       onPressed: () {
-                              //         requestForBook();
-                              //       },
-                              //       color: Colors.orange,
-                              //       shape: RoundedRectangleBorder(
-                              //         borderRadius: BorderRadius.circular(10),
-                              //       ),
-                              //       padding: EdgeInsets.only(
-                              //           left: 20, right: 20, top: 5, bottom: 5),
-                              //       child: Text(
-                              //         text,
-                              //         style: TextStyle(
-                              //             color: Colors.white, fontSize: 20),
-                              //         textAlign: TextAlign.center,
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                            ),
-
-
-
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            ProductDisplay(product: product_book),
-                            SizedBox(
-                              height: 16.0,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'نام کتاب',
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 30),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(product_book.name),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'توضیحات',
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 30),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(product_book.description),
-                                ],
-                              ),
-                            ),
-                            Row(
+                  return Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/Home2.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        top: 100,
+                        // left: 50,
+                      ),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Color(0xfffff8ee),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50),
+                        ),
+                      ),
+                      child: Stack(
+                        children: <Widget>[
+                          SingleChildScrollView(
+                            child: Column(
                               children: [
-                                Expanded(
-                                  child: Column(
+                                SizedBox(
+                                  height: 30.0,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              'نویسنده',
-                                              style: TextStyle(fontSize: 25),
-                                            ),
-                                          ],
+                                      FlatButton(
+                                        onPressed: () {
+                                          requestForBook();
+                                        },
+                                        color: Colors.green[800],
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 30),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Text(product_book.author),
-                                          ],
+                                        padding: EdgeInsets.only(
+                                            left: 20, right: 20, top: 5, bottom: 5),
+                                        child: Text(
+                                          text,
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 20),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
+
+
+
+                                SizedBox(
+                                  height: 30.0,
+                                ),
+
+                                SingleChildScrollView(
+                                    child: Container(
+                                      height: 600,
+                                        child: ProductDisplay(
+                                            product: product_book))),
+
+                                SizedBox(
+                                  height: 16.0,
+                                ),
+                                // Padding(
+                                //   padding: EdgeInsets.only(right: 10),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Text(
+                                //         'نام کتاب',
+                                //         style: TextStyle(fontSize: 25),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // Padding(
+                                //   padding: EdgeInsets.only(right: 30),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Text(product_book.name),
+                                //     ],
+                                //   ),
+                                // ),
+                                // Padding(
+                                //   padding: EdgeInsets.only(right: 10),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Text(
+                                //         'توضیحات',
+                                //         style: TextStyle(fontSize: 25),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // Padding(
+                                //   padding: EdgeInsets.only(right: 30),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Text(product_book.description),
+                                //     ],
+                                //   ),
+                                // ),
+                                // Row(
+                                //   children: [
+                                //     Expanded(
+                                //       child: Column(
+                                //         children: [
+                                //           Padding(
+                                //             padding: EdgeInsets.only(right: 10),
+                                //             child: Row(
+                                //               mainAxisAlignment:
+                                //                   MainAxisAlignment.end,
+                                //               children: [
+                                //                 Text(
+                                //                   'نویسنده',
+                                //                   style: TextStyle(fontSize: 25),
+                                //                 ),
+                                //               ],
+                                //             ),
+                                //           ),
+                                //           Padding(
+                                //             padding: EdgeInsets.only(right: 30),
+                                //             child: Row(
+                                //               mainAxisAlignment:
+                                //                   MainAxisAlignment.end,
+                                //               children: [
+                                //                 Text(product_book.author),
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+
+
+
+
+
+
+
+
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  top: 8.0,
+                                  bottom: bottomPadding != 20 ? 20 : bottomPadding),
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: [
+                                    Color.fromRGBO(255, 255, 255, 0),
+                                    Color.fromRGBO(255, 255, 255, 0),
+                                    Color.fromRGBO(255, 255, 255, 0),
+                                  ],
+                                      begin: FractionalOffset.topCenter,
+                                      end: FractionalOffset.bottomCenter)),
+                              width: width,
+                              height: 100,
+                              child: Center(child: viewProductButton),
+                            ),
+                          ),
+
+
+                        ],
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          padding: EdgeInsets.only(
-                              top: 8.0,
-                              bottom: bottomPadding != 20 ? 20 : bottomPadding),
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                Color.fromRGBO(255, 255, 255, 0),
-                                Color.fromRGBO(253, 192, 84, 0.5),
-                                Color.fromRGBO(253, 192, 84, 1),
-                              ],
-                                  begin: FractionalOffset.topCenter,
-                                  end: FractionalOffset.bottomCenter)),
-                          width: width,
-                          height: 120,
-                          child: Center(child: viewProductButton),
-                        ),
-                      ),
-                    ],
+                    ),
                   );
                 } else {
                   return Center(
