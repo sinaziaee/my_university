@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_picker/Picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,11 +15,12 @@ import '../../constants.dart';
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert' as convert;
 
-DateTime selectedDate = DateTime.now();
+DateTime begin = DateTime.now();
+DateTime end = DateTime.now();
 String event_type;
 
-///*
-//*/
+
+
 
 class NewEvent extends StatefulWidget {
   static String id = 'new_event';
@@ -26,24 +30,18 @@ class NewEvent extends StatefulWidget {
 }
 
 class _NewEventState extends State<NewEvent> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  String postStockUrl = '$baseUrl/api/bookbse/stocks/';
-  String bookUrl = '$baseUrl/api/bookbse/books/?bookID=0';
-  String facultiesUrl = '$baseUrl/api/bookbse/faculties';
-  String newBookUrl = '$baseUrl/api/bookbse/books/';
+  String postEventUrl = '$baseUrl/api/event/user/';
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController organizerController = TextEditingController();
-  //xtEditingController  = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController ownership = TextEditingController();
+  //TextEditingController ownership = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController capacity = TextEditingController();
   TextEditingController priceController = TextEditingController();
 
-  String selectedFaculty, token, selectedBookName;
+  String  token, selectedBookName;
   int selectedFacultyId, selectedBookId;
   int userId;
   bool showSpinner = false,
@@ -105,11 +103,9 @@ class _NewEventState extends State<NewEvent> {
         context:  context,
         child: AlertDialog(
           content: Container(
-            height: 450,
-            width: 250,
-
             child: SingleChildScrollView(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   //
                   //ListView.builder(
@@ -162,22 +158,14 @@ class _NewEventState extends State<NewEvent> {
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           margin:
                           EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'غیر حضوری',
-                                  textDirection: TextDirection.rtl,
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                  ),
-                                ),
-                              ],
+                            child: Text(
+                              'غیر حضوری',
+                              textDirection: TextDirection.rtl,
+                              style: TextStyle(
+                                fontSize: 25,
+                              ),
                             ),
-                          ),
+                          //),
 
                         ),
                       )
@@ -219,15 +207,6 @@ class _NewEventState extends State<NewEvent> {
               ),
             ),
 
-            leading: IconButton(
-              icon: Icon(
-                Icons.calendar_today,
-                color: kPrimaryColor,
-              ),
-              onPressed: () {
-                showCalendarDialog();
-              },
-            ),
 
             elevation: 1,
             backgroundColor: Colors.white,
@@ -299,46 +278,6 @@ class _NewEventState extends State<NewEvent> {
 
                                   SizedBox(
                                     height: 20,
-                                  ),
-
-                                  Row(
-                                    mainAxisAlignment:MainAxisAlignment.end ,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.blueAccent.shade100,
-                                                spreadRadius: 5,
-                                                blurRadius: 15,
-                                                //offset: Offset(0, 7),
-                                              )
-                                            ]
-                                        ),
-
-                                        height: 40,
-                                        width: 100,
-                                        child: TextField(
-                                          controller: organizerController,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        'برگزار کننده    ',
-                                        textDirection: TextDirection.rtl,
-                                        style: TextStyle(
-                                            color: kPrimaryColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-                                    ],
-
                                   ),
 
                                   SizedBox(
@@ -723,6 +662,46 @@ class _NewEventState extends State<NewEvent> {
                                     height: 20,
                                   ),
 
+                                  RaisedButton(
+                                    child: Text(begin.toString() ??
+                                        'زمان شروع رویداد'
+                                        ,
+                                        style: TextStyle(
+                                          color: kPrimaryColor,
+                                          fontSize: 15,
+                                          //fontWeight: 5,
+                                        )
+                                    ),
+                                    onPressed: () {
+                                      showPickerDate(context , true);
+                                    },
+                                  ),
+
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+
+
+                                  RaisedButton(
+                                    child: Text(end.toString() ??
+                                        'زمان پایان رویداد'
+                                        ,
+                                        style: TextStyle(
+                                          color: kPrimaryColor,
+                                          fontSize: 15,
+                                          //fontWeight: 5,
+                                        )
+                                    ),
+                                    onPressed: () {
+                                      showPickerDate(context , false);
+                                    },
+                                  ),
+
+
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -751,6 +730,7 @@ class _NewEventState extends State<NewEvent> {
                                           ),
                                         ),
                                       ),
+
                                       Text(
                                         'ظرفیت :   ',
                                         textDirection: TextDirection.rtl,
@@ -760,6 +740,8 @@ class _NewEventState extends State<NewEvent> {
                                             fontWeight: FontWeight.bold
                                         ),
                                       ),
+
+
                                     ],
                                   ),
 
@@ -891,117 +873,127 @@ class _NewEventState extends State<NewEvent> {
 
 
   validateData() {
-    String book_name = nameController.text;
-    String book_description = descriptionController.text;
-    //String
+    if(nameController.text.length == 0){
+      _showDialog(context, 'نام رویداد را اضافه کنید !');
+      return;
+    }
+
+
+    if(location.text.length == 0){
+      _showDialog(context, 'محل برگزاری رویداد را اضافه کنید !');
+      return;
+    }
+
+    if(capacity.text.length == 0){
+      _showDialog(context, 'ظرفیت رویداد را اضافه کنید !');
+      return;
+    }
+
+    if(priceController.text.length == 0){
+      _showDialog(context, 'هزینه شرکت در رویداد را اضافه کنید !');
+      return;
+    }
+
+    if(descriptionController.text.length == 0){
+      _showDialog(context, 'توضیحات رویداد را اضافه کنید !');
+      return;
+    }
+
+    if(begin == DateTime.now()){
+      _showDialog(context, 'زمان شروع را مشخص کنید !');
+      return;
+    }
+
+    if(end == DateTime.now()){
+      _showDialog(context, 'زمان پایان را مشخص کنید !');
+      return;
+    }
 
 
     postNewEvent();
   }
 
-  @override
-  Future<Map<String, dynamic>> sendFiletodjango({
-    File file,
-  }) async {
-    var endPoint = postStockUrl;
-    Map data = {};
-    String base64file = convert.base64Encode(file.readAsBytesSync());
-    // String fileName = file.path.split("/").last;
-    // data['name'] = fileName;
-    data['image'] = base64file;
-    data['book'] = 2;
-    data['filename'] = 'sina';
-    data['price'] = 20000;
-    data['edition'] = 0;
-    data['printno'] = 0;
-    data['description'] = 'descriptionController.text';
-    data['seller'] = 1;
-    // print(data);
-    try {
-      http.Response response = await http.post(endPoint,
-          headers: {
-            HttpHeaders.authorizationHeader: token,
-            "content-type": "application/json",
-          },
-          body: convert.json.encode(data));
-      print(response.body);
-    } catch (e) {
-      throw (e.toString());
-    }
-  }
 
 
-  postNewEvent() async {
+  postNewEvent() async
+  {
     setState(() {
       showSpinner = true;
     });
-    try {
+
+    try
+    {
       http.Response response;
-      if (imageFile.uri != null) {
+
+
+      if ( imageFile != null && imageFile.uri != null) {
         String base64file = convert.base64Encode(imageFile.readAsBytesSync());
 
+        print("here if !!!!");
+        String t1 = jsonEncode(begin);
+        String t2 = jsonEncode(end);
+
+
         response = await http.post(
-          postStockUrl,
+          postEventUrl,
+          headers: {
+            HttpHeaders.authorizationHeader: token,
+            "Accept": "application/json",
+            "content-type": "application/json",
+          },
+
+          body: convert.json.encode({
+            'name': nameController.text,
+            'cost': int.parse(priceController.text),
+            'capacity': int.parse(capacity.text),
+            'hold_type' : event_type,
+            'start_time': t1 ,
+            'end_time' : t2,
+            'location': location.text,
+            'description': descriptionController.text,
+            'filename': imageFile.path.split('/').last,
+            'image': base64file,
+          }),
+        );
+      }
+
+      else {
+        print("Im here Else !!!!");
+
+        String t1 = jsonEncode(begin);
+        String t2 = jsonEncode(end);
+
+        response = await http.post(
+          postEventUrl,
           headers: {
             HttpHeaders.authorizationHeader: token,
             "Accept": "application/json",
             "content-type": "application/json",
           },
           body: convert.json.encode({
-            'Name': nameController,
-            'Cost': int.parse(priceController.text),
-            'Capacity': descriptionController,
-            'Organizer': organizerController,
-            'Hold type' : event_type,
-            'Start time': 1,
-            'End time' : 1,
-            'Location': location,
-            'filename': imageFile.path
-                .split('/')
-                .last,
-            'image': base64file,
-            'description': descriptionController.text,
-            'seller': userId,
-          }),
+          'name': nameController.text,
+          'cost': int.parse(priceController.text),
+          'capacity': int.parse(capacity.text),
+          //'Organizer': organizerController,
+          'hold_type' : event_type,
+          'start_time': t1 ,
+          'end_time' : t2,
+          'location': location.text,
+          'description': descriptionController.text,
+        }),
         );
       }
 
-      else {
-        String base64file = convert.base64Encode(imageFile.readAsBytesSync());
+      print(response.body);
+      print(response.statusCode);
 
-        response = await http.post(
-          postStockUrl,
-          headers: {
-            HttpHeaders.authorizationHeader: token,
-            "Accept": "application/json",
-            "content-type": "application/json",
-          },
-          body: convert.json.encode({
-            'Name': nameController,
-            'Cost': int.parse(priceController.text),
-            'Capacity': descriptionController,
-            'Organizer': organizerController,
-            'Hold type' : event_type,
-            'Start time': 1,
-            'End time' : 1,
-            'Location': 0,
-            'filename': imageFile.path
-                .split('/')
-                .last,
-            'image': base64file,
-            'description': descriptionController.text,
-            'seller': userId,
-          }),
-        );
-      }
-
-      if (response.statusCode == 201) {
-        _showDialog(context, "رویداد اضافه شد");
-      }
-
-      else {
+      if (response.statusCode >= 400) {
         print(response.body);
         _showDialog(context, "متاسفانه مشکلی پیش آمد.");
+      }
+
+      else {
+        _showDialog(context, "رویداد اضافه شد");
       }
       setState(() {
         showSpinner = false;
@@ -1015,6 +1007,9 @@ class _NewEventState extends State<NewEvent> {
       });
     }
   }
+
+
+
 
   _showDialog(BuildContext context, String message) {
     // Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
@@ -1057,18 +1052,6 @@ class _NewEventState extends State<NewEvent> {
     Navigator.pop(context);
   }
 
-  showCalendarDialog() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-        print(selectedDate);
-      });
-  }
 
   _newBookDialog() {
     Navigator.pop(context);
@@ -1077,71 +1060,26 @@ class _NewEventState extends State<NewEvent> {
     });
   }
 
-  _showFacultiesDialog() async {
-    http.Response response = await http
-        .get(facultiesUrl, headers: {HttpHeaders.authorizationHeader: token});
-    var jsonResponse =
-    convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-    List<Map> mapList = [];
-    int count = 0;
-    for (Map each in jsonResponse) {
-      count++;
-      mapList.add(each);
-    }
-    if (count == 0) {
-      showDialog(
-        context: context,
-        child: AlertDialog(
-          content: Center(
-            child: Text('دانشکده ای وجود ندارد'),
-          ),
+
+
+  showPickerDate(BuildContext context , bool flag) {
+    Picker(
+        hideHeader: true,
+        adapter: DateTimePickerAdapter(),
+        title: Text("زمان را انتخاب کنید" ,
+          textDirection: TextDirection.rtl,
         ),
-      );
-    } else {
-      showDialog(
-        context: context,
-        child: AlertDialog(
-          content: Container(
-            height: 400,
-            width: 200,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: count,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    selectedFacultyId = mapList[index]['id'];
-                    setState(() {
-                      selectedFaculty = mapList[index]['name'];
-                    });
-                    Navigator.pop(context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        mapList[index]['name'],
-                        textDirection: TextDirection.rtl,
-                        style: TextStyle(
-                          fontSize: 25,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      );
-    }
+        selectedTextStyle: TextStyle(color: Colors.blue),
+        onConfirm: (Picker picker, List value) {
+          print((picker.adapter as DateTimePickerAdapter).value);
+
+          if(flag)
+            begin = (picker.adapter as DateTimePickerAdapter).value;
+
+          else
+            end = (picker.adapter as DateTimePickerAdapter).value;
+        }
+    ).showDialog(context);
   }
 
-  onPressed(String name) {
-    setState(() {
-      selectedFaculty = name;
-    });
-    print(name);
-    Navigator.pop(context);
-  }
 }

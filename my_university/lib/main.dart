@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         accentColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      initialRoute: HomeScreen.id,
+      initialRoute: LoginScreen.id,
       routes: {
         ProductPage.id: (context) => ProductPage(),
         RegisterationScreen.id: (context) => RegisterationScreen(),
