@@ -158,26 +158,30 @@ class _ProductPageState extends State<ProductPage> {
           child: Icon(Icons.campaign),
         ),
       ),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: darkGrey),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.chevron_right),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-        title: Text(
-          ' جزئیات کتاب',
-          style: const TextStyle(
-              color: darkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
-        ),
-      ),
+
+
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   centerTitle: true,
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0.0,
+      //   iconTheme: IconThemeData(color: darkGrey),
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(Icons.chevron_right),
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       },
+      //     ),
+      //   ],
+      //   title: Text(
+      //     ' جزئیات کتاب',
+      //     style: const TextStyle(
+      //         color: darkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
+      //   ),
+      // ),
+
+
       body: FutureBuilder(
         builder: (context, snapshot) {
           if (snapshot.hasData &&
@@ -218,31 +222,35 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             Container(
                               margin: EdgeInsets.only(right: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  FlatButton(
-                                    onPressed: () {
-                                      requestForBook();
-                                    },
-                                    color: Colors.orange,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    padding: EdgeInsets.only(
-                                        left: 20, right: 20, top: 5, bottom: 5),
-                                    child: Text(
-                                      text,
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ],
-                              ),
+
+                              // child: Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: [
+                              //     FlatButton(
+                              //       onPressed: () {
+                              //         requestForBook();
+                              //       },
+                              //       color: Colors.orange,
+                              //       shape: RoundedRectangleBorder(
+                              //         borderRadius: BorderRadius.circular(10),
+                              //       ),
+                              //       padding: EdgeInsets.only(
+                              //           left: 20, right: 20, top: 5, bottom: 5),
+                              //       child: Text(
+                              //         text,
+                              //         style: TextStyle(
+                              //             color: Colors.white, fontSize: 20),
+                              //         textAlign: TextAlign.center,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
                             ),
+
+
+
                             SizedBox(
-                              height: 16.0,
+                              height: 30.0,
                             ),
                             ProductDisplay(product: product_book),
                             SizedBox(

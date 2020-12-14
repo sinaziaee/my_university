@@ -146,211 +146,307 @@ class _BooksScreenState extends State<BooksScreen> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          appBar: PreferredSize(
-              child: SafeArea(
-                child: Container(
-                  child: Stack(
+
+
+
+          // appBar: PreferredSize(
+          //     child: SafeArea(
+          //       child: Container(
+          //         child: Stack(
+          //           children: <Widget>[
+          //             Positioned(
+          //               top: 10,
+          //               right: 15,
+          //               left: 15,
+          //               child: Container(
+          //                 decoration: BoxDecoration(
+          //                     color: Colors.grey[200],
+          //                     borderRadius: BorderRadius.circular(20)),
+
+                          // child: Row(
+                          //   children: <Widget>[
+                          //     Expanded(
+                          //       child: TextField(
+                          //         onChanged: (val) {
+                          //           search = val;
+                          //           onChanged();
+                          //         },
+                          //         controller: controller,
+                          //         cursorColor: Colors.black,
+                          //         keyboardType: TextInputType.text,
+                          //         textInputAction: TextInputAction.search,
+                          //         textDirection: TextDirection.rtl,
+                          //         decoration: InputDecoration(
+                          //             border: InputBorder.none,
+                          //             contentPadding:
+                          //                 EdgeInsets.symmetric(horizontal: 15),
+                          //             hintText: "Search..."),
+                          //       ),
+                          //     ),
+                          //     Material(
+                          //       type: MaterialType.transparency,
+                          //       shape: CircleBorder(),
+                          //       child: IconButton(
+                          //         splashColor: Colors.grey,
+                          //         icon: Icon(
+                          //           FontAwesomeIcons.filter,
+                          //           color: kPrimaryColor,
+                          //           size: 20,
+                          //         ),
+                          //         onPressed: () {
+                          //           // Scaffold.of(context).openDrawer();
+                          //           _navigateToFilterScreen(context);
+                          //         },
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //     preferredSize: Size.fromHeight(80)),
+
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/Home2.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xfffff8ee),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
+
+                    ),
+                  ),
+
+                  margin: EdgeInsets.only(
+                    left: 30,
+                    right: 30,
+                    top: 70,
+
+                    // bottom: 20,
+                  ),
+                  padding:
+                  EdgeInsets.all(10),
+                  child: Row(
                     children: <Widget>[
-                      Positioned(
-                        top: 10,
-                        right: 15,
-                        left: 15,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: TextField(
-                                  onChanged: (val) {
-                                    search = val;
-                                    onChanged();
-                                  },
-                                  controller: controller,
-                                  cursorColor: Colors.black,
-                                  keyboardType: TextInputType.text,
-                                  textInputAction: TextInputAction.search,
-                                  textDirection: TextDirection.rtl,
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 15),
-                                      hintText: "Search..."),
-                                ),
-                              ),
-                              Material(
-                                type: MaterialType.transparency,
-                                shape: CircleBorder(),
-                                child: IconButton(
-                                  splashColor: Colors.grey,
-                                  icon: Icon(
-                                    FontAwesomeIcons.filter,
-                                    color: kPrimaryColor,
-                                    size: 20,
-                                  ),
-                                  onPressed: () {
-                                    // Scaffold.of(context).openDrawer();
-                                    _navigateToFilterScreen(context);
-                                  },
-                                ),
-                              ),
-                            ],
+                      Expanded(
+                        child: TextField(
+                          onChanged: (val) {
+                            search = val;
+                            onChanged();
+                          },
+                          controller: controller,
+                          cursorColor: Colors.black,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.search,
+                          textDirection: TextDirection.rtl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding:
+                              EdgeInsets.symmetric(horizontal: 15),
+                              hintText: "Search..."),
+                        ),
+                      ),
+                      Material(
+                        type: MaterialType.transparency,
+                        shape: CircleBorder(),
+                        child: IconButton(
+                          splashColor: Colors.grey,
+                          icon: Icon(
+                            FontAwesomeIcons.filter,
+                            color: kPrimaryColor,
+                            size: 30,
                           ),
+                          onPressed: () {
+                            // Scaffold.of(context).openDrawer();
+                            _navigateToFilterScreen(context);
+                          },
                         ),
                       ),
                     ],
                   ),
+
                 ),
-              ),
-              preferredSize: Size.fromHeight(80)),
-          body: RefreshIndicator(
-            onRefresh: () {
-              return _refresh();
-            },
-            child: Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: FutureBuilder(
-                  future: getToken(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData &&
-                        snapshot.connectionState == ConnectionState.done) {
-                      return FutureBuilder(
-                          future: http.get(url, headers: {
-                            HttpHeaders.authorizationHeader: token
-                          }),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.data != null) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  http.Response response = snapshot.data;
-                                  // print(response.statusCode);
-                                  // print(utf8.decode(response.bodyBytes));
-                                  // List<Map> jsonResponse = convert.jsonDecode(response.body);
-                                  var jsonResponse = convert.jsonDecode(
-                                      utf8.decode(response.bodyBytes));
-                                  List<Map> mapList = [];
-                                  // print(jsonResponse);
-                                  // if (jsonResponse['detail'] != null) {
-                                  //   return Center(
-                                  //     child: Text('Wrong token is sent'),
-                                  //   );
-                                  // }
-                                  int count = 0;
-                                  if (response.body.isEmpty) {
-                                    return SizedBox();
-                                  }
-                                  // print(jsonResponse);
-                                  for (Map map in jsonResponse) {
-                                    count++;
-                                    mapList.add(map);
-                                    // print(map.toString());
-                                  }
-                                  if (count == 0) {
-                                    return Container(
-                                      child: Center(
-                                        child:
-                                            Text('کتابی برای فروش موجود نیست'),
-                                      ),
-                                    );
-                                  }
-                                  // print(count);
-                                  // return SizedBox();
-                                  return ListView.builder(
-                                    itemCount: count,
-                                    itemBuilder: (context, index) {
-                                      return BookItem(
-                                        onPressed: () {
-                                          onPressed(
-                                            mapList[index]['id'],
-                                            token,
-                                            mapList[index]['seller'],
-                                            mapList[index]['seller_username'],
-                                            mapList[index]['book_id'],
+
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 50,
+                      // left: 50,
+                    ),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xfffff8ee),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                      ),
+                    ),
+
+                    child: RefreshIndicator(
+                      onRefresh: () {
+                        return _refresh();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: FutureBuilder(
+                            future: getToken(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData &&
+                                  snapshot.connectionState == ConnectionState.done) {
+                                return FutureBuilder(
+                                    future: http.get(url, headers: {
+                                      HttpHeaders.authorizationHeader: token
+                                    }),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        if (snapshot.data != null) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.done) {
+                                            http.Response response = snapshot.data;
+                                            // print(response.statusCode);
+                                            // print(utf8.decode(response.bodyBytes));
+                                            // List<Map> jsonResponse = convert.jsonDecode(response.body);
+                                            var jsonResponse = convert.jsonDecode(
+                                                utf8.decode(response.bodyBytes));
+                                            List<Map> mapList = [];
+                                            // print(jsonResponse);
+                                            // if (jsonResponse['detail'] != null) {
+                                            //   return Center(
+                                            //     child: Text('Wrong token is sent'),
+                                            //   );
+                                            // }
+                                            int count = 0;
+                                            if (response.body.isEmpty) {
+                                              return SizedBox();
+                                            }
+                                            // print(jsonResponse);
+                                            for (Map map in jsonResponse) {
+                                              count++;
+                                              mapList.add(map);
+                                              // print(map.toString());
+                                            }
+                                            if (count == 0) {
+                                              return Container(
+                                                child: Center(
+                                                  child:
+                                                      Text('کتابی برای فروش موجود نیست'),
+                                                ),
+                                              );
+                                            }
+                                            // print(count);
+                                            // return SizedBox();
+                                            return ListView.builder(
+                                              itemCount: count,
+                                              itemBuilder: (context, index) {
+                                                return BookItem(
+                                                  onPressed: () {
+                                                    onPressed(
+                                                      mapList[index]['id'],
+                                                      token,
+                                                      mapList[index]['seller'],
+                                                      mapList[index]['seller_username'],
+                                                      mapList[index]['book_id'],
+                                                    );
+                                                  },
+                                                  url: (mapList[index]['image'] != null)
+                                                      ? '$baseUrl/media/${mapList[index]['image']}'
+                                                      : '',
+                                                  cost:
+                                                      mapList[index]['price'].toString(),
+                                                  name: mapList[index]['name'].toString(),
+                                                  author:
+                                                      mapList[index]['author'].toString(),
+                                                  timeStamp: mapList[index]['upload']
+                                                      .toString()
+                                                      .substring(10, 16),
+                                                  publisher: mapList[index]['faculty']
+                                                      .toString(),
+                                                  faculty: mapList[index]['faculty']
+                                                      .toString(),
+                                                );
+                                              },
+                                            );
+                                            // return Image.asset('assets/images/book-1.png');
+                                          } else {
+                                            // show nothing
+                                            return SizedBox();
+                                          }
+                                        } else {
+                                          return Center(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset('assets/images/not_found.png',
+                                                    height: 200),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text('Not found'),
+                                              ],
+                                            ),
                                           );
-                                        },
-                                        url: (mapList[index]['image'] != null)
-                                            ? '$baseUrl/media/${mapList[index]['image']}'
-                                            : '',
-                                        cost:
-                                            mapList[index]['price'].toString(),
-                                        name: mapList[index]['name'].toString(),
-                                        author:
-                                            mapList[index]['author'].toString(),
-                                        timeStamp: mapList[index]['upload']
-                                            .toString()
-                                            .substring(10, 16),
-                                        publisher: mapList[index]['faculty']
-                                            .toString(),
-                                        faculty: mapList[index]['faculty']
-                                            .toString(),
-                                      );
-                                    },
-                                  );
-                                  // return Image.asset('assets/images/book-1.png');
-                                } else {
-                                  // show nothing
-                                  return SizedBox();
-                                }
+                                        }
+                                      } else {
+                                        return ListView.builder(
+                                            itemCount: 10,
+                                            itemBuilder: (context, index) {
+                                              return Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 20,
+                                                  vertical: 5,
+                                                ),
+                                                padding: EdgeInsets.only(top: 15),
+                                                height: 100,
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(38.5),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      offset: Offset(0, 10),
+                                                      blurRadius: 33,
+                                                      color: Color(0xFFD3D3D3)
+                                                          .withOpacity(.84),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(38.5),
+                                                  child: Center(
+                                                    child: CircularProgressIndicator(),
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                      }
+                                    });
                               } else {
                                 return Center(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset('assets/images/not_found.png',
-                                          height: 200),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text('Not found'),
-                                    ],
-                                  ),
+                                  child: CircularProgressIndicator(),
                                 );
                               }
-                            } else {
-                              return ListView.builder(
-                                  itemCount: 10,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      margin: EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 5,
-                                      ),
-                                      padding: EdgeInsets.only(top: 15),
-                                      height: 100,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(38.5),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            offset: Offset(0, 10),
-                                            blurRadius: 33,
-                                            color: Color(0xFFD3D3D3)
-                                                .withOpacity(.84),
-                                          ),
-                                        ],
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(38.5),
-                                        child: Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      ),
-                                    );
-                                  });
-                            }
-                          });
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }),
+                            }),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         );
