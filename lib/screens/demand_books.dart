@@ -31,10 +31,11 @@ class _DemandBookScreenState extends State<DemandBookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfffff8ee),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color(0xfffff8ee),
         elevation: 0.0,
         iconTheme: IconThemeData(color: darkGrey),
         actions: [
@@ -51,86 +52,88 @@ class _DemandBookScreenState extends State<DemandBookScreen> {
               color: darkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
         ),
       ),
-      body: FutureBuilder(
-        future: getToken(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return FutureBuilder(
-              future: http.get(
-                url,
-                headers: {HttpHeaders.authorizationHeader: token},
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  http.Response response = snapshot.data;
-                  var jsonResponse = convert
-                      .jsonDecode(convert.utf8.decode(response.bodyBytes));
-                  List<Map> mapList = [];
-                  print(jsonResponse);
+      body: Container(
+        child: FutureBuilder(
+          future: getToken(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return FutureBuilder(
+                future: http.get(
+                  url,
+                  headers: {HttpHeaders.authorizationHeader: token},
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    http.Response response = snapshot.data;
+                    var jsonResponse = convert
+                        .jsonDecode(convert.utf8.decode(response.bodyBytes));
+                    List<Map> mapList = [];
+                    print(jsonResponse);
 
-                  count = 0;
-                  for (Map each in jsonResponse) {
-                    mapList.add(each);
-                    count++;
-                  }
-                  if (count == 0) {
+                    count = 0;
+                    for (Map each in jsonResponse) {
+                      mapList.add(each);
+                      count++;
+                    }
+                    if (count == 0) {
+                      return Center(
+                        child: Text(
+                          'هیچ درخواستی وجود ندارد',
+                          textDirection: TextDirection.rtl,
+                        ),
+                      );
+                    }
+                    print(
+                      'url: ${mapList[0]['image']}',
+                    );
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        print('***************************');
+                        print(mapList[index]);
+                        print('***************************');
+                        return MyBookItem(
+                          name: mapList[index]['name'],
+                          author: mapList[index]['author'],
+                          url: mapList[index]['imageUrl'],
+                          seller: mapList[index]['seller'],
+                          buyer: mapList[index]['client'],
+                          user: userId,
+                          otherUser: (mapList[index]['seller_username'] ==
+                                  username)
+                              ? 'خریدار : ${mapList[index]['client_username']}'
+                              : 'فروشنده : ${mapList[index]['seller_username']}',
+                          onPressed: () {
+                            onPressed(
+                              mapList[index]['bookId'],
+                              token,
+                              mapList[index]['seller'],
+                              mapList[index]['seller_username'],
+                              mapList[index]['client'],
+                              mapList[index]['stock_id'],
+                              mapList[index]['buyer_username'],
+                            );
+                          },
+                        );
+                      },
+                      itemCount: count,
+                    );
+                  } else {
                     return Center(
-                      child: Text(
-                        'هیچ درخواستی وجود ندارد',
-                        textDirection: TextDirection.rtl,
-                      ),
+                      child: CircularProgressIndicator(),
                     );
                   }
-                  print(
-                    'url: ${mapList[0]['image']}',
-                  );
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      print('***************************');
-                      print(mapList[index]);
-                      print('***************************');
-                      return MyBookItem(
-                        name: mapList[index]['name'],
-                        author: mapList[index]['author'],
-                        url: mapList[index]['imageUrl'],
-                        seller: mapList[index]['seller'],
-                        buyer: mapList[index]['client'],
-                        user: userId,
-                        otherUser: (mapList[index]['seller_username'] ==
-                                username)
-                            ? 'خریدار : ${mapList[index]['client_username']}'
-                            : 'فروشنده : ${mapList[index]['seller_username']}',
-                        onPressed: () {
-                          onPressed(
-                            mapList[index]['bookId'],
-                            token,
-                            mapList[index]['seller'],
-                            mapList[index]['seller_username'],
-                            mapList[index]['client'],
-                            mapList[index]['stock_id'],
-                            mapList[index]['buyer_username'],
-                          );
-                        },
-                      );
-                    },
-                    itemCount: count,
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+                },
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
     );
   }

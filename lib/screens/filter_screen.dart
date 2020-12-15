@@ -49,6 +49,7 @@ class _FilterScreenState extends State<FilterScreen> {
     }
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Color(0xfffff8ee),
       appBar: AppBar(
         actions: [
           IconButton(
@@ -65,10 +66,11 @@ class _FilterScreenState extends State<FilterScreen> {
           style: TextStyle(color: kPrimaryColor),
         ),
         elevation: 1,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xfffff8ee),
         centerTitle: true,
       ),
       body: Container(
+        color: Color(0xfffff8ee),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(

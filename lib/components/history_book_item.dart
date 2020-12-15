@@ -35,7 +35,7 @@ class MyBookItem extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(38.5),
           child: Container(
-            color: Colors.grey[100],
+            color: Colors.white,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -83,11 +83,11 @@ class _ProductPageState extends State<ProductPage> {
         decoration: BoxDecoration(
             gradient: mainButton,
             boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(253, 192, 84, 1),
-                offset: Offset(0, 5),
-                blurRadius: 10.0,
-              )
+              // BoxShadow(
+              //   color: Color.fromRGBO(253, 192, 84, 1),
+              //   offset: Offset(0, 5),
+              //   blurRadius: 10.0,
+              // )
             ],
             borderRadius: BorderRadius.circular(9.0)),
         child: Center(

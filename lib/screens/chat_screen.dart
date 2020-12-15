@@ -79,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     List list;
     int count = 0;
     return Scaffold(
+      backgroundColor: Color(0xfffff8ee),
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,

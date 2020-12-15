@@ -106,10 +106,11 @@ class TradeItem extends StatelessWidget {
                         height: 80,
                         width: 60,
                         fit: BoxFit.cover,
-                        placeholder: AssetImage('assets/images/book-1.png'),
-                        image: (url != '')
+                        image: (url != null)
                             ? NetworkImage(url)
                             : AssetImage('assets/images/book-1.png'),
+                        placeholder: AssetImage('assets/images/book-1.png'),
+
                       ),
                     ],
                   ),

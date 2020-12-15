@@ -53,45 +53,46 @@ class _TradeScreenState extends State<TradeScreen> {
     // buyer_username = args['buyer_username'];
     // buyer_id = args['buyer_id'];
     return Scaffold(
+      backgroundColor:Color(0xfffff8ee) ,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           openDialog();
         },
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.teal,
         child: Icon(Icons.campaign),
       ),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: Colors.orange.shade500,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: darkGrey),
-        // leading: IconButton(
-        //   onPressed: () {
-        //     cancelDialog();
-        //   },
-        //   icon: Icon(
-        //     Icons.cancel,
-        //     color: Colors.white,
-        //   ),
-        // ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.chevron_right,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-        title: Text(
-          ' جزئیات کتاب',
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30.0),
-        ),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   centerTitle: true,
+      //   backgroundColor: Colors.teal,
+      //   elevation: 0.0,
+      //   iconTheme: IconThemeData(color: darkGrey),
+      //   // leading: IconButton(
+      //   //   onPressed: () {
+      //   //     cancelDialog();
+      //   //   },
+      //   //   icon: Icon(
+      //   //     Icons.cancel,
+      //   //     color: Colors.white,
+      //   //   ),
+      //   // ),
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(
+      //         Icons.chevron_right,
+      //         color: Colors.white,
+      //       ),
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       },
+      //     ),
+      //   ],
+      //   title: Text(
+      //     ' جزئیات کتاب',
+      //     style: const TextStyle(
+      //         color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30.0),
+      //   ),
+      // ),
       body: FutureBuilder(
         future: getToken(),
         builder: (context, snapshot) {
@@ -133,7 +134,7 @@ class _TradeScreenState extends State<TradeScreen> {
                               message: result['price'].toString(),
                               location: BannerLocation.bottomEnd,
                               child: FadeInImage(
-                                height: 150,
+                                height: 180,
                                 width: 150,
                                 fit: BoxFit.cover,
                                   image: (result['image'] != null)
@@ -143,9 +144,12 @@ class _TradeScreenState extends State<TradeScreen> {
                               ),
                             ),
                           ),
-                          height: 200,
+                          height: 250,
                           decoration: BoxDecoration(
-                            color: Colors.orange.shade500,
+                          image: DecorationImage(
+                          image: AssetImage("assets/images/Home2.png"),
+                          fit: BoxFit.cover),
+                            // color: Colors.orange.shade500,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(40),
                               bottomRight: Radius.circular(40),
@@ -155,17 +159,18 @@ class _TradeScreenState extends State<TradeScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: 20,
-                            vertical: 5,
+                            vertical: 20,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
-                                'نام کتاب',
+                                // "Conjure Women",
+                                result['name'],
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.right,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ],
                           ),
@@ -175,16 +180,16 @@ class _TradeScreenState extends State<TradeScreen> {
                             horizontal: 30,
                             vertical: 0,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                result['name'],
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.right,
-                              ),
-                            ],
-                          ),
+                          // child: Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //     Text(
+                          //       result['name'],
+                          //       textDirection: TextDirection.rtl,
+                          //       textAlign: TextAlign.right,
+                          //     ),
+                          //   ],
+                          // ),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -210,15 +215,15 @@ class _TradeScreenState extends State<TradeScreen> {
                                   color: Colors.purple.shade400,
                                 ),
                               ),
-                              Expanded(
-                                child: Text(
-                                  'نام نویسنده',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.right,
-                                ),
-                              ),
+                              // Expanded(
+                              //   child: Text(
+                              //     'نویسنده : ',
+                              //     style: TextStyle(
+                              //         color: Colors.black, fontSize: 22),
+                              //     textDirection: TextDirection.rtl,
+                              //     textAlign: TextAlign.right,
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -231,7 +236,17 @@ class _TradeScreenState extends State<TradeScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
+                                // "Conjure Women",
                                 result['author'],
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                'نویسنده : ',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 22),
                                 textDirection: TextDirection.rtl,
                                 textAlign: TextAlign.right,
                               ),
@@ -246,13 +261,13 @@ class _TradeScreenState extends State<TradeScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                'دانشکده',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.right,
-                              ),
+                              // Text(
+                              //   'دانشکده : ',
+                              //   style: TextStyle(
+                              //       color: Colors.black, fontSize: 22),
+                              //   textDirection: TextDirection.rtl,
+                              //   textAlign: TextAlign.right,
+                              // ),
                             ],
                           ),
                         ),
@@ -268,6 +283,15 @@ class _TradeScreenState extends State<TradeScreen> {
                                 result['faculty'],
                                 textDirection: TextDirection.rtl,
                                 textAlign: TextAlign.right,
+                                style: TextStyle(fontSize: 25,
+                                  fontWeight: FontWeight.w700,),
+                              ),
+                              Text(
+                                'دانشکده : ',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 22),
+                                textDirection: TextDirection.rtl,
+                                textAlign: TextAlign.right,
                               ),
                             ],
                           ),
@@ -280,13 +304,13 @@ class _TradeScreenState extends State<TradeScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                'توضیحات',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.right,
-                              ),
+                              // Text(
+                              //   'توضیحات',
+                              //   style: TextStyle(
+                              //       color: Colors.black, fontSize: 18),
+                              //   textDirection: TextDirection.rtl,
+                              //   textAlign: TextAlign.right,
+                              // ),
                             ],
                           ),
                         ),
@@ -300,6 +324,16 @@ class _TradeScreenState extends State<TradeScreen> {
                             children: [
                               Text(
                                 result['description'],
+                                textDirection: TextDirection.rtl,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(fontSize: 25,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                'توضیحات : ',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
                                 textDirection: TextDirection.rtl,
                                 textAlign: TextAlign.right,
                               ),
@@ -318,13 +352,13 @@ class _TradeScreenState extends State<TradeScreen> {
                             width: 200,
                             decoration: BoxDecoration(
                                 gradient: mainButton,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(253, 192, 84, 1),
-                                    offset: Offset(0, 5),
-                                    blurRadius: 10.0,
-                                  )
-                                ],
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: Color.fromRGBO(253, 192, 84, 1),
+                                //     offset: Offset(0, 5),
+                                //     blurRadius: 10.0,
+                                //   )
+                                // ],
                                 borderRadius: BorderRadius.circular(9.0)),
                             child: Center(
                               child: Text('گفت و گو',

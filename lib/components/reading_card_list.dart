@@ -29,8 +29,8 @@ class ReadingListCard extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         margin: EdgeInsets.only(left: 24, bottom: 40),
-        height: 245,
-        width: 202,
+        height: 220,
+        width: 180,
         child: Stack(
           children: <Widget>[
             Positioned(
@@ -44,7 +44,7 @@ class ReadingListCard extends StatelessWidget {
                 child: Container(
                   height: 221,
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(29),
                   ),
                 ),

@@ -119,7 +119,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         ),
                         // SizedBox(height: 80,),
                         Container(
-                        height: MediaQuery.of(context).size.height,
+                          // margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                        height: MediaQuery.of(context).size.height * 1.2,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           color: Color(0xfffff8ee),
@@ -264,7 +265,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         }
                                         // return SizedBox();
                                         return Container(
-                                          height: size.height*0.6,
+                                          height: size.height*0.3,
                                           child: ListView.builder(
                                             shrinkWrap: true,
                                             itemCount: tradeCount,
