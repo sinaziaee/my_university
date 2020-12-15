@@ -2,7 +2,6 @@ import 'package:my_university/food/index.dart';
 import 'package:my_university/food/screens/AllFoodDetails.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
-import 'file:///D:/FlutterProjects/front/my_university/lib/food/models/order.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:my_university/screens/chat_screen.dart';
 import 'package:my_university/screens/demand_books.dart';

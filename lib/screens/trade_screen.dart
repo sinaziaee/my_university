@@ -136,11 +136,10 @@ class _TradeScreenState extends State<TradeScreen> {
                                 height: 150,
                                 width: 150,
                                 fit: BoxFit.cover,
-                                placeholder:
-                                    AssetImage('assets/images/book-1.png'),
-                                image: NetworkImage(
-                                  result['image'],
-                                ),
+                                  image: (result['image'] != null)
+                                      ? NetworkImage(result['image'])
+                                      : AssetImage('assets/images/book-1.png'),
+                                  placeholder: AssetImage('assets/images/book-1.png')
                               ),
                             ),
                           ),

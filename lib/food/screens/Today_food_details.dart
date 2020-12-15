@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import "package:flutter/material.dart";
+import 'package:my_university/food/models/order.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/delivery_tab.dart';
-import 'file:///D:/FlutterProjects/front/my_university/lib/food/models/order.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
