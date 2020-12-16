@@ -31,11 +31,9 @@ class TimeCard extends StatelessWidget {
             )
         ),
         child:  MaterialButton(
-          onPressed: () {
-              Navigator.pushNamed(context, Index.id);
+          onPressed:
+            ontap,
 
-
-          },
           minWidth: double.infinity,
           child: Text("$start_time - $end_time", style: TextStyle(color: Colors.white ,fontSize: 20),),
         ),

@@ -172,8 +172,17 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
                 onPressed: () {
                   setState(
                     () {
-                      DeliveryTab.listTodayFoods.add(Order(
-                          name: name, price: price, image: picture, number: 1, serveId: servid));
+                      bool flag = false;
+                      for(var each in DeliveryTab.listTodayFoods){
+                        if(each.name == name){
+                          flag = true;
+                          break;
+                        }
+                      }
+                      if(flag == false){
+                        DeliveryTab.listTodayFoods.add(Order(
+                            name: name, price: price, image: picture, number: 1, serveId: servid));
+                      }
                       Navigator.pushNamed(context, Bucket.id);
                     },
                   );

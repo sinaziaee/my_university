@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         textDirection:
                         TextDirection.rtl,
                         style: TextStyle(
-                            // fontFamily: 'Lemonada',
+                            fontFamily: 'Lemonada',
                             color: kPrimaryColor ,
                             fontSize: 17
                         ),
@@ -206,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           textDirection:
                           TextDirection.rtl,
                           style: TextStyle(
-                              // fontFamily: 'Lemonada',
+                              fontFamily: 'Lemonada',
                               color: kPrimaryColor ,
                               fontSize: 12
                           ),
@@ -238,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           textDirection:
                           TextDirection.rtl,
                           style: TextStyle(
-                              // fontFamily: 'Lemonada',
+                              fontFamily: 'Lemonada',
                               color: kPrimaryColor ,
                               fontSize: 12
                           ),

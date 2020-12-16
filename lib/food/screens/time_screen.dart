@@ -7,9 +7,9 @@ import 'package:my_university/food/index.dart';
 import 'package:my_university/food/widgets/timeCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constants.dart';
 import '../../screens/chat_rooms_screen.dart';
 import '../../screens/chat_rooms_screen.dart';
-
 
 class TimeScreen extends StatefulWidget {
   static String id = 'time_screen';
@@ -18,7 +18,11 @@ class TimeScreen extends StatefulWidget {
   _TimeScreenState createState() => _TimeScreenState();
 }
 
-class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
+class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
+
+
+  DateTime selectedDate = DateTime.now();
+  String date = DateTime.now().toString().substring(0, 10);
 
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,12 +31,28 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
     return prefs.getString('token');
   }
 
+  showCalendarDialog() async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+        date = selectedDate.toString().substring(0, 10);
+        print(selectedDate);
+      });
+  }
+
   int pendingCount = 0;
-  var ServeTimeUrl = "http://danibazi9.pythonanywhere.com/api/food/user/serve/all";
+  var ServeTimeUrl =
+      "$baseUrl/api/food/user/serve/all";
   List reserves = new List();
-  String start_time ;
-  String end_time ;
-  
+  String start_time;
+
+  String end_time;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -45,59 +65,85 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          builder: (context, snapshot) {
-            if (snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              return Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/starter-image.jpg'),
-                            fit: BoxFit.cover
-                        )
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            colors: [
-                              Colors.black.withOpacity(.9),
-                              Colors.black.withOpacity(.8),
-                              Colors.black.withOpacity(.2),
-                            ]
-                        )
-                    ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.all(20.0),
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            return Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/starter-image.jpg'),
+                          fit: BoxFit.cover)),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          colors: [
+                        Colors.black.withOpacity(.9),
+                        Colors.black.withOpacity(.8),
+                        Colors.black.withOpacity(.2),
+                      ])),
+                ),
+                Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: SingleChildScrollView(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Align
-                              (alignment: Alignment.centerRight,
-                                child: Text(
-                                  'به سلف آزاد خوش آمدید', style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold),
-                                )
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    'به سلف آزاد خوش آمدید',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                             ),
-                            SizedBox(height: 20,),
-                            Align
-                              (alignment: Alignment.centerRight,
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Align(
+                                alignment: Alignment.centerRight,
                                 child: Text(
-                                  'زمان رزرو غذاهای امروز را مشاهده کنید',
-                                  style: TextStyle(color: Colors.white,
+                                  'زمان رزرو غذاهای $date را مشاهده کنید',
+                                  // textDirection: TextDirection.rtl,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      color: Colors.white,
                                       fontSize: 20,
-                                      fontWeight: FontWeight.bold),)
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
-                            SizedBox(height: 20,),
-
+                            Align(
+                                alignment: Alignment.center,
+                                child: TextButton.icon(
+                                  label: Text(
+                                    'تغییر تاریخ',
+                                    style: TextStyle(color: Colors.white, fontSize: 20),
+                                  ),
+                                  icon: Icon(
+                                    Icons.calendar_today,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    showCalendarDialog();
+                                  },
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
                             FutureBuilder(
-                              future: http.get(ServeTimeUrl, headers: {
+                              future: http
+                                  .get('${ServeTimeUrl}/?date=$date', headers: {
                                 HttpHeaders.authorizationHeader: token,
                               }),
                               builder: (BuildContext context,
@@ -106,36 +152,78 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
                                     snapshot.connectionState ==
                                         ConnectionState.done) {
                                   http.Response response = snapshot.data;
+                                  print(response.statusCode);
+                                  print(response.body);
+                                  print(date);
                                   List<Map> mapList = [];
                                   var jsonResponse = convert.jsonDecode(
                                       convert.utf8.decode(response.bodyBytes));
                                   print('****** json   ************');
+                                  if (jsonResponse
+                                      .toString()
+                                      .startsWith('ERROR: the date of')) {
+                                    return Center(
+                                      child: Container(
+                                        height: 100,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              'لطفا تاریخ دیگری را انتخاب کنید.',
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            IconButton(
+                                                icon: Icon(Icons.calendar_today,
+                                                    color: Colors.white),
+                                                onPressed: () {
+                                                  showCalendarDialog();
+                                                }),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
                                   print(jsonResponse);
                                   print('******************');
                                   pendingCount = 0;
                                   for (Map each in jsonResponse) {
-                                    if (each['start_serve_time'] != null) {
+                                    if (each['start_serve_time'] != null ) {
+                                      // bool found  = false ;
+                                      // for (Map e in mapList.) {
+                                      //   if (e == each['start_serve_time']) {
+                                      //     found = true;
+                                      //     break;
+                                      //   }
+                                      // }
+                                      //
+                                      // if(found == false) {
+                                      //
+                                      // }
                                       mapList.add(each);
                                       pendingCount++;
                                     }
                                   }
                                   if (pendingCount == 0) {
                                     return Center(
-
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            gradient: LinearGradient(
-                                                colors: [
-                                                  Colors.yellow,
-                                                  Colors.orange
-                                                ]
-                                            )
-                                        ),
-                                        child:  MaterialButton(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            gradient: LinearGradient(colors: [
+                                              Colors.yellow,
+                                              Colors.orange
+                                            ])),
+                                        child: MaterialButton(
                                           onPressed: () => _onTap(),
                                           minWidth: double.infinity,
-                                          child: Text("زمانی برای رزرو وجود ندارد", style: TextStyle(color: Colors.white ,fontSize: 20),),
+                                          child: Text(
+                                            "زمانی برای رزرو وجود ندارد",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
                                         ),
                                       ),
                                     );
@@ -150,6 +238,13 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
                                         itemCount: pendingCount,
                                         itemBuilder: (context, index) {
                                           return TimeCard(
+                                            ontap: () {
+                                              onPressed1(
+                                                  mapList[index]["start_serve_time"],
+                                                  mapList[index]['end_serve_time'],
+
+                                              );
+                                            },
                                             // onPressed: () {
                                             //   print('tradeId: ' + mapList[index]['id'].toString());
                                             //   onPressed(
@@ -160,8 +255,10 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
                                             // },
                                             // text: (username == mapList[index]['seller_username']) ? 'برای فروش': 'برای خرید',
                                             // image: mapList[index]['image'],
-                                            start_time: mapList[index]['start_serve_time'],
-                                            end_time: mapList[index]['end_serve_time'],
+                                            start_time: mapList[index]
+                                                ['start_serve_time'],
+                                            end_time: mapList[index]
+                                                ['end_serve_time'],
                                             // ontap: _onTap(),
                                           );
                                         },
@@ -175,128 +272,33 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
                                 }
                               },
                             ),
-                            SizedBox(height: 20,),
+                            SizedBox(
+                              height: 20,
+                            ),
                             Align(
-                                          child: Text("سلف آزاد دانشگاه علم و صنعت ایران ", style: TextStyle(color: Colors.white70, fontSize: 15),),
-                                        ),
-                          ]
-                      )
-                  )
-
-                ],
-              );
-            }
-            else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //         gradient: LinearGradient(
-            //             begin: Alignment.bottomCenter,
-            //             colors: [
-            //               Colors.black.withOpacity(.9),
-            //               Colors.black.withOpacity(.8),
-            //               Colors.black.withOpacity(.2),
-            //             ]
-            //         )
-            //     ),
-            //     child: Padding(
-            //       padding: EdgeInsets.all(20.0),
-            //       child: Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         mainAxisAlignment: MainAxisAlignment.end,
-            //         children: <Widget>[
-            //            Align
-            //              (alignment: Alignment.centerRight,
-            //                child: Text('به سلف آزاد خوش آمدید', style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),)),
-            //           SizedBox(height: 20,),
-            //           Align
-            //             (alignment: Alignment.centerRight,
-            //               child: Text('زمان رزرو غذاهای فردا را مشاهده کنید', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),)),
-            //           SizedBox(height: 100,),
-            //
-            //              Container(
-            //                     decoration: BoxDecoration(
-            //                         borderRadius: BorderRadius.circular(10),
-            //                         gradient: LinearGradient(
-            //                             colors: [
-            //                               Colors.yellow,
-            //                               Colors.orange
-            //                             ]
-            //                         )
-            //                     ),
-            //                     child:  MaterialButton(
-            //                         onPressed: () => _onTap(),
-            //                         minWidth: double.infinity,
-            //                         child: Text("10 - 11", style: TextStyle(color: Colors.white , fontSize: 20), ),
-            //                       ),
-            //                     ),
-            //
-            //           SizedBox(height: 20,),
-            //
-            //
-            //           Container(
-            //             decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(10),
-            //                 gradient: LinearGradient(
-            //                     colors: [
-            //                       Colors.yellow,
-            //                       Colors.orange
-            //                     ]
-            //                 )
-            //             ),
-            //             child:  MaterialButton(
-            //               onPressed: () => _onTap(),
-            //               minWidth: double.infinity,
-            //               child: Text("12 - 13", style: TextStyle(color: Colors.white ,fontSize: 20),),
-            //             ),
-            //           ),
-            //
-            //           SizedBox(height: 40,),
-            //
-            //
-            //           Container(
-            //             decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(10),
-            //                 gradient: LinearGradient(
-            //                     colors: [
-            //                       Colors.yellow,
-            //                       Colors.orange
-            //                     ]
-            //                 )
-            //             ),
-            //             child:  MaterialButton(
-            //               onPressed: () => _onTap(),
-            //               minWidth: double.infinity,
-            //               child: Text("ورود بدون رزرو (مشاهده منو) ", style: TextStyle(color: Colors.white ,fontSize: 20),),
-            //             ),
-            //           ),
-            //
-            //
-            //           SizedBox(height: 60,),
-            //
-            //                Align(
-            //                   child: Text("سلف آزاد دانشگاه علم و صنعت ایران ", style: TextStyle(color: Colors.white70, fontSize: 15),),
-            //                 ),
-            //
-            //           SizedBox(height: 30,),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-          },
-          future: getToken(),
+                              child: Text(
+                                "سلف آزاد دانشگاه علم و صنعت ایران ",
+                                style: TextStyle(
+                                    color: Colors.white70, fontSize: 15),
+                              ),
+                            ),
+                          ]),
+                    ))
+              ],
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+        future: getToken(),
       ),
     );
   }
 
   _onTap() {
-    Navigator.push(context,MaterialPageRoute(builder: (context)=>Index()) );
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Index()));
   }
 
   // Widget _buildTimeCard(String text){
@@ -341,20 +343,29 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin{
     //
     // }
 
-    var response = await http.get(url , headers: {
-      HttpHeaders.authorizationHeader : token,
+    var response = await http.get(url, headers: {
+      HttpHeaders.authorizationHeader: token,
     });
     print(response.statusCode);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       setState(() {
-        var jsonResponse = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        var jsonResponse =
+            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         start_time = jsonResponse[0]["start_serve_time"];
         end_time = jsonResponse[0]["end_serve_time"];
         print(start_time);
         print(end_time);
-
       });
     }
   }
-  
+
+  onPressed1( String start, String end ) async {
+    print(start);
+    print(end);
+    await Navigator.pushNamed(context, Index.id, arguments: {
+      "start": start,
+      "end": end,
+      "date" : date
+    });
+  }
 }

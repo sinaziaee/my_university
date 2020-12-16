@@ -26,14 +26,34 @@ class DeliveryTab extends StatelessWidget {
     return prefs.getString('token');
   }
 
+  String startServer;
+  String endserver ;
+
   int pendingCount = 0;
   int foodcount = 0;
   var ServeTimeUrl =
-      "http://danibazi9.pythonanywhere.com/api/food/user/serve/all";
+      "http://danibazi9.pythonanywhere.com/api/food/user/serve";
+
   var AllFoodUrl = "http://danibazi9.pythonanywhere.com/api/food/all";
 
   @override
   Widget build(BuildContext context) {
+
+
+    Map args = ModalRoute.of(context).settings.arguments;
+    String start = args["start"];
+    String end = args["end"];
+    String date = args["date"];
+    print(date);
+
+
+
+    // DateTime dateTime = DateTime.now();
+    // String date =
+    // dateTime.toString().substring(0,10);
+
+
+
     onPressed1(int id, String name, int price, String image, String desc,
         int remain) async {
       var result =
@@ -74,9 +94,11 @@ class DeliveryTab extends StatelessWidget {
                         style: kTitle1Style.copyWith(fontSize: 22.0),
                       ),
                       FutureBuilder(
-                        future: http.get(ServeTimeUrl, headers: {
+
+                        future: http.get("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date", headers: {
                           HttpHeaders.authorizationHeader: token,
                         }),
+
                         builder: (BuildContext context,
                             AsyncSnapshot<dynamic> snapshot) {
                           if (snapshot.hasData &&
@@ -88,6 +110,7 @@ class DeliveryTab extends StatelessWidget {
                                 convert.utf8.decode(response.bodyBytes));
 
                             pendingCount = 0;
+                            print("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date");
 
                             DateTime dateTime = DateTime.now();
                             String timeLocal =
@@ -100,8 +123,8 @@ class DeliveryTab extends StatelessWidget {
                             int Local = int.parse(LocalTime);
 
                             for (Map each in jsonResponse) {
-                              String startServer = each['start_serve_time'];
-                              String endserver = each['end_serve_time'];
+                              startServer = start;
+                              endserver = end;
 
                               String starthourServer =
                                   startServer.substring(0, 2);
@@ -116,7 +139,7 @@ class DeliveryTab extends StatelessWidget {
                               String Endserver = "$endhourServer$endminServer";
                               int ets = int.parse(Endserver);
 
-                              if (each['start_serve_time'] != null) {
+                              if (each['serve_id'] != null) {
                                 if (Local >= sts && Local <= ets) {
                                   mapList.add(each);
                                   pendingCount++;

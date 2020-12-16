@@ -83,7 +83,7 @@ class _BucketState extends State<Bucket> {
   }
 
   onDecrease(int index) {
-    if(DeliveryTab.listTodayFoods[index].number == 0){
+    if(DeliveryTab.listTodayFoods[index].number == 1){
       // pass
     }
     else {
