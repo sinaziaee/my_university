@@ -22,14 +22,14 @@ String event_type;
 
 
 
-class NewEvent extends StatefulWidget {
+class NewEventScreen extends StatefulWidget {
   static String id = 'new_event';
 
   @override
-  _NewEventState createState() => _NewEventState();
+  _NewEventScreenState createState() => _NewEventScreenState();
 }
 
-class _NewEventState extends State<NewEvent> {
+class _NewEventScreenState extends State<NewEventScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String postEventUrl = '$baseUrl/api/event/user/';

@@ -1,239 +1,210 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:my_university/event/models/OrderCard.dart';
-//import 'package:my_university/food/widgets/order_card.dart';
-//import 'package:my_university/food/widgets/order_card.dart';
-import '../../constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_university/screens/books_screen.dart';
 import 'dart:convert' as convert;
 
+import 'package:my_university/screens/chat_rooms_screen.dart';
 
+import '../../constants.dart';
+import 'event_details_screen.dart';
 
-class OrderPage extends StatefulWidget {
-  static String id = 'Order_screen';
-
+class EventsScreen extends StatefulWidget {
   @override
-  _OrderPageState createState() => _OrderPageState();
+  _EventsScreenState createState() => _EventsScreenState();
 }
 
-class _OrderPageState extends State<OrderPage> {
-  String token, url = '$baseUrl/api/food/admin/serve/all/';
-  int userId;
-  DateTime selectedDate = DateTime.now();
-
-  getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token');
-    //token = prefs.getString('token');
-    userId = prefs.getInt('user_id');
-    print(token);
-    return prefs.getString('token');
-  }
-
-  showCalendarDialog()async{
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-        print(selectedDate);
-      });
-  }
+class _EventsScreenState extends State<EventsScreen> {
+  TextEditingController eventController = TextEditingController();
+  String eventSearch = '',
+      eventsUrl = '$baseUrl/api/event/user/all/',
+      eventDemandUrl = '$baseUrl/api/event/user/';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "لیست غذا های موجود امروز",
-          style: TextStyle(
-              color: kPrimaryColor,
-              fontSize: 33.0,
-              fontFamily: 'Lemonada_Regular'
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.calendar_today,
-            color: kPrimaryColor,
-          ),
-          onPressed: () {
-            showCalendarDialog();
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        centerTitle: true,
-      ),
-      body: FutureBuilder(
-        future: getToken(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            print(url);
-            return FutureBuilder(
-              future: http.get('${url}?date=${selectedDate.toString().substring(0,10)}', headers: {
-                HttpHeaders.authorizationHeader: token,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.chevron_right),
+              onPressed: () {
+                Navigator.pop(context);
               }),
-              builder: (context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  http.Response response = snapshot.data;
-                  if (response.statusCode >= 400) {
-                    return Center(
-                      child: Text(
-                        'مشکلی درارتباط با سرور پیش آمد',
-                        style: TextStyle(fontSize: 20 ,
-                            fontFamily: 'Lemonada'
-                        ),
-                      ),
-                    );
+        ],
+      ),
+      body: eventList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _navigateToNewEventScreen(),
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget eventList() {
+    return SafeArea(
+      child: Column(
+        children: [
+          Container(
+            height: 40,
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: TextField(
+              controller: eventController,
+              onChanged: (value) {
+                eventSearch = eventController.text;
+                setState(() {});
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                labelText: 'جست و جو',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          FutureBuilder(
+            future: http.get('$eventsUrl', headers: {
+              HttpHeaders.authorizationHeader: token,
+            }),
+            builder: (context, snapshot) {
+              if (snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.done) {
+                http.Response response = snapshot.data;
+                if (response.statusCode >= 400) {
+                  print(response.statusCode);
+                  print(response.body);
+                  try {
+                    String jsonResponse = convert
+                        .jsonDecode(convert.utf8.decode(response.bodyBytes));
+                    if (jsonResponse.startsWith('ERROR: You haven\'t been')) {
+                      return errorWidget(
+                          'شما به عنوان ارشد دانشکده انتخاب نشدید.');
+                    } else {
+                      return errorWidget('sth else');
+                    }
+                  } catch (e) {
+                    print(e);
+                    return errorWidget('مشکلی درارتباط با سرور پیش آمد');
                   }
-                  var jsonResponse = convert
-                      .jsonDecode(convert.utf8.decode(response.bodyBytes));
-                  print(jsonResponse);
-                  List<Map> mapList = [];
-                  int count = 0;
-                  // print(jsonResponse);
-                  for (Map map in jsonResponse) {
-                    count++;
-                    mapList.add(map);
-                    // print(map.toString());
-                  }
-
-
-                  if (count == 0) {
-                    return Container(
-                      child: Center(
-                        child: Text(' !!! غذایی برای این روز سرو نکرده اید',
-                          style: TextStyle(
-                              color: kPrimaryColor,
-                              fontFamily: 'Lemonada' ,
-                              fontSize: 15
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-
-
-                  return ListView.builder(
+                }
+                var jsonResponse =
+                    convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+                // print(jsonResponse);
+                List<Map> mapList = [];
+                int eventCount = 0;
+                // print(jsonResponse);
+                for (Map map in jsonResponse) {
+                  eventCount++;
+                  mapList.add(map);
+                  // print(map.toString());
+                }
+                if (eventCount == 0) {
+                  return errorWidget('ایوندی وجود ندارد.');
+                }
+                return Expanded(
+                  child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: count,
                     itemBuilder: (context, index) {
-                      return OrderCard(
-                        name: mapList[index]['name'],
-                        cost: mapList[index]['cost'],
-                        description: mapList[index]['description'],
-                        image: '$baseUrl${mapList[index]['image']}',
-                        onPressed: () {
-                          navigateToFoodDetailScreen(
-                            mapList[index]['serve_id'],
-                            mapList[index]['food_id'],
-                          );
-                        },
+                      return eventBuilder(
+                        '$baseUrl${mapList[index]['image']}',
+                        mapList[index]['name'],
+                        mapList[index]['remaining_capacity'],
+                        mapList[index]['event_id'],
+                        (mapList[index]['image'] == null) ? false : true,
                       );
                     },
-                  );
-                  return SizedBox();
-                }
-
-                else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
+                    itemCount: eventCount,
+                  ),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        ],
       ),
+    );
+  }
 
-
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          _navigateToNewFoodScreen();
+  Widget eventBuilder(String imageUrl, String eventName, int remainingCapacity,
+      int eventId, bool imageIsAvailable) {
+    return Card(
+      elevation: 3,
+      margin: EdgeInsets.only(left: 30, right: 30, bottom: 10),
+      child: ListTile(
+        onTap: () {
+          _navigateToEventDetailScreen(eventId, token);
         },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: [
-            SizedBox(
-              width: 30,
-            ),
-            TextButton.icon(
-              icon: Icon(
-                Icons.history,
-                color: kPrimaryColor,
+        leading: (imageIsAvailable)
+            ? FadeInImage(
+                placeholder: AssetImage('assets/images/junk.jpeg'),
+                image: NetworkImage(imageUrl),
+              )
+            : Image(
+                image: AssetImage('assets/images/junk.jpeg'),
               ),
-              onPressed: () {
-                _navigateToHistoryScreen();
-              },
-              label: Text(
-                'تاریخچه',
-                style: TextStyle(
-                  color: kPrimaryColor,
-                ),
-              ),
-            ),
-            Spacer(),
-            TextButton.icon(
-              icon: Icon(
-                Icons.clear_all,
-                color: kPrimaryColor,
-              ),
-              onPressed: () {
-                _navigateToRequestScreen();
-              },
-              label: Text(
-                'درخواست ها',
-                style: TextStyle(
-                  color: kPrimaryColor,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 30,
-            ),
-          ],
+        title: Text(eventName),
+        subtitle: Text(remainingCapacity.toString()),
+        trailing: FlatButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            participate(false, eventId);
+          },
+          child: Text(
+            'رد رویداد',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );
   }
 
-  _navigateToRequestScreen() async {
-    //await Navigator.pushNamed(context, RequestScreen.id);
-    setState(() {});
+  participate(bool isParticipating, int eventId) async {
+    print('user_id: $eventId');
+    Map map = Map();
+    map['user_id'] = eventId;
+    map['grant'] = (!isParticipating).toString();
+    http.Response response =
+        await http.post(url, body: convert.json.encode(map), headers: {
+      HttpHeaders.authorizationHeader: token,
+      "Accept": "application/json",
+      "content-type": "application/json",
+    });
+    if (response.statusCode == 200) {
+      setState(() {});
+    } else {
+      print(response.statusCode);
+      print(response.body);
+    }
   }
 
-  _navigateToHistoryScreen() {
-
-  }
-
-  navigateToFoodDetailScreen(int serveId, int foodId) {
-    /*
-    Navigator.pushNamed(
-      context,
-      FoodDetailsScreen.id,
-      arguments: {
-        'serve_id': serveId,
-        'food_id': foodId,
-      },
+  Widget errorWidget(String message) {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(top: 100),
+        child: Text(
+          message,
+          textDirection: TextDirection.rtl,
+          style: TextStyle(fontSize: 20),
+        ),
+      ),
     );
-    */
   }
 
-  _navigateToNewFoodScreen() async {
-   /*
-    await Navigator.pushNamed(context, NewFoodScreen.id);
-    setState(() {});
-    */
+  _navigateToEventDetailScreen(int eventId, String token) {
+    Navigator.pushNamed(context, EventDetailsScreen.id, arguments: {
+      'event_id': eventId,
+      'token': token,
+    });
+  }
+
+  _navigateToNewEventScreen() {
+    Navigator.pushNamed(context, EventDetailsScreen.id);
   }
 }
