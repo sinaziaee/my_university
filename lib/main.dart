@@ -12,6 +12,7 @@ import 'package:my_university/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+import 'event/Screens/NewEvent.dart';
 import 'food/screens/Today_food_details.dart';
 import 'screens/books_screen.dart';
 import 'screens/email_verfication_screen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         WelcomeScreen.id: (context) => WelcomeScreen(),
         SplashScreen.id: (context) => SplashScreen(),
+        NewEvent.id : (context) => NewEvent(),
         EmailVerificationScreen.id: (context) => EmailVerificationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         BooksScreen.id: (context) => BooksScreen(),
