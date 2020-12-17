@@ -1,8 +1,13 @@
+import 'package:my_university/event/Screens/NewEvent.dart';
+
+import '../event/Screens/AllEventsDetails.dart';
+
 import 'package:my_university/food/screens/time_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 class GridDashboard extends StatelessWidget {
   final BuildContext context;
@@ -24,11 +29,14 @@ class GridDashboard extends StatelessWidget {
     img: "assets/images/food.png",
     dest: TimeScreen.id,
   );
+
   Items item3 = new Items(
     title: "ثبت نام در رویداد ها",
-    subtitle: "",
+    subtitle: "رویداد برای تحکیم فردا",
     img: "assets/images/map.png",
+    dest: NewEvent.id,
   );
+
   Items item4 = new Items(
     title: "اخبار دانشگاه",
     subtitle: "اطلاع از آخرین قوانین ",

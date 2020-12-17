@@ -50,20 +50,14 @@ class ReadingListCard extends StatelessWidget {
                 ),
               ),
             ),
-
             Padding(
               padding: EdgeInsets.only(left: 20, top: 20),
               child: FadeInImage(
                 width: 130,
                 height: 130,
                 fit: BoxFit.cover,
-                  image: (image != null)
-                      ? NetworkImage(image)
-                      : AssetImage('assets/images/book-1.png'),
-                  placeholder: AssetImage('assets/images/book-1.png')
-
-                // image: NetworkImage(image),
-                // placeholder: AssetImage('assets/images/book-1.png'),
+                image: NetworkImage(image),
+                placeholder: AssetImage('assets/images/book-1.png'),
               ),
             ),
             Positioned(

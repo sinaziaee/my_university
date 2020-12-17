@@ -1,7 +1,9 @@
+import 'package:my_university/event/Screens/AllEventsDetails.dart';
 import 'package:my_university/food/index.dart';
 import 'package:my_university/food/screens/AllFoodDetails.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
+//import 'file:///D:/FlutterProjects/front/my_university/lib/food/models/order.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:my_university/screens/chat_screen.dart';
 import 'package:my_university/screens/demand_books.dart';
@@ -21,6 +23,7 @@ import 'screens/login_screen.dart';
 import 'screens/registeration_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/welcome_screen.dart';
+import 'event/Screens/NewEvent.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,6 +46,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         WelcomeScreen.id: (context) => WelcomeScreen(),
         SplashScreen.id: (context) => SplashScreen(),
+        NewEvent.id : (context) => NewEvent(),
         EmailVerificationScreen.id: (context) => EmailVerificationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         BooksScreen.id: (context) => BooksScreen(),

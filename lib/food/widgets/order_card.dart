@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_university/food/screens/delivery_tab.dart';
+import '../models/order.dart';
 
 class OrderCard extends StatelessWidget{
 
