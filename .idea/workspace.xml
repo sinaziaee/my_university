@@ -4,28 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="026a8fa8-8b83-410f-bf8b-923cd9edbdd5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_build.d" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/flutter/debug/flutter_build.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/apk/debug/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk.sha1" beforeDir="false" afterPath="$PROJECT_DIR$/build/app/outputs/flutter-apk/app.apk.sha1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/reading_card_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/reading_card_list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/history_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/history_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/product_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/product_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/trade_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/trade_screen.dart" afterDir="false" />
-    </list>
+    <list default="true" id="026a8fa8-8b83-410f-bf8b-923cd9edbdd5" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[5200dd94ea05452b]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_4_API_30]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -46,7 +31,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -165,10 +150,10 @@
     <state width="1224" height="337" key="GridCell.Tab.0.right/0.0.1920.1030/2400.0.1280.910@2400.0.1280.910" timestamp="1607097921287" />
     <state width="1864" height="396" key="GridCell.Tab.0.right/0.0.1920.1030@0.0.1920.1030" timestamp="1607031006965" />
     <state width="1802" height="752" key="GridCell.Tab.0.right/72.27.1848.1053@72.27.1848.1053" timestamp="1605212987929" />
-    <state x="343" y="132" width="914" height="707" key="SettingsEditor" timestamp="1607631456077">
+    <state x="543" y="122" width="914" height="707" key="SettingsEditor" timestamp="1608234196182">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="343" y="132" width="914" height="707" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1607631456077" />
+    <state x="543" y="122" width="914" height="707" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1608234196182" />
     <state x="485" y="188" width="1022" height="737" key="SettingsEditor/72.27.1848.1053@72.27.1848.1053" timestamp="1605211221412" />
     <state x="172" y="127" width="1648" height="853" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1605214787117">
       <screen x="72" y="27" width="1848" height="1053" />
