@@ -1,3 +1,4 @@
+import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/food/index.dart';
 import 'package:my_university/food/screens/AllFoodDetails.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
@@ -12,7 +13,8 @@ import 'package:my_university/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
-import 'event/Screens/NewEvent.dart';
+import 'event/Screens/new_event_screen.dart';
+import 'event/Screens/event_details_screen.dart';
 import 'food/screens/Today_food_details.dart';
 import 'screens/books_screen.dart';
 import 'screens/email_verfication_screen.dart';
@@ -44,7 +46,6 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         WelcomeScreen.id: (context) => WelcomeScreen(),
         SplashScreen.id: (context) => SplashScreen(),
-        NewEvent.id : (context) => NewEvent(),
         EmailVerificationScreen.id: (context) => EmailVerificationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         BooksScreen.id: (context) => BooksScreen(),
@@ -60,6 +61,9 @@ class MyApp extends StatelessWidget {
         TodayFoodDetails.id : (context) => TodayFoodDetails(),
         AllFoodDetails.id : (context) => AllFoodDetails(),
         Bucket.id : (context) => Bucket(),
+        EventDetailsScreen.id: (context) => EventDetailsScreen(),
+        EventsScreen.id: (context) => EventsScreen(),
+        NewEventScreen.id : (context) => NewEventScreen(),
       },
     );
   }

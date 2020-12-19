@@ -121,13 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _navigate_to_books_screen(){
-    Navigator.pushNamed(context, BooksScreen.id, arguments: {
-      'token': token,
-      'user_id': userId,
-    });
-  }
-
   @override
   void initState() {
     super.initState();
