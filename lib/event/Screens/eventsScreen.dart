@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_university/event/Screens/new_event_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
 import 'dart:convert' as convert;
 
@@ -216,6 +217,6 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   _navigateToNewEventScreen() {
-    Navigator.pushNamed(context, EventDetailsScreen.id);
+    Navigator.pushNamed(context, NewEventScreen.id);
   }
 }
