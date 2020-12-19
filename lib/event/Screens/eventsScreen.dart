@@ -5,11 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:my_university/event/Screens/new_event_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
 import 'dart:convert' as convert;
-
-import 'package:my_university/screens/chat_rooms_screen.dart';
-
 import '../../constants.dart';
 import 'event_details_screen.dart';
+
+bool isParticipating;
 
 class EventsScreen extends StatefulWidget {
   static String id = 'event_screen';
@@ -22,7 +21,7 @@ class _EventsScreenState extends State<EventsScreen> {
   TextEditingController eventController = TextEditingController();
   String eventSearch = '',
       eventsUrl = '$baseUrl/api/event/user/all',
-      eventDemandUrl = '$baseUrl/api/event/user/';
+      eventDemandUrl = '$baseUrl/api/event/user/register/';
   Map args;
   String token;
 
@@ -30,8 +29,56 @@ class _EventsScreenState extends State<EventsScreen> {
   Widget build(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
     token = args['token'];
+    token = 'Token d402c93776246eee11a88d25b322b6ae88d4d7e1';
     return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: [
+            SizedBox(
+              width: 30,
+            ),
+            FlatButton(
+              onPressed: () {
+                isParticipating = false;
+                eventsUrl = '$baseUrl/api/event/user/register/';
+                setState(() {});
+                print('isP: $isParticipating');
+              },
+              child: Text(
+                'رویدادهای ثبت نامی',
+                style: TextStyle(
+                  color: kPrimaryColor,
+                ),
+              ),
+            ),
+            Spacer(),
+            FlatButton(
+              onPressed: () {
+                eventsUrl = '$baseUrl/api/event/user/all';
+                isParticipating = true;
+                setState(() {});
+                print('isP: $isParticipating');
+              },
+              child: Text(
+                'رویداد های موجود',
+                style: TextStyle(
+                  color: kPrimaryColor,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
+        // leading: IconButton(
+        //     icon: Icon(Icons.history),
+        //     onPressed: () {
+        //       // Navigator.pushNamed(context, EventsHistoryScreen.id);
+        //     }),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.purple.shade300,
         title: Text('رویداد های موجود'),
@@ -60,7 +107,7 @@ class _EventsScreenState extends State<EventsScreen> {
 
   Widget eventList() {
     return RefreshIndicator(
-      onRefresh: (){
+      onRefresh: () {
         return _refresh();
       },
       child: SafeArea(
@@ -94,8 +141,8 @@ class _EventsScreenState extends State<EventsScreen> {
                       return errorWidget('مشکلی درارتباط با سرور پیش آمد');
                     }
                   }
-                  var jsonResponse =
-                      convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+                  var jsonResponse = convert
+                      .jsonDecode(convert.utf8.decode(response.bodyBytes));
                   // print(jsonResponse);
                   List<Map> mapList = [];
                   int eventCount = 0;
@@ -164,12 +211,12 @@ class _EventsScreenState extends State<EventsScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          color: Colors.purple.shade400,
+          color: (isParticipating)?Colors.green:Colors.red,
           onPressed: () {
-            participate(false, eventId);
+            participate(eventId);
           },
           child: Text(
-            'ثبت نام',
+              (isParticipating) ? 'ثبت نام' : 'لغو ثبت نام',
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -177,21 +224,26 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  participate(bool isParticipating, int eventId) async {
-    print('user_id: $eventId');
+  participate(int eventId) async {
+    print('here : $isParticipating');
+    print('event_id: $eventId');
+    print(eventDemandUrl);
     Map map = Map();
-    map['user_id'] = eventId;
-    map['grant'] = (!isParticipating).toString();
-    http.Response response =
-        await http.post(url, body: convert.json.encode(map), headers: {
+    map['event_id'] = eventId;
+    map['register'] = (isParticipating).toString();
+    http.Response response = await http
+        .post(eventDemandUrl, body: convert.json.encode(map), headers: {
       HttpHeaders.authorizationHeader: token,
       "Accept": "application/json",
       "content-type": "application/json",
     });
-    if (response.statusCode>=400) {
+    if (response.statusCode >= 400) {
       print(response.statusCode);
       print(response.body);
+      _showMessageDialog('مشکلی پیش آمد');
+      setState(() {});
     } else {
+      _showMessageDialog(isParticipating ?'شما در رویداد ثبت نام شدید':'ثبت نام شما لغو شد');
       setState(() {});
     }
   }
@@ -218,5 +270,20 @@ class _EventsScreenState extends State<EventsScreen> {
 
   _navigateToNewEventScreen() {
     Navigator.pushNamed(context, NewEventScreen.id);
+  }
+
+  _showMessageDialog(String message) {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text(message),
+        content: FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('باشه'),
+        ),
+      ),
+    );
   }
 }
