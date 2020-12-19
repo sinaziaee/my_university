@@ -38,6 +38,8 @@ class _EventsScreenState extends State<EventsScreen> {
               width: 30,
             ),
             FlatButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              color: !isParticipating? Colors.purple:Colors.white,
               onPressed: () {
                 isParticipating = false;
                 eventsUrl = '$baseUrl/api/event/user/register/';
@@ -47,12 +49,14 @@ class _EventsScreenState extends State<EventsScreen> {
               child: Text(
                 'رویدادهای ثبت نامی',
                 style: TextStyle(
-                  color: kPrimaryColor,
+                  color: isParticipating? Colors.purple:Colors.white,
                 ),
               ),
             ),
             Spacer(),
             FlatButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              color: isParticipating? Colors.purple:Colors.white,
               onPressed: () {
                 eventsUrl = '$baseUrl/api/event/user/all';
                 isParticipating = true;
@@ -62,7 +66,7 @@ class _EventsScreenState extends State<EventsScreen> {
               child: Text(
                 'رویداد های موجود',
                 style: TextStyle(
-                  color: kPrimaryColor,
+                  color: !isParticipating? Colors.purple:Colors.white,
                 ),
               ),
             ),
@@ -81,7 +85,7 @@ class _EventsScreenState extends State<EventsScreen> {
         //     }),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.purple.shade300,
-        title: Text('رویداد های موجود'),
+        title: Text(isParticipating?'رویداد های موجود':'رویداد های ثبت نام شده'),
         actions: [
           IconButton(
               icon: Icon(Icons.chevron_right),
@@ -199,12 +203,12 @@ class _EventsScreenState extends State<EventsScreen> {
         },
         leading: (imageIsAvailable)
             ? FadeInImage(
-                placeholder: AssetImage('assets/images/not_found.png'),
-                image: NetworkImage(imageUrl),
-              )
+          placeholder: AssetImage('assets/images/not_found.png'),
+          image: NetworkImage(imageUrl),
+        )
             : Image(
-                image: AssetImage('assets/images/not_found.png'),
-              ),
+          image: AssetImage('assets/images/not_found.png'),
+        ),
         title: Text(eventName),
         subtitle: Text(remainingCapacity.toString()),
         trailing: FlatButton(
@@ -216,7 +220,7 @@ class _EventsScreenState extends State<EventsScreen> {
             participate(eventId);
           },
           child: Text(
-              (isParticipating) ? 'ثبت نام' : 'لغو ثبت نام',
+            (isParticipating) ? 'ثبت نام' : 'لغو ثبت نام',
             style: TextStyle(color: Colors.white),
           ),
         ),
