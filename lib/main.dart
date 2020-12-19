@@ -1,3 +1,4 @@
+import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/food/index.dart';
 import 'package:my_university/food/screens/AllFoodDetails.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
@@ -45,7 +46,6 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         WelcomeScreen.id: (context) => WelcomeScreen(),
         SplashScreen.id: (context) => SplashScreen(),
-        NewEventScreen.id : (context) => NewEventScreen(),
         EmailVerificationScreen.id: (context) => EmailVerificationScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         BooksScreen.id: (context) => BooksScreen(),
@@ -62,6 +62,8 @@ class MyApp extends StatelessWidget {
         AllFoodDetails.id : (context) => AllFoodDetails(),
         Bucket.id : (context) => Bucket(),
         EventDetailsScreen.id: (context) => EventDetailsScreen(),
+        EventsScreen.id: (context) => EventsScreen(),
+        NewEventScreen.id : (context) => NewEventScreen(),
       },
     );
   }

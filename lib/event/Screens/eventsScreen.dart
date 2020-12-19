@@ -11,6 +11,8 @@ import '../../constants.dart';
 import 'event_details_screen.dart';
 
 class EventsScreen extends StatefulWidget {
+  static String id = 'event_screen';
+
   @override
   _EventsScreenState createState() => _EventsScreenState();
 }
@@ -18,13 +20,20 @@ class EventsScreen extends StatefulWidget {
 class _EventsScreenState extends State<EventsScreen> {
   TextEditingController eventController = TextEditingController();
   String eventSearch = '',
-      eventsUrl = '$baseUrl/api/event/user/all/',
+      eventsUrl = '$baseUrl/api/event/user/all',
       eventDemandUrl = '$baseUrl/api/event/user/';
+  Map args;
+  String token;
 
   @override
   Widget build(BuildContext context) {
+    args = ModalRoute.of(context).settings.arguments;
+    token = args['token'];
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.purple.shade300,
+        title: Text('رویداد های موجود'),
         actions: [
           IconButton(
               icon: Icon(Icons.chevron_right),
@@ -35,96 +44,98 @@ class _EventsScreenState extends State<EventsScreen> {
       ),
       body: eventList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _navigateToNewEventScreen(),
+        onPressed: () {
+          _navigateToNewEventScreen();
+        },
         child: Icon(Icons.add),
       ),
     );
   }
 
+  Future<bool> _refresh() async {
+    setState(() {});
+    return true;
+  }
+
   Widget eventList() {
-    return SafeArea(
-      child: Column(
-        children: [
-          Container(
-            height: 40,
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: TextField(
-              controller: eventController,
-              onChanged: (value) {
-                eventSearch = eventController.text;
-                setState(() {});
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                labelText: 'جست و جو',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
+    return RefreshIndicator(
+      onRefresh: (){
+        return _refresh();
+      },
+      child: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 30,
             ),
-          ),
-          FutureBuilder(
-            future: http.get('$eventsUrl', headers: {
-              HttpHeaders.authorizationHeader: token,
-            }),
-            builder: (context, snapshot) {
-              if (snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.done) {
-                http.Response response = snapshot.data;
-                if (response.statusCode >= 400) {
-                  print(response.statusCode);
-                  print(response.body);
-                  try {
-                    String jsonResponse = convert
-                        .jsonDecode(convert.utf8.decode(response.bodyBytes));
-                    if (jsonResponse.startsWith('ERROR: You haven\'t been')) {
-                      return errorWidget(
-                          'شما به عنوان ارشد دانشکده انتخاب نشدید.');
-                    } else {
-                      return errorWidget('sth else');
+            FutureBuilder(
+              future: http.get('$eventsUrl', headers: {
+                HttpHeaders.authorizationHeader: token,
+              }),
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  http.Response response = snapshot.data;
+                  if (response.statusCode >= 400) {
+                    print(response.statusCode);
+                    print(response.body);
+                    try {
+                      String jsonResponse = convert
+                          .jsonDecode(convert.utf8.decode(response.bodyBytes));
+                      if (jsonResponse.startsWith('ERROR: You haven\'t been')) {
+                        return errorWidget(
+                            'شما به عنوان ارشد دانشکده انتخاب نشدید.');
+                      } else {
+                        return errorWidget('sth else');
+                      }
+                    } catch (e) {
+                      print(e);
+                      return errorWidget('مشکلی درارتباط با سرور پیش آمد');
                     }
-                  } catch (e) {
-                    print(e);
-                    return errorWidget('مشکلی درارتباط با سرور پیش آمد');
                   }
+                  var jsonResponse =
+                      convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+                  // print(jsonResponse);
+                  List<Map> mapList = [];
+                  int eventCount = 0;
+                  // print(jsonResponse);
+                  for (Map map in jsonResponse) {
+                    eventCount++;
+                    mapList.add(map);
+                    // print(map.toString());
+                  }
+                  if (eventCount == 0) {
+                    return errorWidget('ایوندی وجود ندارد.');
+                  }
+                  return Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return eventBuilder(
+                          '$baseUrl${mapList[index]['image']}',
+                          mapList[index]['name'],
+                          mapList[index]['remaining_capacity'],
+                          mapList[index]['event_id'],
+                          (mapList[index]['image'] == null) ? false : true,
+                        );
+                      },
+                      itemCount: eventCount,
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: 150,
+                      ),
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
                 }
-                var jsonResponse =
-                    convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-                // print(jsonResponse);
-                List<Map> mapList = [];
-                int eventCount = 0;
-                // print(jsonResponse);
-                for (Map map in jsonResponse) {
-                  eventCount++;
-                  mapList.add(map);
-                  // print(map.toString());
-                }
-                if (eventCount == 0) {
-                  return errorWidget('ایوندی وجود ندارد.');
-                }
-                return Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return eventBuilder(
-                        '$baseUrl${mapList[index]['image']}',
-                        mapList[index]['name'],
-                        mapList[index]['remaining_capacity'],
-                        mapList[index]['event_id'],
-                        (mapList[index]['image'] == null) ? false : true,
-                      );
-                    },
-                    itemCount: eventCount,
-                  ),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -133,18 +144,18 @@ class _EventsScreenState extends State<EventsScreen> {
       int eventId, bool imageIsAvailable) {
     return Card(
       elevation: 3,
-      margin: EdgeInsets.only(left: 30, right: 30, bottom: 10),
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
       child: ListTile(
         onTap: () {
           _navigateToEventDetailScreen(eventId, token);
         },
         leading: (imageIsAvailable)
             ? FadeInImage(
-                placeholder: AssetImage('assets/images/junk.jpeg'),
+                placeholder: AssetImage('assets/images/not_found.png'),
                 image: NetworkImage(imageUrl),
               )
             : Image(
-                image: AssetImage('assets/images/junk.jpeg'),
+                image: AssetImage('assets/images/not_found.png'),
               ),
         title: Text(eventName),
         subtitle: Text(remainingCapacity.toString()),
@@ -152,12 +163,12 @@ class _EventsScreenState extends State<EventsScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          color: Colors.red,
+          color: Colors.purple.shade400,
           onPressed: () {
             participate(false, eventId);
           },
           child: Text(
-            'رد رویداد',
+            'ثبت نام',
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -176,11 +187,11 @@ class _EventsScreenState extends State<EventsScreen> {
       "Accept": "application/json",
       "content-type": "application/json",
     });
-    if (response.statusCode == 200) {
-      setState(() {});
-    } else {
+    if (response.statusCode>=400) {
       print(response.statusCode);
       print(response.body);
+    } else {
+      setState(() {});
     }
   }
 

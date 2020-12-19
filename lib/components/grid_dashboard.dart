@@ -1,3 +1,4 @@
+import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
@@ -28,6 +29,7 @@ class GridDashboard extends StatelessWidget {
     title: "ثبت نام در رویداد ها",
     subtitle: "",
     img: "assets/images/map.png",
+    dest: EventsScreen.id,
   );
   Items item4 = new Items(
     title: "اخبار دانشگاه",
