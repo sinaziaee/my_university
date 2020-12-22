@@ -8,7 +8,7 @@ import 'dart:convert' as convert;
 import '../../constants.dart';
 import 'event_details_screen.dart';
 
-bool isParticipating;
+bool isParticipating = false;
 
 class EventsScreen extends StatefulWidget {
   static String id = 'event_screen';

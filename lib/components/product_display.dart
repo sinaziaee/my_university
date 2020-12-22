@@ -57,15 +57,15 @@ class ProductDisplay extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                gradient: new LinearGradient(
-                  colors: [
-                    Colors.black.withOpacity(0.3),
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.3),
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
+                // gradient: new LinearGradient(
+                //   colors: [
+                //     Colors.black.withOpacity(0.3),
+                //     Colors.transparent,
+                //     Colors.black.withOpacity(0.3),
+                //   ],
+                //   begin: Alignment.centerLeft,
+                //   end: Alignment.centerRight,
+                // ),
               ),
             ),
           ],
