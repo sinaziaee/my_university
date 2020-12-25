@@ -35,18 +35,110 @@ class _BucketState extends State<Bucket> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     int count = DeliveryTab.listTodayFoods.length;
     if (count == 0) {
       return Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-          child: Text('سبد غذا خالی است.', style: TextStyle(fontSize: 25), textDirection: TextDirection.rtl,),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: Container(
+            height: height * 0.6,
+            width: width,
+            decoration: BoxDecoration(
+              color: Colors.red[900],
+              borderRadius:
+              BorderRadius.only(
+                  bottomLeft: Radius.circular(60),
+                  bottomRight: Radius.circular(60)
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:30 ),
+                    child: Text(
+                      'سبد خرید سلف آزاد',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Nunito',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top:30),
+                  child: Icon(Icons.add_shopping_cart, color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(50,50,50,10),
+              child: Image(
+                  image: AssetImage("assets/images/bucket.png")
+              ),
+            ),
+            Center(
+              child: Text('سبد غذا خالیه!', style: TextStyle(fontSize: 25), textDirection: TextDirection.rtl,),
+            ),
+          ],
         ),
         bottomNavigationBar: _buildTotalContainer(),
       );
     }
+
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+          child: Container(
+          height: height * 0.6,
+          width: width,
+          decoration: BoxDecoration(
+          color: Colors.red[900],
+          borderRadius:
+          BorderRadius.only(
+              bottomLeft: Radius.circular(60),
+              bottomRight: Radius.circular(60)
+    ),
+    ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:30 ),
+                    child: Text(
+                      'سبد خرید سلف آزاد',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Nunito',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top:30),
+                  child: Icon(Icons.add_shopping_cart, color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+      ),
+      ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         height: 500,
@@ -108,16 +200,14 @@ class _BucketState extends State<Bucket> {
 
   Widget _buildTotalContainer() {
     return Container(
-      height: 250.0,
+      height: 120.0,
       padding: EdgeInsets.only(
         left: 10.0,
         right: 10.0,
       ),
       child: Column(
         children: <Widget>[
-          SizedBox(
-            height: 50.0,
-          ),
+
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,7 +215,7 @@ class _BucketState extends State<Bucket> {
               Text(
                 "مجموع فاکتور ( به تومان ) ",
                 style: TextStyle(
-                    color: Colors.blueAccent,
+                    color: Colors.black,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold),
               ),
@@ -155,7 +245,8 @@ class _BucketState extends State<Bucket> {
               child: Container(
                 height: 50.0,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.red[900]
+                  ,
                   borderRadius: BorderRadius.circular(35.0),
                 ),
                 child: Center(

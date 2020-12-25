@@ -39,11 +39,22 @@ const kWhiteColor = Color(0xFFF9FAFB);
 const kRedColor = Color(0xFFFF7051);
 const kBrownColor = Color(0xFF6C6C6C);
 
+const kLightRedColor = Color(0xFFffb4b3);
+
+
 var kTitle1Style = GoogleFonts.roboto(
   fontSize: 18.0,
   fontWeight: FontWeight.bold,
   color: kBlackColor,
 );
+
+var kFoodStyle = GoogleFonts.roboto(
+  fontSize: 18.0,
+  fontWeight: FontWeight.bold,
+  color: kWhiteColor,
+);
+
+
 var kTitle2Style = GoogleFonts.roboto(
   fontSize: 18.0,
   color: kBlackColor,

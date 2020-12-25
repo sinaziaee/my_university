@@ -80,11 +80,11 @@ class TodayCard extends StatelessWidget {
                 height: 40.0,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: kOrangeColor),
+                  border: Border.all(color: Colors.red),
                 ),
                 child: Icon(
                   Icons.add,
-                  color: kOrangeColor,
+                  color: Colors.red,
                 ),
               ),
             )

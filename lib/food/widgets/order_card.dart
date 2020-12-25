@@ -20,31 +20,31 @@ class OrderCard extends StatelessWidget{
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFFD3D3D3), width: 2.0),
+                border: Border.all(color: Colors.red[900], width: 2.0),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               width: 60,
-              height: 80.0,
+              height: 85.0,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 10.0,
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     InkWell(
                         onTap: onIncrease,
-                        child: Icon(Icons.keyboard_arrow_up,
-                            color: Color(0xFFD3D3D3))),
+                        child: Icon(Icons.add_circle,
+                            color: Colors.red[900])),
                     Text(
                       number.toString(),
-                      style: TextStyle(fontSize: 18.0, color: Colors.grey),
+                      style: TextStyle(fontSize: 18.0, color : Colors.red[900]),
                     ),
                     InkWell(
                         onTap: onDecrease,
-                        child: Icon(Icons.keyboard_arrow_down,
-                            color: Color(0xFFD3D3D3))),
+                        child: Icon(Icons.remove_circle,
+                            color: Colors.red[900])),
                     // SizedBox(height: 10,)
                   ],
                 ),
@@ -84,7 +84,7 @@ class OrderCard extends StatelessWidget{
                     price.toString(),
                     style: TextStyle(
                         fontSize: 16.0,
-                        color: Colors.orangeAccent,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5.0),
@@ -119,7 +119,7 @@ class OrderCard extends StatelessWidget{
               onTap: onRemove,
               child: Icon(
                 Icons.cancel,
-                color: Colors.grey,
+                color: Colors.red[900],
               ),
             ),
           ],

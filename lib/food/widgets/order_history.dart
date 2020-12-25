@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class FoodHistoryItem extends StatelessWidget {
-  final String name;
+  final String name , image;
   final int requestId, counter;
   final double price;
   final String time_period;
-  final List foodNames, foodCounts;
+  final List foodNames, foodCounts , foodImage;
 
   FoodHistoryItem({
+    this.image,
     this.name,
     this.requestId,
     this.time_period,
@@ -15,18 +16,19 @@ class FoodHistoryItem extends StatelessWidget {
     this.foodNames,
     this.counter,
     this.price,
+    this.foodImage
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       elevation: 2,
       child: ListTile(
         leading: Column(
           children: [
             Text(
-              name,
+              "",
               style: TextStyle(fontSize: 13),
             ),
             SizedBox(height: 5,),
@@ -39,14 +41,28 @@ class FoodHistoryItem extends StatelessWidget {
         ),
         title: ListView.builder(
           itemBuilder: (context, index) {
-            return Text(
-              foodNames[index] + ' ' + foodCounts[index].toString() + ' عدد',
-              textDirection: TextDirection.rtl,
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  foodNames[index] + ' ' + foodCounts[index].toString() + ' عدد',
+                  textDirection: TextDirection.rtl,
+                ),
+                  FadeInImage(
+            fit: BoxFit.fill,
+            width: 50,
+            height: 50,
+            image: NetworkImage(
+            "http://danibazi9.pythonanywhere.com/${foodImage[index]}"),
+            placeholder: AssetImage('assets/joojeh.png'),
+            )
+              ],
             );
           },
           itemCount: counter,
           shrinkWrap: true,
         ),
+
       ),
     );
   }

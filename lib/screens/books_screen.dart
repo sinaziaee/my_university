@@ -147,68 +147,6 @@ class _BooksScreenState extends State<BooksScreen> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
 
-
-
-          // appBar: PreferredSize(
-          //     child: SafeArea(
-          //       child: Container(
-          //         child: Stack(
-          //           children: <Widget>[
-          //             Positioned(
-          //               top: 10,
-          //               right: 15,
-          //               left: 15,
-          //               child: Container(
-          //                 decoration: BoxDecoration(
-          //                     color: Colors.grey[200],
-          //                     borderRadius: BorderRadius.circular(20)),
-
-                          // child: Row(
-                          //   children: <Widget>[
-                          //     Expanded(
-                          //       child: TextField(
-                          //         onChanged: (val) {
-                          //           search = val;
-                          //           onChanged();
-                          //         },
-                          //         controller: controller,
-                          //         cursorColor: Colors.black,
-                          //         keyboardType: TextInputType.text,
-                          //         textInputAction: TextInputAction.search,
-                          //         textDirection: TextDirection.rtl,
-                          //         decoration: InputDecoration(
-                          //             border: InputBorder.none,
-                          //             contentPadding:
-                          //                 EdgeInsets.symmetric(horizontal: 15),
-                          //             hintText: "Search..."),
-                          //       ),
-                          //     ),
-                          //     Material(
-                          //       type: MaterialType.transparency,
-                          //       shape: CircleBorder(),
-                          //       child: IconButton(
-                          //         splashColor: Colors.grey,
-                          //         icon: Icon(
-                          //           FontAwesomeIcons.filter,
-                          //           color: kPrimaryColor,
-                          //           size: 20,
-                          //         ),
-                          //         onPressed: () {
-                          //           // Scaffold.of(context).openDrawer();
-                          //           _navigateToFilterScreen(context);
-                          //         },
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //     preferredSize: Size.fromHeight(80)),
-
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
