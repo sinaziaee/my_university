@@ -23,7 +23,8 @@ class Home extends StatelessWidget {
               color: Colors.red[900],
               borderRadius:
               BorderRadius.only(bottomLeft: Radius.circular(60),
-              ),),
+              ),
+            ),
 
             child: Column(
               children: [
@@ -45,7 +46,7 @@ class Home extends StatelessWidget {
                       ),
                       Container(
                         alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.13,
                         padding: EdgeInsets.all(3
                         ),
                         decoration: BoxDecoration(

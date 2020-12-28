@@ -278,9 +278,24 @@ class _BooksScreenState extends State<BooksScreen> {
                                             }
                                             if (count == 0) {
                                               return Container(
-                                                child: Center(
-                                                  child:
-                                                      Text('کتابی برای فروش موجود نیست'),
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.fromLTRB(120,100,120,20),
+                                                      child: Image(
+                                                          image: AssetImage("assets/images/book2.png")
+                                                      ),
+                                                    ),
+                                                    Center(
+                                                      child:
+                                                          Text('کتابی برای فروش موجود نیست',
+                                                            style: TextStyle(
+                                                                fontWeight: FontWeight.w700,
+                                                                fontSize: 17
+                                                            ),
+                                                          ),
+                                                    ),
+                                                  ],
                                                 ),
                                               );
                                             }

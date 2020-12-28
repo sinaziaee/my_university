@@ -27,10 +27,14 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     args = ModalRoute.of(context).settings.arguments;
     token = args['token'];
-    token = 'Token d402c93776246eee11a88d25b322b6ae88d4d7e1';
+    // token = 'Token d402c93776246eee11a88d25b322b6ae88d4d7e1';
     return Scaffold(
+      backgroundColor: Color(0xfffff8ee),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
@@ -77,23 +81,65 @@ class _EventsScreenState extends State<EventsScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      appBar: AppBar(
-        // leading: IconButton(
-        //     icon: Icon(Icons.history),
-        //     onPressed: () {
-        //       // Navigator.pushNamed(context, EventsHistoryScreen.id);
-        //     }),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.purple.shade300,
-        title: Text(isParticipating?'رویداد های موجود':'رویداد های ثبت نام شده'),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.chevron_right),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-        ],
+      appBar:
+      PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: Container(
+          height: height * 0.6,
+          width: width,
+          decoration: BoxDecoration(
+            color: Colors.purple.shade300,
+            borderRadius:
+            BorderRadius.only(
+                bottomLeft: Radius.circular(60),
+                bottomRight: Radius.circular(60)
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top:30 ),
+                  child: Text(
+                    isParticipating?'رویداد های موجود':'رویداد های ثبت نام شده',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Nunito',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top:30, left: 10),
+                child: Icon(Icons.add_shopping_cart, color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
+
+      // AppBar(
+      //   // leading: IconButton(
+      //   //     icon: Icon(Icons.history),
+      //   //     onPressed: () {
+      //   //       // Navigator.pushNamed(context, EventsHistoryScreen.id);
+      //   //     }),
+      //   automaticallyImplyLeading: false,
+      //   backgroundColor: Colors.purple.shade300,
+      //   title: Text(isParticipating?'رویداد های موجود':'رویداد های ثبت نام شده'),
+      //   actions: [
+      //     IconButton(
+      //         icon: Icon(Icons.chevron_right),
+      //         onPressed: () {
+      //           Navigator.pop(context);
+      //         }),
+      //   ],
+      // ),
+
       body: eventList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -166,6 +212,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         return eventBuilder(
                           '$baseUrl${mapList[index]['image']}',
                           mapList[index]['name'],
+                          mapList[index]['cost'],
                           mapList[index]['remaining_capacity'],
                           mapList[index]['event_id'],
                           (mapList[index]['image'] == null) ? false : true,
@@ -192,25 +239,47 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  Widget eventBuilder(String imageUrl, String eventName, int remainingCapacity,
+  Widget eventBuilder(String imageUrl, String eventName,int cost, int remainingCapacity,
       int eventId, bool imageIsAvailable) {
-    return Card(
-      elevation: 3,
+    return
+      Card(
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.white70, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
       child: ListTile(
         onTap: () {
-          _navigateToEventDetailScreen(eventId, token);
+          _navigateToEventDetailScreen(eventId, token , isParticipating);
         },
         leading: (imageIsAvailable)
-            ? FadeInImage(
+            ? Container(
+              decoration: BoxDecoration(
+              borderRadius:
+              BorderRadius.all(Radius.circular(16.0))),
+              child: FadeInImage(
           placeholder: AssetImage('assets/images/not_found.png'),
           image: NetworkImage(imageUrl),
-        )
-            : Image(
+        ),
+            )
+            : Container(
+          decoration: BoxDecoration(
+              borderRadius:
+              BorderRadius.all(Radius.circular(16.0))),
+              child: Image(
           image: AssetImage('assets/images/not_found.png'),
         ),
+            ),
         title: Text(eventName),
-        subtitle: Text(remainingCapacity.toString()),
+        subtitle: Column(
+          children: [
+            Text("${remainingCapacity.toString()} تعداد بلیط باقی مانده"),
+            // Text("${cost.toString()} : قیمت "),
+
+          ],
+        ),
         trailing: FlatButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -226,6 +295,8 @@ class _EventsScreenState extends State<EventsScreen> {
         ),
       ),
     );
+
+
   }
 
   participate(int eventId) async {
@@ -265,10 +336,11 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  _navigateToEventDetailScreen(int eventId, String token) {
+  _navigateToEventDetailScreen(int eventId, String token , isp) {
     Navigator.pushNamed(context, EventDetailsScreen.id, arguments: {
       'event_id': eventId,
       'token': token,
+      'isp' : isp
     });
   }
 

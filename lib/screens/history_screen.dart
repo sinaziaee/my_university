@@ -173,9 +173,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   }
                                   if (pendingCount == 0) {
                                     return Center(
-                                      child: Text(
-                                        'کتاب رزروی وجود ندارد.',
-                                        textDirection: TextDirection.rtl,
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(120,0,120,20),
+                                            child: Image(
+                                                image: AssetImage("assets/images/nobook.png")
+                                            ),
+                                          ),
+                                          Text(
+                                            'کتاب رزروی وجود ندارد!',
+                                            textDirection: TextDirection.rtl,
+                                          ),
+                                        ],
                                       ),
                                     );
                                   }
@@ -257,9 +267,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         }
                                         if (tradeCount == 0) {
                                           return Center(
-                                            child: Text(
-                                              'کتابی تا کنون مبادله نشده است',
-                                              style: TextStyle(color: Colors.black),
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.fromLTRB(100,0,100,20),
+                                                  child: Image(
+                                                      image: AssetImage("assets/images/nobooks.png")
+                                                  ),
+                                                ),
+
+                                                Text(
+                                                  'کتابی تا کنون مبادله نشده است',
+                                                  style: TextStyle(color: Colors.black),
+                                                ),
+                                              ],
                                             ),
                                           );
                                         }
