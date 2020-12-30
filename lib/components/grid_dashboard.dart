@@ -19,7 +19,10 @@ class GridDashboard extends StatelessWidget {
   final String username, token, firstName, lastName;
   final int user_id;
 
+
   GridDashboard(this.context, this.user_id, this.token, this.username, this.firstName, this.lastName);
+
+   bool c ;
 
   Items item1 = new Items(
     title: "خفت کتاب",
@@ -56,6 +59,7 @@ class GridDashboard extends StatelessWidget {
     subtitle: "",
     img: "assets/images/shut_down.png",
     // dest: showlogoutDialog()
+    b:  true,
   );
 
   @override
@@ -72,6 +76,10 @@ class GridDashboard extends StatelessWidget {
           children: myList.map((data) {
             return InkWell(
               onTap: (){
+                if(data.b == true){
+                  showlogoutDialog();
+                }
+
                 print('user_id : $user_id');
                 Navigator.pushNamed(context, data.dest, arguments: {
                   'token': token,
@@ -128,7 +136,7 @@ class GridDashboard extends StatelessWidget {
 
 
 
-  dynamic showlogoutDialog(){
+   showlogoutDialog(){
     showDialog(
       context: context,
       child: AlertDialog(
@@ -278,11 +286,13 @@ class Items {
   String subtitle;
   String img;
   String dest;
+  bool b = false ;
 
   Items({
     this.title,
     this.subtitle,
     this.img,
     this.dest,
+    this.b
   });
 }
