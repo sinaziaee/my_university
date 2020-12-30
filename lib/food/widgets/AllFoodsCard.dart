@@ -53,7 +53,7 @@ class AllFoodsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(" \ تومان $price", style: kSubtitleStyle),
+                  Text(" \ ریال $price", style: kSubtitleStyle),
                 ],
               ),
             )

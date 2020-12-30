@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:jalali_calendar/jalali_calendar.dart';
 import 'package:my_university/food/index.dart';
 import 'package:my_university/food/widgets/timeCard.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../../screens/chat_rooms_screen.dart';
 import '../../screens/chat_rooms_screen.dart';
+import 'package:persian_date/persian_date.dart';
 
 class TimeScreen extends StatefulWidget {
   static String id = 'time_screen';
@@ -20,8 +23,47 @@ class TimeScreen extends StatefulWidget {
 
 class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
 
-
   DateTime selectedDate = DateTime.now();
+  PersianDate persianDate = PersianDate(format: "yyyy/mm/dd  \n DD  , d  MM  ");
+  String _datetime = '';
+  String _format = 'yyyy-mm-dd';
+
+  get colorList => [Colors.red , Colors.green];
+  ////////////////////////////
+
+  showCalendarDialog()async{
+    final bool showTitleActions = false;
+    DatePicker.showDatePicker(context,
+        minYear: 1300,
+        maxYear: 1450,
+        confirm: Text(
+          'تایید',
+          style: TextStyle(color: Colors.red),
+        ),
+        cancel: Text(
+          'لغو',
+          style: TextStyle(color: Colors.cyan),
+        ),
+        dateFormat: _format, onChanged: (year, month, day) {
+          if (!showTitleActions) {
+            _datetime = '$year-$month-$day';
+          }
+        }, onConfirm: (year, month, day) {
+          setState(() {});
+          Jalali j = Jalali(year, month, day);
+          selectedDate = j.toDateTime();
+          print('dateTime is: $selectedDate');
+          _datetime = '$year-$month-$day';
+          setState(() {
+            _datetime = '$year-$month-$day';
+            print('time' + _datetime);
+          });
+        });
+  }
+
+
+
+  // DateTime selectedDate = DateTime.now();
   String date = DateTime.now().toString().substring(0, 10);
 
   Future<String> getToken() async {
@@ -31,19 +73,93 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
     return prefs.getString('token');
   }
 
-  showCalendarDialog() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-        date = selectedDate.toString().substring(0, 10);
-        print(selectedDate);
-      });
+  // showCalendarDialog() async {
+  //   final DateTime picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: selectedDate,
+  //       firstDate: DateTime(2015, 8),
+  //       lastDate: DateTime(2101));
+  //   if (picked != null && picked != selectedDate)
+  //     setState(() {
+  //       selectedDate = picked;
+  //       date = selectedDate.toString().substring(0, 10);
+  //       print(selectedDate);
+  //     });
+  // }
+  //
+
+
+
+
+
+  void _showDatePicker() {
+    final bool showTitleActions = false;
+    DatePicker.showDatePicker(context,
+        minYear: 1300,
+        maxYear: 1450,
+        confirm: Text(
+          'تایید',
+          style: TextStyle(color: Colors.red),
+        ),
+        cancel: Text(
+          'لغو',
+          style: TextStyle(color: Colors.cyan),
+        ),
+        dateFormat: _format, onChanged: (year, month, day) {
+          if (!showTitleActions) {
+            _datetime = '$year-$month-$day';
+          }
+        }, onConfirm: (year, month, day) {
+          setState(() {});
+          Jalali j = Jalali(year, month, day);
+          selectedDate = j.toDateTime();
+          print('dateTime is: $selectedDate');
+          _datetime = '$year-$month-$day';
+          setState(() {
+            _datetime = '$year-$month-$day';
+            print('time' + _datetime);
+          });
+        });
   }
+
+
+  // DateTime selectedDate = DateTime.now();
+  // PersianDate persianDate = PersianDate(format: "yyyy/mm/dd  \n DD  , d  MM  ");
+  // String _datetime = '';
+  // String _format = 'yyyy-mm-dd';
+  //
+  // get colorList => [Colors.red , Colors.green];
+  ////////////////////////////
+
+  // showCalendarDialog()async{
+  //   final bool showTitleActions = false;
+  //   DatePicker.showDatePicker(context,
+  //       minYear: 1300,
+  //       maxYear: 1450,
+  //       confirm: Text(
+  //         'تایید',
+  //         style: TextStyle(color: Colors.red),
+  //       ),
+  //       cancel: Text(
+  //         'لغو',
+  //         style: TextStyle(color: Colors.cyan),
+  //       ),
+  //       dateFormat: _format, onChanged: (year, month, day) {
+  //         if (!showTitleActions) {
+  //           _datetime = '$year-$month-$day';
+  //         }
+  //       }, onConfirm: (year, month, day) {
+  //         setState(() {});
+  //         Jalali j = Jalali(year, month, day);
+  //         selectedDate = j.toDateTime();
+  //         print('dateTime is: $selectedDate');
+  //         _datetime = '$year-$month-$day';
+  //         setState(() {
+  //           _datetime = '$year-$month-$day';
+  //           print('time' + _datetime);
+  //         });
+  //       });
+  // }
 
   int pendingCount = 0;
   var ServeTimeUrl =
@@ -60,6 +176,9 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
     _SetData();
     getToken();
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {

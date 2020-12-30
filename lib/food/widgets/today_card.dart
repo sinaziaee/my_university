@@ -71,7 +71,7 @@ class TodayCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(" \ تومان ${price}", style: kSubtitleStyle),
+                  Text(" \ ریال ${price}", style: kSubtitleStyle),
                   // Text("00", style: kSubtitle2Style),
                 ],
               ),

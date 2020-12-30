@@ -28,7 +28,7 @@ class ReadingListCard extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.only(left: 24, bottom: 40),
+        margin: EdgeInsets.only(left: 24, bottom: 40 , right: 24),
         height: 220,
         width: 180,
         child: Stack(

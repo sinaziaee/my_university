@@ -53,7 +53,7 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 18.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               child: Center(
@@ -69,7 +69,7 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
             ),
             SizedBox(height: 25.0),
             Text(
-              name,
+              name,textAlign: TextAlign.right,
               style: kTitle1Style.copyWith(fontSize: 23.0),
             ),
             SizedBox(height: 25.0),
@@ -130,9 +130,12 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "\ تومان ${price}",
-                      style: kTitle1Style.copyWith(fontSize: 25.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "\ ریال ${price}",
+                        style: kTitle1Style.copyWith(fontSize: 25.0),
+                      ),
                     ),
                   ],
                 )
@@ -140,7 +143,7 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
             ),
             SizedBox(height: 25.0),
             Align(alignment: Alignment.topRight,
-                child: Container(child: Text(description, style: kDescriptionStyle))),
+                child: Container(child: Text(description, textAlign: TextAlign.right, style: kDescriptionStyle))),
           ],
         ),
       ),

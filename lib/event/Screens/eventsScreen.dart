@@ -114,7 +114,7 @@ class _EventsScreenState extends State<EventsScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(top:30, left: 10),
-                child: Icon(Icons.add_shopping_cart, color: Colors.white,
+                child: Icon(Icons.event_available, color: Colors.white,
                 ),
               ),
             ],

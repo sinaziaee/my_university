@@ -128,15 +128,15 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                               ? tempHeight
                               : infoHeight),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 32.0, left: 18, right: 16),
+                                top: 50.0, left: 18, right: 16),
                             child: Text(
                               name,
-                              textAlign: TextAlign.left,
+                              textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
@@ -206,13 +206,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, top: 8, bottom: 8),
                               child: Text(
-                                'Lorem ipsum is simply dummy text of printing & typesetting industry, Lorem ipsum is simply dummy text of printing & typesetting industry.',
-                                textAlign: TextAlign.justify,
+                                "$description جزئیات رویداد : ",
+                                textAlign: TextAlign.right,
+                                textDirection: TextDirection.rtl,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w200,
-                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 22,
                                   letterSpacing: 0.27,
-                                  color: Color(0xFF3A5160),
+                                  color: Color(0xFF17262A),
                                 ),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,

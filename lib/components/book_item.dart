@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -28,14 +29,15 @@ class BookItem extends StatelessWidget {
         height: 150,
         margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
         child: Card(
+          elevation: 30,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(20)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                    left: 10, right: 10, top: 5, bottom: 5),
+                    left: 30, right: 10, top: 5, bottom: 5),
                 child: Banner(
                   color: Colors.purple.shade300,
                   message: cost,
@@ -50,7 +52,7 @@ class BookItem extends StatelessWidget {
                     // ),
 
                     clipBehavior: Clip.hardEdge,
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                     child: FadeInImage(
                       width: 100,
                       height: 120,
@@ -63,13 +65,13 @@ class BookItem extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 10, right: 20),
+                  padding: EdgeInsets.only(left: 10, right: 30 ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(name),
-                      Text(author),
+                      Text(name , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),),
+                      Text("نویسنده : $author"),
                       Text(publisher),
                       Text(timeStamp),
                     ],

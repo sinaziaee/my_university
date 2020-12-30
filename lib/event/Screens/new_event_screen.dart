@@ -281,7 +281,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           ),
 
                                           height: 40,
-                                          width: 100,
+                                          width: 200,
                                           child: TextField(
                                             textDirection: ui.TextDirection.rtl,
                                             controller: nameController,
@@ -294,7 +294,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           ),
                                         ),
                                         Text(
-                                          'نام رویداد    ',
+                                          'نام رویداد  :  ',
                                           textDirection: ui.TextDirection.rtl,
                                           style: TextStyle(
                                               color: kPrimaryColor,
@@ -344,7 +344,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           ),
                                         ),
                                         Text(
-                                          'محل برگزاری    ',
+                                          'محل برگزاری  :  ',
                                           textDirection: ui.TextDirection.rtl,
                                           style: TextStyle(
                                               color: kPrimaryColor,
@@ -369,7 +369,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                   Padding(
                                     padding: EdgeInsets.only(right: 30),
                                     child: Text(
-                                      'عکس رویداد',
+                                      ' : عکس رویداد',
                                       style: TextStyle(
                                           color: kPrimaryColor,
                                           fontSize: 20,
@@ -597,7 +597,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                   Padding(
                                     padding: EdgeInsets.only(right: 30),
                                     child: Text(
-                                      'توضیحات',
+                                      ' : توضیحات',
                                       style: TextStyle(
                                           color: kPrimaryColor,
                                           fontSize: 20,
@@ -846,7 +846,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           ),
                                         ),
                                         Text(
-                                          'نوع برگزاری',
+                                          ' : نوع برگزاری',
                                           //textDirection: TextDirection.rtl,
                                           style: TextStyle(
                                               color: kPrimaryColor,

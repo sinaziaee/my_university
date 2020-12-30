@@ -81,7 +81,8 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
         Container(
           margin: EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Expanded(
                 child: Center(
@@ -99,77 +100,21 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
               SizedBox(height: 25.0),
               Text(
                 "$name",
-                style: kFoodStyle.copyWith(fontSize: 23.0),
+                textAlign: TextAlign.right,
+                style:
+                kFoodStyle.copyWith(fontSize: 23.0 ,),
               ),
               SizedBox(height: 25.0),
-              Row(
-                children: [
-                  Row(
-                    children: [
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     setState(() {
-                      //       if(counter>1){
-                      //         counter--;
-                      //       }
-                      //     });
-                      //   },
-                      //   child: Container(
-                      //     width: 40.0,
-                      //     height: 40.0,
-                      //     decoration: BoxDecoration(
-                      //       shape: BoxShape.circle,
-                      //       border: Border.all(color: kGreyColor),
-                      //     ),
-                      //     child: Icon(
-                      //       Icons.remove,
-                      //       color: kOrangeColor,
-                      //     ),
-                      //   ),
-                      // ),
-                      // SizedBox(width: 15.0),
-                      // Text(
-                      //   counter.toString(),
-                      //   style: kTitle1Style,
-                      // ),
-                      // SizedBox(width: 15.0),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     setState(() {
-                      //       counter++;
-                      //     });
-                      //   },
-                      //   child: Container(
-                      //     width: 40.0,
-                      //     height: 40.0,
-                      //     decoration: BoxDecoration(
-                      //       shape: BoxShape.circle,
-                      //       border: Border.all(color: kOrangeColor),
-                      //     ),
-                      //     child: Icon(
-                      //       Icons.add,
-                      //       color: kOrangeColor,
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                  Spacer(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        " تومان ${price}",
-                        style: kFoodStyle.copyWith(fontSize: 25.0),
-                      ),
-                      Text(
-                        " تعداد باقی مانده برای رزرو : $remain ",
-                        style: kFoodStyle.copyWith(fontSize: 20.0),
-                      ),
-                    ],
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  " ریال  ${price}     ",
+                  style: kFoodStyle.copyWith(fontSize: 25.0),
+                ),
+              ),
+              Text(
+                "تعداد باقی مانده برای رزرو : $remain",
+                style: kFoodStyle.copyWith(fontSize: 20.0),
               ),
               // SizedBox(height: 25.0),
               // Text(
@@ -177,7 +122,7 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
               //   style: kSubtitleStyle.copyWith(color: kOrangeColor),
               // ),
               SizedBox(height: 25.0),
-              Text(description, style: kFoodStyle),
+              Text(description , textAlign: TextAlign.right, style: kFoodStyle),
               SizedBox(height: 25.0),
 
             ],

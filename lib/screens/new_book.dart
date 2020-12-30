@@ -600,6 +600,10 @@ class _NewBookState extends State<NewBook> {
                                     ),
                                     Text(
                                       'قیمت :   ',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                      ),
                                       textDirection: TextDirection.rtl,
                                     ),
                                   ],

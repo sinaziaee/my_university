@@ -41,6 +41,9 @@ dependencies:
   bottom_navy_bar: ^5.4.0
   intl: ^0.16.1
   flutter_picker: ^1.1.5
+  persian_fonts: ^1.0.2
+  jalali_calendar: ^1.0.3+1
+  shamsi_date: ^0.9.1
 
 
 

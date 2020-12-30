@@ -33,7 +33,7 @@ class Home extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top:50 ),
+                        padding: const EdgeInsets.only(top:50  , bottom: 20),
                         child: Text(
                           'سلف آزاد دانشگاه علم و صنعت ایران',
                           style: TextStyle(
@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
                       ),
                       Container(
                         alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * 0.13,
+                        height: MediaQuery.of(context).size.height * 0.1,
                         padding: EdgeInsets.all(3
                         ),
                         decoration: BoxDecoration(
@@ -54,7 +54,7 @@ class Home extends StatelessWidget {
                           color:Color(0xfffff8ee),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(70),
+                          borderRadius: BorderRadius.circular(50),
                           child: Image.asset(
                             "assets/images/redlogo.png",
                             fit: BoxFit.cover,

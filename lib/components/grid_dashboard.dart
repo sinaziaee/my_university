@@ -1,9 +1,18 @@
+import 'dart:io';
+
 import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:persian_fonts/persian_fonts.dart';
+
+import 'package:my_university/screens/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../constants.dart';
+import 'dart:convert' as convert;
 
 class GridDashboard extends StatelessWidget {
   final BuildContext context;
@@ -27,25 +36,26 @@ class GridDashboard extends StatelessWidget {
   );
   Items item3 = new Items(
     title: "ثبت نام در رویداد ها",
-    subtitle: "",
+    subtitle: "ایونت های دانشگاه",
     img: "assets/images/map.png",
     dest: EventsScreen.id,
   );
   Items item4 = new Items(
-    title: "اخبار دانشگاه",
-    subtitle: "اطلاع از آخرین قوانین ",
+    title: "اطلاعات اساتید",
+    subtitle: "آشنایی با اساتید",
     img: "assets/images/elmos.png",
   );
   Items item5 = new Items(
     title: "گفتگو ها",
-    subtitle: "گروه برنامه نویسی دولاور",
+    subtitle: "چت های من",
     img: "assets/images/logo.png",
     dest: ChatRoomsScreen.id,
   );
   Items item6 = new Items(
-    title: "سوالات متداول",
+    title: "خروج از برنامه",
     subtitle: "",
-    img: "assets/images/setting.png",
+    img: "assets/images/shut_down.png",
+    // dest: showlogoutDialog()
   );
 
   @override
@@ -85,23 +95,26 @@ class GridDashboard extends StatelessWidget {
                     ),
                     Text(
                       data.title,
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                      style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.w600)),
+                              fontWeight: FontWeight.w600),
                     ),
+
                     SizedBox(
                       height: 8,
                     ),
                     Text(
                       data.subtitle,
-                      style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: Colors.white38,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600)),
-                    ),
+                        style: PersianFonts.Samim.copyWith(
+                          fontSize: 10.0, color: Colors.white
+                        )),
+                    //   style: GoogleFonts.openSans(
+                    //       textStyle: TextStyle(
+                    //           color: Colors.white38,
+                    //           fontSize: 10,
+                    //           fontWeight: FontWeight.w600)),
+                    // ),
                     SizedBox(
                       height: 14,
                     ),
@@ -112,6 +125,152 @@ class GridDashboard extends StatelessWidget {
           }).toList()),
     );
   }
+
+
+
+  dynamic showlogoutDialog(){
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'خارج می شوید؟ ',
+                        textDirection:
+                        TextDirection.rtl,
+                        style: TextStyle(
+                            fontFamily: 'Lemonada',
+                            color: kPrimaryColor ,
+                            fontSize: 17
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 0.5,
+              width: double.infinity,
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    logoutApp();
+                  },
+                  child: Padding(
+                    padding:
+                    EdgeInsets.only(right: 10),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'بلی',
+                          textDirection:
+                          TextDirection.rtl,
+                          style: TextStyle(
+                              fontFamily: 'Lemonada',
+                              color: kPrimaryColor ,
+                              fontSize: 12
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    //selectFromGallery();
+                  },
+                  child: Padding(
+                    padding:
+                    EdgeInsets.only(right: 10),
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'خیر',
+                          textDirection:
+                          TextDirection.rtl,
+                          style: TextStyle(
+                              fontFamily: 'Lemonada',
+                              color: kPrimaryColor ,
+                              fontSize: 12
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
+
+          ],
+        ),
+      ),
+    );
+  }
+
+  void logoutApp() async{
+
+    http.Response response;
+    response = await http.post(
+      "http://danibazi9.pythonanywhere.com/api/account/logout",
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+    );
+    print(response.statusCode);
+    print(token);
+
+    if(response.statusCode == 200){
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.clear();
+      Navigator.popAndPushNamed(context, LoginScreen.id);
+    }
+
+    else{
+
+    }
+
+
+  }
+
+
+
 }
 
 class Items {

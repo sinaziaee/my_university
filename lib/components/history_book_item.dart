@@ -31,17 +31,17 @@ class MyBookItem extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(38.5),
-          child: Container(
+          borderRadius: BorderRadius.circular(40),
+          child: Card(
             color: Colors.white,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 30, right: 20),
+                  padding: EdgeInsets.only(left: 30, right: 20 , top: 15),
                   child: Row(
                     children: <Widget>[
                       Expanded(

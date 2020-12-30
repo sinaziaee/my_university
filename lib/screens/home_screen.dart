@@ -52,11 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: <Widget>[
               SizedBox(
-                height: size.height /7,
+                height: size.height /9,
               ),
               Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: Row(
+                  
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
@@ -83,24 +84,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    IconButton(
-                      alignment: Alignment.topCenter,
-                      icon: Image.asset(
-                        "assets/images/shut_down.png",
-                        color: Colors.black,
-                        width: size.width * 0.1,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          showlogoutDialog()();
-                        });
-                      },
-                    )
+                    // IconButton(
+                    //   alignment: Alignment.topCenter,
+                    //   icon: Image.asset(
+                    //     "assets/images/shut_down.png",
+                    //     color: Colors.black,
+                    //     width: size.width * 0.1,
+                    //   ),
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       showlogoutDialog()();
+                    //     });
+                    //   },
+                    // )
                   ],
                 ),
               ),
               SizedBox(
-                height: size.height * 0.05,
+                height: size.height * 0.001,
               ),
 
               GridDashboard(context, userId, token, username, firstName, lastName),

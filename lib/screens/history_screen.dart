@@ -131,21 +131,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         ),
 
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(10,20,10,10),
-                              child: RichText(
-                                text: TextSpan(
-                                  style: Theme.of(context).textTheme.display1,
-                                  children: [
-                                    TextSpan(
-                                      text: "کتاب های رزرو شده ",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 24 ,vertical: 15),
+                              child: Text(
+                                  "کتاب های رزرو شده",
+                                  style:
+                                  TextStyle(color: Colors.black ,fontSize: 20 ,
+                                      fontWeight: FontWeight.bold)
+                              )
                             ),
                             SizedBox(height: 30),
                             FutureBuilder(
@@ -222,21 +217,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               },
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24),
+                              padding: EdgeInsets.symmetric(horizontal: 24 ,vertical: 15),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      style: Theme.of(context).textTheme.display1,
-                                      children: [
-                                        TextSpan(
-                                            text: "کتاب های معامله شده",
-                                            style:
-                                            TextStyle(color: Colors.black)),
-                                      ],
-                                    ),
-                                  ),
+                                  Text(
+                                       "کتاب های معامله شده",
+                                      style:
+                                      TextStyle(color: Colors.black ,fontSize: 20 ,
+                                      fontWeight: FontWeight.bold)
+                                  )    ,
+
+
+
+
+
                                   SizedBox(height: 20),
                                   FutureBuilder(
                                     future: http.get(
@@ -270,9 +265,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                             child: Column(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.fromLTRB(100,0,100,20),
+                                                  padding: const EdgeInsets.fromLTRB(150,0,150,20),
                                                   child: Image(
-                                                      image: AssetImage("assets/images/nobooks.png")
+                                                      image: AssetImage("assets/images/book2.png")
                                                   ),
                                                 ),
 

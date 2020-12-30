@@ -90,7 +90,7 @@ class _DemandBookScreenState extends State<DemandBookScreen> {
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.8 ,
+                          height: MediaQuery.of(context).size.height * 0.9 ,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             color: Color(0xfffff8ee),
@@ -103,7 +103,7 @@ class _DemandBookScreenState extends State<DemandBookScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(15.0),
+                                padding: const EdgeInsets.symmetric(vertical: 25 , horizontal: 20),
                                 child: FutureBuilder(
                                   future: http.get(
                                     url,

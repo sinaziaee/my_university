@@ -91,10 +91,10 @@ class ProductDisplay extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 10,
+          height: 15,
         ),
         Text(
-           "${product.price} تومان ",
+           "${product.price} ریال  ",
     style: TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w700,

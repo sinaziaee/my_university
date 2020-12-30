@@ -79,7 +79,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'متن جستجو شده',
+                    ' : متن جستجو شده',
                     style: TextStyle(color: Colors.grey[600]),
                   ),
                   Container(
@@ -101,7 +101,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     ),
                   ),
                   Text(
-                    'انتخاب دسته بندی',
+                    ' : انتخاب دسته بندی',
                     style: TextStyle(color: Colors.grey[600]),
                   ),
                   SizedBox(
@@ -171,7 +171,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     child: ListTile(
-                      trailing: Text('حداقل قیمت  '),
+                      trailing: Text('حداقل قیمت :' , textDirection: TextDirection.rtl,),
                       title: Container(
                         height: 40,
                         child: TextField(
@@ -194,7 +194,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     child: ListTile(
-                      trailing: Text('حداکثر قیمت  '),
+                      trailing: Text('حداکثر قیمت :' , textDirection: TextDirection.rtl),
                       title: Container(
                         height: 40,
                         child: TextField(
