@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import '../constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -63,7 +64,9 @@ class _FilterScreenState extends State<FilterScreen> {
         ],
         title: Text(
           'اعمال فیلتر',
-          style: TextStyle(color: kPrimaryColor),
+          style: PersianFonts.Shabnam.copyWith(color: kPrimaryColor)
+          // TextStyle(color: kPrimaryColor),
+
         ),
         elevation: 1,
         backgroundColor: Color(0xfffff8ee),

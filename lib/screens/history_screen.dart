@@ -188,6 +188,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   return Container(
                                     height: 250,
                                     child: ListView.builder(
+                                      reverse: true,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       itemCount: pendingCount,
@@ -265,7 +266,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                             child: Column(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.fromLTRB(150,0,150,20),
+                                                  padding: const EdgeInsets.fromLTRB(100,0,100,20),
                                                   child: Image(
                                                       image: AssetImage("assets/images/book2.png")
                                                   ),

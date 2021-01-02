@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_university/food/screens/delivery_tab.dart';
 
+import '../../constants.dart';
+
 class OrderCard extends StatelessWidget{
 
   final String name, picture;
@@ -38,7 +40,7 @@ class OrderCard extends StatelessWidget{
                         child: Icon(Icons.add_circle,
                             color: Colors.red[900])),
                     Text(
-                      number.toString(),
+                      replaceFarsiNumber(number.toString()),
                       style: TextStyle(fontSize: 18.0, color : Colors.red[900]),
                     ),
                     InkWell(
@@ -81,7 +83,7 @@ class OrderCard extends StatelessWidget{
                   ),
                   SizedBox(height: 5.0),
                   Text(
-                    price.toString(),
+                    replaceFarsiNumber(price.toString()),
                     style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black,
@@ -96,7 +98,7 @@ class OrderCard extends StatelessWidget{
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Text("تومان",
+                            Text("ریال",
                                 style: TextStyle(
                                     color: Color(0xFFD3D3D3),
                                     fontWeight: FontWeight.bold)),

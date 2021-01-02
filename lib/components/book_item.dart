@@ -37,10 +37,11 @@ class BookItem extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                    left: 30, right: 10, top: 5, bottom: 5),
+                    left: 30, right: 10, top: 10, bottom: 10),
                 child: Banner(
+                  textStyle : TextStyle(fontSize: 18),
                   color: Colors.purple.shade300,
-                  message: cost,
+                  message: replaceFarsiNumber(cost.toString()),
                   location: BannerLocation.bottomEnd,
                   child: ClipRRect(
                     // decoration: BoxDecoration(
@@ -52,7 +53,7 @@ class BookItem extends StatelessWidget {
                     // ),
 
                     clipBehavior: Clip.hardEdge,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     child: FadeInImage(
                       width: 100,
                       height: 120,
@@ -65,15 +66,16 @@ class BookItem extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 10, right: 30 ),
+                  padding: EdgeInsets.only(left: 10, right: 30  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(name , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),),
-                      Text("نویسنده : $author"),
-                      Text(publisher),
-                      Text(timeStamp),
+                      SizedBox(height: 10,),
+                      Text("نویسنده: $author" , textAlign: TextAlign.right),
+                      Text("دانشکده: $publisher" , textAlign: TextAlign.right,),
+                      // Text(timeStamp),
                     ],
                   ),
                 ),

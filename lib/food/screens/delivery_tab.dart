@@ -11,6 +11,7 @@ import 'package:my_university/food/widgets/today_card.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:my_university/screens/trade_screen.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
@@ -46,6 +47,7 @@ class DeliveryTab extends StatelessWidget {
     String start = args["start"];
     String end = args["end"];
     String date = args["date"];
+    print("----");
     print(date);
 
 
@@ -93,14 +95,14 @@ class DeliveryTab extends StatelessWidget {
                 },
 
                 child: Container(
-                  margin: EdgeInsets.only(left: 18.0 , top: 15),
+                  margin: EdgeInsets.only(left: 18.0 , top: 15 , right: 10),
                   child: SingleChildScrollView(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          "لیست غذاهای امروز",
-                          style: kTitle1Style.copyWith(fontSize: 22.0),
+                          "لیست غذاهای امروز", textAlign: TextAlign.right,
+                          style: PersianFonts.Shabnam.copyWith(fontSize: 22.0 , fontWeight: FontWeight.bold),
                         ),
 
                         FutureBuilder(
@@ -120,9 +122,15 @@ class DeliveryTab extends StatelessWidget {
                                   convert.utf8.decode(response.bodyBytes));
 
                               pendingCount = 0;
+                              print("=========");
                               print("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date");
 
                               DateTime dateTime = DateTime.now();
+                              String dateLocal = dateTime.toString().substring(0, 10);
+                              print("dateLocal $dateLocal");
+
+
+
                               String timeLocal =
                                   dateTime.toString().substring(11, 19);
                               String hour = timeLocal.substring(0, 2);
@@ -150,11 +158,11 @@ class DeliveryTab extends StatelessWidget {
                                 int ets = int.parse(Endserver);
 
                                 if (each['serve_id'] != null && each['remaining_count'] !=0) {
-                                  if (Local >= sts && Local <= ets) {
+                                  // if (Local >= sts && Local <= ets   ) {
                                     mapList.add(each);
                                     pendingCount++;
                                   }
-                                }
+                                // }
                               }
                               if (pendingCount == 0) {
                                 return Center(
@@ -179,10 +187,14 @@ class DeliveryTab extends StatelessWidget {
                               }
                               // return SizedBox();
                               return Container(
+                                alignment: Alignment.bottomRight,
                                 height: 250,
                                 child: ListView.builder(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
+                                  reverse: true,
+
+
                                   itemCount: pendingCount,
                                   itemBuilder: (context, index) {
                                     return TodayCard(
@@ -219,11 +231,11 @@ class DeliveryTab extends StatelessWidget {
                           height: 20,
                         ),
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.centerRight,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 18),
-                            child: Text("منوی رستوران (غیر قابل فروش)",
-                                style: kTitle1Style.copyWith(fontSize: 22.0)),
+                            padding: const EdgeInsets.only(left: 18 , bottom: 10),
+                            child: Text("منوی رستوران (غیر قابل فروش)", textAlign: TextAlign.right,
+                                style: PersianFonts.Shabnam.copyWith(fontSize: 22.0 , fontWeight: FontWeight.bold)),
                           ),
                         ),
                         FutureBuilder(

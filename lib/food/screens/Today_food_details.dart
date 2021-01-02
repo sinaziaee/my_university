@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import 'package:my_university/food/models/order.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/delivery_tab.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
@@ -102,19 +103,19 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
                 "$name",
                 textAlign: TextAlign.right,
                 style:
-                kFoodStyle.copyWith(fontSize: 23.0 ,),
+                PersianFonts.Shabnam.copyWith(fontSize: 23.0 , color: Colors.white),
               ),
               SizedBox(height: 25.0),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  " ریال  ${price}     ",
-                  style: kFoodStyle.copyWith(fontSize: 25.0),
+                  "    ${replaceFarsiNumber(price.toString())} ریال " , textDirection: TextDirection.rtl,
+                  style: PersianFonts.Shabnam.copyWith(fontSize: 25.0 , color: Colors.white),
                 ),
               ),
               Text(
-                "تعداد باقی مانده برای رزرو : $remain",
-                style: kFoodStyle.copyWith(fontSize: 20.0),
+                "تعداد باقی مانده برای رزرو : ${replaceFarsiNumber(remain.toString())}",
+                style: PersianFonts.Shabnam.copyWith(fontSize: 20.0 , color: Colors.white),
               ),
               // SizedBox(height: 25.0),
               // Text(
@@ -122,7 +123,7 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
               //   style: kSubtitleStyle.copyWith(color: kOrangeColor),
               // ),
               SizedBox(height: 25.0),
-              Text(description , textAlign: TextAlign.right, style: kFoodStyle),
+              Text(description , textAlign: TextAlign.right, style: PersianFonts.Shabnam.copyWith(fontSize: 20.0 , color: Colors.white),),
               SizedBox(height: 25.0),
 
             ],
@@ -164,7 +165,7 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
                 color: Colors.white,
                 child: Text(
                   "اضافه به سبد خرید",
-                  style: kTitle2Style.copyWith(color: Colors.red),
+                  style: PersianFonts.Shabnam.copyWith(fontSize: 20.0 , color: Colors.red),
                 ),
               ),
             )

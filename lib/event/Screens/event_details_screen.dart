@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:http/http.dart' as http;
+import 'package:persian_fonts/persian_fonts.dart';
 import 'dart:convert' as convert;
 import '../../constants.dart';
 
@@ -37,18 +39,21 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     eventId = args['event_id'];
     isParticipating = args['isp'];
 
-    eventId = 2;
+    // eventId = 2;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('جزئیات ایوند'),
+
+        title: Center(child: Text('جزئیات ایوند' ,
+          style: PersianFonts.Shabnam
+          , textAlign: TextAlign.center,)),
         backgroundColor: Colors.purple.shade300,
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(icon: Icon(Icons.chevron_right), onPressed: (){
-            Navigator.pop(context);
-          })
-        ],
+        // actions: [
+        //   IconButton(icon: Icon(Icons.chevron_right), onPressed: (){
+        //     Navigator.pop(context);
+        //   })
+        // ],
       ),
       body: FutureBuilder(
         future: http.get('$url/?event_id=$eventId', headers: {
@@ -70,7 +75,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             remainingCapacity = jsonResponse['remaining_capacity'];
             location = jsonResponse['location'];
             image = '$baseUrl${jsonResponse['image']}';
+
             return bodyContainer();
+
           }
           else {
             return Center(child: CircularProgressIndicator(),);
@@ -96,7 +103,15 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset('assets/images/webInterFace.png'),
+                  child: FadeInImage(
+                    fit: BoxFit.fill,
+                    image: (image != null)
+                        ? NetworkImage(
+                        "$image")
+                        : AssetImage('assets/images/webInterFace.png'),
+                    placeholder: AssetImage(
+                        "assets/images/webInterFace.png"),
+                  ),
                 ),
               ],
             ),
@@ -153,13 +168,15 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  ' تومان$cost',
-                                  textAlign: TextAlign.left,
+                                  ' هزینه ثبت نام : ${replaceFarsiNumber(cost.toString())} ریال  ',
+
+                                  textAlign: TextAlign.center,
+                                  textDirection: TextDirection.rtl,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 22,
                                     letterSpacing: 0.27,
-                                    color: Color(0xFF00B6F0),
+                                    color: Colors.purple,
                                   ),
                                 ),
                                 Container(
@@ -167,8 +184,31 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        "   تعداد بلیط باقی مانده ${remainingCapacity.toString()} ",
-                                        textAlign: TextAlign.left,
+                                        "شروع : ${replaceFarsiNumber(startTime.toString())} ",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 22,
+                                          letterSpacing: 0.27,
+                                          color: Color(0xFF3A5160),
+                                        ),
+                                      ),
+                                      // Icon(
+                                      //   Icons.star,
+                                      //   color: Colors.purple,
+                                      //   size: 24,
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        " پایان: ${replaceFarsiNumber(endTime.toString())} ",
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w200,
                                           fontSize: 22,
@@ -184,6 +224,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                     ],
                                   ),
                                 )
+
                               ],
                             ),
                           ),
@@ -205,18 +246,35 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, top: 8, bottom: 8),
-                              child: Text(
-                                "$description جزئیات رویداد : ",
-                                textAlign: TextAlign.right,
-                                textDirection: TextDirection.rtl,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 22,
-                                  letterSpacing: 0.27,
-                                  color: Color(0xFF17262A),
-                                ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    " جزئیات رویداد : " ,
+                                    textAlign: TextAlign.right,
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 22,
+                                      letterSpacing: 0.27,
+                                      color: Color(0xFF17262A),
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+
+                                  SizedBox(height: 10,),
+
+                                  Text(
+                                    "$description" ,
+                                    textAlign: TextAlign.right,
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      letterSpacing: 0.27,
+                                      color: Color(0xFF17262A),
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -250,36 +308,36 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                 // const SizedBox(
                                 //   width: 16,
                                 // ),
-                                Expanded(
-                                  child: Container(
-                                    height: 48,
-                                    decoration: BoxDecoration(
-                                      color: (isParticipating)?Colors.green:Colors.red,
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(16.0),
-                                      ),
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: (isParticipating)?Colors.green:Colors.red
-                                                .withOpacity(0.5),
-                                            offset: const Offset(1.1, 1.1),
-                                            blurRadius: 10.0),
-                                      ],
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        (isParticipating) ? 'ثبت نام' : 'لغو ثبت نام',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 18,
-                                          letterSpacing: 0.0,
-                                          color: Color(0xFFFFFFFF),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
+                                // Expanded(
+                                //   child: Container(
+                                //     height: 48,
+                                //     decoration: BoxDecoration(
+                                //       color: (isParticipating)?Colors.green:Colors.red,
+                                //       borderRadius: const BorderRadius.all(
+                                //         Radius.circular(16.0),
+                                //       ),
+                                //       boxShadow: <BoxShadow>[
+                                //         BoxShadow(
+                                //             color: (isParticipating)?Colors.green:Colors.red
+                                //                 .withOpacity(0.5),
+                                //             offset: const Offset(1.1, 1.1),
+                                //             blurRadius: 10.0),
+                                //       ],
+                                //     ),
+                                //     child: Center(
+                                //       child: Text(
+                                //         (isParticipating) ? 'ثبت نام' : 'لغو ثبت نام',
+                                //         textAlign: TextAlign.left,
+                                //         style: TextStyle(
+                                //           fontWeight: FontWeight.w600,
+                                //           fontSize: 18,
+                                //           letterSpacing: 0.0,
+                                //           color: Color(0xFFFFFFFF),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // )
                               ],
                             ),
                           ),

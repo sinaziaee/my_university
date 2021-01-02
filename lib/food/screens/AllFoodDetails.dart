@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:my_university/food/widgets/allfoods.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 import '../../constants.dart';
 
@@ -70,7 +71,7 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
             SizedBox(height: 25.0),
             Text(
               name,textAlign: TextAlign.right,
-              style: kTitle1Style.copyWith(fontSize: 23.0),
+              style: PersianFonts.Shabnam.copyWith(fontSize: 23.0),
             ),
             SizedBox(height: 25.0),
             Row(
@@ -101,7 +102,7 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
                     // SizedBox(width: 15.0),
                     Text(
                       "رستوران بسته است",
-                      style: kDescriptionStyle.copyWith(color: Colors.red),
+                      style: PersianFonts.Shabnam.copyWith(color: Colors.red),
                     ),
                     // SizedBox(width: 15.0),
                     // GestureDetector(
@@ -133,8 +134,8 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "\ ریال ${price}",
-                        style: kTitle1Style.copyWith(fontSize: 25.0),
+                        "${replaceFarsiNumber(price.toString())} ریال ", textDirection: TextDirection.rtl,
+                        style: PersianFonts.Shabnam.copyWith(fontSize: 25.0),
                       ),
                     ),
                   ],
@@ -143,7 +144,8 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
             ),
             SizedBox(height: 25.0),
             Align(alignment: Alignment.topRight,
-                child: Container(child: Text(description, textAlign: TextAlign.right, style: kDescriptionStyle))),
+                child: Container(child: Text(description, textAlign: TextAlign.right,
+                    style: PersianFonts.Shabnam))),
           ],
         ),
       ),
@@ -161,7 +163,7 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
                 color: kOrangeColor,
                 child: Text(
                   "لطفا در زمان رزرو خرید کنید",
-                  style: kTitle2Style.copyWith(color: Colors.white),
+                  style: PersianFonts.Shabnam.copyWith(color: Colors.white),
                 ),
               ),
             )

@@ -78,8 +78,8 @@ class _ProductPageState extends State<ProductPage> {
         _checkAccessibility();
       },
       child: Container(
-        height: 80,
-        width: width / 1.5,
+        height: 60,
+        width: width / 2,
         decoration: BoxDecoration(
             gradient: mainButton,
             boxShadow: [
@@ -262,7 +262,7 @@ class _ProductPageState extends State<ProductPage> {
                                         child: Text(
                                           text,
                                           style: TextStyle(
-                                              color: Colors.white, fontSize: 20),
+                                              color: Colors.white, fontSize: 16),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
+
 class FoodHistoryItem extends StatelessWidget {
   final String name , image;
   final int requestId, counter;
@@ -28,19 +30,20 @@ class FoodHistoryItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: ListTile(
           leading: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                price.toString().substring(0, price.toString().length-2) + ' ریال',
+                replaceFarsiNumber(price.toString().substring(0, price.toString().length-2)) + ' ریال',
                 style: TextStyle(fontSize: 15 , color: Colors.black),
                 textDirection: TextDirection.rtl,
               ),
               Text(
-                time_period.substring(0,10),
+                replaceFarsiNumber(time_period.substring(0,10)),
                 style: TextStyle(fontSize: 10),
               ),
               Text(
-                time_period.substring(11,16),
+                replaceFarsiNumber(time_period.substring(11,16)),
                 style: TextStyle(fontSize: 10),
               ),
 
@@ -56,9 +59,10 @@ class FoodHistoryItem extends StatelessWidget {
                     child: Text(
                       foodNames[index] + ' ' + foodCounts[index].toString() + ' عدد',
                       textDirection: TextDirection.rtl,
+                      style: TextStyle(fontSize: 15),
                     ),
                   ),
-                    SizedBox(width: 10,),
+                    // SizedBox(width: 10,),
                     FadeInImage(
               fit: BoxFit.fill,
               width: 50,

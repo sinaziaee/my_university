@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 import '../constants.dart';
 
@@ -84,16 +85,13 @@ class ReadingListCard extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text: "$title\n",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                                style: PersianFonts.Shabnam.copyWith()),
                               TextSpan(
                                 text: auth,
-                                style: TextStyle(
-                                  color: kLightBlackColor,
+                                  style: PersianFonts.Shabnam.copyWith(                                  color: kLightBlackColor,
+                                  )
                                 ),
-                              ),
+
                             ],
                           ),
                         ),

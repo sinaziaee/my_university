@@ -39,7 +39,6 @@ class Home extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Nunito',
                             color: Colors.white,
                           ),
                         ),

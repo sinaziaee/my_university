@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/painting.dart';
 import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
@@ -33,7 +34,7 @@ class GridDashboard extends StatelessWidget {
 
   Items item2 = new Items(
     title: "سامانه تغذیه",
-    subtitle: "رزرو اتوماتیک غذا",
+    subtitle: "رزرو هوشمند غذا",
     img: "assets/images/food.png",
     dest: TimeScreen.id,
   );
@@ -46,12 +47,12 @@ class GridDashboard extends StatelessWidget {
   Items item4 = new Items(
     title: "اطلاعات اساتید",
     subtitle: "آشنایی با اساتید",
-    img: "assets/images/elmos.png",
+    img: "assets/images/prof.png",
   );
   Items item5 = new Items(
     title: "گفتگو ها",
     subtitle: "چت های من",
-    img: "assets/images/logo.png",
+    img: "assets/images/chat.png",
     dest: ChatRoomsScreen.id,
   );
   Items item6 = new Items(
@@ -90,7 +91,7 @@ class GridDashboard extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: Color(color), borderRadius: BorderRadius.circular(10)),
+                    color: Color(color), borderRadius: BorderRadius.circular(15)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -103,6 +104,7 @@ class GridDashboard extends StatelessWidget {
                     ),
                     Text(
                       data.title,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -114,9 +116,12 @@ class GridDashboard extends StatelessWidget {
                     ),
                     Text(
                       data.subtitle,
-                        style: PersianFonts.Samim.copyWith(
-                          fontSize: 10.0, color: Colors.white
-                        )),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w100),
+                    ),
                     //   style: GoogleFonts.openSans(
                     //       textStyle: TextStyle(
                     //           color: Colors.white38,
@@ -156,7 +161,7 @@ class GridDashboard extends StatelessWidget {
                         textDirection:
                         TextDirection.rtl,
                         style: TextStyle(
-                            fontFamily: 'Lemonada',
+                          fontWeight: FontWeight.bold,
                             color: kPrimaryColor ,
                             fontSize: 17
                         ),
@@ -196,7 +201,7 @@ class GridDashboard extends StatelessWidget {
                           textDirection:
                           TextDirection.rtl,
                           style: TextStyle(
-                              fontFamily: 'Lemonada',
+                              fontWeight: FontWeight.bold,
                               color: kPrimaryColor ,
                               fontSize: 12
                           ),
@@ -228,7 +233,8 @@ class GridDashboard extends StatelessWidget {
                           textDirection:
                           TextDirection.rtl,
                           style: TextStyle(
-                              fontFamily: 'Lemonada',
+                              fontWeight: FontWeight.bold,
+
                               color: kPrimaryColor ,
                               fontSize: 12
                           ),

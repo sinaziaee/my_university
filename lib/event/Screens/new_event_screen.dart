@@ -108,6 +108,8 @@ class _NewEventScreenState extends State<NewEventScreen> {
     return showDialog(
         context:  context,
         child: AlertDialog(
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20)),
           content: Container(
             child: SingleChildScrollView(
               child: Column(
@@ -118,7 +120,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                   InkWell(
                     onTap: (){
                       setState(() {
-                        event_type = "Presence";
+                        event_type = "حضوری";
                       });
                       Navigator.pop(context);
 
@@ -126,7 +128,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
 
                     child: Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       margin:
                       EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                       child: SingleChildScrollView(
@@ -152,7 +154,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                   InkWell(
                     onTap: (){
                       setState(() {
-                        event_type = "Online";
+                        event_type = "آنلاین";
 
                       });
                       Navigator.pop(context);
@@ -161,11 +163,11 @@ class _NewEventScreenState extends State<NewEventScreen> {
 
                     child: Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       margin:
                       EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                       child: Text(
-                        'غیر حضوری',
+                        'آنلاین',
                         textDirection: ui.TextDirection.rtl,
                         style: TextStyle(
                           fontSize: 25,
@@ -331,7 +333,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           ),
 
                                           height: 40,
-                                          width: 200,
+                                          width: 150,
                                           child: TextField(
                                             textDirection: ui.TextDirection.rtl,
                                             controller: location,
@@ -389,6 +391,9 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                   showDialog(
                                     context: context,
                                     child: AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                  ),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -403,7 +408,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                                   textDirection:
                                                   ui.TextDirection.rtl,
                                                   style: TextStyle(
-                                                      color: Colors.grey[800]),
+                                                      color: Colors.black),
                                                 ),
                                               ],
                                             ),
@@ -438,14 +443,14 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                                     textDirection:
                                                     ui.TextDirection.rtl,
                                                     style: TextStyle(
-                                                        color: Colors.black),
+                                                        color: Colors.purple),
                                                   ),
                                                   SizedBox(
                                                     width: 20,
                                                   ),
                                                   Icon(
                                                     Icons.camera_alt,
-                                                    color: Colors.grey[800],
+                                                    color: Colors.purple,
                                                   ),
                                                 ],
                                               ),
@@ -471,14 +476,14 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                                     textDirection:
                                                     ui.TextDirection.rtl,
                                                     style: TextStyle(
-                                                        color: Colors.black),
+                                                        color: Colors.purple),
                                                   ),
                                                   SizedBox(
                                                     width: 20,
                                                   ),
                                                   Icon(
                                                     Icons.insert_photo,
-                                                    color: Colors.grey[800],
+                                                    color: Colors.purple,
                                                   ),
                                                 ],
                                               ),
@@ -500,7 +505,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                   child: Container(
                                     height: 200,
                                     width: 200,
-                                    child: ListView(
+                                    child: Column(
                                       children: [
                                         if (imageFile != null) ...[
                                           Image.file(
@@ -808,7 +813,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           },
                                           child: Container(
                                             padding: EdgeInsets.only(
-                                                right: 10,
+                                                right: 30,
                                                 left: 10,
                                                 top: 10,
                                                 bottom: 10),
@@ -867,35 +872,40 @@ class _NewEventScreenState extends State<NewEventScreen> {
 
                               Padding(
                                 padding: EdgeInsets.only(left: 20, right: 20),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: FlatButton(
-                                        padding:
-                                        EdgeInsets.only(top: 5, bottom: 5),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        onPressed: () {
-                                          validateData();
-                                          // postNewBook();
-                                        },
-                                        child: Text(
-                                          'ثبت',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 100 , right: 100),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: FlatButton(
+                                          height: 20,
+                                          minWidth: 20,
+                                          padding:
+                                          EdgeInsets.only(top: 5, bottom: 5),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
+                                          onPressed: () {
+                                            validateData();
+                                            // postNewBook();
+                                          },
+                                          child: Text(
+                                            'ثبت',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          color: Colors.purple.shade400,
                                         ),
-                                        color: Colors.purple.shade400,
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: SizedBox(),
-                                    ),
-                                  ],
+                                      // Expanded(
+                                      //   flex: 1,
+                                      //   child: SizedBox(),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
                               ),
 

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import '../../constants.dart';
 
 
@@ -26,13 +27,13 @@ class TodayCard extends StatelessWidget {
         height: 245,
         width: 202,
         padding: EdgeInsets.all(2),
-        margin: EdgeInsets.only(right: 15.0),
+        margin: EdgeInsets.only(right: 10.0),
         decoration: BoxDecoration(
           color: kWhiteColor,
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             // isRecommended
             //     ? Chip(
@@ -64,14 +65,16 @@ class TodayCard extends StatelessWidget {
             ListTile(
               title: Text(
                 name,
+                textDirection: TextDirection.rtl,
                 overflow: TextOverflow.ellipsis,
-                style: kTitle1Style,
+                style: PersianFonts.Shabnam,
               ),
               subtitle: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(" \ ریال ${price}", style: kSubtitleStyle),
+                  Text("${replaceFarsiNumber(price.toString())} ریال " ,
+                      textDirection: TextDirection.rtl, style: PersianFonts.Shabnam),
                   // Text("00", style: kSubtitle2Style),
                 ],
               ),

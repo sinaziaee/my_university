@@ -67,10 +67,10 @@ class History extends StatelessWidget {
                                 Icon(Icons.star, color: Colors.white,),
                                 Icon(Icons.star, color: Colors.white,),
                                 Icon(Icons.star, color: Colors.white,),
-                                Text(" 250 Reviews", style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13
-                                ),)
+                                // Text(" 250 Reviews", style: TextStyle(
+                                //     color: Colors.white,
+                                //     fontSize: 13
+                                // ),)
                               ],
                             )
                           ],
@@ -159,7 +159,7 @@ class History extends StatelessWidget {
                                   );
                                 }
                                 return Container(
-                                  height: size.height * 0.7,
+                                  height: size.height * 0.55,
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {

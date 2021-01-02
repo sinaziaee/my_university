@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_university/event/Screens/new_event_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'dart:convert' as convert;
 import '../../constants.dart';
 import 'event_details_screen.dart';
@@ -102,12 +104,11 @@ class _EventsScreenState extends State<EventsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top:30 ),
                   child: Text(
-                    isParticipating?'رویداد های موجود':'رویداد های ثبت نام شده',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Nunito',
-                      color: Colors.white,
+                    isParticipating?'رویدادهای موجود':'رویدادهای ثبت نام شده',
+                    style:
+                        PersianFonts.Shabnam.copyWith(fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                     ),
                   ),
                 ),
@@ -272,10 +273,13 @@ class _EventsScreenState extends State<EventsScreen> {
           image: AssetImage('assets/images/not_found.png'),
         ),
             ),
-        title: Text(eventName),
+        title: Text(eventName , textAlign: TextAlign.right,),
         subtitle: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text("${remainingCapacity.toString()} تعداد بلیط باقی مانده"),
+            Text("تعداد باقی مانده:${replaceFarsiNumber(remainingCapacity.toString())} " ,
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,),
             // Text("${cost.toString()} : قیمت "),
 
           ],
@@ -349,10 +353,15 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   _showMessageDialog(String message) {
+
     showDialog(
+
       context: context,
       child: AlertDialog(
-        title: Text(message),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: Text(message , textAlign: TextAlign.center,),
         content: FlatButton(
           onPressed: () {
             Navigator.pop(context);

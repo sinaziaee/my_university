@@ -130,8 +130,9 @@ class _TradeScreenState extends State<TradeScreen> {
                         Container(
                           child: Center(
                             child: Banner(
+                              textStyle: TextStyle(fontSize: 18),
                               color: Colors.purple.shade300,
-                              message: result['price'].toString(),
+                              message: replaceFarsiNumber(result['price'].toString()) ,
                               location: BannerLocation.bottomEnd,
                               child: Container(
 
@@ -355,8 +356,8 @@ class _TradeScreenState extends State<TradeScreen> {
                             _checkAccessibility();
                           },
                           child: Container(
-                            height: 80,
-                            width: 200,
+                            height: 60,
+                            width: 180,
                             decoration: BoxDecoration(
                                 gradient: mainButton,
                                 // boxShadow: [

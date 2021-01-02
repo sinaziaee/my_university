@@ -124,7 +124,6 @@ class _BucketState extends State<Bucket> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'Nunito',
                         color: Colors.white,
                       ),
                     ),
@@ -213,7 +212,7 @@ class _BucketState extends State<Bucket> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                "مجموع فاکتور ( به تومان ) ",
+                "مجموع فاکتور ( به ریال ) ",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16.0,
@@ -222,7 +221,7 @@ class _BucketState extends State<Bucket> {
               Padding(
                 padding: EdgeInsets.only(right: 30),
                 child: Text(
-                  getTotal(),
+                  replaceFarsiNumber(getTotal()),
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20.0,
@@ -292,9 +291,9 @@ class _BucketState extends State<Bucket> {
     );
     if (response.statusCode >= 400) {
       print(response.body);
-      _showDialog(context, "متاسفانه مشکلی پیش آمد.");
+      _showDialog(context, "متاسفانه مشکلی پیش آمد");
     } else {
-      _showDialog(context, "غذا سرو شد");
+      _showDialog(context, "سفارش غذا با موفقیت انجام شد");
       DeliveryTab.listTodayFoods.clear();
     }
     setState(() {

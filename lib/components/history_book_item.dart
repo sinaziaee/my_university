@@ -86,16 +86,19 @@ class MyBookItem extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: FadeInImage(
-                          height: 90,
-                          width: 70,
-                          fit: BoxFit.cover,
-                          placeholder:
-                              AssetImage('assets/images/book_unknown.png'),
-                          image: (url != null)
-                              ? NetworkImage(url)
-                              : AssetImage('assets/images/book_unknown.png'),
+                        padding: EdgeInsets.only(top: 10 ,bottom: 10 ),
+                        child: ClipRect(
+                          child: FadeInImage(
+
+                            height: 90,
+                            width: 70,
+                            fit: BoxFit.cover,
+                            placeholder:
+                                AssetImage('assets/images/book_unknown.png'),
+                            image: (url != null)
+                                ? NetworkImage(url)
+                                : AssetImage('assets/images/book_unknown.png'),
+                          ),
                         ),
                       ),
                     ],
