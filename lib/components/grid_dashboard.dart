@@ -187,6 +187,7 @@ class GridDashboard extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
+                    // Navigator.pop(context);
                     logoutApp();
                   },
                   child: Padding(
@@ -271,8 +272,10 @@ class GridDashboard extends StatelessWidget {
     print(token);
 
     if(response.statusCode == 200){
+      // Navigator.pop(context);
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.clear();
+      Navigator.pop(context);
       Navigator.popAndPushNamed(context, LoginScreen.id);
     }
 

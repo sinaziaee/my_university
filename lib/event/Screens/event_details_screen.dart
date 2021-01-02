@@ -42,19 +42,19 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     // eventId = 2;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-
-        title: Center(child: Text('جزئیات ایوند' ,
-          style: PersianFonts.Shabnam
-          , textAlign: TextAlign.center,)),
-        backgroundColor: Colors.purple.shade300,
-        automaticallyImplyLeading: false,
-        // actions: [
-        //   IconButton(icon: Icon(Icons.chevron_right), onPressed: (){
-        //     Navigator.pop(context);
-        //   })
-        // ],
-      ),
+      // appBar: AppBar(
+      //
+      //   title: Center(child: Text('جزئیات ایوند' ,
+      //     style: PersianFonts.Shabnam
+      //     , textAlign: TextAlign.center,)),
+      //   backgroundColor: Colors.purple.shade300,
+      //   automaticallyImplyLeading: false,
+      //   // actions: [
+      //   //   IconButton(icon: Icon(Icons.chevron_right), onPressed: (){
+      //   //     Navigator.pop(context);
+      //   //   })
+      //   // ],
+      // ),
       body: FutureBuilder(
         future: http.get('$url/?event_id=$eventId', headers: {
           HttpHeaders.authorizationHeader: token,
@@ -90,9 +90,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
 
   // هر جور میخواین نمایش بدین  even رو
   Widget bodyContainer(){
-    final double tempHeight = MediaQuery.of(context).size.height -
-        (MediaQuery.of(context).size.width / 1.2) +
-        24.0;
+    final double tempHeight = MediaQuery.of(context).size.height * 1.5;
+        // - (MediaQuery.of(context).size.width / 1.2) +
+        // 24.0;
     return Container(
       color: Color(0xFFFFFFFF),
       child: Scaffold(
@@ -245,12 +245,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(
-                                  left: 16, right: 16, top: 8, bottom: 8),
+                                  left: 16, right: 16, top: 8, bottom: 40),
                               child: Column(
+
                                 children: [
                                   Text(
                                     " جزئیات رویداد : " ,
-                                    textAlign: TextAlign.right,
+                                    textAlign: TextAlign.center,
                                     textDirection: TextDirection.rtl,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
@@ -258,7 +259,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                       letterSpacing: 0.27,
                                       color: Color(0xFF17262A),
                                     ),
-                                    overflow: TextOverflow.ellipsis,
+                                    // overflow: TextOverflow.ellipsis,
                                   ),
 
                                   SizedBox(height: 10,),
@@ -272,75 +273,75 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                       letterSpacing: 0.27,
                                       color: Color(0xFF17262A),
                                     ),
-                                    overflow: TextOverflow.ellipsis,
+                                    // overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16, bottom: 16, right: 16),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                // Container(
-                                //   width: 48,
-                                //   height: 48,
-                                //   child: Container(
-                                //     decoration: BoxDecoration(
-                                //       color: Color(0xFFFFFFFF),
-                                //       borderRadius: const BorderRadius.all(
-                                //         Radius.circular(16.0),
-                                //       ),
-                                //       border: Border.all(
-                                //           color: Color(0xFF3A5160)
-                                //               .withOpacity(0.2)),
-                                //     ),
-                                //     child: Icon(
-                                //       Icons.add,
-                                //       color: Color(0xFF00B6F0),
-                                //       size: 28,
-                                //     ),
-                                //   ),
-                                // ),
-                                // const SizedBox(
-                                //   width: 16,
-                                // ),
-                                // Expanded(
-                                //   child: Container(
-                                //     height: 48,
-                                //     decoration: BoxDecoration(
-                                //       color: (isParticipating)?Colors.green:Colors.red,
-                                //       borderRadius: const BorderRadius.all(
-                                //         Radius.circular(16.0),
-                                //       ),
-                                //       boxShadow: <BoxShadow>[
-                                //         BoxShadow(
-                                //             color: (isParticipating)?Colors.green:Colors.red
-                                //                 .withOpacity(0.5),
-                                //             offset: const Offset(1.1, 1.1),
-                                //             blurRadius: 10.0),
-                                //       ],
-                                //     ),
-                                //     child: Center(
-                                //       child: Text(
-                                //         (isParticipating) ? 'ثبت نام' : 'لغو ثبت نام',
-                                //         textAlign: TextAlign.left,
-                                //         style: TextStyle(
-                                //           fontWeight: FontWeight.w600,
-                                //           fontSize: 18,
-                                //           letterSpacing: 0.0,
-                                //           color: Color(0xFFFFFFFF),
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // )
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(
+                          //       left: 16, bottom: 16, right: 16),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     children: <Widget>[
+                          //       Container(
+                          //         width: 48,
+                          //         height: 48,
+                          //         child: Container(
+                          //           decoration: BoxDecoration(
+                          //             color: Color(0xFFFFFFFF),
+                          //             borderRadius: const BorderRadius.all(
+                          //               Radius.circular(16.0),
+                          //             ),
+                          //             border: Border.all(
+                          //                 color: Color(0xFF3A5160)
+                          //                     .withOpacity(0.2)),
+                          //           ),
+                          //           child: Icon(
+                          //             Icons.add,
+                          //             color: Color(0xFF00B6F0),
+                          //             size: 28,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       const SizedBox(
+                          //         width: 16,
+                          //       ),
+                          //       Expanded(
+                          //         child: Container(
+                          //           height: 48,
+                          //           decoration: BoxDecoration(
+                          //             color: (isParticipating)?Colors.green:Colors.red,
+                          //             borderRadius: const BorderRadius.all(
+                          //               Radius.circular(16.0),
+                          //             ),
+                          //             boxShadow: <BoxShadow>[
+                          //               BoxShadow(
+                          //                   color: (isParticipating)?Colors.green:Colors.red
+                          //                       .withOpacity(0.5),
+                          //                   offset: const Offset(1.1, 1.1),
+                          //                   blurRadius: 10.0),
+                          //             ],
+                          //           ),
+                          //           child: Center(
+                          //             child: Text(
+                          //               (isParticipating) ? 'ثبت نام' : 'لغو ثبت نام',
+                          //               textAlign: TextAlign.left,
+                          //               style: TextStyle(
+                          //                 fontWeight: FontWeight.w600,
+                          //                 fontSize: 18,
+                          //                 letterSpacing: 0.0,
+                          //                 color: Color(0xFFFFFFFF),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
                           SizedBox(
                             height: MediaQuery.of(context).padding.bottom,
                           )
