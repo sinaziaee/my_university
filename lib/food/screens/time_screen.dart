@@ -63,6 +63,7 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    print(selectedDate);
     return Scaffold(
       body: FutureBuilder(
         builder: (context, snapshot) {

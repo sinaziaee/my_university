@@ -1,4 +1,4 @@
-#Sat Dec 19 18:51:17 IRST 2020
+#Sun Dec 27 23:09:28 IRST 2020
 base.0=D\:\\FlutterProjects\\seyyed\\my_university\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
