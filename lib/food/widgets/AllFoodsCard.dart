@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_university/food/widgets/allfoods.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 import '../../constants.dart';
 
@@ -27,7 +28,7 @@ class AllFoodsCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               child: Center(
@@ -46,14 +47,16 @@ class AllFoodsCard extends StatelessWidget {
             ListTile(
               title: Text(
                 name,
+                textDirection: TextDirection.rtl,
                 overflow: TextOverflow.ellipsis,
-                style: kTitle1Style,
+                style: PersianFonts.Shabnam,
               ),
               subtitle: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(" \ تومان $price", style: kSubtitleStyle),
+                  Text(" ${replaceFarsiNumber(price.toString())} ریال ",
+                      textDirection: TextDirection.rtl , style: PersianFonts.Shabnam),
                 ],
               ),
             )

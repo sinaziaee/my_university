@@ -52,8 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: <Widget>[
               SizedBox(
-                height: size.height /7,
+                height: size.height /25,
               ),
+<<<<<<< HEAD
               Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: Row(
@@ -98,9 +99,43 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   ],
                 ),
+=======
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+
+                  Image.asset(
+                    "assets/images/elmoss.png",
+                    width: 72,
+
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Image.asset(
+                    "assets/images/logo.png",
+                    width: 72,
+
+                  ),
+                ],
+>>>>>>> aae44041d5df64f59f7fd31d69c1a2523b69d28b
               ),
+
+
               SizedBox(
-                height: size.height * 0.05,
+                height: size.height /35,
+              ),
+
+              Text("اپلیکیشن جامع دانشگاه من" , style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+              ),),
+
+
+              SizedBox(
+                height: size.height * 0.02,
               ),
 
               GridDashboard(context, userId, token, username, firstName, lastName),
@@ -193,6 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 InkWell(
                   onTap: () {
+
                     Navigator.pop(context);
                   },
                   child: Padding(
@@ -222,6 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+<<<<<<< HEAD
   void logoutApp() async {
     // http.Response response;
     // response = await http.post(
@@ -239,5 +276,33 @@ class _HomeScreenState extends State<HomeScreen> {
     await preferences.clear();
     Navigator.pop(context);
     Navigator.popAndPushNamed(context, LoginScreen.id);
+=======
+  void logoutApp() async{
+
+    http.Response response;
+    response = await http.post(
+      "http://danibazi9.pythonanywhere.com/api/account/logout",
+      headers: {
+        HttpHeaders.authorizationHeader: token,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+    );
+    print(response.statusCode);
+    print(token);
+
+    if(response.statusCode == 200){
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.clear();
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, LoginScreen.id);
+    }
+
+    else{
+
+    }
+
+
+>>>>>>> aae44041d5df64f59f7fd31d69c1a2523b69d28b
   }
 }

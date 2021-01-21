@@ -11,6 +11,7 @@ import 'package:my_university/food/widgets/today_card.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:my_university/screens/trade_screen.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
@@ -34,6 +35,8 @@ class DeliveryTab extends StatelessWidget {
   var ServeTimeUrl =
       "http://danibazi9.pythonanywhere.com/api/food/user/serve";
 
+  String url;
+
   var AllFoodUrl = "http://danibazi9.pythonanywhere.com/api/food/all";
 
   @override
@@ -44,6 +47,7 @@ class DeliveryTab extends StatelessWidget {
     String start = args["start"];
     String end = args["end"];
     String date = args["date"];
+    print("----");
     print(date);
 
 
@@ -77,216 +81,235 @@ class DeliveryTab extends StatelessWidget {
           });
     }
 
+    onChanged();
+
     return Scaffold(
       body: FutureBuilder(
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
             return Stack(children: [
-              Container(
-                margin: EdgeInsets.only(left: 18.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "لیست غذاهای امروز",
-                        style: kTitle1Style.copyWith(fontSize: 22.0),
-                      ),
-                      FutureBuilder(
+              RefreshIndicator(
+                onRefresh: () {
+                  return _refresh();
+                },
 
-                        future: http.get("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date", headers: {
-                          HttpHeaders.authorizationHeader: token,
-                        }),
+                child: Container(
+                  margin: EdgeInsets.only(left: 18.0 , top: 15 , right: 10),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "لیست غذاهای امروز", textAlign: TextAlign.right,
+                          style: PersianFonts.Shabnam.copyWith(fontSize: 22.0 , fontWeight: FontWeight.bold),
+                        ),
 
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> snapshot) {
-                          if (snapshot.hasData &&
-                              snapshot.connectionState ==
-                                  ConnectionState.done) {
-                            http.Response response = snapshot.data;
-                            List<Map> mapList = [];
-                            var jsonResponse = convert.jsonDecode(
-                                convert.utf8.decode(response.bodyBytes));
+                        FutureBuilder(
 
-                            pendingCount = 0;
-                            print("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date");
+                          future: http.get("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date", headers: {
+                            HttpHeaders.authorizationHeader: token,
+                          }),
 
-                            DateTime dateTime = DateTime.now();
-                            String timeLocal =
-                                dateTime.toString().substring(11, 19);
-                            String hour = timeLocal.substring(0, 2);
-                            String min = timeLocal.substring(3, 5);
+                          builder: (BuildContext context,
+                              AsyncSnapshot<dynamic> snapshot) {
+                            if (snapshot.hasData &&
+                                snapshot.connectionState ==
+                                    ConnectionState.done) {
+                              http.Response response = snapshot.data;
+                              List<Map> mapList = [];
+                              var jsonResponse = convert.jsonDecode(
+                                  convert.utf8.decode(response.bodyBytes));
 
-                            String LocalTime = "$hour$min";
+                              pendingCount = 0;
+                              print("=========");
+                              print("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date");
 
-                            int Local = int.parse(LocalTime);
+                              DateTime dateTime = DateTime.now();
+                              String dateLocal = dateTime.toString().substring(0, 10);
+                              print("dateLocal $dateLocal");
 
-                            for (Map each in jsonResponse) {
-                              startServer = start;
-                              endserver = end;
 
-                              String starthourServer =
-                                  startServer.substring(0, 2);
-                              String StartminServer =
-                                  startServer.substring(3, 5);
-                              String Startserver =
-                                  "$starthourServer$StartminServer";
-                              int sts = int.parse(Startserver);
 
-                              String endhourServer = endserver.substring(0, 2);
-                              String endminServer = endserver.substring(3, 5);
-                              String Endserver = "$endhourServer$endminServer";
-                              int ets = int.parse(Endserver);
+                              String timeLocal =
+                                  dateTime.toString().substring(11, 19);
+                              String hour = timeLocal.substring(0, 2);
+                              String min = timeLocal.substring(3, 5);
 
-                              if (each['serve_id'] != null) {
-                                if (Local >= sts && Local <= ets) {
-                                  mapList.add(each);
-                                  pendingCount++;
-                                }
+                              String LocalTime = "$hour$min";
+
+                              int Local = int.parse(LocalTime);
+
+                              for (Map each in jsonResponse) {
+                                startServer = start;
+                                endserver = end;
+
+                                String starthourServer =
+                                    startServer.substring(0, 2);
+                                String StartminServer =
+                                    startServer.substring(3, 5);
+                                String Startserver =
+                                    "$starthourServer$StartminServer";
+                                int sts = int.parse(Startserver);
+
+                                String endhourServer = endserver.substring(0, 2);
+                                String endminServer = endserver.substring(3, 5);
+                                String Endserver = "$endhourServer$endminServer";
+                                int ets = int.parse(Endserver);
+
+                                if (each['serve_id'] != null && each['remaining_count'] !=0) {
+                                  // if (Local >= sts && Local <= ets   ) {
+                                    mapList.add(each);
+                                    pendingCount++;
+                                  }
+                                // }
                               }
-                            }
-                            if (pendingCount == 0) {
-                              return Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: LinearGradient(colors: [
-                                        Colors.yellow,
-                                        Colors.orange
-                                      ])),
-                                  child: MaterialButton(
-                                    onPressed: () {},
-                                    minWidth: double.infinity,
-                                    child: Text(
-                                      "غذا برای رزرو تعیین نشده",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                              if (pendingCount == 0) {
+                                return Center(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: LinearGradient(colors: [
+                                          Colors.orange,
+                                          Colors.red
+                                        ])),
+                                    child: MaterialButton(
+                                      onPressed: () {},
+                                      minWidth: double.infinity,
+                                      child: Text(
+                                        "غذا برای رزرو تعیین نشده",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
                                     ),
                                   ),
+                                );
+                              }
+                              // return SizedBox();
+                              return Container(
+                                alignment: Alignment.bottomRight,
+                                height: 250,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  reverse: true,
+
+
+                                  itemCount: pendingCount,
+                                  itemBuilder: (context, index) {
+                                    return TodayCard(
+                                      onPressed: () {
+                                        onPressed1(
+                                            mapList[index]["serve_id"],
+                                            mapList[index]['name'],
+                                            mapList[index]['cost'],
+                                            mapList[index]['image'],
+                                            mapList[index]['description'],
+                                            mapList[index]['remaining_count']);
+                                      },
+
+                                      id: mapList[index]['serve_id'],
+                                      name: mapList[index]['name'],
+                                      price: mapList[index]['cost'],
+                                      picture: mapList[index]['image'],
+                                      description: mapList[index]['description'],
+                                      remain: mapList[index]['remaining_count'],
+
+                                      // ontap: _onTap(),
+                                    );
+                                  },
                                 ),
                               );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
                             }
-                            // return SizedBox();
-                            return Container(
-                              height: 250,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: pendingCount,
-                                itemBuilder: (context, index) {
-                                  return TodayCard(
-                                    onPressed: () {
-                                      onPressed1(
-                                          mapList[index]["serve_id"],
-                                          mapList[index]['name'],
-                                          mapList[index]['cost'],
-                                          mapList[index]['image'],
-                                          mapList[index]['description'],
-                                          mapList[index]['remaining_count']);
-                                    },
-
-                                    id: mapList[index]['serve_id'],
-                                    name: mapList[index]['name'],
-                                    price: mapList[index]['cost'],
-                                    picture: mapList[index]['image'],
-                                    description: mapList[index]['description'],
-                                    remain: mapList[index]['remaining_count'],
-
-                                    // ontap: _onTap(),
-                                  );
-                                },
-                              ),
-                            );
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 18),
-                          child: Text("منوی رستوران (غیر قابل فروش)",
-                              style: kTitle1Style.copyWith(fontSize: 22.0)),
-                        ),
-                      ),
-                      FutureBuilder(
-                        future: http.get(
-                          AllFoodUrl,
-                          headers: {
-                            HttpHeaders.authorizationHeader: token,
                           },
                         ),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> snapshot) {
-                          if (snapshot.hasData &&
-                              snapshot.connectionState ==
-                                  ConnectionState.done) {
-                            http.Response response = snapshot.data;
-                            List<Map> mapList = [];
-                            var jsonResponse = convert.jsonDecode(
-                                convert.utf8.decode(response.bodyBytes));
-                            foodcount = 0;
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 18 , bottom: 10),
+                            child: Text("منوی رستوران (غیر قابل فروش)", textAlign: TextAlign.right,
+                                style: PersianFonts.Shabnam.copyWith(fontSize: 22.0 , fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+                        FutureBuilder(
+                          future: http.get(
+                            AllFoodUrl,
+                            headers: {
+                              HttpHeaders.authorizationHeader: token,
+                            },
+                          ),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<dynamic> snapshot) {
+                            if (snapshot.hasData &&
+                                snapshot.connectionState ==
+                                    ConnectionState.done) {
+                              http.Response response = snapshot.data;
+                              List<Map> mapList = [];
+                              var jsonResponse = convert.jsonDecode(
+                                  convert.utf8.decode(response.bodyBytes));
+                              foodcount = 0;
 
-                            for (Map each in jsonResponse) {
-                              if (each['food_id'] != null) {
-                                mapList.add(each);
-                                foodcount++;
+                              for (Map each in jsonResponse) {
+                                if (each['food_id'] != null) {
+                                  mapList.add(each);
+                                  foodcount++;
+                                }
                               }
-                            }
-                            if (foodcount == 0) {
-                              return Center(
-                                child: Text(
-                                  'غذایی تا کنون اضافه نشده است',
-                                  style: TextStyle(color: Colors.black),
+                              if (foodcount == 0) {
+                                return Center(
+                                  child: Text(
+                                    'غذایی تا کنون اضافه نشده است',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                );
+                              }
+                              // return SizedBox();
+                              return Container(
+                                child: GridView.builder(
+                                  itemCount: foodcount,
+                                  shrinkWrap: true,
+                                  physics: ScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 1.0 / 1.3,
+                                    crossAxisSpacing: 1.0,
+                                    mainAxisSpacing: 1.0,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    return AllFoodsCard(
+                                      onPressed: () {
+                                        onPressed2(
+                                            mapList[index]['name'],
+                                            mapList[index]['cost'],
+                                            mapList[index]['image'],
+                                            mapList[index]['description']);
+                                      },
+                                      name: mapList[index]['name'],
+                                      price: mapList[index]['cost'],
+                                      picture: mapList[index]['image'],
+                                      Description: mapList[index]['description'],
+                                    );
+                                  },
                                 ),
                               );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
                             }
-                            // return SizedBox();
-                            return Container(
-                              child: GridView.builder(
-                                itemCount: foodcount,
-                                shrinkWrap: true,
-                                physics: ScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 1.0 / 1.3,
-                                  crossAxisSpacing: 1.0,
-                                  mainAxisSpacing: 1.0,
-                                ),
-                                itemBuilder: (context, index) {
-                                  return AllFoodsCard(
-                                    onPressed: () {
-                                      onPressed2(
-                                          mapList[index]['name'],
-                                          mapList[index]['cost'],
-                                          mapList[index]['image'],
-                                          mapList[index]['description']);
-                                    },
-                                    name: mapList[index]['name'],
-                                    price: mapList[index]['cost'],
-                                    picture: mapList[index]['image'],
-                                    Description: mapList[index]['description'],
-                                  );
-                                },
-                              ),
-                            );
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                      ),
-                    ],
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -298,5 +321,14 @@ class DeliveryTab extends StatelessWidget {
         future: getToken(),
       ),
     );
+  }
+
+  Future<bool> _refresh() async {
+    onChanged();
+    return true;
+  }
+
+  onChanged() {
+    url = '$ServeTimeUrl';
   }
 }

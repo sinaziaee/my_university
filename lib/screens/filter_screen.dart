@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import '../constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -63,7 +64,9 @@ class _FilterScreenState extends State<FilterScreen> {
         ],
         title: Text(
           'اعمال فیلتر',
-          style: TextStyle(color: kPrimaryColor),
+          style: PersianFonts.Shabnam.copyWith(color: kPrimaryColor)
+          // TextStyle(color: kPrimaryColor),
+
         ),
         elevation: 1,
         backgroundColor: Color(0xfffff8ee),
@@ -79,7 +82,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'متن جستجو شده',
+                    ' : متن جستجو شده',
                     style: TextStyle(color: Colors.grey[600]),
                   ),
                   Container(
@@ -101,7 +104,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     ),
                   ),
                   Text(
-                    'انتخاب دسته بندی',
+                    ' : انتخاب دسته بندی',
                     style: TextStyle(color: Colors.grey[600]),
                   ),
                   SizedBox(
@@ -171,7 +174,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     child: ListTile(
-                      trailing: Text('حداقل قیمت  '),
+                      trailing: Text('حداقل قیمت :' , textDirection: TextDirection.rtl,),
                       title: Container(
                         height: 40,
                         child: TextField(
@@ -194,7 +197,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     child: ListTile(
-                      trailing: Text('حداکثر قیمت  '),
+                      trailing: Text('حداکثر قیمت :' , textDirection: TextDirection.rtl),
                       title: Container(
                         height: 40,
                         child: TextField(

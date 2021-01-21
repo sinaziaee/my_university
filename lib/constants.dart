@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 const kPrimaryColor = Color(0xFF6F35A5);
 const kPrimaryLightColor = Color(0xFFF1E6FF);
@@ -39,31 +40,53 @@ const kWhiteColor = Color(0xFFF9FAFB);
 const kRedColor = Color(0xFFFF7051);
 const kBrownColor = Color(0xFF6C6C6C);
 
-var kTitle1Style = GoogleFonts.roboto(
+const kLightRedColor = Color(0xFFffb4b3);
+
+String replaceFarsiNumber(String input)
+{
+  const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const farsi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+
+  for (int i = 0; i < english.length; i++)
+    input = input.replaceAll(english[i], farsi[i]);
+
+  return input;
+}
+
+
+var kTitle1Style = PersianFonts.Shabnam.copyWith(
   fontSize: 18.0,
   fontWeight: FontWeight.bold,
   color: kBlackColor,
 );
-var kTitle2Style = GoogleFonts.roboto(
+
+var kFoodStyle = PersianFonts.Shabnam.copyWith(
+  fontSize: 18.0,
+  fontWeight: FontWeight.bold,
+  color: kWhiteColor,
+);
+
+
+var kTitle2Style = PersianFonts.Shabnam.copyWith(
   fontSize: 18.0,
   color: kBlackColor,
 );
 
-var kSubtitleStyle = GoogleFonts.roboto(
+var kSubtitleStyle = PersianFonts.Shabnam.copyWith(
   fontSize: 15.0,
   color: kGreyColor,
 );
-var kSubtitle2Style = GoogleFonts.roboto(
+var kSubtitle2Style = PersianFonts.Shabnam.copyWith(
   fontSize: 10.0,
   color: kGreyColor,
 );
 
-var kChipStyle = GoogleFonts.roboto(
+var kChipStyle = PersianFonts.Shabnam.copyWith(
   fontSize: 15.0,
   color: kWhiteColor,
 );
 
-var kDescriptionStyle = GoogleFonts.roboto(
+var kDescriptionStyle = PersianFonts.Shabnam.copyWith(
   fontSize: 16.0,
   color: kBrownColor,
   height: 1.5,

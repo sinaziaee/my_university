@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 #Thu Jan 21 18:34:01 IRST 2021
 base.0=D\:\\FlutterProjects\\seyyed\\my_university\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+=======
+#Sat Jan 02 13:22:42 IRST 2021
+base.0=F\:\\Flutter_Project\\RefactorUI2\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+>>>>>>> aae44041d5df64f59f7fd31d69c1a2523b69d28b
 path.0=classes.dex
 renamed.0=classes.dex
