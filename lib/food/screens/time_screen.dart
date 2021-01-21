@@ -186,16 +186,12 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    print(selectedDate);
-=======
     // _datetime = String.fromCharCodes();
     // Iterable<String> temp =  Jalali.now().toString().substring(7,18).replaceAll(",","-").split(" ").reversed.cast<String>();
     Jalali j = Jalali.now();
     date = '${j.day}-${j.month}-${j.year}';
     // for(int i = 0 ; i < 3 ; i++ ){
     // }
->>>>>>> aae44041d5df64f59f7fd31d69c1a2523b69d28b
     return Scaffold(
       body: FutureBuilder(
         builder: (context, snapshot) {
@@ -214,10 +210,10 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                       gradient: LinearGradient(
                           begin: Alignment.bottomCenter,
                           colors: [
-                        Colors.black.withOpacity(.9),
-                        Colors.black.withOpacity(.8),
-                        Colors.black.withOpacity(.2),
-                      ])),
+                            Colors.black.withOpacity(.9),
+                            Colors.black.withOpacity(.8),
+                            Colors.black.withOpacity(.2),
+                          ])),
                 ),
                 Padding(
                     padding: EdgeInsets.all(20.0),
@@ -344,7 +340,7 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                                       child: Container(
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             gradient: LinearGradient(colors: [
                                               Colors.red,
                                               Colors.orange
@@ -374,8 +370,8 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                                           return TimeCard(
                                             ontap: () {
                                               onPressed1(
-                                                  mapList[index]["start_serve_time"].toString().substring(0,5),
-                                                  mapList[index]['end_serve_time'].toString().substring(0,5),
+                                                mapList[index]["start_serve_time"].toString().substring(0,5),
+                                                mapList[index]['end_serve_time'].toString().substring(0,5),
 
                                               );
                                             },
@@ -390,9 +386,9 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                                             // text: (username == mapList[index]['seller_username']) ? 'برای فروش': 'برای خرید',
                                             // image: mapList[index]['image'],
                                             start_time: mapList[index]
-                                                ['start_serve_time'],
+                                            ['start_serve_time'],
                                             end_time: mapList[index]
-                                                ['end_serve_time'],
+                                            ['end_serve_time'],
                                             // ontap: _onTap(),
                                           );
                                         },
@@ -484,7 +480,7 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
     if (response.statusCode == 200) {
       setState(() {
         var jsonResponse =
-            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         start_time = jsonResponse[0]["start_serve_time"];
         end_time = jsonResponse[0]["end_serve_time"];
         print(start_time);

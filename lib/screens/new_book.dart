@@ -92,27 +92,6 @@ class _NewBookState extends State<NewBook> {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       return Scaffold(
-          // backgroundColor: Color(0xfffff8ee),
-          // appBar: AppBar(
-          //   actions: [
-          //     IconButton(
-          //         icon: Icon(
-          //           Icons.chevron_right,
-          //           color: Colors.grey,
-          //         ),
-          //         onPressed: () {
-          //           Navigator.pop(context);
-          //         })
-          //   ],
-          //   title: Text(
-          //     'ثبت کتاب جدید',
-          //     textDirection: TextDirection.rtl,
-          //     style: TextStyle(color: kPrimaryColor),
-          //   ),
-          //   elevation: 1,
-          //   backgroundColor: Colors.white,
-          //   centerTitle: true,
-          // ),
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -194,136 +173,49 @@ class _NewBookState extends State<NewBook> {
                               SizedBox(
                                 height: 20,
                               ),
-                              InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    child: AlertDialog(
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                  'انتخاب عکس : ',
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                  style: TextStyle(
-                                                      color: Colors.grey[800]),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Container(
-                                            height: 0.5,
-                                            width: double.infinity,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              selectFromCamera();
-                                            },
-                                            child: Padding(
-                                              padding: EdgeInsets.only(right: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    'از دوربین‌',
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                    style: TextStyle(
-                                                        color: Colors.black),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Icon(
-                                                    Icons.camera_alt,
-                                                    color: Colors.grey[800],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              selectFromGallery();
-                                            },
-                                            child: Padding(
-                                              padding: EdgeInsets.only(right: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    'از گالری',
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                    style: TextStyle(
-                                                        color: Colors.black),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Icon(
-                                                    Icons.insert_photo,
-                                                    color: Colors.grey[800],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                              Container(
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        child: MyAlertDialog(),
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 1,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Container(
-                                    height: 100,
-                                    width: 100,
-                                    child: Column(
-                                      children: [
-                                        if (imageFile != null) ...[
-                                          Image.file(
-                                            imageFile,
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          // Uploader(file: _imageFile),
-                                        ] else ...[
-                                          Image(
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/add_image.png'),
-                                          ),
-                                        ]
-                                      ],
+                                      child: Container(
+                                        height: (imageFile != null) ? 150 : 100,
+                                        width: (imageFile != null) ? 120 : 100,
+                                        child: Column(
+                                          children: [
+                                            if (imageFile != null) ...[
+                                              Image.file(
+                                                imageFile,
+                                                width: 120,
+                                                height: 150,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              // Uploader(file: _imageFile),
+                                            ] else ...[
+                                              Image(
+                                                width: 100,
+                                                height: 100,
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                    'assets/images/add_image.png'),
+                                              ),
+                                            ]
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -354,43 +246,42 @@ class _NewBookState extends State<NewBook> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Expanded(
-                                      child: Material(
-                                        child: InkWell(
-                                          highlightColor: Colors.black,
-                                          onTap: () {
-                                            // _openDialog();
-                                            // openBooksNameDialog();
-                                            _showBooksDialog();
-                                            // _showFacultiesDialog();
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                right: 10,
-                                                left: 10,
-                                                top: 10,
-                                                bottom: 10),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[300],
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            margin: EdgeInsets.only(
-                                              left: 5,
-                                              right: 5,
-                                              top: 2,
-                                              bottom: 2,
-                                            ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[300],
+                                          borderRadius:
+                                          BorderRadius.circular(5),
+                                        ),
+                                        margin: EdgeInsets.only(
+                                          left: 5,
+                                          right: 5,
+                                          top: 2,
+                                          bottom: 2,
+                                        ),
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            onTap: () {
+                                              _showBooksDialog();
+                                            },
                                             child: Container(
-                                              color: Colors.grey[300],
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Icon(Icons.arrow_drop_down),
-                                                  Text(selectedBookName ??
-                                                      'کتابی انتخاب نشده'),
-                                                ],
+                                              padding: EdgeInsets.only(
+                                                  right: 10,
+                                                  left: 10,
+                                                  top: 10,
+                                                  bottom: 10),
+                                              child: Container(
+                                                // color: Colors.grey[300],
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Icon(Icons.arrow_drop_down),
+                                                    Text(selectedBookName ??
+                                                        'کتابی انتخاب نشده'),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -490,6 +381,7 @@ class _NewBookState extends State<NewBook> {
                                     children: [
                                       Expanded(
                                         child: Material(
+                                          color: Colors.transparent,
                                           child: InkWell(
                                             highlightColor: Colors.black,
                                             onTap: () {
@@ -878,44 +770,50 @@ class _NewBookState extends State<NewBook> {
                     shrinkWrap: true,
                     itemCount: count,
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          selectedBookId = mapList[index]['id'];
-                          isAddingCompletelyNewBook = false;
-                          setState(() {
-                            selectedBookName = mapList[index]['name'];
-                            nameController.text = selectedBookName;
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        margin:
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
                             borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                mapList[index]['name'],
-                                textDirection: TextDirection.rtl,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
+                            onTap: () {
+                              selectedBookId = mapList[index]['id'];
+                              isAddingCompletelyNewBook = false;
+                              setState(() {
+                                selectedBookName = mapList[index]['name'];
+                                nameController.text = selectedBookName;
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              padding:
+                                  EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    mapList[index]['name'],
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    mapList[index]['author'],
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                mapList[index]['author'],
-                                textDirection: TextDirection.rtl,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       );
@@ -1016,5 +914,101 @@ class _NewBookState extends State<NewBook> {
     });
     print(name);
     Navigator.pop(context);
+  }
+
+  MyAlertDialog() {
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Row(
+              mainAxisAlignment:
+              MainAxisAlignment.end,
+              children: [
+                Text(
+                  'انتخاب عکس : ',
+                  textDirection:
+                  TextDirection.rtl,
+                  style: TextStyle(
+                      color: Colors.grey[800]),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 0.5,
+            width: double.infinity,
+            color: Colors.grey,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          InkWell(
+            onTap: () {
+              selectFromCamera();
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'از دوربین‌',
+                    textDirection:
+                    TextDirection.rtl,
+                    style: TextStyle(
+                        color: Colors.black),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Icon(
+                    Icons.camera_alt,
+                    color: Colors.grey[800],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          InkWell(
+            onTap: () {
+              selectFromGallery();
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'از گالری',
+                    textDirection:
+                    TextDirection.rtl,
+                    style: TextStyle(
+                        color: Colors.black),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Icon(
+                    Icons.insert_photo,
+                    color: Colors.grey[800],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

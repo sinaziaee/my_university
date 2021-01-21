@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_university/event/Screens/new_event_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
@@ -228,7 +229,9 @@ class _EventsScreenState extends State<EventsScreen> {
                       padding: EdgeInsets.only(
                         top: 150,
                       ),
-                      child: CircularProgressIndicator(),
+                      child: SpinKitWave(
+                        color: kPrimaryColor,
+                      ),
                     ),
                   );
                 }

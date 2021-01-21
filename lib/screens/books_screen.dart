@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/components/book_item.dart';
 import 'package:my_university/screens/filter_screen.dart';
 import 'package:my_university/screens/history_screen.dart';
@@ -31,7 +32,7 @@ class _BooksScreenState extends State<BooksScreen> {
   Map args;
 
   String token, search, faculty;
-  int userId, min , max;
+  int userId, min, max;
 
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,7 +50,8 @@ class _BooksScreenState extends State<BooksScreen> {
   @override
   Widget build(BuildContext context) {
     _navigateToFilterScreen(BuildContext context) async {
-      var result = await Navigator.pushNamed(context, FilterScreen.id, arguments: {
+      var result =
+          await Navigator.pushNamed(context, FilterScreen.id, arguments: {
         'search': this.search,
         'min': this.min,
         'max': this.max,
@@ -62,22 +64,21 @@ class _BooksScreenState extends State<BooksScreen> {
       int max = map['max'];
       String faculty = map['faculty'];
 
-      if (search != null){
+      if (search != null) {
         this.search = search;
         controller.text = search;
       }
-      if (min != null){
+      if (min != null) {
         this.min = min;
       }
-      if (max != null){
+      if (max != null) {
         this.max = max;
       }
-      if (faculty != null){
+      if (faculty != null) {
         this.faculty = faculty;
       }
 
       onChanged();
-
     }
 
     _navigateToNewScreen(BuildContext context) async {
@@ -85,9 +86,7 @@ class _BooksScreenState extends State<BooksScreen> {
         'token': token,
         'user_id': userId,
       });
-      setState(() {
-
-      });
+      setState(() {});
     }
 
     return Builder(
@@ -146,7 +145,6 @@ class _BooksScreenState extends State<BooksScreen> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -164,10 +162,8 @@ class _BooksScreenState extends State<BooksScreen> {
                       topRight: Radius.circular(15),
                       bottomLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15),
-
                     ),
                   ),
-
                   margin: EdgeInsets.only(
                     left: 30,
                     right: 30,
@@ -175,8 +171,7 @@ class _BooksScreenState extends State<BooksScreen> {
 
                     // bottom: 20,
                   ),
-                  padding:
-                  EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -211,15 +206,13 @@ class _BooksScreenState extends State<BooksScreen> {
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
+                                  EdgeInsets.symmetric(horizontal: 15),
                               hintText: "جستجو"),
                         ),
                       ),
                     ],
                   ),
-
                 ),
-
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(
@@ -234,7 +227,6 @@ class _BooksScreenState extends State<BooksScreen> {
                         topRight: Radius.circular(50),
                       ),
                     ),
-
                     child: RefreshIndicator(
                       onRefresh: () {
                         return _refresh();
@@ -245,7 +237,8 @@ class _BooksScreenState extends State<BooksScreen> {
                             future: getToken(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData &&
-                                  snapshot.connectionState == ConnectionState.done) {
+                                  snapshot.connectionState ==
+                                      ConnectionState.done) {
                                 return FutureBuilder(
                                     future: http.get(url, headers: {
                                       HttpHeaders.authorizationHeader: token
@@ -255,12 +248,14 @@ class _BooksScreenState extends State<BooksScreen> {
                                         if (snapshot.data != null) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.done) {
-                                            http.Response response = snapshot.data;
+                                            http.Response response =
+                                                snapshot.data;
                                             // print(response.statusCode);
                                             // print(utf8.decode(response.bodyBytes));
                                             // List<Map> jsonResponse = convert.jsonDecode(response.body);
-                                            var jsonResponse = convert.jsonDecode(
-                                                utf8.decode(response.bodyBytes));
+                                            var jsonResponse =
+                                                convert.jsonDecode(utf8.decode(
+                                                    response.bodyBytes));
                                             List<Map> mapList = [];
                                             // print(jsonResponse);
                                             // if (jsonResponse['detail'] != null) {
@@ -283,19 +278,21 @@ class _BooksScreenState extends State<BooksScreen> {
                                                 child: Column(
                                                   children: [
                                                     Padding(
-                                                      padding: const EdgeInsets.fromLTRB(120,100,120,20),
+                                                      padding: const EdgeInsets
+                                                              .fromLTRB(
+                                                          120, 100, 120, 20),
                                                       child: Image(
-                                                          image: AssetImage("assets/images/book2.png")
-                                                      ),
+                                                          image: AssetImage(
+                                                              "assets/images/book2.png")),
                                                     ),
                                                     Center(
-                                                      child:
-                                                          Text('کتابی برای فروش موجود نیست',
-                                                            style: TextStyle(
-                                                                fontWeight: FontWeight.w700,
-                                                                fontSize: 17
-                                                            ),
-                                                          ),
+                                                      child: Text(
+                                                        'کتابی برای فروش موجود نیست',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 17),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -312,24 +309,32 @@ class _BooksScreenState extends State<BooksScreen> {
                                                       mapList[index]['id'],
                                                       token,
                                                       mapList[index]['seller'],
-                                                      mapList[index]['seller_username'],
+                                                      mapList[index]
+                                                          ['seller_username'],
                                                       mapList[index]['book_id'],
                                                     );
                                                   },
-                                                  url: (mapList[index]['image'] != null)
+                                                  url: (mapList[index]
+                                                              ['image'] !=
+                                                          null)
                                                       ? '$baseUrl/media/${mapList[index]['image']}'
                                                       : '',
-                                                  cost:
-                                                      mapList[index]['price'].toString(),
-                                                  name: mapList[index]['name'].toString(),
-                                                  author:
-                                                      mapList[index]['author'].toString(),
-                                                  timeStamp: mapList[index]['upload']
+                                                  cost: mapList[index]['price']
+                                                      .toString(),
+                                                  name: mapList[index]['name']
+                                                      .toString(),
+                                                  author: mapList[index]
+                                                          ['author']
+                                                      .toString(),
+                                                  timeStamp: mapList[index]
+                                                          ['upload']
                                                       .toString()
                                                       .substring(10, 16),
-                                                  publisher: mapList[index]['faculty']
+                                                  publisher: mapList[index]
+                                                          ['faculty']
                                                       .toString(),
-                                                  faculty: mapList[index]['faculty']
+                                                  faculty: mapList[index]
+                                                          ['faculty']
                                                       .toString(),
                                                 );
                                               },
@@ -343,9 +348,11 @@ class _BooksScreenState extends State<BooksScreen> {
                                           return Center(
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                Image.asset('assets/images/not_found.png',
+                                                Image.asset(
+                                                    'assets/images/not_found.png',
                                                     height: 200),
                                                 SizedBox(
                                                   height: 20,
@@ -356,44 +363,18 @@ class _BooksScreenState extends State<BooksScreen> {
                                           );
                                         }
                                       } else {
-                                        return ListView.builder(
-                                            itemCount: 10,
-                                            itemBuilder: (context, index) {
-                                              return Container(
-                                                margin: EdgeInsets.symmetric(
-                                                  horizontal: 20,
-                                                  vertical: 5,
-                                                ),
-                                                padding: EdgeInsets.only(top: 15),
-                                                height: 100,
-                                                width: double.infinity,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(38.5),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      offset: Offset(0, 10),
-                                                      blurRadius: 33,
-                                                      color: Color(0xFFD3D3D3)
-                                                          .withOpacity(.84),
-                                                    ),
-                                                  ],
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(38.5),
-                                                  child: Center(
-                                                    child: CircularProgressIndicator(),
-                                                  ),
-                                                ),
-                                              );
-                                            });
+                                        return Center(
+                                          child: SpinKitWave(
+                                            color: kPrimaryColor,
+                                          ),
+                                        );
                                       }
                                     });
                               } else {
                                 return Center(
-                                  child: CircularProgressIndicator(),
+                                  child: SpinKitWave(
+                                    color: kPrimaryColor,
+                                  ),
                                 );
                               }
                             }),
@@ -427,41 +408,32 @@ class _BooksScreenState extends State<BooksScreen> {
   }
 
   onChanged() {
-    if(min == null && search == null && faculty == null){
+    if (min == null && search == null && faculty == null) {
       print(1);
       url = '$stockUrl';
-    }
-    else if(min != null && search != null && faculty == null){
+    } else if (min != null && search != null && faculty == null) {
       print(2);
       url = '$stockUrl?search=$search&min=$min&max=$max';
-    }
-    else if(min != null && search == null && faculty != null){
+    } else if (min != null && search == null && faculty != null) {
       print(3);
       url = '$stockUrl?min=$min&max=$max&faculty=$faculty';
-    }
-    else if(min == null && search != null && faculty != null){
+    } else if (min == null && search != null && faculty != null) {
       print(4);
       url = '$stockUrl?search=$search&faculty=$faculty';
-    }
-    else if(min != null && search == null && faculty == null){
+    } else if (min != null && search == null && faculty == null) {
       print(5);
       url = '$stockUrl?min=$min&max=$max';
-    }
-    else if(min == null && search == null && faculty != null){
+    } else if (min == null && search == null && faculty != null) {
       print(6);
       url = '$stockUrl?faculty=$faculty';
-    }
-    else if(min == null && search != null && faculty == null){
+    } else if (min == null && search != null && faculty == null) {
       print(7);
       url = '$stockUrl?search=$search';
-    }
-    else{
+    } else {
       print(8);
       url = '$stockUrl?search=$search&min=$min&max=$max&faculty=$faculty';
     }
-    setState(() {
-
-    });
+    setState(() {});
     print('**********************');
     print(url);
     print('***********************');

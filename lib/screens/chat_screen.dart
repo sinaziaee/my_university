@@ -1,9 +1,12 @@
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/components/message_bubble.dart';
 import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'dart:convert' as convert;
+
+import '../constants.dart';
 
 int room, currentUserId;
 String myUsername, otherUsername;
@@ -173,7 +176,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   }
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitWave(
+                      color: kPrimaryColor,
+                    ),
                   );
                 },
               ),

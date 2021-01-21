@@ -11,22 +11,24 @@ import 'package:intl/intl.dart' as intl;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+
 //import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert' as convert;
 import 'dart:ui' as ui;
-String begin_json , end_json;
+import 'package:persian_date/persian_date.dart';
+import 'package:shamsi_date/shamsi_date.dart';
+
+String begin_json, end_json;
 
 DateTime begin = DateTime.now();
 DateTime end = DateTime.now();
-String  event_type = "event";
+String event_type = "event";
 Color mycolor = Colors.white;
-
-
-
 
 class NewEventScreen extends StatefulWidget {
   static String id = 'new_event';
@@ -39,20 +41,22 @@ class _NewEventScreenState extends State<NewEventScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String postEventUrl = '$baseUrl/api/event/user/';
-
+  Jalali date = Jalali.now();
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+
   //TextEditingController ownership = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController capacity = TextEditingController();
   TextEditingController priceController = TextEditingController();
 
-  String  token, selectedBookName;
+  String token, selectedBookName;
   int selectedFacultyId, selectedBookId;
   int userId;
-  bool showSpinner = false,
-      isAddingCompletelyNewBook = false;
+  bool showSpinner = false, isAddingCompletelyNewBook = false;
   String base64Image;
+  DateTime selectedDate1 = DateTime.now();
+  DateTime selectedDate2 = DateTime.now();
 
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -103,13 +107,12 @@ class _NewEventScreenState extends State<NewEventScreen> {
     });
   }
 
-  _showEventTypesDialog(){
-
+  _showEventTypesDialog() {
     return showDialog(
-        context:  context,
+        context: context,
         child: AlertDialog(
-        shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           content: Container(
             child: SingleChildScrollView(
               child: Column(
@@ -118,19 +121,16 @@ class _NewEventScreenState extends State<NewEventScreen> {
                   //
                   //ListView.builder(
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         event_type = "حضوری";
                       });
                       Navigator.pop(context);
-
                     },
-
                     child: Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                      margin:
-                      EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -147,25 +147,20 @@ class _NewEventScreenState extends State<NewEventScreen> {
                           ],
                         ),
                       ),
-
                     ),
                   ),
 
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         event_type = "آنلاین";
-
                       });
                       Navigator.pop(context);
-
                     },
-
                     child: Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                      margin:
-                      EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                       child: Text(
                         'آنلاین',
                         textDirection: ui.TextDirection.rtl,
@@ -174,19 +169,13 @@ class _NewEventScreenState extends State<NewEventScreen> {
                         ),
                       ),
                       //),
-
                     ),
                   )
                 ],
-
               ),
             ),
           ),
-        )
-
-    );
-
-
+        ));
   }
 
   // *********************************************************************************************
@@ -194,31 +183,23 @@ class _NewEventScreenState extends State<NewEventScreen> {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       return Scaffold(
-          // appBar: AppBar(
-          //
-          //   actions: [
-          //     IconButton(
-          //         icon: Icon(
-          //           Icons.chevron_right,
-          //           color: Colors.grey,
-          //         ),
-          //         onPressed: () {
-          //           Navigator.pop(context);
-          //         }
-          //     )
-          //   ],
-          //
-          //   title:
-          //
-          //
-          //   elevation: 1,
-          //   backgroundColor: Colors.purple,
-          //   centerTitle: true,
-          // ),
-
-
+          backgroundColor: Colors.purple.shade300,
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.purple.shade300,
+            elevation: 0,
+            title: Text(
+              'ثبت رویداد جدید',
+              textDirection: ui.TextDirection.rtl,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
           body: Container(
             color: Colors.purple.shade300,
+            margin: EdgeInsets.only(top: 20),
             child: FutureBuilder(
                 future: getToken(),
                 builder: (context, snapshot) {
@@ -228,11 +209,6 @@ class _NewEventScreenState extends State<NewEventScreen> {
                       inAsyncCall: showSpinner,
                       color: Colors.purple.shade200,
                       child: Container(
-                        margin: EdgeInsets.only(top: 100),
-                        padding: EdgeInsets.only(
-                          // top: 50,
-                          // left: 50,
-                        ),
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Color(0xfffff8ee),
@@ -241,47 +217,29 @@ class _NewEventScreenState extends State<NewEventScreen> {
                             topRight: Radius.circular(50),
                           ),
                         ),
-
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-
                               SizedBox(
-                                height: 20,
+                                height: 50,
                               ),
-
-                              Text(
-                                'ثبت رویداد جدید',
-                                textDirection: ui.TextDirection.rtl,
-                                style: TextStyle(color: kPrimaryColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-
                               Container(
                                 margin: EdgeInsets.only(left: 20, right: 20),
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment:MainAxisAlignment.end ,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: mycolor,
-                                                  spreadRadius: 5,
-                                                  blurRadius: 10,
-                                                  offset: Offset(0, 3),
-                                                )
-                                              ]
-                                          ),
-
+                                          decoration: BoxDecoration(boxShadow: [
+                                            BoxShadow(
+                                              color: mycolor,
+                                              spreadRadius: 5,
+                                              blurRadius: 10,
+                                              offset: Offset(0, 3),
+                                            )
+                                          ]),
                                           height: 40,
                                           width: 200,
                                           child: TextField(
@@ -290,7 +248,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(10),
+                                                    BorderRadius.circular(10),
                                               ),
                                             ),
                                           ),
@@ -301,37 +259,28 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           style: TextStyle(
                                               color: kPrimaryColor,
                                               fontSize: 20,
-                                              fontWeight: FontWeight.bold
-                                          ),
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ],
-
                                     ),
-
                                     SizedBox(
                                       height: 20,
                                     ),
-
                                     SizedBox(
                                       height: 20,
                                     ),
-
-
                                     Row(
-                                      mainAxisAlignment:MainAxisAlignment.end ,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: mycolor,
-                                                  spreadRadius: 5,
-                                                  blurRadius: 15,
-                                                  offset: Offset(0, 3),
-                                                )
-                                              ]
-                                          ),
-
+                                          decoration: BoxDecoration(boxShadow: [
+                                            BoxShadow(
+                                              color: mycolor,
+                                              spreadRadius: 5,
+                                              blurRadius: 15,
+                                              offset: Offset(0, 3),
+                                            )
+                                          ]),
                                           height: 40,
                                           width: 150,
                                           child: TextField(
@@ -340,7 +289,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(10),
+                                                    BorderRadius.circular(10),
                                               ),
                                             ),
                                           ),
@@ -351,11 +300,9 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           style: TextStyle(
                                               color: kPrimaryColor,
                                               fontSize: 20,
-                                              fontWeight: FontWeight.bold
-                                          ),
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ],
-
                                     ),
                                   ],
                                 ),
@@ -385,7 +332,6 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                 height: 20,
                               ),
 
-
                               InkWell(
                                 onTap: () {
                                   showDialog(
@@ -393,7 +339,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                     child: AlertDialog(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
-                                  ),
+                                      ),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -401,47 +347,44 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                             padding: EdgeInsets.only(right: 10),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                                  MainAxisAlignment.end,
                                               children: [
                                                 Text(
                                                   'انتخاب عکس : ',
                                                   textDirection:
-                                                  ui.TextDirection.rtl,
+                                                      ui.TextDirection.rtl,
                                                   style: TextStyle(
                                                       color: Colors.black),
                                                 ),
                                               ],
                                             ),
                                           ),
-
                                           SizedBox(
                                             height: 10,
                                           ),
-
                                           Container(
                                             height: 0.5,
                                             width: double.infinity,
                                             color: Colors.grey,
                                           ),
-
                                           SizedBox(
                                             height: 10,
                                           ),
-
                                           InkWell(
                                             onTap: () {
                                               selectFromCamera();
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(right: 10),
+                                              padding:
+                                                  EdgeInsets.only(right: 10),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                    MainAxisAlignment.end,
                                                 children: [
                                                   Text(
                                                     'از دوربین‌',
                                                     textDirection:
-                                                    ui.TextDirection.rtl,
+                                                        ui.TextDirection.rtl,
                                                     style: TextStyle(
                                                         color: Colors.purple),
                                                   ),
@@ -456,25 +399,24 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                               ),
                                             ),
                                           ),
-
                                           SizedBox(
                                             height: 10,
                                           ),
-
                                           InkWell(
                                             onTap: () {
                                               selectFromGallery();
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(right: 10),
+                                              padding:
+                                                  EdgeInsets.only(right: 10),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                    MainAxisAlignment.end,
                                                 children: [
                                                   Text(
                                                     'از گالری',
                                                     textDirection:
-                                                    ui.TextDirection.rtl,
+                                                        ui.TextDirection.rtl,
                                                     style: TextStyle(
                                                         color: Colors.purple),
                                                   ),
@@ -503,70 +445,60 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                     ),
                                   ),
                                   child: Container(
-                                    height: 200,
-                                    width: 200,
+                                    height: (imageFile != null) ? 150 : 100,
+                                    width: (imageFile != null) ? 150 : 100,
                                     child: Column(
                                       children: [
                                         if (imageFile != null) ...[
                                           Image.file(
                                             imageFile,
-                                            width: 200,
-                                            height: 200,
+                                            width: 150,
+                                            height: 150,
                                             fit: BoxFit.cover,
                                           ),
                                           // Uploader(file: _imageFile),
-                                        ] else
-                                          ...[
-                                            Image(
-                                              width: 200,
-                                              height: 200,
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                  'assets/images/add_image.png'),
-                                            ),
-                                          ]
+                                        ] else ...[
+                                          Image(
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/images/add_image.png'),
+                                          ),
+                                        ]
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
 
-
                               if (imageFile != null) ...[
                                 Row(
-
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-
                                     FlatButton(
                                       onPressed: _cropImage,
                                       child: Icon(Icons.crop),
                                     ),
-
                                     FlatButton(
                                       onPressed: _clear,
                                       child: Icon(Icons.refresh),
                                     ),
                                   ],
                                 ),
-                              ]
+                              ] else ...[
+                                SizedBox(),
+                              ],
 
-                              else
-                                ...[
-                                  SizedBox(),
-                                ],
-
-                              SizedBox(
-                                height: 20,
-                              ),
-
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
 
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                  ],
+                                  children: [],
                                 ),
                               ),
 
@@ -576,24 +508,18 @@ class _NewEventScreenState extends State<NewEventScreen> {
 
                               if (isAddingCompletelyNewBook == false)
                                 ...[]
-
-                              else
-                                ...[
-
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-
-
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
+                              else ...[
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
 
                               SizedBox(
                                 height: 20,
                               ),
-
 
                               //description
                               Row(
@@ -616,19 +542,16 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                 height: 10,
                               ),
 
-
                               //description
                               Container(
-                                decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: mycolor,
-                                        spreadRadius: 5,
-                                        blurRadius: 15,
-                                        offset: Offset(0, 3),
-                                      )
-                                    ]
-                                ),
+                                decoration: BoxDecoration(boxShadow: [
+                                  BoxShadow(
+                                    color: mycolor,
+                                    spreadRadius: 5,
+                                    blurRadius: 15,
+                                    offset: Offset(0, 3),
+                                  )
+                                ]),
                                 height: 100,
                                 margin: EdgeInsets.only(left: 15, right: 15),
                                 child: TextField(
@@ -643,11 +566,9 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                 ),
                               ),
 
-
                               SizedBox(
                                 height: 10,
                               ),
-
 
                               //price
                               Container(
@@ -658,17 +579,14 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: mycolor,
-                                                  spreadRadius: 5,
-                                                  blurRadius: 15,
-                                                  offset: Offset(0, 3),
-                                                )
-                                              ]
-                                          ),
-
+                                          decoration: BoxDecoration(boxShadow: [
+                                            BoxShadow(
+                                              color: mycolor,
+                                              spreadRadius: 5,
+                                              blurRadius: 15,
+                                              offset: Offset(0, 3),
+                                            )
+                                          ]),
                                           height: 40,
                                           width: 100,
                                           child: TextField(
@@ -677,7 +595,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(10),
+                                                    BorderRadius.circular(10),
                                               ),
                                             ),
                                           ),
@@ -688,89 +606,79 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           style: TextStyle(
                                               color: kPrimaryColor,
                                               fontSize: 20,
-                                              fontWeight: FontWeight.bold
-                                          ),
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
-
                                     SizedBox(
                                       height: 10,
                                     ),
-
                                     Text(
                                       'زمان شروع رویداد :   ',
                                       textDirection: ui.TextDirection.rtl,
                                       style: TextStyle(
                                           color: kPrimaryColor,
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                      ),
+                                          fontWeight: FontWeight.bold),
                                     ),
-
                                     RaisedButton(
-                                      child: Text(begin_json ?? 'زمان شروع رویداد',
-                                          style: TextStyle(
-                                            color: kPrimaryColor,
-                                            fontSize: 15,
-                                            //fontWeight: 5,
-                                          )
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
+                                      child:
+                                          Text(begin_json ?? 'زمان شروع رویداد',
+                                              style: TextStyle(
+                                                color: kPrimaryColor,
+                                                fontSize: 15,
+                                                //fontWeight: 5,
+                                              )),
                                       onPressed: () {
-                                        showPickerDateCustom(context , true);
+                                        // showPickerDateCustom(context , true);
+                                        showCalendarDialog1();
                                       },
                                     ),
-
                                     SizedBox(
                                       height: 20,
                                     ),
-
                                     Text(
                                       'زمان پایان رویداد :   ',
                                       textDirection: ui.TextDirection.rtl,
                                       style: TextStyle(
                                           color: kPrimaryColor,
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold
-                                      ),
+                                          fontWeight: FontWeight.bold),
                                     ),
-
-
                                     RaisedButton(
-                                      child: Text(end_json ??
-                                          'زمان پایان رویداد'
-                                          ,
-                                          style: TextStyle(
-                                            color: kPrimaryColor,
-                                            fontSize: 15,
-                                            //fontWeight: 5,
-                                          )
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
+                                      child:
+                                          Text(end_json ?? 'زمان پایان رویداد',
+                                              style: TextStyle(
+                                                color: kPrimaryColor,
+                                                fontSize: 15,
+                                                //fontWeight: 5,
+                                              )),
                                       onPressed: () {
-                                        showPickerDateCustom(context , false);
+                                        // showPickerDateCustom(context , false);
+                                        showCalendarDialog2();
                                       },
                                     ),
-
-
                                     SizedBox(
                                       height: 20,
                                     ),
-
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color:mycolor,
-                                                  spreadRadius: 5,
-                                                  blurRadius: 15,
-                                                  offset: Offset(0, 3),
-                                                )
-                                              ]
-                                          ),
-
+                                          decoration: BoxDecoration(boxShadow: [
+                                            BoxShadow(
+                                              color: mycolor,
+                                              spreadRadius: 5,
+                                              blurRadius: 15,
+                                              offset: Offset(0, 3),
+                                            )
+                                          ]),
                                           height: 40,
                                           width: 100,
                                           child: TextField(
@@ -778,74 +686,73 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(10),
+                                                    BorderRadius.circular(10),
                                               ),
                                             ),
                                           ),
                                         ),
-
                                         Text(
                                           'ظرفیت :   ',
                                           textDirection: ui.TextDirection.rtl,
                                           style: TextStyle(
                                               color: kPrimaryColor,
                                               fontSize: 20,
-                                              fontWeight: FontWeight.bold
-                                          ),
+                                              fontWeight: FontWeight.bold),
                                         ),
-
-
                                       ],
                                     ),
-
                                     SizedBox(
                                       height: 20,
                                     ),
-
-
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        InkWell(
-                                          highlightColor: Colors.black,
-                                          onTap: () {
-                                            _showEventTypesDialog();
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                right: 30,
-                                                left: 10,
-                                                top: 10,
-                                                bottom: 10),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[300],
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Colors.grey[300],
+                                          ),
+                                          margin: EdgeInsets.only(
+                                            left: 5,
+                                            right: 5,
+                                            top: 2,
+                                            bottom: 2,
+                                          ),
+                                          child: Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
                                               borderRadius:
-                                              BorderRadius.circular(56),
-                                            ),
-                                            margin: EdgeInsets.only(
-                                              left: 5,
-                                              right: 5,
-                                              top: 2,
-                                              bottom: 2,
-                                            ),
-                                            child: Container(
-                                              color: Colors.grey[300],
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
-                                                children: [
-                                                  Icon(Icons.arrow_drop_down),
-                                                  Text(event_type ??
-                                                      'گزینه ای انتخاب نشده'
-                                                      ,
-                                                      style: TextStyle(
-                                                        color: kPrimaryColor,
-                                                        fontSize: 15,
-                                                        //fontWeight: 5,
-                                                      )
+                                                  BorderRadius.circular(10),
+                                              onTap: () {
+                                                _showEventTypesDialog();
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    right: 30,
+                                                    left: 10,
+                                                    top: 10,
+                                                    bottom: 10),
+                                                child: Container(
+                                                  // color: Colors.grey[300],
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Icon(Icons
+                                                          .arrow_drop_down),
+                                                      Text(
+                                                          event_type ??
+                                                              'گزینه ای انتخاب نشده',
+                                                          style: TextStyle(
+                                                            color:
+                                                                kPrimaryColor,
+                                                            fontSize: 15,
+                                                            //fontWeight: 5,
+                                                          )),
+                                                    ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -856,8 +763,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           style: TextStyle(
                                               color: kPrimaryColor,
                                               fontSize: 20,
-                                              fontWeight: FontWeight.bold
-                                          ),
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
@@ -869,11 +775,11 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                 height: 30,
                               ),
 
-
                               Padding(
                                 padding: EdgeInsets.only(left: 20, right: 20),
                                 child: Container(
-                                  margin: EdgeInsets.only(left: 100 , right: 100),
+                                  margin:
+                                      EdgeInsets.only(left: 100, right: 100),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -881,10 +787,11 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                         child: FlatButton(
                                           height: 20,
                                           minWidth: 20,
-                                          padding:
-                                          EdgeInsets.only(top: 5, bottom: 5),
+                                          padding: EdgeInsets.only(
+                                              top: 5, bottom: 5),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                           onPressed: () {
                                             validateData();
@@ -912,15 +819,12 @@ class _NewEventScreenState extends State<NewEventScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-
                             ],
                           ),
                         ),
                       ),
                     );
-                  }
-
-                  else {
+                  } else {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
@@ -930,73 +834,64 @@ class _NewEventScreenState extends State<NewEventScreen> {
     });
   }
 
-
   validateData() {
-    if(nameController.text.length == 0){
+    if (nameController.text.length == 0) {
       _showDialog(context, 'نام رویداد را اضافه کنید !');
       return;
     }
 
-
-    if(location.text.length == 0){
+    if (location.text.length == 0) {
       _showDialog(context, 'محل برگزاری رویداد را اضافه کنید !');
       return;
     }
 
-    if(capacity.text.length == 0){
+    if (capacity.text.length == 0) {
       _showDialog(context, 'ظرفیت رویداد را اضافه کنید !');
       return;
     }
 
-    if(priceController.text.length == 0){
+    if (priceController.text.length == 0) {
       _showDialog(context, 'هزینه شرکت در رویداد را اضافه کنید !');
       return;
     }
 
-    if(descriptionController.text.length == 0){
+    if (descriptionController.text.length == 0) {
       _showDialog(context, 'توضیحات رویداد را اضافه کنید !');
       return;
     }
 
-    if(begin == DateTime.now()){
+    if (begin == DateTime.now()) {
       _showDialog(context, 'زمان شروع را مشخص کنید !');
       return;
     }
 
-    if(end == DateTime.now()){
+    if (end == DateTime.now()) {
       _showDialog(context, 'زمان پایان را مشخص کنید !');
       return;
     }
 
-    if(event_type == "event"){
+    if (event_type == "event") {
       _showDialog(context, 'نوع برگزاری را مشخص کنید !');
       return;
     }
 
-
     postNewEvent();
   }
 
-
-
-  postNewEvent() async
-  {
+  postNewEvent() async {
     setState(() {
       showSpinner = true;
     });
 
-    try
-    {
+    try {
       http.Response response;
 
-
-      if ( imageFile != null && imageFile.uri != null) {
+      if (imageFile != null && imageFile.uri != null) {
         String base64file = convert.base64Encode(imageFile.readAsBytesSync());
 
         print("here if !!!!");
         //String t1 = jsonEncode(begin);
         //String t2 = jsonEncode(end);
-
 
         response = await http.post(
           postEventUrl,
@@ -1005,30 +900,26 @@ class _NewEventScreenState extends State<NewEventScreen> {
             "Accept": "application/json",
             "content-type": "application/json",
           },
-
           body: convert.json.encode({
             'name': nameController.text,
             'cost': int.parse(priceController.text),
             'capacity': int.parse(capacity.text),
-            'hold_type' : event_type,
-            'start_time': begin_json.toString() ,
-            'end_time' : end_json.toString(),
+            'hold_type': event_type,
+            'start_time': begin_json.toString(),
+            'end_time': end_json.toString(),
             'location': location.text,
             'description': descriptionController.text,
             'filename': imageFile.path.split('/').last,
             'image': base64file,
           }),
         );
-      }
-
-      else {
+      } else {
         print("Im here Else !!!!");
 
         //String t1 = jsonEncode(begin);
         //String t2 = jsonEncode(end);
         print("begin_json : $begin_json");
         print("end_json : $end_json");
-
 
         response = await http.post(
           postEventUrl,
@@ -1042,9 +933,9 @@ class _NewEventScreenState extends State<NewEventScreen> {
             'cost': int.parse(priceController.text),
             'capacity': int.parse(capacity.text),
             //'Organizer': organizerController,
-            'hold_type' : event_type,
-            'start_time': begin_json.toString() ,
-            'end_time' : end_json.toString(),
+            'hold_type': event_type,
+            'start_time': begin_json.toString(),
+            'end_time': end_json.toString(),
             'location': location.text,
             'description': descriptionController.text,
           }),
@@ -1057,26 +948,19 @@ class _NewEventScreenState extends State<NewEventScreen> {
       if (response.statusCode >= 400) {
         print(response.body);
         _showDialog(context, "متاسفانه مشکلی پیش آمد.");
-      }
-
-      else {
+      } else {
         _showDialog(context, "رویداد اضافه شد");
       }
       setState(() {
         showSpinner = false;
       });
-    }
-
-    catch (e) {
+    } catch (e) {
       print('myError: $e');
       setState(() {
         showSpinner = false;
       });
     }
   }
-
-
-
 
   _showDialog(BuildContext context, String message) {
     // Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
@@ -1093,7 +977,8 @@ class _NewEventScreenState extends State<NewEventScreen> {
           Text(
             message,
             textDirection: ui.TextDirection.rtl,
-            style: TextStyle(fontSize: 20 ,
+            style: TextStyle(
+              fontSize: 20,
             ),
           ),
           FlatButton(
@@ -1111,41 +996,32 @@ class _NewEventScreenState extends State<NewEventScreen> {
     showDialog(context: context, child: dialog);
   }
 
-
-  showPickerDateCustom(BuildContext context , bool flag) {
+  showPickerDateCustom(BuildContext context, bool flag) {
     new Picker(
         hideHeader: true,
         adapter: new DateTimePickerAdapter(
-          customColumnType: [2,1,0,3,4],
+          customColumnType: [2, 1, 0, 3, 4],
         ),
-        title: new Text("زمان را انتخاب کنید" ,
+        title: new Text(
+          "زمان را انتخاب کنید",
           textDirection: ui.TextDirection.rtl,
         ),
         selectedTextStyle: TextStyle(color: Colors.blue),
         onConfirm: (Picker picker, List value) {
           print((picker.adapter as DateTimePickerAdapter).value);
 
-          if(flag){
+          if (flag) {
             setState(() {
               begin = (picker.adapter as DateTimePickerAdapter).value;
               begin_json = DateFormat('yyyy-MM-dd kk:mm:ss').format(begin);
-
             });
-
-
-          }
-
-
-          else{
+          } else {
             setState(() {
               end = (picker.adapter as DateTimePickerAdapter).value;
               end_json = DateFormat('yyyy-MM-dd kk:mm:ss').format(end);
-
             });
-
           }
-        }
-    ).showDialog(context);
+        }).showDialog(context);
   }
 
   selectFromGallery() {
@@ -1158,7 +1034,6 @@ class _NewEventScreenState extends State<NewEventScreen> {
     Navigator.pop(context);
   }
 
-
   _newBookDialog() {
     Navigator.pop(context);
     setState(() {
@@ -1166,38 +1041,86 @@ class _NewEventScreenState extends State<NewEventScreen> {
     });
   }
 
+  void showCalendarDialog1() {
+    String dateToShow = '${date.year}/${date.month}/${date.day}';
+    showDialog(
+      context: context,
+      builder: (BuildContext _) {
+        return PersianDateTimePicker(
+          // initial: '1399/12/20 19:50',
+          // initial: '1399/12/20',
+          type: 'datetime',
+          initial: dateToShow,
+          color: kPrimaryColor,
+          onSelect: (date) {
+            print(date);
+            List times = date.toString().split('/');
+            int year = int.parse(times[0]);
+            int month = int.parse(times[1]);
+            int day = int.parse(times[2]);
+            Jalali j = Jalali(year, month, day);
+            this.date = j;
+            Gregorian g = j.toGregorian();
+            selectedDate1 = g.toDateTime();
+            print(selectedDate1);
+            setState(() {});
+          },
+        );
+      },
+    );
+  }
 
+  void showCalendarDialog2() {
+    String dateToShow = '${date.year}/${date.month}/${date.day}';
+    showDialog(
+      context: context,
+      builder: (BuildContext _) {
+        return PersianDateTimePicker(
+          // initial: '1399/12/20 19:50',
+          // initial: '1399/12/20',
+          type: 'datetime',
+          initial: dateToShow,
+          color: kPrimaryColor,
+          onSelect: (date) {
+            print(date);
+            List times = date.toString().split('/');
+            int year = int.parse(times[0]);
+            int month = int.parse(times[1]);
+            int day = int.parse(times[2]);
+            Jalali j = Jalali(year, month, day);
+            this.date = j;
+            Gregorian g = j.toGregorian();
+            selectedDate2 = g.toDateTime();
+            print(selectedDate2);
+            setState(() {});
+          },
+        );
+      },
+    );
+  }
 
-  showPickerDate(BuildContext context , bool flag) {
+  showPickerDate(BuildContext context, bool flag) {
     Picker(
         hideHeader: true,
         adapter: DateTimePickerAdapter(),
-        title: Text("زمان را انتخاب کنید" ,
+        title: Text(
+          "زمان را انتخاب کنید",
           textDirection: ui.TextDirection.rtl,
         ),
         selectedTextStyle: TextStyle(color: Colors.blue),
         onConfirm: (Picker picker, List value) {
           print((picker.adapter as DateTimePickerAdapter).value);
 
-          if(flag){
+          if (flag) {
             //final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
             begin = (picker.adapter as DateTimePickerAdapter).value;
             begin_json = DateFormat('yyyy-MM-dd kk:mm:ss').format(begin);
             print("begin_json : $begin_json");
-
-          }
-
-
-          else{
+          } else {
             end = (picker.adapter as DateTimePickerAdapter).value;
             end_json = DateFormat('yyyy-MM-dd kk:mm:ss').format(end);
-            print("end_json :  $end_json" );
-
+            print("end_json :  $end_json");
           }
-
-
-        }
-    ).showDialog(context);
+        }).showDialog(context);
   }
-
 }

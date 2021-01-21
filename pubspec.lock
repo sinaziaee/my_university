@@ -118,6 +118,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.11"
+  flutter_spinkit:
+    dependency: "direct main"
+    description:
+      name: flutter_spinkit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.2+1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -296,6 +303,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
+  persian_datetime_picker:
+    dependency: "direct main"
+    description:
+      name: persian_datetime_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   persian_fonts:
     dependency: "direct main"
     description:
@@ -339,12 +353,12 @@ packages:
     source: hosted
     version: "3.0.13"
   shamsi_date:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: shamsi_date
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.1"
+    version: "0.8.1"
   shared_preferences:
     dependency: "direct main"
     description:

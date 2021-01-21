@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:persian_fonts/persian_fonts.dart';
 import 'dart:convert' as convert;
@@ -26,7 +27,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       description,
       holdType,
       location;
-  bool isParticipating = false ;
+  bool isParticipating = false;
+
   int cost, capacity, remainingCapacity, eventId;
   String url = '$baseUrl/api/event/user';
   String eventDemandUrl = '$baseUrl/api/event/user/register/';
@@ -61,9 +63,10 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
         }),
         builder: (context, snapshot) {
           http.Response response = snapshot.data;
-          if (snapshot.hasData && snapshot.connectionState==ConnectionState.done){
-            var jsonResponse = convert
-                .jsonDecode(convert.utf8.decode(response.bodyBytes));
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            var jsonResponse =
+                convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
             print(jsonResponse);
             name = jsonResponse['name'];
             startTime = jsonResponse['start_time'];
@@ -77,22 +80,25 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             image = '$baseUrl${jsonResponse['image']}';
 
             return bodyContainer();
-
-          }
-          else {
-            return Center(child: CircularProgressIndicator(),);
+          } else {
+            return Center(
+              child: SpinKitWave(
+                color: kPrimaryColor,
+              ),
+            );
           }
         },
       ),
     );
   }
+
   final double infoHeight = 250.0;
 
   // هر جور میخواین نمایش بدین  even رو
-  Widget bodyContainer(){
+  Widget bodyContainer() {
     final double tempHeight = MediaQuery.of(context).size.height * 1.5;
-        // - (MediaQuery.of(context).size.width / 1.2) +
-        // 24.0;
+    // - (MediaQuery.of(context).size.width / 1.2) +
+    // 24.0;
     return Container(
       color: Color(0xFFFFFFFF),
       child: Scaffold(
@@ -106,11 +112,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   child: FadeInImage(
                     fit: BoxFit.fill,
                     image: (image != null)
-                        ? NetworkImage(
-                        "$image")
+                        ? NetworkImage("$image")
                         : AssetImage('assets/images/webInterFace.png'),
-                    placeholder: AssetImage(
-                        "assets/images/webInterFace.png"),
+                    placeholder: AssetImage("assets/images/webInterFace.png"),
                   ),
                 ),
               ],
@@ -169,7 +173,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                               children: <Widget>[
                                 Text(
                                   ' هزینه ثبت نام : ${replaceFarsiNumber(cost.toString())} ریال  ',
-
                                   textAlign: TextAlign.center,
                                   textDirection: TextDirection.rtl,
                                   style: TextStyle(
@@ -201,7 +204,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                     ],
                                   ),
                                 ),
-
                                 Container(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +226,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                     ],
                                   ),
                                 )
-
                               ],
                             ),
                           ),
@@ -247,10 +248,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, top: 8, bottom: 40),
                               child: Column(
-
                                 children: [
                                   Text(
-                                    " جزئیات رویداد : " ,
+                                    " جزئیات رویداد : ",
                                     textAlign: TextAlign.center,
                                     textDirection: TextDirection.rtl,
                                     style: TextStyle(
@@ -261,11 +261,11 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                     ),
                                     // overflow: TextOverflow.ellipsis,
                                   ),
-
-                                  SizedBox(height: 10,),
-
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   Text(
-                                    "$description" ,
+                                    "$description",
                                     textAlign: TextAlign.right,
                                     textDirection: TextDirection.rtl,
                                     style: TextStyle(
@@ -382,7 +382,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   color: Colors.transparent,
                   child: InkWell(
                     borderRadius:
-                    BorderRadius.circular(AppBar().preferredSize.height),
+                        BorderRadius.circular(AppBar().preferredSize.height),
                     child: Icon(
                       Icons.arrow_back_ios,
                       color: Color(0xFF213333),
@@ -419,7 +419,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       _showMessageDialog('مشکلی پیش آمد');
       setState(() {});
     } else {
-      _showMessageDialog(isParticipating ?'شما در رویداد ثبت نام شدید':'ثبت نام شما لغو شد');
+      _showMessageDialog(isParticipating
+          ? 'شما در رویداد ثبت نام شدید'
+          : 'ثبت نام شما لغو شد');
       setState(() {});
     }
   }
@@ -438,5 +440,4 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       ),
     );
   }
-
 }

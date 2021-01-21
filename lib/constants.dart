@@ -93,3 +93,10 @@ var kDescriptionStyle = PersianFonts.Shabnam.copyWith(
 
 );
 
+final kHomeDecoration = BoxDecoration(
+  color: Color(
+    0xff453658,
+  ),
+  borderRadius: BorderRadius.circular(20),
+);
+

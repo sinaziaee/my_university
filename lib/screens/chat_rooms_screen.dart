@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/components/chat_item.dart';
 import 'package:my_university/constants.dart';
 import 'package:my_university/screens/chat_screen.dart';
@@ -124,13 +125,19 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                     );
                   } else {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: SpinKitWave(
+                        color: kPrimaryColor,
+                      ),
                     );
                   }
                 },
               );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                child: SpinKitWave(
+                  color: kPrimaryColor,
+                ),
+              );
             }
           }),
     );

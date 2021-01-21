@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print(jsonResponse['token']);
         print(jsonResponse);
         addStringToSF(jsonResponse['token'], jsonResponse['user_id'],
-            jsonResponse['username'], jsonResponse['first_name'], jsonResponse['last_name']);
+            jsonResponse['username'], jsonResponse['first_name'], jsonResponse['last_name'], jsonResponse['email']);
       } else if (result.statusCode == 400) {
         setState(() {
           showSpinner = false;
@@ -196,14 +196,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   addStringToSF(String token, int user_id, String username, String first_name,
-      String last_name) async {
+      String last_name, String email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', 'Token $token');
     prefs.setInt('user_id', user_id);
     prefs.setString('username', username);
-    prefs.setString('first_name', last_name);
-    prefs.setString('last_name', first_name);
+    prefs.setString('first_name', first_name);
+    prefs.setString('last_name', last_name);
+    prefs.setString('email', email);
+    print(prefs.getString('first_name'));
     print(prefs.getString('last_name'));
+    print(prefs.getString('username'));
+    print(prefs.getString('email'));
+    // print(prefs.getString('user_id').toString());
     Navigator.popAndPushNamed(context, HomeScreen.id);
   }
 

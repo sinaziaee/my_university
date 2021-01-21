@@ -9,6 +9,7 @@ import 'package:my_university/screens/demand_books.dart';
 import 'package:my_university/screens/filter_screen.dart';
 import 'package:my_university/screens/new_book.dart';
 import 'package:my_university/screens/product_screen.dart';
+import 'package:my_university/screens/settings_screen.dart';
 import 'package:my_university/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persian_fonts/persian_fonts.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         EventDetailsScreen.id: (context) => EventDetailsScreen(),
         EventsScreen.id: (context) => EventsScreen(),
         NewEventScreen.id : (context) => NewEventScreen(),
+        SettingsScreen.id: (context) => SettingsScreen(),
       },
     );
   }

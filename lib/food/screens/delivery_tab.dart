@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/food/models/order.dart';
 import 'package:my_university/food/screens/AllFoodDetails.dart';
 import 'package:my_university/food/screens/Today_food_details.dart';
@@ -28,12 +29,11 @@ class DeliveryTab extends StatelessWidget {
   }
 
   String startServer;
-  String endserver ;
+  String endserver;
 
   int pendingCount = 0;
   int foodcount = 0;
-  var ServeTimeUrl =
-      "http://danibazi9.pythonanywhere.com/api/food/user/serve";
+  var ServeTimeUrl = "http://danibazi9.pythonanywhere.com/api/food/user/serve";
 
   String url;
 
@@ -41,8 +41,6 @@ class DeliveryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     Map args = ModalRoute.of(context).settings.arguments;
     String start = args["start"];
     String end = args["end"];
@@ -50,13 +48,9 @@ class DeliveryTab extends StatelessWidget {
     print("----");
     print(date);
 
-
-
     // DateTime dateTime = DateTime.now();
     // String date =
     // dateTime.toString().substring(0,10);
-
-
 
     onPressed1(int id, String name, int price, String image, String desc,
         int remain) async {
@@ -72,13 +66,13 @@ class DeliveryTab extends StatelessWidget {
     }
 
     onPressed2(String name, int price, String image, String desc) async {
-      var result = await Navigator.pushNamed(context, AllFoodDetails.id,
-          arguments: {
-            "namefood": name,
-            "price": price,
-            "image": image,
-            "desc": desc,
-          });
+      var result =
+          await Navigator.pushNamed(context, AllFoodDetails.id, arguments: {
+        "namefood": name,
+        "price": price,
+        "image": image,
+        "desc": desc,
+      });
     }
 
     onChanged();
@@ -93,24 +87,24 @@ class DeliveryTab extends StatelessWidget {
                 onRefresh: () {
                   return _refresh();
                 },
-
                 child: Container(
-                  margin: EdgeInsets.only(left: 18.0 , top: 15 , right: 10),
+                  margin: EdgeInsets.only(left: 18.0, top: 15, right: 10),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          "لیست غذاهای امروز", textAlign: TextAlign.right,
-                          style: PersianFonts.Shabnam.copyWith(fontSize: 22.0 , fontWeight: FontWeight.bold),
+                          "لیست غذاهای امروز",
+                          textAlign: TextAlign.right,
+                          style: PersianFonts.Shabnam.copyWith(
+                              fontSize: 22.0, fontWeight: FontWeight.bold),
                         ),
-
                         FutureBuilder(
-
-                          future: http.get("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date", headers: {
-                            HttpHeaders.authorizationHeader: token,
-                          }),
-
+                          future: http.get(
+                              "$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date",
+                              headers: {
+                                HttpHeaders.authorizationHeader: token,
+                              }),
                           builder: (BuildContext context,
                               AsyncSnapshot<dynamic> snapshot) {
                             if (snapshot.hasData &&
@@ -123,13 +117,13 @@ class DeliveryTab extends StatelessWidget {
 
                               pendingCount = 0;
                               print("=========");
-                              print("$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date");
+                              print(
+                                  "$ServeTimeUrl/?start_time=$start&end_time=$end&date=$date");
 
                               DateTime dateTime = DateTime.now();
-                              String dateLocal = dateTime.toString().substring(0, 10);
+                              String dateLocal =
+                                  dateTime.toString().substring(0, 10);
                               print("dateLocal $dateLocal");
-
-
 
                               String timeLocal =
                                   dateTime.toString().substring(11, 19);
@@ -152,16 +146,19 @@ class DeliveryTab extends StatelessWidget {
                                     "$starthourServer$StartminServer";
                                 int sts = int.parse(Startserver);
 
-                                String endhourServer = endserver.substring(0, 2);
+                                String endhourServer =
+                                    endserver.substring(0, 2);
                                 String endminServer = endserver.substring(3, 5);
-                                String Endserver = "$endhourServer$endminServer";
+                                String Endserver =
+                                    "$endhourServer$endminServer";
                                 int ets = int.parse(Endserver);
 
-                                if (each['serve_id'] != null && each['remaining_count'] !=0) {
+                                if (each['serve_id'] != null &&
+                                    each['remaining_count'] != 0) {
                                   // if (Local >= sts && Local <= ets   ) {
-                                    mapList.add(each);
-                                    pendingCount++;
-                                  }
+                                  mapList.add(each);
+                                  pendingCount++;
+                                }
                                 // }
                               }
                               if (pendingCount == 0) {
@@ -193,8 +190,6 @@ class DeliveryTab extends StatelessWidget {
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
                                   reverse: true,
-
-
                                   itemCount: pendingCount,
                                   itemBuilder: (context, index) {
                                     return TodayCard(
@@ -212,7 +207,8 @@ class DeliveryTab extends StatelessWidget {
                                       name: mapList[index]['name'],
                                       price: mapList[index]['cost'],
                                       picture: mapList[index]['image'],
-                                      description: mapList[index]['description'],
+                                      description: mapList[index]
+                                          ['description'],
                                       remain: mapList[index]['remaining_count'],
 
                                       // ontap: _onTap(),
@@ -222,7 +218,9 @@ class DeliveryTab extends StatelessWidget {
                               );
                             } else {
                               return Center(
-                                child: CircularProgressIndicator(),
+                                child: SpinKitWave(
+                                  color: kPrimaryColor,
+                                ),
                               );
                             }
                           },
@@ -233,9 +231,13 @@ class DeliveryTab extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerRight,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 18 , bottom: 10),
-                            child: Text("منوی رستوران (غیر قابل فروش)", textAlign: TextAlign.right,
-                                style: PersianFonts.Shabnam.copyWith(fontSize: 22.0 , fontWeight: FontWeight.bold)),
+                            padding:
+                                const EdgeInsets.only(left: 18, bottom: 10),
+                            child: Text("منوی رستوران (غیر قابل فروش)",
+                                textAlign: TextAlign.right,
+                                style: PersianFonts.Shabnam.copyWith(
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold)),
                           ),
                         ),
                         FutureBuilder(
@@ -296,14 +298,17 @@ class DeliveryTab extends StatelessWidget {
                                       name: mapList[index]['name'],
                                       price: mapList[index]['cost'],
                                       picture: mapList[index]['image'],
-                                      Description: mapList[index]['description'],
+                                      Description: mapList[index]
+                                          ['description'],
                                     );
                                   },
                                 ),
                               );
                             } else {
                               return Center(
-                                child: CircularProgressIndicator(),
+                                child: SpinKitWave(
+                                  color: kPrimaryColor,
+                                ),
                               );
                             }
                           },
@@ -315,7 +320,11 @@ class DeliveryTab extends StatelessWidget {
               ),
             ]);
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+              child: SpinKitWave(
+                color: kPrimaryColor,
+              ),
+            );
           }
         },
         future: getToken(),
