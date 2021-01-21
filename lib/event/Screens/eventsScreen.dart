@@ -1,14 +1,16 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_university/event/Screens/new_event_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'dart:convert' as convert;
 import '../../constants.dart';
 import 'event_details_screen.dart';
 
-bool isParticipating;
+bool isParticipating = false;
 
 class EventsScreen extends StatefulWidget {
   static String id = 'event_screen';
@@ -27,10 +29,14 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     args = ModalRoute.of(context).settings.arguments;
     token = args['token'];
-    token = 'Token d402c93776246eee11a88d25b322b6ae88d4d7e1';
+    // token = 'Token d402c93776246eee11a88d25b322b6ae88d4d7e1';
     return Scaffold(
+      backgroundColor: Color(0xfffff8ee),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
@@ -77,23 +83,64 @@ class _EventsScreenState extends State<EventsScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      appBar: AppBar(
-        // leading: IconButton(
-        //     icon: Icon(Icons.history),
-        //     onPressed: () {
-        //       // Navigator.pushNamed(context, EventsHistoryScreen.id);
-        //     }),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.purple.shade300,
-        title: Text(isParticipating?'رویداد های موجود':'رویداد های ثبت نام شده'),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.chevron_right),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-        ],
+      appBar:
+      PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: Container(
+          height: height * 0.6,
+          width: width,
+          decoration: BoxDecoration(
+            color: Colors.purple.shade300,
+            borderRadius:
+            BorderRadius.only(
+                bottomLeft: Radius.circular(60),
+                bottomRight: Radius.circular(60)
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top:30 ),
+                  child: Text(
+                    isParticipating?'رویدادهای موجود':'رویدادهای ثبت نام شده',
+                    style:
+                        PersianFonts.Shabnam.copyWith(fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top:30, left: 10),
+                child: Icon(Icons.event_available, color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
+
+      // AppBar(
+      //   // leading: IconButton(
+      //   //     icon: Icon(Icons.history),
+      //   //     onPressed: () {
+      //   //       // Navigator.pushNamed(context, EventsHistoryScreen.id);
+      //   //     }),
+      //   automaticallyImplyLeading: false,
+      //   backgroundColor: Colors.purple.shade300,
+      //   title: Text(isParticipating?'رویداد های موجود':'رویداد های ثبت نام شده'),
+      //   actions: [
+      //     IconButton(
+      //         icon: Icon(Icons.chevron_right),
+      //         onPressed: () {
+      //           Navigator.pop(context);
+      //         }),
+      //   ],
+      // ),
+
       body: eventList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -166,6 +213,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         return eventBuilder(
                           '$baseUrl${mapList[index]['image']}',
                           mapList[index]['name'],
+                          mapList[index]['cost'],
                           mapList[index]['remaining_capacity'],
                           mapList[index]['event_id'],
                           (mapList[index]['image'] == null) ? false : true,
@@ -192,25 +240,50 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  Widget eventBuilder(String imageUrl, String eventName, int remainingCapacity,
+  Widget eventBuilder(String imageUrl, String eventName,int cost, int remainingCapacity,
       int eventId, bool imageIsAvailable) {
-    return Card(
-      elevation: 3,
+    return
+      Card(
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.white70, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
       child: ListTile(
         onTap: () {
-          _navigateToEventDetailScreen(eventId, token);
+          _navigateToEventDetailScreen(eventId, token , isParticipating);
         },
         leading: (imageIsAvailable)
-            ? FadeInImage(
+            ? Container(
+              decoration: BoxDecoration(
+              borderRadius:
+              BorderRadius.all(Radius.circular(16.0))),
+              child: FadeInImage(
           placeholder: AssetImage('assets/images/not_found.png'),
           image: NetworkImage(imageUrl),
-        )
-            : Image(
+        ),
+            )
+            : Container(
+          decoration: BoxDecoration(
+              borderRadius:
+              BorderRadius.all(Radius.circular(16.0))),
+              child: Image(
           image: AssetImage('assets/images/not_found.png'),
         ),
-        title: Text(eventName),
-        subtitle: Text(remainingCapacity.toString()),
+            ),
+        title: Text(eventName , textAlign: TextAlign.right,),
+        subtitle: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text("تعداد باقی مانده:${replaceFarsiNumber(remainingCapacity.toString())} " ,
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,),
+            // Text("${cost.toString()} : قیمت "),
+
+          ],
+        ),
         trailing: FlatButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -226,6 +299,8 @@ class _EventsScreenState extends State<EventsScreen> {
         ),
       ),
     );
+
+
   }
 
   participate(int eventId) async {
@@ -265,10 +340,11 @@ class _EventsScreenState extends State<EventsScreen> {
     );
   }
 
-  _navigateToEventDetailScreen(int eventId, String token) {
+  _navigateToEventDetailScreen(int eventId, String token , isp) {
     Navigator.pushNamed(context, EventDetailsScreen.id, arguments: {
       'event_id': eventId,
       'token': token,
+      'isp' : isp
     });
   }
 
@@ -277,10 +353,15 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   _showMessageDialog(String message) {
+
     showDialog(
+
       context: context,
       child: AlertDialog(
-        title: Text(message),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: Text(message , textAlign: TextAlign.center,),
         content: FlatButton(
           onPressed: () {
             Navigator.pop(context);

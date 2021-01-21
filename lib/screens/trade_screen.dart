@@ -130,17 +130,21 @@ class _TradeScreenState extends State<TradeScreen> {
                         Container(
                           child: Center(
                             child: Banner(
+                              textStyle: TextStyle(fontSize: 18),
                               color: Colors.purple.shade300,
-                              message: result['price'].toString(),
+                              message: replaceFarsiNumber(result['price'].toString()) ,
                               location: BannerLocation.bottomEnd,
-                              child: FadeInImage(
-                                height: 180,
-                                width: 150,
-                                fit: BoxFit.cover,
-                                  image: (result['image'] != null)
-                                      ? NetworkImage(result['image'])
-                                      : AssetImage('assets/images/book-1.png'),
-                                  placeholder: AssetImage('assets/images/book-1.png')
+                              child: Container(
+
+                                child: FadeInImage(
+                                  height: 180,
+                                  width: 150,
+                                  fit: BoxFit.cover,
+                                    image: (result['image'] != null)
+                                        ? NetworkImage(result['image'])
+                                        : AssetImage('assets/images/book-1.png'),
+                                    placeholder: AssetImage('assets/images/book-1.png')
+                                ),
                               ),
                             ),
                           ),
@@ -164,12 +168,15 @@ class _TradeScreenState extends State<TradeScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                // "Conjure Women",
-                                result['name'],
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w700,
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: Text(
+                                  // "Conjure Women",
+                                  result['name'],
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ],
@@ -243,6 +250,7 @@ class _TradeScreenState extends State<TradeScreen> {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
+                              SizedBox(width: 20,),
                               Text(
                                 'نویسنده : ',
                                 style: TextStyle(
@@ -348,8 +356,8 @@ class _TradeScreenState extends State<TradeScreen> {
                             _checkAccessibility();
                           },
                           child: Container(
-                            height: 80,
-                            width: 200,
+                            height: 60,
+                            width: 180,
                             decoration: BoxDecoration(
                                 gradient: mainButton,
                                 // boxShadow: [

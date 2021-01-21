@@ -147,68 +147,6 @@ class _BooksScreenState extends State<BooksScreen> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
 
-
-
-          // appBar: PreferredSize(
-          //     child: SafeArea(
-          //       child: Container(
-          //         child: Stack(
-          //           children: <Widget>[
-          //             Positioned(
-          //               top: 10,
-          //               right: 15,
-          //               left: 15,
-          //               child: Container(
-          //                 decoration: BoxDecoration(
-          //                     color: Colors.grey[200],
-          //                     borderRadius: BorderRadius.circular(20)),
-
-                          // child: Row(
-                          //   children: <Widget>[
-                          //     Expanded(
-                          //       child: TextField(
-                          //         onChanged: (val) {
-                          //           search = val;
-                          //           onChanged();
-                          //         },
-                          //         controller: controller,
-                          //         cursorColor: Colors.black,
-                          //         keyboardType: TextInputType.text,
-                          //         textInputAction: TextInputAction.search,
-                          //         textDirection: TextDirection.rtl,
-                          //         decoration: InputDecoration(
-                          //             border: InputBorder.none,
-                          //             contentPadding:
-                          //                 EdgeInsets.symmetric(horizontal: 15),
-                          //             hintText: "Search..."),
-                          //       ),
-                          //     ),
-                          //     Material(
-                          //       type: MaterialType.transparency,
-                          //       shape: CircleBorder(),
-                          //       child: IconButton(
-                          //         splashColor: Colors.grey,
-                          //         icon: Icon(
-                          //           FontAwesomeIcons.filter,
-                          //           color: kPrimaryColor,
-                          //           size: 20,
-                          //         ),
-                          //         onPressed: () {
-                          //           // Scaffold.of(context).openDrawer();
-                          //           _navigateToFilterScreen(context);
-                          //         },
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //     preferredSize: Size.fromHeight(80)),
-
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -222,10 +160,10 @@ class _BooksScreenState extends State<BooksScreen> {
                   decoration: BoxDecoration(
                     color: Color(0xfffff8ee),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5),
-                      bottomLeft: Radius.circular(5),
-                      bottomRight: Radius.circular(5),
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
 
                     ),
                   ),
@@ -240,25 +178,8 @@ class _BooksScreenState extends State<BooksScreen> {
                   padding:
                   EdgeInsets.all(10),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          onChanged: (val) {
-                            search = val;
-                            onChanged();
-                          },
-                          controller: controller,
-                          cursorColor: Colors.black,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.search,
-                          textDirection: TextDirection.rtl,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search..."),
-                        ),
-                      ),
                       Material(
                         type: MaterialType.transparency,
                         shape: CircleBorder(),
@@ -273,6 +194,25 @@ class _BooksScreenState extends State<BooksScreen> {
                             // Scaffold.of(context).openDrawer();
                             _navigateToFilterScreen(context);
                           },
+                        ),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          onChanged: (val) {
+                            search = val;
+                            onChanged();
+                          },
+                          controller: controller,
+                          cursorColor: Colors.black,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.search,
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding:
+                              EdgeInsets.symmetric(horizontal: 15),
+                              hintText: "جستجو"),
                         ),
                       ),
                     ],
@@ -340,9 +280,24 @@ class _BooksScreenState extends State<BooksScreen> {
                                             }
                                             if (count == 0) {
                                               return Container(
-                                                child: Center(
-                                                  child:
-                                                      Text('کتابی برای فروش موجود نیست'),
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.fromLTRB(120,100,120,20),
+                                                      child: Image(
+                                                          image: AssetImage("assets/images/book2.png")
+                                                      ),
+                                                    ),
+                                                    Center(
+                                                      child:
+                                                          Text('کتابی برای فروش موجود نیست',
+                                                            style: TextStyle(
+                                                                fontWeight: FontWeight.w700,
+                                                                fontSize: 17
+                                                            ),
+                                                          ),
+                                                    ),
+                                                  ],
                                                 ),
                                               );
                                             }

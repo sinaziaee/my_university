@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:my_university/components/product.dart';
 import 'package:flutter/material.dart';
 
@@ -23,17 +24,17 @@ class ProductDisplay extends StatelessWidget {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
-                    blurRadius: 25,
+                    blurRadius: 10,
                     offset: Offset(8, 8),
                     spreadRadius: 3,
                   ),
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
-                    blurRadius: 25,
+                    blurRadius: 10,
                     offset: Offset(-8, -8),
                     spreadRadius:2,
                   )
@@ -57,15 +58,15 @@ class ProductDisplay extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                gradient: new LinearGradient(
-                  colors: [
-                    Colors.black.withOpacity(0.3),
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.3),
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
+                // gradient: new LinearGradient(
+                //   colors: [
+                //     Colors.black.withOpacity(0.3),
+                //     Colors.transparent,
+                //     Colors.black.withOpacity(0.3),
+                //   ],
+                //   begin: Alignment.centerLeft,
+                //   end: Alignment.centerRight,
+                // ),
               ),
             ),
           ],
@@ -91,10 +92,10 @@ class ProductDisplay extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 10,
+          height: 15,
         ),
         Text(
-           "${product.price} تومان ",
+           " ${replaceFarsiNumber(product.price.toString())} ریال " , textDirection: TextDirection.rtl,
     style: TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w700,
@@ -117,7 +118,7 @@ class ProductDisplay extends StatelessWidget {
               left: 40,
               right: 20,
             ),
-            child: Text(product.description,
+            child: Text(product.description, textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
                 letterSpacing: 1.5,

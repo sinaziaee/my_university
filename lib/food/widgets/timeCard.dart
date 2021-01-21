@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
 import '../index.dart';
 
 class TimeCard extends StatelessWidget {
@@ -35,7 +36,8 @@ class TimeCard extends StatelessWidget {
             ontap,
 
           minWidth: double.infinity,
-          child: Text("$start_time - $end_time", style: TextStyle(color: Colors.white ,fontSize: 20),),
+          child: Text("${replaceFarsiNumber(start_time.toString().substring(0,5))} - ${replaceFarsiNumber(end_time.toString().substring(0,5))}",
+            style: TextStyle(color: Colors.black ,fontSize: 23),),
         ),
       ),
     );

@@ -52,55 +52,43 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: <Widget>[
               SizedBox(
-                height: size.height /7,
+                height: size.height /25,
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "",
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          "",
-                          style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600)),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      alignment: Alignment.topCenter,
-                      icon: Image.asset(
-                        "assets/images/shut_down.png",
-                        color: Colors.black,
-                        width: size.width * 0.1,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          showlogoutDialog()();
-                        });
-                      },
-                    )
-                  ],
-                ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+
+                  Image.asset(
+                    "assets/images/elmoss.png",
+                    width: 72,
+
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Image.asset(
+                    "assets/images/logo.png",
+                    width: 72,
+
+                  ),
+                ],
               ),
+
+
               SizedBox(
-                height: size.height * 0.05,
+                height: size.height /35,
+              ),
+
+              Text("اپلیکیشن جامع دانشگاه من" , style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+              ),),
+
+
+              SizedBox(
+                height: size.height * 0.02,
               ),
 
               GridDashboard(context, userId, token, username, firstName, lastName),
@@ -216,6 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 InkWell(
                   onTap: () {
+
                     Navigator.pop(context);
                     //selectFromGallery();
                   },
@@ -270,6 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if(response.statusCode == 200){
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.clear();
+      Navigator.pop(context);
       Navigator.popAndPushNamed(context, LoginScreen.id);
     }
 

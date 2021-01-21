@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:jalali_calendar/jalali_calendar.dart';
 import 'package:my_university/food/index.dart';
 import 'package:my_university/food/widgets/timeCard.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 import '../../screens/chat_rooms_screen.dart';
 import '../../screens/chat_rooms_screen.dart';
+import 'package:persian_date/persian_date.dart';
 
 class TimeScreen extends StatefulWidget {
   static String id = 'time_screen';
@@ -20,8 +23,51 @@ class TimeScreen extends StatefulWidget {
 
 class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
 
-
   DateTime selectedDate = DateTime.now();
+  PersianDate persianDate = PersianDate(format: "yyyy/mm/dd  \n DD  , d  MM  ");
+  String _datetime = '';
+  String _format = 'yyyy-mm-dd';
+
+  get colorList => [Colors.red , Colors.green];
+  ////////////////////////////
+
+  showCalendarDialog()async{
+    final bool showTitleActions = false;
+    DatePicker.showDatePicker(context,
+        minYear: 1300,
+        maxYear: 1450,
+        confirm: Text(
+          'تایید',
+          style: TextStyle(color: Colors.red),
+        ),
+        cancel: Text(
+          'لغو',
+          style: TextStyle(color: Colors.cyan),
+        ),
+        dateFormat: _format, onChanged: (year, month, day) {
+          if (!showTitleActions) {
+            _datetime = '$year-$month-$day';
+          }
+        }, onConfirm: (year, month, day) {
+          setState(() {});
+          Jalali j = Jalali(year, month, day);
+          print("0000 $j");
+          date = '${j.day}-${j.month}-${j.year}';
+          print("*****");
+          print(date);
+          selectedDate = j.toDateTime();
+          print('dateTime is: $selectedDate');
+          _datetime = '$year-$month-$day';
+          setState(() {
+            _datetime = '$year-$month-$day';
+            print('time' + _datetime);
+          });
+        });
+  }
+
+
+
+  // DateTime selectedDate = DateTime.now();
   String date = DateTime.now().toString().substring(0, 10);
 
   Future<String> getToken() async {
@@ -31,19 +77,93 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
     return prefs.getString('token');
   }
 
-  showCalendarDialog() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-        date = selectedDate.toString().substring(0, 10);
-        print(selectedDate);
-      });
+  // showCalendarDialog() async {
+  //   final DateTime picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: selectedDate,
+  //       firstDate: DateTime(2015, 8),
+  //       lastDate: DateTime(2101));
+  //   if (picked != null && picked != selectedDate)
+  //     setState(() {
+  //       selectedDate = picked;
+  //       date = selectedDate.toString().substring(0, 10);
+  //       print(selectedDate);
+  //     });
+  // }
+  //
+
+
+
+
+
+  void _showDatePicker() {
+    final bool showTitleActions = false;
+    DatePicker.showDatePicker(context,
+        minYear: 1300,
+        maxYear: 1450,
+        confirm: Text(
+          'تایید',
+          style: TextStyle(color: Colors.red),
+        ),
+        cancel: Text(
+          'لغو',
+          style: TextStyle(color: Colors.cyan),
+        ),
+        dateFormat: _format, onChanged: (year, month, day) {
+          if (!showTitleActions) {
+            _datetime = '$year-$month-$day';
+          }
+        }, onConfirm: (year, month, day) {
+          setState(() {});
+          Jalali j = Jalali(year, month, day);
+          selectedDate = j.toDateTime();
+          print('dateTime is: $selectedDate');
+          _datetime = '$year-$month-$day';
+          setState(() {
+            _datetime = '$year-$month-$day';
+            print('time' + _datetime);
+          });
+        });
   }
+
+
+  // DateTime selectedDate = DateTime.now();
+  // PersianDate persianDate = PersianDate(format: "yyyy/mm/dd  \n DD  , d  MM  ");
+  // String _datetime = '';
+  // String _format = 'yyyy-mm-dd';
+  //
+  // get colorList => [Colors.red , Colors.green];
+  ////////////////////////////
+
+  // showCalendarDialog()async{
+  //   final bool showTitleActions = false;
+  //   DatePicker.showDatePicker(context,
+  //       minYear: 1300,
+  //       maxYear: 1450,
+  //       confirm: Text(
+  //         'تایید',
+  //         style: TextStyle(color: Colors.red),
+  //       ),
+  //       cancel: Text(
+  //         'لغو',
+  //         style: TextStyle(color: Colors.cyan),
+  //       ),
+  //       dateFormat: _format, onChanged: (year, month, day) {
+  //         if (!showTitleActions) {
+  //           _datetime = '$year-$month-$day';
+  //         }
+  //       }, onConfirm: (year, month, day) {
+  //         setState(() {});
+  //         Jalali j = Jalali(year, month, day);
+  //         selectedDate = j.toDateTime();
+  //         print('dateTime is: $selectedDate');
+  //         _datetime = '$year-$month-$day';
+  //         setState(() {
+  //           _datetime = '$year-$month-$day';
+  //           print('time' + _datetime);
+  //         });
+  //       });
+  // }
 
   int pendingCount = 0;
   var ServeTimeUrl =
@@ -61,8 +181,17 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
     getToken();
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
+    // _datetime = String.fromCharCodes();
+    // Iterable<String> temp =  Jalali.now().toString().substring(7,18).replaceAll(",","-").split(" ").reversed.cast<String>();
+    Jalali j = Jalali.now();
+    date = '${j.day}-${j.month}-${j.year}';
+    // for(int i = 0 ; i < 3 ; i++ ){
+    // }
     return Scaffold(
       body: FutureBuilder(
         builder: (context, snapshot) {
@@ -101,7 +230,7 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                                     'به سلف آزاد خوش آمدید',
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 30,
+                                        fontSize: 20 ,
                                         fontWeight: FontWeight.bold),
                                   )),
                             ),
@@ -113,7 +242,7 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: Text(
-                                  'زمان رزرو غذاهای $date را مشاهده کنید',
+                                  'زمان رزرو غذاهای ${replaceFarsiNumber(selectedDate.toString().substring(0,10))} را مشاهده کنید',
                                   // textDirection: TextDirection.rtl,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
@@ -143,7 +272,7 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                             ),
                             FutureBuilder(
                               future: http
-                                  .get('${ServeTimeUrl}/?date=$date', headers: {
+                                  .get('${ServeTimeUrl}/?date=${selectedDate.toString().substring(0,10)}', headers: {
                                 HttpHeaders.authorizationHeader: token,
                               }),
                               builder: (BuildContext context,
@@ -201,6 +330,7 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                                       // if(found == false) {
                                       //
                                       // }
+
                                       mapList.add(each);
                                       pendingCount++;
                                     }
@@ -212,11 +342,11 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             gradient: LinearGradient(colors: [
-                                              Colors.yellow,
+                                              Colors.red,
                                               Colors.orange
                                             ])),
                                         child: MaterialButton(
-                                          onPressed: () => _onTap(),
+                                          // onPressed: () => _onTap(),
                                           minWidth: double.infinity,
                                           child: Text(
                                             "زمانی برای رزرو وجود ندارد",
@@ -240,8 +370,8 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
                                           return TimeCard(
                                             ontap: () {
                                               onPressed1(
-                                                  mapList[index]["start_serve_time"],
-                                                  mapList[index]['end_serve_time'],
+                                                  mapList[index]["start_serve_time"].toString().substring(0,5),
+                                                  mapList[index]['end_serve_time'].toString().substring(0,5),
 
                                               );
                                             },
@@ -365,7 +495,7 @@ class _TimeScreenState extends State<TimeScreen> with TickerProviderStateMixin {
     await Navigator.pushNamed(context, Index.id, arguments: {
       "start": start,
       "end": end,
-      "date" : date
+      "date" : selectedDate.toString().substring(0,10)
     });
   }
 }

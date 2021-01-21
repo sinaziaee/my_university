@@ -129,7 +129,8 @@ class _NewBookState extends State<NewBook> {
                       inAsyncCall: showSpinner,
                       color: Colors.purple.shade200,
                       child: Container(
-                        margin: EdgeInsets.only(top: 100),
+                        height: double.infinity,
+                        margin: EdgeInsets.only(top: 100 ),
                         padding: EdgeInsets.only(
                           // top: 50,
                           // left: 50,
@@ -301,22 +302,22 @@ class _NewBookState extends State<NewBook> {
                                     ),
                                   ),
                                   child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    child: ListView(
+                                    height: 100,
+                                    width: 100,
+                                    child: Column(
                                       children: [
                                         if (imageFile != null) ...[
                                           Image.file(
                                             imageFile,
-                                            width: 200,
-                                            height: 200,
+                                            width: 100,
+                                            height: 100,
                                             fit: BoxFit.cover,
                                           ),
                                           // Uploader(file: _imageFile),
                                         ] else ...[
                                           Image(
-                                            width: 200,
-                                            height: 200,
+                                            width: 100,
+                                            height: 100,
                                             fit: BoxFit.cover,
                                             image: AssetImage(
                                                 'assets/images/add_image.png'),
@@ -600,6 +601,10 @@ class _NewBookState extends State<NewBook> {
                                     ),
                                     Text(
                                       'قیمت :   ',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold
+                                      ),
                                       textDirection: TextDirection.rtl,
                                     ),
                                   ],
@@ -855,6 +860,7 @@ class _NewBookState extends State<NewBook> {
         child: AlertDialog(
           content: Center(
             child: Text('کتابی وجود ندارد'),
+
           ),
         ),
       );
