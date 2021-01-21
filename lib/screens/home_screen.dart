@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       onPressed: () {
                         setState(() {
-                          showlogoutDialog()();
+                          showLogoutDialog()();
                         });
                       },
                     )
@@ -109,15 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.pushNamed(context, BooksScreen.id);
-      //   },
-      //   child: Icon(Icons.book),
-      // ),
-      // body: Center(
-      //   child: Text('Home'),
-      // ),
     );
   }
 
@@ -137,9 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print(userId);
   }
 
-
-
-  showlogoutDialog(){
+  showLogoutDialog() {
     showDialog(
       context: context,
       child: AlertDialog(
@@ -149,20 +138,15 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: EdgeInsets.only(right: 10),
               child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Expanded(
                     child: Center(
                       child: Text(
                         'خارج می شوید؟ ',
-                        textDirection:
-                        TextDirection.rtl,
-                        style: TextStyle(
-                            fontFamily: 'Lemonada',
-                            color: kPrimaryColor ,
-                            fontSize: 17
-                        ),
+                        textDirection: TextDirection.rtl,
+                        style: PersianFonts.Shabnam.copyWith(
+                            color: kPrimaryColor, fontSize: 20),
                       ),
                     ),
                   ),
@@ -180,7 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 10,
             ),
-
             Row(
               children: [
                 InkWell(
@@ -188,21 +171,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     logoutApp();
                   },
                   child: Padding(
-                    padding:
-                    EdgeInsets.only(right: 10),
+                    padding: EdgeInsets.only(left: 10),
                     child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          'بلی',
-                          textDirection:
-                          TextDirection.rtl,
-                          style: TextStyle(
-                              fontFamily: 'Lemonada',
-                              color: kPrimaryColor ,
-                              fontSize: 12
-                          ),
+                          'بله‌',
+                          textDirection: TextDirection.rtl,
+                          style: PersianFonts.Shabnam.copyWith(
+                              color: kPrimaryColor, fontSize: 18),
                         ),
                         SizedBox(
                           width: 20,
@@ -217,68 +194,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 InkWell(
                   onTap: () {
                     Navigator.pop(context);
-                    //selectFromGallery();
                   },
                   child: Padding(
-                    padding:
-                    EdgeInsets.only(right: 10),
+                    padding: EdgeInsets.only(left: 10),
                     child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
                           'خیر',
-                          textDirection:
-                          TextDirection.rtl,
-                          style: TextStyle(
-                              fontFamily: 'Lemonada',
-                              color: kPrimaryColor ,
-                              fontSize: 12
-                          ),
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.center,
+                          style: PersianFonts.Shabnam.copyWith(
+                              color: kPrimaryColor, fontSize: 18),
                         ),
                         SizedBox(
                           width: 20,
                         ),
-
                       ],
                     ),
                   ),
                 ),
               ],
             )
-
           ],
         ),
       ),
     );
   }
 
-  void logoutApp() async{
+  void logoutApp() async {
+    // http.Response response;
+    // response = await http.post(
+    //   "http://danibazi9.pythonanywhere.com/api/account/logout",
+    //   headers: {
+    //     HttpHeaders.authorizationHeader: token,
+    //     "Accept": "application/json",
+    //     "content-type": "application/json",
+    //   },
+    // );
+    // print(response.statusCode);
+    // print(token);
 
-    http.Response response;
-    response = await http.post(
-      "http://danibazi9.pythonanywhere.com/api/account/logout",
-      headers: {
-        HttpHeaders.authorizationHeader: token,
-        "Accept": "application/json",
-        "content-type": "application/json",
-      },
-    );
-    print(response.statusCode);
-    print(token);
-
-    if(response.statusCode == 200){
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.clear();
-      Navigator.popAndPushNamed(context, LoginScreen.id);
-    }
-
-    else{
-
-    }
-
-
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, LoginScreen.id);
   }
-
-
 }
