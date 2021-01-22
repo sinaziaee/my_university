@@ -13,6 +13,7 @@ import 'dart:convert' as convert;
 import 'dart:ui' as ui;
 import 'package:shamsi_date/shamsi_date.dart';
 import '../../constants.dart';
+import 'event_details_screen.dart';
 
 String begin_json, end_json;
 
@@ -742,7 +743,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
               print(response.body);
               try {
                 String jsonResponse =
-                convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+                    convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
                 if (jsonResponse.startsWith('ERROR: You haven\'t been')) {
                   return errorWidget('شما به عنوان ارشد دانشکده انتخاب نشدید.');
                 } else {
@@ -754,7 +755,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
               }
             }
             var jsonResponse =
-            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+                convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
             List<Map> mapList = [];
             int eventCount = 0;
             for (Map map in jsonResponse) {
@@ -785,86 +786,91 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Center(
-                              child: FadeInImage(
-                                height: 200,
-                                width: 300,
-                                placeholder:
-                                AssetImage('assets/images/elmoss.png'),
-                                image: NetworkImage(
-                                  '$baseUrl${mapList[index]['image']}',
+                        child: GestureDetector(
+                          onTap: (){
+                            navigateToEventDetailScreen(mapList[index]['event_id']);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Center(
+                                child: FadeInImage(
+                                  height: 200,
+                                  width: 300,
+                                  placeholder:
+                                  AssetImage('assets/images/elmoss.png'),
+                                  image: NetworkImage(
+                                    '$baseUrl${mapList[index]['image']}',
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                mapList[index]['name'],
-                                textAlign: TextAlign.end,
-                                style: PersianFonts.Shabnam.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 20,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  mapList[index]['name'],
+                                  textAlign: TextAlign.end,
+                                  style: PersianFonts.Shabnam.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                'از ${mapList[index]['end_time'].toString().substring(0, 10)} تا ${mapList[index]['start_time'].toString().substring(0, 10)}',
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.end,
-                                style: PersianFonts.Shabnam.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 17,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'از ${mapList[index]['end_time'].toString().substring(0, 10)} تا ${mapList[index]['start_time'].toString().substring(0, 10)}',
+                                  textDirection: TextDirection.rtl,
+                                  textAlign: TextAlign.end,
+                                  style: PersianFonts.Shabnam.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Spacer(),
-                                FlatButton(
-                                  onPressed: () {
-                                    // tryingToParticipate(false, mapList[index]);
-                                    controller.triggerLeft();
-                                  },
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 19, vertical: 10),
-                                  child: Text(
-                                    ' شرکت نمیکنم',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                              Row(
+                                children: [
+                                  Spacer(),
+                                  FlatButton(
+                                    onPressed: () {
+                                      // tryingToParticipate(false, mapList[index]);
+                                      controller.triggerLeft();
+                                    },
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 19, vertical: 10),
+                                    child: Text(
+                                      ' شرکت نمیکنم',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                    color: Colors.red,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                  color: Colors.red,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                                  Spacer(),
+                                  FlatButton(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    onPressed: () {
+                                      tryingToParticipate(
+                                          true, mapList[index]['event_id']);
+                                      controller.triggerRight();
+                                    },
+                                    child: Text(
+                                      'شرکت میکنم',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                    color: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                ),
-                                Spacer(),
-                                FlatButton(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  onPressed: () {
-                                    tryingToParticipate(
-                                        true, mapList[index]['event_id']);
-                                    controller.triggerRight();
-                                  },
-                                  child: Text(
-                                    'شرکت میکنم',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                  color: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                Spacer(),
-                              ],
-                            ),
-                          ],
+                                  Spacer(),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       cardController: controller = CardController(),
@@ -982,86 +988,91 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Center(
-                              child: FadeInImage(
-                                height: 200,
-                                width: 300,
-                                placeholder:
-                                    AssetImage('assets/images/elmoss.png'),
-                                image: NetworkImage(
-                                  '$baseUrl${mapList[index]['image']}',
+                        child: GestureDetector(
+                          onTap: (){
+                            navigateToEventDetailScreen(mapList[index]['event_id']);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Center(
+                                child: FadeInImage(
+                                  height: 200,
+                                  width: 300,
+                                  placeholder:
+                                      AssetImage('assets/images/elmoss.png'),
+                                  image: NetworkImage(
+                                    '$baseUrl${mapList[index]['image']}',
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                mapList[index]['name'],
-                                textAlign: TextAlign.end,
-                                style: PersianFonts.Shabnam.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 20,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  mapList[index]['name'],
+                                  textAlign: TextAlign.end,
+                                  style: PersianFonts.Shabnam.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                'از ${mapList[index]['end_time'].toString().substring(0, 10)} تا ${mapList[index]['start_time'].toString().substring(0, 10)}',
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.end,
-                                style: PersianFonts.Shabnam.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 17,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'از ${mapList[index]['end_time'].toString().substring(0, 10)} تا ${mapList[index]['start_time'].toString().substring(0, 10)}',
+                                  textDirection: TextDirection.rtl,
+                                  textAlign: TextAlign.end,
+                                  style: PersianFonts.Shabnam.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Spacer(),
-                                FlatButton(
-                                  onPressed: () {
-                                    // tryingToParticipate(false, mapList[index]);
-                                    controller.triggerLeft();
-                                  },
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 19, vertical: 10),
-                                  child: Text(
-                                    ' شرکت نمیکنم',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                              Row(
+                                children: [
+                                  Spacer(),
+                                  FlatButton(
+                                    onPressed: () {
+                                      // tryingToParticipate(false, mapList[index]);
+                                      controller.triggerLeft();
+                                    },
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 19, vertical: 10),
+                                    child: Text(
+                                      ' شرکت نمیکنم',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                    color: Colors.red,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                  color: Colors.red,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                                  Spacer(),
+                                  FlatButton(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    onPressed: () {
+                                      tryingToParticipate(
+                                          true, mapList[index]['event_id']);
+                                      controller.triggerRight();
+                                    },
+                                    child: Text(
+                                      'شرکت میکنم',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                    color: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                ),
-                                Spacer(),
-                                FlatButton(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  onPressed: () {
-                                    tryingToParticipate(
-                                        true, mapList[index]['event_id']);
-                                    controller.triggerRight();
-                                  },
-                                  child: Text(
-                                    'شرکت میکنم',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                  color: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                Spacer(),
-                              ],
-                            ),
-                          ],
+                                  Spacer(),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       cardController: controller = CardController(),
@@ -1511,5 +1522,13 @@ class _AllEventsScreenState extends State<AllEventsScreen>
         );
       },
     );
+  }
+
+  void navigateToEventDetailScreen(int eventId) {
+    Navigator.pushNamed(context, EventDetailsScreen.id, arguments: {
+      'event_id': eventId,
+      'token': token,
+      'user_id': userId,
+    });
   }
 }
