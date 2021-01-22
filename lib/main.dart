@@ -1,4 +1,5 @@
 import 'package:my_university/event/Screens/eventsScreen.dart';
+import 'package:my_university/event/Screens/events_screen.dart';
 import 'package:my_university/food/index.dart';
 import 'package:my_university/food/screens/AllFoodDetails.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         EventsScreen.id: (context) => EventsScreen(),
         NewEventScreen.id : (context) => NewEventScreen(),
         SettingsScreen.id: (context) => SettingsScreen(),
+        AllEventsScreen.id: (context) => AllEventsScreen(),
       },
     );
   }

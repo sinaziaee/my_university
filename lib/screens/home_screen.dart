@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:my_university/components/my_list_tile.dart';
 import 'package:my_university/event/Screens/eventsScreen.dart';
+import 'package:my_university/event/Screens/events_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
 import 'package:my_university/screens/books_screen.dart';
 import 'package:flutter/material.dart';
@@ -211,7 +212,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       text: 'سامانه رویداد ها',
                       icon: Icons.event,
                       onTap: (){
-                        onPressed(EventsScreen.id);
+                        // onPressed(EventsScreen.id);
+                        onPressed(AllEventsScreen.id);
                       },
                     ),
                     MyListTile(
@@ -258,6 +260,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       'lastName': lastName,
       'username': username,
       'email': email,
+      'token': token,
       'user_id': userId,
     });
   }
@@ -364,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            Navigator.pushNamed(context, EventsScreen.id,
+                            Navigator.pushNamed(context, AllEventsScreen.id,
                                 arguments: {
                                   'token': token,
                                   'user_id': userId,

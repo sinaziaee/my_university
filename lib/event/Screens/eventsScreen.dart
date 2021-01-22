@@ -123,25 +123,6 @@ class _EventsScreenState extends State<EventsScreen> {
           ),
         ),
       ),
-
-      // AppBar(
-      //   // leading: IconButton(
-      //   //     icon: Icon(Icons.history),
-      //   //     onPressed: () {
-      //   //       // Navigator.pushNamed(context, EventsHistoryScreen.id);
-      //   //     }),
-      //   automaticallyImplyLeading: false,
-      //   backgroundColor: Colors.purple.shade300,
-      //   title: Text(isParticipating?'رویداد های موجود':'رویداد های ثبت نام شده'),
-      //   actions: [
-      //     IconButton(
-      //         icon: Icon(Icons.chevron_right),
-      //         onPressed: () {
-      //           Navigator.pop(context);
-      //         }),
-      //   ],
-      // ),
-
       body: eventList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

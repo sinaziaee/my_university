@@ -47,6 +47,8 @@ dependencies:
   persian_number_utility: ^0.2.6
   flutter_spinkit: ^4.1.2+1
   persian_datetime_picker: ^1.0.3+1
+  flutter_tindercard: ^0.2.0
+  curved_navigation_bar: ^0.3.7
 
 
 

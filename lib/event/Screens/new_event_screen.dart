@@ -181,8 +181,9 @@ class _NewEventScreenState extends State<NewEventScreen> {
   // *********************************************************************************************
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return Scaffold(
+    return Builder(
+      builder: (context) {
+        return Scaffold(
           backgroundColor: Colors.purple.shade300,
           appBar: AppBar(
             centerTitle: true,
@@ -201,637 +202,635 @@ class _NewEventScreenState extends State<NewEventScreen> {
             color: Colors.purple.shade300,
             margin: EdgeInsets.only(top: 20),
             child: FutureBuilder(
-                future: getToken(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData &&
-                      snapshot.connectionState == ConnectionState.done) {
-                    return ModalProgressHUD(
-                      inAsyncCall: showSpinner,
-                      color: Colors.purple.shade200,
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xfffff8ee),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50),
-                          ),
+              future: getToken(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  return ModalProgressHUD(
+                    inAsyncCall: showSpinner,
+                    color: Colors.purple.shade200,
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Color(0xfffff8ee),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50),
                         ),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 50,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 20, right: 20),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(boxShadow: [
-                                            BoxShadow(
-                                              color: mycolor,
-                                              spreadRadius: 5,
-                                              blurRadius: 10,
-                                              offset: Offset(0, 3),
-                                            )
-                                          ]),
-                                          height: 40,
-                                          width: 200,
-                                          child: TextField(
-                                            textDirection: ui.TextDirection.rtl,
-                                            controller: nameController,
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          'نام رویداد  :  ',
-                                          textDirection: ui.TextDirection.rtl,
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(boxShadow: [
-                                            BoxShadow(
-                                              color: mycolor,
-                                              spreadRadius: 5,
-                                              blurRadius: 15,
-                                              offset: Offset(0, 3),
-                                            )
-                                          ]),
-                                          height: 40,
-                                          width: 150,
-                                          child: TextField(
-                                            textDirection: ui.TextDirection.rtl,
-                                            controller: location,
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          'محل برگزاری  :  ',
-                                          textDirection: ui.TextDirection.rtl,
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              SizedBox(
-                                height: 20,
-                              ),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              child: Column(
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 30),
-                                    child: Text(
-                                      ' : عکس رویداد',
-                                      style: TextStyle(
-                                          color: kPrimaryColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(boxShadow: [
+                                          BoxShadow(
+                                            color: mycolor,
+                                            spreadRadius: 5,
+                                            blurRadius: 10,
+                                            offset: Offset(0, 3),
+                                          )
+                                        ]),
+                                        height: 40,
+                                        width: 200,
+                                        child: TextField(
+                                          textDirection: ui.TextDirection.rtl,
+                                          controller: nameController,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'نام رویداد  :  ',
+                                        textDirection: ui.TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(boxShadow: [
+                                          BoxShadow(
+                                            color: mycolor,
+                                            spreadRadius: 5,
+                                            blurRadius: 15,
+                                            offset: Offset(0, 3),
+                                          )
+                                        ]),
+                                        height: 40,
+                                        width: 150,
+                                        child: TextField(
+                                          textDirection: ui.TextDirection.rtl,
+                                          controller: location,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'محل برگزاری  :  ',
+                                        textDirection: ui.TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
+                            ),
 
-                              SizedBox(
-                                height: 20,
-                              ),
+                            SizedBox(
+                              height: 20,
+                            ),
 
-                              InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    child: AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Padding(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 30),
+                                  child: Text(
+                                    ' : عکس رویداد',
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  child: AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                'انتخاب عکس : ',
+                                                textDirection:
+                                                    ui.TextDirection.rtl,
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 0.5,
+                                          width: double.infinity,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            selectFromCamera();
+                                          },
+                                          child: Padding(
                                             padding: EdgeInsets.only(right: 10),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                  'انتخاب عکس : ',
+                                                  'از دوربین‌',
                                                   textDirection:
                                                       ui.TextDirection.rtl,
                                                   style: TextStyle(
-                                                      color: Colors.black),
+                                                      color: Colors.purple),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Icon(
+                                                  Icons.camera_alt,
+                                                  color: Colors.purple,
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Container(
-                                            height: 0.5,
-                                            width: double.infinity,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              selectFromCamera();
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(right: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    'از دوربین‌',
-                                                    textDirection:
-                                                        ui.TextDirection.rtl,
-                                                    style: TextStyle(
-                                                        color: Colors.purple),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Icon(
-                                                    Icons.camera_alt,
-                                                    color: Colors.purple,
-                                                  ),
-                                                ],
-                                              ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            selectFromGallery();
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  'از گالری',
+                                                  textDirection:
+                                                      ui.TextDirection.rtl,
+                                                  style: TextStyle(
+                                                      color: Colors.purple),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Icon(
+                                                  Icons.insert_photo,
+                                                  color: Colors.purple,
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              selectFromGallery();
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(right: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    'از گالری',
-                                                    textDirection:
-                                                        ui.TextDirection.rtl,
-                                                    style: TextStyle(
-                                                        color: Colors.purple),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Icon(
-                                                    Icons.insert_photo,
-                                                    color: Colors.purple,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Container(
-                                    height: (imageFile != null) ? 150 : 100,
-                                    width: (imageFile != null) ? 150 : 100,
-                                    child: Column(
-                                      children: [
-                                        if (imageFile != null) ...[
-                                          Image.file(
-                                            imageFile,
-                                            width: 150,
-                                            height: 150,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          // Uploader(file: _imageFile),
-                                        ] else ...[
-                                          Image(
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/images/add_image.png'),
-                                          ),
-                                        ]
+                                        ),
                                       ],
                                     ),
                                   ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Container(
+                                  height: (imageFile != null) ? 150 : 100,
+                                  width: (imageFile != null) ? 150 : 100,
+                                  child: Column(
+                                    children: [
+                                      if (imageFile != null) ...[
+                                        Image.file(
+                                          imageFile,
+                                          width: 150,
+                                          height: 150,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        // Uploader(file: _imageFile),
+                                      ] else ...[
+                                        Image(
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              'assets/images/add_image.png'),
+                                        ),
+                                      ]
+                                    ],
+                                  ),
                                 ),
                               ),
+                            ),
 
-                              if (imageFile != null) ...[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FlatButton(
-                                      onPressed: _cropImage,
-                                      child: Icon(Icons.crop),
-                                    ),
-                                    FlatButton(
-                                      onPressed: _clear,
-                                      child: Icon(Icons.refresh),
-                                    ),
-                                  ],
-                                ),
-                              ] else ...[
-                                SizedBox(),
-                              ],
-
-                              // SizedBox(
-                              //   height: 20,
-                              // ),
-
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [],
-                                ),
-                              ),
-
-                              SizedBox(
-                                height: 10,
-                              ),
-
-                              if (isAddingCompletelyNewBook == false)
-                                ...[]
-                              else ...[
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-
-                              SizedBox(
-                                height: 20,
-                              ),
-
-                              //description
+                            if (imageFile != null) ...[
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 30),
-                                    child: Text(
-                                      ' : توضیحات',
-                                      style: TextStyle(
-                                          color: kPrimaryColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                  FlatButton(
+                                    onPressed: _cropImage,
+                                    child: Icon(Icons.crop),
+                                  ),
+                                  FlatButton(
+                                    onPressed: _clear,
+                                    child: Icon(Icons.refresh),
                                   ),
                                 ],
                               ),
+                            ] else ...[
+                              SizedBox(),
+                            ],
 
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [],
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            if (isAddingCompletelyNewBook == false)
+                              ...[]
+                            else ...[
                               SizedBox(
                                 height: 10,
                               ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
 
-                              //description
-                              Container(
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                    color: mycolor,
-                                    spreadRadius: 5,
-                                    blurRadius: 15,
-                                    offset: Offset(0, 3),
-                                  )
-                                ]),
-                                height: 100,
-                                margin: EdgeInsets.only(left: 15, right: 15),
-                                child: TextField(
-                                  textDirection: ui.TextDirection.rtl,
-                                  maxLines: 40,
-                                  controller: descriptionController,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            //description
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 30),
+                                  child: Text(
+                                    ' : توضیحات',
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                            //description
+                            Container(
+                              decoration: BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                  color: mycolor,
+                                  spreadRadius: 5,
+                                  blurRadius: 15,
+                                  offset: Offset(0, 3),
+                                )
+                              ]),
+                              height: 100,
+                              margin: EdgeInsets.only(left: 15, right: 15),
+                              child: TextField(
+                                textDirection: ui.TextDirection.rtl,
+                                maxLines: 40,
+                                controller: descriptionController,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
                               ),
+                            ),
 
-                              SizedBox(
-                                height: 10,
-                              ),
+                            SizedBox(
+                              height: 10,
+                            ),
 
-                              //price
-                              Container(
-                                margin: EdgeInsets.only(left: 20, right: 20),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(boxShadow: [
-                                            BoxShadow(
-                                              color: mycolor,
-                                              spreadRadius: 5,
-                                              blurRadius: 15,
-                                              offset: Offset(0, 3),
-                                            )
-                                          ]),
-                                          height: 40,
-                                          width: 100,
-                                          child: TextField(
-                                            //textDirection: ui.TextDirection.rtl,
-                                            controller: priceController,
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          'قیمت :   ',
-                                          textDirection: ui.TextDirection.rtl,
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      'زمان شروع رویداد :   ',
-                                      textDirection: ui.TextDirection.rtl,
-                                      style: TextStyle(
-                                          color: kPrimaryColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    RaisedButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child:
-                                          Text(begin_json ?? 'زمان شروع رویداد',
-                                              style: TextStyle(
-                                                color: kPrimaryColor,
-                                                fontSize: 15,
-                                                //fontWeight: 5,
-                                              )),
-                                      onPressed: () {
-                                        // showPickerDateCustom(context , true);
-                                        showCalendarDialog1();
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      'زمان پایان رویداد :   ',
-                                      textDirection: ui.TextDirection.rtl,
-                                      style: TextStyle(
-                                          color: kPrimaryColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    RaisedButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child:
-                                          Text(end_json ?? 'زمان پایان رویداد',
-                                              style: TextStyle(
-                                                color: kPrimaryColor,
-                                                fontSize: 15,
-                                                //fontWeight: 5,
-                                              )),
-                                      onPressed: () {
-                                        // showPickerDateCustom(context , false);
-                                        showCalendarDialog2();
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(boxShadow: [
-                                            BoxShadow(
-                                              color: mycolor,
-                                              spreadRadius: 5,
-                                              blurRadius: 15,
-                                              offset: Offset(0, 3),
-                                            )
-                                          ]),
-                                          height: 40,
-                                          width: 100,
-                                          child: TextField(
-                                            controller: capacity,
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          'ظرفیت :   ',
-                                          textDirection: ui.TextDirection.rtl,
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Colors.grey[300],
-                                          ),
-                                          margin: EdgeInsets.only(
-                                            left: 5,
-                                            right: 5,
-                                            top: 2,
-                                            bottom: 2,
-                                          ),
-                                          child: Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
+                            //price
+                            Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(boxShadow: [
+                                          BoxShadow(
+                                            color: mycolor,
+                                            spreadRadius: 5,
+                                            blurRadius: 15,
+                                            offset: Offset(0, 3),
+                                          )
+                                        ]),
+                                        height: 40,
+                                        width: 100,
+                                        child: TextField(
+                                          //textDirection: ui.TextDirection.rtl,
+                                          controller: priceController,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              onTap: () {
-                                                _showEventTypesDialog();
-                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'قیمت :   ',
+                                        textDirection: ui.TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'زمان شروع رویداد :   ',
+                                    textDirection: ui.TextDirection.rtl,
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child:
+                                        Text(begin_json ?? 'زمان شروع رویداد',
+                                            style: TextStyle(
+                                              color: kPrimaryColor,
+                                              fontSize: 15,
+                                              //fontWeight: 5,
+                                            )),
+                                    onPressed: () {
+                                      // showPickerDateCustom(context , true);
+                                      showCalendarDialog1();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    'زمان پایان رویداد :   ',
+                                    textDirection: ui.TextDirection.rtl,
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(end_json ?? 'زمان پایان رویداد',
+                                        style: TextStyle(
+                                          color: kPrimaryColor,
+                                          fontSize: 15,
+                                          //fontWeight: 5,
+                                        )),
+                                    onPressed: () {
+                                      // showPickerDateCustom(context , false);
+                                      showCalendarDialog2();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(boxShadow: [
+                                          BoxShadow(
+                                            color: mycolor,
+                                            spreadRadius: 5,
+                                            blurRadius: 15,
+                                            offset: Offset(0, 3),
+                                          )
+                                        ]),
+                                        height: 40,
+                                        width: 100,
+                                        child: TextField(
+                                          controller: capacity,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'ظرفیت :   ',
+                                        textDirection: ui.TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.grey[300],
+                                        ),
+                                        margin: EdgeInsets.only(
+                                          left: 5,
+                                          right: 5,
+                                          top: 2,
+                                          bottom: 2,
+                                        ),
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            onTap: () {
+                                              _showEventTypesDialog();
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  right: 30,
+                                                  left: 10,
+                                                  top: 10,
+                                                  bottom: 10),
                                               child: Container(
-                                                padding: EdgeInsets.only(
-                                                    right: 30,
-                                                    left: 10,
-                                                    top: 10,
-                                                    bottom: 10),
-                                                child: Container(
-                                                  // color: Colors.grey[300],
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Icon(Icons
-                                                          .arrow_drop_down),
-                                                      Text(
-                                                          event_type ??
-                                                              'گزینه ای انتخاب نشده',
-                                                          style: TextStyle(
-                                                            color:
-                                                                kPrimaryColor,
-                                                            fontSize: 15,
-                                                            //fontWeight: 5,
-                                                          )),
-                                                    ],
-                                                  ),
+                                                // color: Colors.grey[300],
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Icon(Icons.arrow_drop_down),
+                                                    Text(
+                                                        event_type ??
+                                                            'گزینه ای انتخاب نشده',
+                                                        style: TextStyle(
+                                                          color: kPrimaryColor,
+                                                          fontSize: 15,
+                                                          //fontWeight: 5,
+                                                        )),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Text(
-                                          ' : نوع برگزاری',
-                                          //textDirection: TextDirection.rtl,
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        ' : نوع برگزاری',
+                                        //textDirection: TextDirection.rtl,
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: 30,
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: Container(
+                                margin: EdgeInsets.only(left: 100, right: 100),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: FlatButton(
+                                        height: 20,
+                                        minWidth: 20,
+                                        padding:
+                                            EdgeInsets.only(top: 5, bottom: 5),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                      ],
+                                        onPressed: () {
+                                          validateData();
+                                          // postNewBook();
+                                        },
+                                        child: Text(
+                                          'ثبت',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        color: Colors.purple.shade400,
+                                      ),
                                     ),
+                                    // Expanded(
+                                    //   flex: 1,
+                                    //   child: SizedBox(),
+                                    // ),
                                   ],
                                 ),
                               ),
+                            ),
 
-                              SizedBox(
-                                height: 30,
-                              ),
-
-                              Padding(
-                                padding: EdgeInsets.only(left: 20, right: 20),
-                                child: Container(
-                                  margin:
-                                      EdgeInsets.only(left: 100, right: 100),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: FlatButton(
-                                          height: 20,
-                                          minWidth: 20,
-                                          padding: EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          onPressed: () {
-                                            validateData();
-                                            // postNewBook();
-                                          },
-                                          child: Text(
-                                            'ثبت',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          color: Colors.purple.shade400,
-                                        ),
-                                      ),
-                                      // Expanded(
-                                      //   flex: 1,
-                                      //   child: SizedBox(),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                }),
-          ));
-    });
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 
   validateData() {
@@ -996,34 +995,6 @@ class _NewEventScreenState extends State<NewEventScreen> {
     showDialog(context: context, child: dialog);
   }
 
-  showPickerDateCustom(BuildContext context, bool flag) {
-    new Picker(
-        hideHeader: true,
-        adapter: new DateTimePickerAdapter(
-          customColumnType: [2, 1, 0, 3, 4],
-        ),
-        title: new Text(
-          "زمان را انتخاب کنید",
-          textDirection: ui.TextDirection.rtl,
-        ),
-        selectedTextStyle: TextStyle(color: Colors.blue),
-        onConfirm: (Picker picker, List value) {
-          print((picker.adapter as DateTimePickerAdapter).value);
-
-          if (flag) {
-            setState(() {
-              begin = (picker.adapter as DateTimePickerAdapter).value;
-              begin_json = DateFormat('yyyy-MM-dd kk:mm:ss').format(begin);
-            });
-          } else {
-            setState(() {
-              end = (picker.adapter as DateTimePickerAdapter).value;
-              end_json = DateFormat('yyyy-MM-dd kk:mm:ss').format(end);
-            });
-          }
-        }).showDialog(context);
-  }
-
   selectFromGallery() {
     _pickImage(ImageSource.gallery);
     Navigator.pop(context);
@@ -1032,13 +1003,6 @@ class _NewEventScreenState extends State<NewEventScreen> {
   selectFromCamera() {
     _pickImage(ImageSource.camera);
     Navigator.pop(context);
-  }
-
-  _newBookDialog() {
-    Navigator.pop(context);
-    setState(() {
-      isAddingCompletelyNewBook = true;
-    });
   }
 
   void showCalendarDialog1() {
@@ -1099,28 +1063,4 @@ class _NewEventScreenState extends State<NewEventScreen> {
     );
   }
 
-  showPickerDate(BuildContext context, bool flag) {
-    Picker(
-        hideHeader: true,
-        adapter: DateTimePickerAdapter(),
-        title: Text(
-          "زمان را انتخاب کنید",
-          textDirection: ui.TextDirection.rtl,
-        ),
-        selectedTextStyle: TextStyle(color: Colors.blue),
-        onConfirm: (Picker picker, List value) {
-          print((picker.adapter as DateTimePickerAdapter).value);
-
-          if (flag) {
-            //final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
-            begin = (picker.adapter as DateTimePickerAdapter).value;
-            begin_json = DateFormat('yyyy-MM-dd kk:mm:ss').format(begin);
-            print("begin_json : $begin_json");
-          } else {
-            end = (picker.adapter as DateTimePickerAdapter).value;
-            end_json = DateFormat('yyyy-MM-dd kk:mm:ss').format(end);
-            print("end_json :  $end_json");
-          }
-        }).showDialog(context);
-  }
 }
