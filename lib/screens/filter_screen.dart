@@ -54,19 +54,18 @@ class _FilterScreenState extends State<FilterScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-              icon: Icon(
-                Icons.chevron_right,
-                color: Colors.grey,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              })
+            icon: Icon(
+              Icons.chevron_right,
+              color: Colors.grey,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
         ],
         title: Text(
           'اعمال فیلتر',
-          style: PersianFonts.Shabnam.copyWith(color: kPrimaryColor)
-          // TextStyle(color: kPrimaryColor),
-
+          style: PersianFonts.Shabnam.copyWith(color: kPrimaryColor),
         ),
         elevation: 1,
         backgroundColor: Color(0xfffff8ee),
@@ -105,7 +104,8 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                   Text(
                     ' : انتخاب دسته بندی',
-                    style: TextStyle(color: Colors.grey[600]),
+                    style:
+                        PersianFonts.Shabnam.copyWith(color: Colors.grey[600]),
                   ),
                   SizedBox(
                     height: 10,
@@ -155,6 +155,7 @@ class _FilterScreenState extends State<FilterScreen> {
                         child: Text(
                           'دانشکده :',
                           textDirection: TextDirection.rtl,
+                          style: PersianFonts.Shabnam,
                         ),
                       ),
                     ],
@@ -170,22 +171,38 @@ class _FilterScreenState extends State<FilterScreen> {
                     height: 10,
                   ),
                   Card(
+                    margin: EdgeInsets.only(left: 30),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
-                    child: ListTile(
-                      trailing: Text('حداقل قیمت :' , textDirection: TextDirection.rtl,),
-                      title: Container(
-                        height: 40,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: minController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 100,
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: minController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Text(
+                            'حداقل قیمت :',
+                            textDirection: TextDirection.rtl,
+                            style: PersianFonts.Shabnam,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -193,22 +210,37 @@ class _FilterScreenState extends State<FilterScreen> {
                     height: 10,
                   ),
                   Card(
+                    margin: EdgeInsets.only(left: 30),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    child: ListTile(
-                      trailing: Text('حداکثر قیمت :' , textDirection: TextDirection.rtl),
-                      title: Container(
-                        height: 40,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: maxController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 100,
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: maxController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Text('حداکثر قیمت :',
+                              textDirection: TextDirection.rtl,
+                              style: PersianFonts.Shabnam),
+                        ],
                       ),
                     ),
                   ),
@@ -238,7 +270,10 @@ class _FilterScreenState extends State<FilterScreen> {
                       children: [
                         Text(
                           'اعمال فیلتر',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: PersianFonts.Shabnam.copyWith(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(
@@ -299,9 +334,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   onTap: () {
                     selectedFaculty = mapList[index]['name'];
                     print(selectedFaculty);
-                    setState(() {
-
-                    });
+                    setState(() {});
                     Navigator.pop(context);
                   },
                   child: Row(
@@ -310,7 +343,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       Text(
                         mapList[index]['name'],
                         textDirection: TextDirection.rtl,
-                        style: TextStyle(
+                        style: PersianFonts.Shabnam.copyWith(
                           fontSize: 25,
                         ),
                       ),
@@ -345,22 +378,22 @@ class _FilterScreenState extends State<FilterScreen> {
 
   onPressed() {
     String search = searchController.text;
-    if(this.min > this.max){
+    if (this.min > this.max) {
       openDialog('حداقل قیمت نمیتواند از حداکثر قیمت بیشتر باشد.');
     }
-    if(this.min > 200000){
+    if (this.min > 200000) {
       minController.text = '200000';
       this.min = 200000;
     }
-    if(this.max > 200000){
+    if (this.max > 200000) {
       minController.text = '200000';
       this.max = 200000;
     }
-    if(this.min < 0){
+    if (this.min < 0) {
       minController.text = '0';
       this.min = 0;
     }
-    if(this.max < 0){
+    if (this.max < 0) {
       maxController.text = '0';
       this.max = 0;
     }
@@ -370,7 +403,7 @@ class _FilterScreenState extends State<FilterScreen> {
     String faculty = selectedFaculty;
     print('selected faculty: $selectedFaculty');
     int min, max;
-    if(minController.text.length != 0 && maxController.text.length != 0){
+    if (minController.text.length != 0 && maxController.text.length != 0) {
       min = int.parse(minController.text);
       max = int.parse(maxController.text);
     }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:convert' as convert;
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:my_university/components/product.dart';
 import 'package:my_university/components/product_display.dart';
 import 'package:my_university/screens/books_screen.dart';
@@ -466,7 +467,7 @@ class _ProductPageState extends State<ProductPage> {
       _showDialog('مشکلی پیش آمد');
     }
     else{
-      _showDialog('درخواست کاربر قبول شد.');
+      success('درخواست کاربر قبول شد.');
     }
     print(jsonResponse);
   }
@@ -502,35 +503,36 @@ class _ProductPageState extends State<ProductPage> {
       _showDialog('شما قبلا برای این کتاب درخواست داده اید.');
       return;
     }
-    _showDialog('درخواست خرید برای فروشنده فرستاده شد');
+    success('درخواست خرید برای فروشنده فرستاده شد');
     // setState(() {
     //   showSpinner = false;
     // });
   }
 
   _showDialog(String title) async{
-    var result = await showDialog(
-      context: context,
-      child: AlertDialog(
-        title: Text(
-          title,
-          textDirection: TextDirection.rtl,
-        ),
-        content: FlatButton(
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
-          child: Text(
-            'باشه !',
-            style: TextStyle(color: kPrimaryColor),
-            textDirection: TextDirection.rtl,
-          ),
-        ),
-      ),
-    );
-    if(result == true){
-      Navigator.pop(context, true);
-    }
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'خطا',
+        desc: title,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red)..show();
+  }
+
+  success(String title) async{
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.SUCCES,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'موفقیت',
+        desc: title,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.green)..show();
   }
 
   _checkAccessibility() async {

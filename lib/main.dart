@@ -8,7 +8,7 @@ import 'package:my_university/screens/chat_rooms_screen.dart';
 import 'package:my_university/screens/chat_screen.dart';
 import 'package:my_university/screens/demand_books.dart';
 import 'package:my_university/screens/filter_screen.dart';
-import 'package:my_university/screens/new_book.dart';
+import 'package:my_university/screens/new_book_screen.dart';
 import 'package:my_university/screens/product_screen.dart';
 import 'package:my_university/screens/settings_screen.dart';
 import 'package:my_university/screens/trade_screen.dart';
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         BooksScreen.id: (context) => BooksScreen(),
         HistoryScreen.id: (context) => HistoryScreen(),
         FilterScreen.id: (context) => FilterScreen(),
-        NewBook.id: (context) => NewBook(),
+        NewBookScreen.id: (context) => NewBookScreen(),
         ChatScreen.id: (context) => ChatScreen(),
         ChatRoomsScreen.id: (context) => ChatRoomsScreen(),
         DemandBookScreen.id: (context) => DemandBookScreen(),

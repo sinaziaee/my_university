@@ -1,3 +1,5 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_university/components/already_have_an_account_acheck.dart';
 import 'package:my_university/components/rounded_button.dart';
@@ -81,8 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "LOGIN",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        "ورود کاربران",
+                        style: PersianFonts.Shabnam.copyWith(
+                            color: kPrimaryColor, fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: size.height * 0.03),
                       SvgPicture.asset(
@@ -91,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: size.height * 0.03),
                       RoundedInputField(
-                        hintText: "Your Email",
+                        hintText: "آدرس ایمیل",
                         onChanged: (value) {
                           email = value;
                         },
@@ -104,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       RoundedButton(
-                        text: "LOGIN",
+                        text: "ورود",
                         color: kPrimaryColor,
                         press: () {
                           checkValidation(context);
@@ -130,15 +133,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   checkValidation(BuildContext context) async {
     if (email.length == 0) {
-      _showDialog(context, 'Fill email');
+      _showDialog(context, 'لطفا آدرس ایمیل را به صورت کامل پر کنید');
       return;
     }
     if (!email.contains('@')) {
-      _showDialog(context, 'Bad email format');
+      _showDialog(context, 'فرمت ایمیل وارد شده اشتباه است');
       return;
     }
     if (password.length == 0) {
-      _showDialog(context, 'Fill password');
+      _showDialog(context, 'لطفا رمز عبور را وارد کنید');
       return;
     }
     setState(() {
@@ -177,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
           showSpinner = false;
         });
         _showDialog(
-            context, 'The email may not exist or the password is wrong');
+            context, 'آدرس ایمیل وجود ندارد یا رمز عبور اشتباه است');
       } else {
         setState(() {
           showSpinner = false;
@@ -190,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         showSpinner = false;
       });
-      _showDialog(context, 'There is a problem with the host');
+      _showDialog(context, 'مشکلی از سمت سرور بوجد آمده است');
       print("My Error: $e");
     }
   }
@@ -223,33 +226,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _showDialog(BuildContext context, String message) {
-    // Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
-    AlertDialog dialog = AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            message,
-            style: TextStyle(fontSize: 20),
-          ),
-          FlatButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Done!',
-              style: TextStyle(color: kPrimaryColor),
-            ),
-          ),
-        ],
-      ),
-    );
-    showDialog(context: context, child: dialog);
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'خطا',
+
+        desc: message,
+
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red)..show();
   }
 }

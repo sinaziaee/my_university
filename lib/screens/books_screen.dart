@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/components/book_item.dart';
 import 'package:my_university/screens/filter_screen.dart';
 import 'package:my_university/screens/history_screen.dart';
-import 'package:my_university/screens/new_book.dart';
+import 'package:my_university/screens/new_book_screen.dart';
 import 'package:my_university/screens/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -82,7 +82,7 @@ class _BooksScreenState extends State<BooksScreen> {
     }
 
     _navigateToNewScreen(BuildContext context) async {
-      var result = await Navigator.pushNamed(context, NewBook.id, arguments: {
+      var result = await Navigator.pushNamed(context, NewBookScreen.id, arguments: {
         'token': token,
         'user_id': userId,
       });

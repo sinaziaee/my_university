@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -948,7 +949,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
         print(response.body);
         _showDialog(context, "متاسفانه مشکلی پیش آمد.");
       } else {
-        _showDialog(context, "رویداد اضافه شد");
+        success(context, "رویداد اضافه شد");
       }
       setState(() {
         showSpinner = false;
@@ -961,38 +962,30 @@ class _NewEventScreenState extends State<NewEventScreen> {
     }
   }
 
-  _showDialog(BuildContext context, String message) {
-    // Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
-    AlertDialog dialog = AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            message,
-            textDirection: ui.TextDirection.rtl,
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          FlatButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              '!باشه',
-              style: TextStyle(color: kPrimaryColor),
-            ),
-          ),
-        ],
-      ),
-    );
-    showDialog(context: context, child: dialog);
+  _showDialog(BuildContext context, String title) async{
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'خطا',
+        desc: title,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red)..show();
+  }
+
+  success(BuildContext context, String title) async{
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.SUCCES,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'موفقیت',
+        desc: title,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.green)..show();
   }
 
   selectFromGallery() {

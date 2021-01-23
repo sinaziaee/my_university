@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:my_university/components/already_have_an_account_acheck.dart';
 import 'package:my_university/components/rounded_button.dart';
 import 'package:my_university/components/rounded_input_field.dart';
@@ -8,6 +9,7 @@ import 'package:my_university/components/rounded_password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import 'email_verfication_screen.dart';
@@ -78,8 +80,9 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "SIGNUP",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          "ثبت نام کاربران",
+                          style: PersianFonts.Shabnam.copyWith(
+                              color: kPrimaryColor, fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: size.height * 0.03),
                         SvgPicture.asset(
@@ -87,14 +90,14 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                           height: size.height * 0.35,
                         ),
                         RoundedInputField(
-                          hintText: "Your Email",
+                          hintText: "آدرس ایمیل",
                           onChanged: (value) {
                             email = value;
                           },
                           icon: Icons.email,
                         ),
                         RoundedInputField(
-                          hintText: "Your Student ID",
+                          hintText: "شماره دانشجویی",
                           onChanged: (value) {
                             sid = value;
                           },
@@ -109,7 +112,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                               Expanded(
                                 child: RoundedInputField(
                                   visible: false,
-                                  hintText: "First Name",
+                                  hintText: "نام",
                                   onChanged: (value) {
                                     firstName = value;
                                   },
@@ -122,7 +125,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                               Expanded(
                                 child: RoundedInputField(
                                   visible: false,
-                                  hintText: "Last Name",
+                                  hintText: "نام خانوادگی",
                                   onChanged: (value) {
                                     lastName = value;
                                   },
@@ -141,7 +144,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                         ),
                         RoundedButton(
                           color: color,
-                          text: "SIGNUP",
+                          text: "ثبت نام",
                           press: () {
                             checkValidation(context);
                           },
@@ -167,36 +170,29 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
 
   checkValidation(BuildContext context) async {
     if (email.length == 0) {
-      _showDialog(context, 'fill email');
+      _showDialog(context, 'لطفا آدرس ایمیل را وارد کنید');
       return;
     }
     if (firstName.length == 0) {
-      _showDialog(context, 'fill first name');
+      _showDialog(context, 'لطفا نام را وارد کنید');
       return;
     }
     if (lastName.length == 0) {
-      _showDialog(context, 'fill last name');
+      _showDialog(context, 'لطفا نام خانوادگی را وارد کنید');
       return;
     }
     if (sid.length != 8) {
-      _showDialog(context, 'Bad student ID format');
+      _showDialog(context, 'فرمت شماره دانشجویی اشتباه است');
       return;
     }
     try {
       int.parse(sid);
     } catch (e) {
-      _showDialog(context, 'Bad student ID format');
-      return;
-    }
-    try {
-      int.parse(sid);
-    } catch (e) {
-      print('My Error: $e');
-      _showDialog(context, 'bad Student number format');
+      _showDialog(context, 'فرمت شماره دانشجویی اشتباه است');
       return;
     }
     if (password.length == 0) {
-      _showDialog(context, 'fill password');
+      _showDialog(context, 'لطفا رمز عبور را وارد کنید');
       return;
     }
     count++;
@@ -207,8 +203,6 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
       setState(() {
         color = Colors.grey[400];
       });
-      // String baseUrl = 'http://danibazi9.pythonanywhere.com/';
-      // String baseUrl = 'http://192.168.43.126:8000';
       post(baseUrl, context);
     }
   }
@@ -267,7 +261,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
           });
         } else {
           resetCounter();
-          _showDialog(context, 'failed to send email');
+          _showDialog(context, 'در ارسال کد تاییدیه مشکلی پیش آمد');
           setState(() {
             showSpinner = false;
           });
@@ -280,13 +274,13 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
         });
         resetCounter();
         print(result.body.toString());
-        _showDialog(context, 'Please insert an academic email');
+        _showDialog(context, 'لطفا ایمیل دانشکده ای وارد کنید');
       } else if (result.statusCode == 500) {
         setState(() {
           showSpinner = false;
         });
         resetCounter();
-        _showDialog(context, 'This email is used by another user');
+        _showDialog(context, 'ایمیل وارد شده توسط شخص دیگری استفاده می شود');
       } else {
         setState(() {
           showSpinner = false;
@@ -299,7 +293,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
     } catch (e) {
       showSpinner = false;
       resetCounter();
-      _showDialog(context, 'There is a problem with host');
+      _showDialog(context, 'مشکلی از سمت سرور وجود دارد');
       print("My Error: $e");
     }
   }
@@ -327,88 +321,16 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   }
 
   _showDialog(BuildContext context, String message) {
-    // Scaffold.of(context).showSnackBar(
-    //   SnackBar(
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.only(
-    //         topRight: Radius.circular(20),
-    //         topLeft: Radius.circular(20),
-    //       ),
-    //     ),
-    //     backgroundColor: Colors.red[400],
-    //     content: Container(
-    //       height: 40,
-    //       child: Center(
-    //         child: Text(
-    //           message,
-    //           style: TextStyle(fontSize: 30),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
-    AlertDialog dialog = AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            message,
-            style: TextStyle(fontSize: 20),
-          ),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: Text('Done!'),
-          //     ),
-          //   ],
-          // ),
-          FlatButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Done!',
-              style: TextStyle(color: kPrimaryColor),
-            ),
-          ),
-        ],
-      ),
-    );
-    showDialog(context: context, child: dialog);
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'خطا',
+        desc: message,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red)..show();
   }
 
-//   _showDialog(String message) {
-//     AlertDialog dialog = AlertDialog(
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(20),
-//       ),
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           SizedBox(height: 20,),
-//           Text(message, style: TextStyle(fontSize: 25),),
-//           // Row(
-//           //   children: [
-//           //     Expanded(
-//           //       child: Text('Done!'),
-//           //     ),
-//           //   ],
-//           // ),
-//           FlatButton(
-//             onPressed: () {
-//               Navigator.pop(context);
-//             },
-//             child: Text('Done!', style: TextStyle(color: kPrimaryColor),),
-//           ),
-//         ],
-//       ),
-//     );
-//     showDialog(context: context, child: dialog);
-//   }
 }

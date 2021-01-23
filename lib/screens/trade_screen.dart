@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -398,27 +399,30 @@ class _TradeScreenState extends State<TradeScreen> {
     );
   }
 
-  _showDialog(String title) async {
-    var result = await showDialog(
-      context: context,
-      child: AlertDialog(
-        title: Text(
-          title,
-          textDirection: TextDirection.rtl,
-        ),
-        content: FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text(
-            'باشه !',
-            style: TextStyle(color: kPrimaryColor),
-            textDirection: TextDirection.rtl,
-          ),
-        ),
-      ),
-    );
-    Navigator.pop(context, true);
+  _showDialog(String title) async{
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'خطا',
+        desc: title,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red)..show();
+  }
+
+  success(String title) async{
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.SUCCES,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'موفقیت',
+        desc: title,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.green)..show();
   }
 
   saveAsTrade() async {
@@ -439,7 +443,7 @@ class _TradeScreenState extends State<TradeScreen> {
         convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
     print(jsonResponse);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      _showDialog('کتاب به $seller_username نسبت داده شد .');
+      success('کتاب به $seller_username نسبت داده شد .');
     } else {
       _showDialog('مشکلی پیش آمد');
     }
@@ -469,7 +473,7 @@ class _TradeScreenState extends State<TradeScreen> {
         _showDialog('مشکلی پیش آمد.');
       } else {
         // Navigator.pop(context);
-        _showDialog('شکایت شما با موفقیت ثبت شد.');
+        success('شکایت شما با موفقیت ثبت شد.');
       }
       print(result.body);
     }

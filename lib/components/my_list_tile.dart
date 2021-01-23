@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 class MyListTile extends StatelessWidget {
   final String text;
@@ -18,7 +19,10 @@ class MyListTile extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        title: Text(text),
+        title: Text(
+          text,
+          style: PersianFonts.Shabnam,
+        ),
         leading: Icon(icon),
         onTap: onTap,
       ),
