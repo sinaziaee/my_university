@@ -36,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Animation<double> _animation3;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
+  Map args;
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +78,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    args = ModalRoute.of(context).settings.arguments;
+    username = args['username'];
+    firstName = args['first_name'];
+    lastName = args['last_name'];
+    email = args['email'];
+    token = args['token'];
+
     return Scaffold(
       key: _drawerKey, // assign key to Scaffold
       drawer: Drawer(

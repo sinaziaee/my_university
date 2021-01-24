@@ -61,14 +61,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             style: TextStyle(color: _dark ? Colors.white : Colors.black),
           ),
           actions: <Widget>[
-            // IconButton(
-            //   icon: Icon(FontAwesomeIcons.moon),
-            //   onPressed: () {
-            //     setState(() {
-            //       _dark = !_dark;
-            //     });
-            //   },
-            // ),
             IconButton(
               icon: Icon(Icons.chevron_right),
               onPressed: () {
@@ -175,16 +167,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               color: Colors.indigo,
                             ),
                           ),
-                          // SwitchListTile(
-                          //   activeColor: Colors.purple,
-                          //   contentPadding: const EdgeInsets.all(0),
-                          //   value: true,
-                          //   title: Text('Light Theme'),
-                          //   onChanged: (val) {
-                          //     _dark = !val;
-                          //     setState(() {});
-                          //   },
-                          // ),
                           ListTile(
                             title: Text(_dark ? 'Dark Theme':'Light Theme'),
                             trailing: IconButton(
@@ -195,27 +177,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               },
                             ),
                           ),
-                          // SwitchListTile(
-                          //   activeColor: Colors.purple,
-                          //   contentPadding: const EdgeInsets.all(0),
-                          //   value: false,
-                          //   title: Text("Received newsletter"),
-                          //   onChanged: null,
-                          // ),
-                          // SwitchListTile(
-                          //   activeColor: Colors.purple,
-                          //   contentPadding: const EdgeInsets.all(0),
-                          //   value: true,
-                          //   title: Text("Received Offer Notification"),
-                          //   onChanged: (val) {},
-                          // ),
-                          // SwitchListTile(
-                          //   activeColor: Colors.purple,
-                          //   contentPadding: const EdgeInsets.all(0),
-                          //   value: true,
-                          //   title: Text("Received App Updates"),
-                          //   onChanged: null,
-                          // ),
                           const SizedBox(height: 60.0),
                         ],
                       ),

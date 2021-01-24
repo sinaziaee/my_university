@@ -70,9 +70,11 @@ class _AllEventsScreenState extends State<AllEventsScreen>
     token = args['token'];
     userId = args['user_id'];
     return Scaffold(
-      backgroundColor: Colors.blueGrey[200],
+      // backgroundColor: Colors.blueGrey[200],
+      backgroundColor: Colors.purple.shade300,
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[200],
+        // backgroundColor: Colors.blueGrey[200],
+        backgroundColor: Colors.purple.shade300,
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
@@ -110,8 +112,10 @@ class _AllEventsScreenState extends State<AllEventsScreen>
           // Icon(Icons.call_split, size: 30),
           // Icon(Icons.perm_identity, size: 30),
         ],
-        color: Colors.blueGrey[200],
-        buttonBackgroundColor: Colors.blueGrey[200],
+        // color: Colors.blueGrey[200],
+        color: Colors.purple.shade300,
+        // buttonBackgroundColor: Colors.blueGrey[200],
+        buttonBackgroundColor: Colors.purple.shade300,
         backgroundColor: Color(0xfffff8ee),
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 600),
@@ -782,7 +786,8 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                       minWidth: MediaQuery.of(context).size.width * 0.8,
                       minHeight: MediaQuery.of(context).size.width * 0.8,
                       cardBuilder: (context, index) => Card(
-                        color: Colors.blueGrey[200],
+                        // color: Colors.blueGrey[200],
+                        color: Colors.purple.shade300,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -798,7 +803,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                                   height: 200,
                                   width: 300,
                                   placeholder:
-                                  AssetImage('assets/images/elmoss.png'),
+                                  AssetImage('assets/images/elmos.png'),
                                   image: NetworkImage(
                                     '$baseUrl${mapList[index]['image']}',
                                   ),
@@ -984,7 +989,8 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                       minWidth: MediaQuery.of(context).size.width * 0.8,
                       minHeight: MediaQuery.of(context).size.width * 0.8,
                       cardBuilder: (context, index) => Card(
-                        color: Colors.blueGrey[200],
+                        // color: Colors.blueGrey[200],
+                        color: Colors.purple.shade300,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -1000,7 +1006,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                                   height: 200,
                                   width: 300,
                                   placeholder:
-                                      AssetImage('assets/images/elmoss.png'),
+                                      AssetImage('assets/images/elmos.png'),
                                   image: NetworkImage(
                                     '$baseUrl${mapList[index]['image']}',
                                   ),

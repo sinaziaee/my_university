@@ -24,6 +24,7 @@ class MyListTile extends StatelessWidget {
           style: PersianFonts.Shabnam,
         ),
         leading: Icon(icon),
+        trailing: Icon(Icons.chevron_right),
         onTap: onTap,
       ),
     );
