@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 
 import '../constants.dart';
-import 'chat_screen.dart';
+import '../kheft/chat_screen.dart';
 
 class TradeScreen extends StatefulWidget {
   static String id = 'trade_screen';

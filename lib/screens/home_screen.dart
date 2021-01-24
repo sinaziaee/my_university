@@ -4,7 +4,7 @@ import 'package:my_university/components/my_list_tile.dart';
 import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/event/Screens/events_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
-import 'package:my_university/screens/books_screen.dart';
+import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_university/screens/login_screen.dart';
@@ -17,7 +17,7 @@ import '../constants.dart';
 import 'dart:convert' as convert;
 import 'package:my_university/components/home_item.dart';
 
-import 'chat_rooms_screen.dart';
+import '../kheft/chat_rooms_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
@@ -407,12 +407,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            // Navigator.pushNamed(context, FacultyScreen.id, arguments: {
-                            //   'token': token,
-                            //   'user_id': userId,
-                            //   'first_name': firstName,
-                            //   'last_name': lastName,
-                            // });
+                            //TODO: add destination
                           },
                           child: Container(
                             height: size.height * 0.22,

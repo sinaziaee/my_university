@@ -5,7 +5,7 @@ import 'dart:convert' as convert;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:my_university/components/product.dart';
 import 'package:my_university/components/product_display.dart';
-import 'package:my_university/screens/books_screen.dart';
+import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
-import 'chat_screen.dart';
+import '../kheft/chat_screen.dart';
 
 bool showSpinner = false;
 bool isVisible = false;

@@ -10,8 +10,8 @@ import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
-import '../../screens/chat_rooms_screen.dart';
-import '../../screens/chat_rooms_screen.dart';
+import '../../kheft/chat_rooms_screen.dart';
+import '../../kheft/chat_rooms_screen.dart';
 import 'package:persian_date/persian_date.dart';
 
 class TimeScreen extends StatefulWidget {

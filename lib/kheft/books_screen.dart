@@ -298,8 +298,6 @@ class _BooksScreenState extends State<BooksScreen> {
                                                 ),
                                               );
                                             }
-                                            // print(count);
-                                            // return SizedBox();
                                             return ListView.builder(
                                               itemCount: count,
                                               itemBuilder: (context, index) {
