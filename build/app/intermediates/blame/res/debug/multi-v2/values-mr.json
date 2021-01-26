@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\Flutter_Project\\RefactorUI2\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-mr\\values-mr.xml",
+            "outputFile": "F:\\Flutter_Project\\Professor\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-mr\\values-mr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Mahdi\\.gradle\\caches\\transforms-2\\files-2.1\\7def8d6c3751559765cf68c2d5a2dddd\\appcompat-1.1.0\\res\\values-mr\\values-mr.xml",
