@@ -1,25 +1,29 @@
+import 'package:flutter/material.dart';
+import 'package:my_university/Professor/faculty_screen.dart';
 import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/event/Screens/events_screen.dart';
 import 'package:my_university/food/index.dart';
 import 'package:my_university/food/screens/AllFoodDetails.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/chat_rooms_screen.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/chat_screen.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/demand_books.dart';
 import 'package:my_university/screens/filter_screen.dart';
 import 'package:my_university/screens/new_book_screen.dart';
 import 'package:my_university/screens/product_screen.dart';
 import 'package:my_university/screens/settings_screen.dart';
 import 'package:my_university/screens/trade_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 
+
+import 'Professor/Professor_screen.dart';
+import 'Professor/detailProfessor.dart';
 import 'constants.dart';
 import 'event/Screens/new_event_screen.dart';
 import 'event/Screens/event_details_screen.dart';
 import 'food/screens/Today_food_details.dart';
 import 'kheft/books_screen.dart';
+import 'kheft/chat_rooms_screen.dart';
+import 'kheft/chat_screen.dart';
+import 'kheft/demand_books.dart';
 import 'screens/email_verfication_screen.dart';
 import 'screens/history_screen.dart';
 import 'screens/home_screen.dart';
@@ -70,6 +74,9 @@ class MyApp extends StatelessWidget {
         NewEventScreen.id : (context) => NewEventScreen(),
         SettingsScreen.id: (context) => SettingsScreen(),
         AllEventsScreen.id: (context) => AllEventsScreen(),
+        FacultyScreen.id : (context) => FacultyScreen(),
+        DetailPageProfessor.id : (context) => DetailPageProfessor(),
+        ProfessorList.id : (context) => ProfessorList(),
       },
     );
   }

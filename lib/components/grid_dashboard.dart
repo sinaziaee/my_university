@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/painting.dart';
 import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/books_screen.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_university/kheft/books_screen.dart';
+import 'package:my_university/kheft/chat_rooms_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 
 import 'package:my_university/screens/login_screen.dart';

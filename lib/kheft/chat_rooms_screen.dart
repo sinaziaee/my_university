@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/components/chat_item.dart';
 import 'package:my_university/constants.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'chat_screen.dart';
 
 String token, username, otherUsername;
 int userId;

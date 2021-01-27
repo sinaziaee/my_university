@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:my_university/Professor/faculty_screen.dart';
 import 'package:my_university/components/my_list_tile.dart';
 import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/event/Screens/events_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_university/kheft/books_screen.dart';
 import 'package:my_university/screens/login_screen.dart';
 import 'package:my_university/screens/settings_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
@@ -243,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       text: 'اطلاعات اساتید',
                       icon: Icons.person,
                       onTap: (){
-                        // onPressed(SettingsScreen.id);
+                        onPressed(FacultyScreen.id);
                       },
                     ),
                     MyListTile(
@@ -407,7 +408,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            //TODO: add destination
+                            Navigator.pushNamed(context, FacultyScreen.id,
+                                arguments: {
+                                  'token': token,
+                                  'user_id': userId,
+                                  'first_name': firstName,
+                                  'last_name': lastName,
+                                });
                           },
                           child: Container(
                             height: size.height * 0.22,

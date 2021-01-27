@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_university/event/Screens/new_event_screen.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/books_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'dart:convert' as convert;
 import '../../constants.dart';

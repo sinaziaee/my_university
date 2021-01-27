@@ -1,6 +1,5 @@
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/components/message_bubble.dart';
-import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/chat_rooms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
