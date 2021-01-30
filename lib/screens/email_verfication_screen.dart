@@ -89,7 +89,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "WELCOME TO MY University",
+                        "به اپلیکیشن دانشگاه من خوش آمدید",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: size.height * 0.05),
@@ -99,13 +99,13 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
                       ),
                       SizedBox(height: size.height * 0.05),
                       RoundedInputField(
-                        hintText: "Enter Verification Code",
+                        hintText: "کد تایید را وارد کنید",
                         onChanged: (value) {
                           code = value;
                         },
                       ),
                       RoundedButton(
-                        text: "Check",
+                        text: "بررسی",
                         color: kPrimaryColor,
                         press: () {
                           checkValidation(context);
@@ -114,7 +114,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Didn\'t get an email ? '),
+                          Text('ایمیل را دریافت نکرده اید ؟ '),
                           FlatButton(
                             onPressed: () {
                               setState(() {
@@ -126,7 +126,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
                               // }
                             },
                             child: Text(
-                              'Resend',
+                              'ارسال دوباره',
                               style: TextStyle(color: color),
                             ),
                           ),
@@ -141,8 +141,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
                           Center(
                             child: (progress != 120)
                                 ? Text((120 - progress).toString() +
-                                    ' seconds remaining')
-                                : Text('Your Code is expired'),
+                                    ' زمان باقی مانده ')
+                                : Text('کد شما منقضی شده'),
                           ),
                           SizedBox(
                             height: 5,
@@ -190,7 +190,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
       if (codeResult.statusCode == 200) {
         showSpinner = false;
         _showSnackBar(context,
-            'A verification code is will be sent to your email in at most 30 seconds');
+            'یک کد تایید تا سی ثانیه دیگر برای شما ایمیل خواهد شد');
         var jsonResponse = convert.jsonDecode(codeResult.body);
         print(jsonResponse['vc_code']);
         RegisterationScreen.theCode = jsonResponse['vc_code'];
@@ -202,7 +202,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
         setState(() {
           showSpinner = false;
         });
-        _showSnackBar(context, 'failed to send email');
+        _showSnackBar(context, 'ایمیل ارسال نشد');
         print(codeResult.statusCode);
         print(codeResult.body);
       }
@@ -216,20 +216,20 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
 
   void checkValidation(BuildContext context) {
     if (code.length == 0) {
-      _showSnackBar(context, 'Please enter the verification code');
+      _showSnackBar(context, 'لطفا کد تایید را وارد کنید');
       return;
     }
     if (theCode != null) {
       if (theCode == int.parse(this.code)) {
-        _showSnackBar(context, 'Success');
+        _showSnackBar(context, 'تایید شد');
         Future.delayed(Duration(milliseconds: 500), () {
           Navigator.popAndPushNamed(context, HomeScreen.id);
         });
       } else {
-        _showSnackBar(context, 'Error');
+        _showSnackBar(context, 'خطا');
       }
     } else {
-      _showSnackBar(context, 'Your Code is Expired');
+      _showSnackBar(context, 'کد شما منقضی شده');
     }
   }
 

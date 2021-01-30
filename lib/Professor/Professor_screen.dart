@@ -8,7 +8,6 @@ import 'home_page_body.dart';
 
 class ProfessorList extends StatelessWidget {
   static String id = "Professor_list";
-  int facultyid;
   Map args;
 
 
@@ -27,7 +26,7 @@ class ProfessorList extends StatelessWidget {
           padding:  EdgeInsets.only(top: 20),
           height: 100,
           child:  Center(
-            child: Text("title",
+            child: Text("اساتید دانشکده",
               style: PersianFonts.Shabnam.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
@@ -38,8 +37,8 @@ class ProfessorList extends StatelessWidget {
           decoration:  BoxDecoration(
             gradient:  LinearGradient(
                 colors: [
-                  const Color(0xFF3366FF),
-                  const Color(0xFF00CCFF)
+                  const Color(0xFF6F35A5),
+                  const Color(0xFF6F35A5)
                 ],
                 begin: const FractionalOffset(0.0, 0.0),
                 end: const FractionalOffset(1.0, 0.0),
@@ -50,7 +49,7 @@ class ProfessorList extends StatelessWidget {
         ),
       ),
 
-      body: HomePageBody(facultyid)
+      body: HomePageBody(facultyid )
 
       //),
     );
@@ -91,10 +90,10 @@ class GradientAppBar extends StatelessWidget {
       ),
       decoration:  BoxDecoration(
         gradient:  LinearGradient(
-            colors: [
-              const Color(0xFF3366FF),
-              const Color(0xFF00CCFF)
-            ],
+            // colors: [
+            //   const Color(0xFF3366FF),
+            //   const Color(0xFF00CCFF)
+            // ],
             begin: const FractionalOffset(0.0, 0.0),
             end: const FractionalOffset(1.0, 0.0),
             stops: [0.0, 1.0],

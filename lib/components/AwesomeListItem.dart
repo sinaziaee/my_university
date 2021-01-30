@@ -51,7 +51,8 @@ class _AwesomeListItemState extends State<AwesomeListItem> {
                     new Padding(
                       padding: const EdgeInsets.only(top: 16.0),
                       child: new Text(
-                        "دانشگاه علم و صنعت ایران",
+                        "دانشگاه علم و صنعت ",
+                        textDirection: TextDirection.rtl,
                         //widget.content,
                         style: PersianFonts.Shabnam.copyWith(
                             color: Colors.grey.shade500,

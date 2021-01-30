@@ -20,7 +20,7 @@ import 'Professor_screen.dart';
 var COLORS = [
   Color(0xFFB892FF),
   Color(0xFFB892FF),
-  Color(0xFFFFC2E2),
+  Color(0xFFB892FF),
   Color(0xFFB892FF),
   Color(0xFFB892FF)
 ];
@@ -170,10 +170,11 @@ class _FacultyScreenState extends State<FacultyScreen> {
     );
   }
 
-  _navigateToProfessorListScreen(int facultyid) {
+  _navigateToProfessorListScreen(int facultyid ) {
     Navigator.pushNamed(context, ProfessorList.id ,
       arguments: {
         'facultyid': facultyid,
+
       },
     );
   }

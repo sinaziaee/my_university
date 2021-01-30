@@ -4,17 +4,14 @@ import 'package:persian_fonts/persian_fonts.dart';
 import '../constants.dart';
 
 
-
-
-
 class OrderCard2 extends StatefulWidget {
-  String name, image, description;
+  String name, image, AcademicRank;
   Map<String , double> data;
-  String cost;
+  String Email;
   final Function onPressed;
 
   OrderCard2({
-    this.name, this.image, this.onPressed, this.cost,this.description ,
+    this.name, this.image, this.onPressed, this.Email,this.AcademicRank ,
     this.data
   });
 
@@ -63,7 +60,7 @@ class _OrderCard2State extends State<OrderCard2> {
 
 
                       Text(
-                        replaceFarsiNumber(widget.cost.toString()) ,
+                        replaceFarsiNumber(widget.AcademicRank.toString()) ,
                         textDirection: TextDirection.rtl,
                         style: PersianFonts.Shabnam.copyWith(
                             fontSize: 16.0,
@@ -82,7 +79,7 @@ class _OrderCard2State extends State<OrderCard2> {
                         strutStyle: StrutStyle(fontSize: 12.0),
                         textAlign: TextAlign.right,
                         text: TextSpan(
-                            text: widget.description,
+                            text: widget.Email,
                             style: PersianFonts.Shabnam.copyWith(
                                 color: kPrimaryColor
                             )

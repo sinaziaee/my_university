@@ -16,6 +16,7 @@ import '../kheft/chat_screen.dart';
 
 bool showSpinner = false;
 bool isVisible = false;
+
 class ProductPage extends StatefulWidget {
   static String id = 'product_screen';
 
@@ -63,7 +64,7 @@ class _ProductPageState extends State<ProductPage> {
     buyerId = args['buyer'];
     print('buyer: $buyerId');
     bool vis = args['isVisible'];
-    if(vis != null){
+    if (vis != null) {
       isVisible = vis;
     }
 
@@ -82,13 +83,6 @@ class _ProductPageState extends State<ProductPage> {
         width: width / 2,
         decoration: BoxDecoration(
             gradient: mainButton,
-            boxShadow: [
-              // BoxShadow(
-              //   color: Color.fromRGBO(253, 192, 84, 1),
-              //   offset: Offset(0, 5),
-              //   blurRadius: 10.0,
-              // )
-            ],
             borderRadius: BorderRadius.circular(9.0)),
         child: Center(
           child: Text(messageText,
@@ -161,30 +155,6 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
 
-
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   centerTitle: true,
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0.0,
-      //   iconTheme: IconThemeData(color: darkGrey),
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(Icons.chevron_right , color: Colors.black,
-      //         size: 35, ),
-      //       onPressed: () {
-      //         Navigator.pop(context);
-      //       },
-      //     ),
-      //   ],
-      //   title: Text(
-      //     ' جزئیات کتاب',
-      //     style: const TextStyle(
-      //         color: darkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
-      //   ),
-      // ),
-
-
       body: FutureBuilder(
         builder: (context, snapshot) {
           if (snapshot.hasData &&
@@ -245,7 +215,6 @@ class _ProductPageState extends State<ProductPage> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(right: 10),
-
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -255,144 +224,162 @@ class _ProductPageState extends State<ProductPage> {
                                         },
                                         color: Colors.teal,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         padding: EdgeInsets.only(
-                                            left: 20, right: 20, top: 5, bottom: 5),
+                                            left: 20,
+                                            right: 20,
+                                            top: 5,
+                                            bottom: 5),
                                         child: Text(
                                           text,
                                           style: TextStyle(
-                                              color: Colors.white, fontSize: 16),
+                                              color: Colors.white,
+                                              fontSize: 16),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-
-
-
                                 SizedBox(
                                   height: 30.0,
                                 ),
-
                                 SingleChildScrollView(
-                                    child: Container(
-                                      height: 600,
-                                        child: ProductDisplay(
-                                            product: product_book))),
+                                  child: Column(
+                                      children:[
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                            bottom: 0,
+                                          ),
+                                          height: MediaQuery.of(context).size.height * 0.32,
+                                          width: MediaQuery.of(context).size.width * 0.45,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  boxShadow: <BoxShadow>[
+                                                    BoxShadow(
+                                                      color: Colors.black.withOpacity(0.3),
+                                                      blurRadius: 10,
+                                                      offset: Offset(8, 8),
+                                                      spreadRadius: 3,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Colors.black.withOpacity(0.3),
+                                                      blurRadius: 10,
+                                                      offset: Offset(-8, -8),
+                                                      spreadRadius:2,
+                                                    )
+                                                  ],
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  child: FadeInImage(
+                                                    // width: 150,
+                                                    // height: 150,
+                                                    fit: BoxFit.fill,
+                                                    placeholder:
+                                                    AssetImage('assets/images/book-1.png'),
+                                                    image: NetworkImage('$baseUrl/media/${result['image']}'),
+                                                  ),
+                                                ),
+                                              ),
 
+                                              Container(
+                                                height: double.infinity,
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          // "Conjure Women",
+                                          result['name'],
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          //"By Afia Atakora",
+                                          "  نویسنده: ${result['author']}  ",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                          " ${replaceFarsiNumber(result['price'].toString())} ریال " , textDirection: TextDirection.rtl,
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+
+                                        Container(
+                                          margin: EdgeInsets.all(24),
+                                          height: 8,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            color: Colors.teal,
+                                            borderRadius: BorderRadius.circular(100),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                            top: 10,
+                                            left: 40,
+                                            right: 20,
+                                          ),
+                                          child: Text(result['description'], textAlign: TextAlign.center,
+                                            textDirection: TextDirection.rtl,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              letterSpacing: 1.5,
+                                              height: 1.5,
+                                            ),
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ),
                                 SizedBox(
                                   height: 16.0,
                                 ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(right: 10),
-                                //   child: Row(
-                                //     mainAxisAlignment: MainAxisAlignment.end,
-                                //     children: [
-                                //       Text(
-                                //         'نام کتاب',
-                                //         style: TextStyle(fontSize: 25),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(right: 30),
-                                //   child: Row(
-                                //     mainAxisAlignment: MainAxisAlignment.end,
-                                //     children: [
-                                //       Text(product_book.name),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(right: 10),
-                                //   child: Row(
-                                //     mainAxisAlignment: MainAxisAlignment.end,
-                                //     children: [
-                                //       Text(
-                                //         'توضیحات',
-                                //         style: TextStyle(fontSize: 25),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(right: 30),
-                                //   child: Row(
-                                //     mainAxisAlignment: MainAxisAlignment.end,
-                                //     children: [
-                                //       Text(product_book.description),
-                                //     ],
-                                //   ),
-                                // ),
-                                // Row(
-                                //   children: [
-                                //     Expanded(
-                                //       child: Column(
-                                //         children: [
-                                //           Padding(
-                                //             padding: EdgeInsets.only(right: 10),
-                                //             child: Row(
-                                //               mainAxisAlignment:
-                                //                   MainAxisAlignment.end,
-                                //               children: [
-                                //                 Text(
-                                //                   'نویسنده',
-                                //                   style: TextStyle(fontSize: 25),
-                                //                 ),
-                                //               ],
-                                //             ),
-                                //           ),
-                                //           Padding(
-                                //             padding: EdgeInsets.only(right: 30),
-                                //             child: Row(
-                                //               mainAxisAlignment:
-                                //                   MainAxisAlignment.end,
-                                //               children: [
-                                //                 Text(product_book.author),
-                                //               ],
-                                //             ),
-                                //           ),
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom:
+                                      bottomPadding != 20 ? 20 : bottomPadding),
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Color.fromRGBO(255, 255, 255, 0),
+                                            Color.fromRGBO(255, 255, 255, 0),
+                                            Color.fromRGBO(255, 255, 255, 0),
+                                          ],
+                                          begin: FractionalOffset.topCenter,
+                                          end: FractionalOffset.bottomCenter)),
+                                  width: width,
+                                  height: 100,
+                                  child: Center(child: viewProductButton),
+                                ),
                               ],
                             ),
                           ),
-
-
-
-
-
-
-
-
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  top: 8.0,
-                                  bottom: bottomPadding != 20 ? 20 : bottomPadding),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [
-                                    Color.fromRGBO(255, 255, 255, 0),
-                                    Color.fromRGBO(255, 255, 255, 0),
-                                    Color.fromRGBO(255, 255, 255, 0),
-                                  ],
-                                      begin: FractionalOffset.topCenter,
-                                      end: FractionalOffset.bottomCenter)),
-                              width: width,
-                              height: 100,
-                              child: Center(child: viewProductButton),
-                            ),
-                          ),
-
-
                         ],
                       ),
                     ),
@@ -440,7 +427,7 @@ class _ProductPageState extends State<ProductPage> {
     print('*************************');
     print('bookId: $book_id');
     print('*************************');
-    if(buyerId == null){
+    if (buyerId == null) {
       print('buyerId is null');
     }
     String acceptUrl = '${demandUrl}accept/';
@@ -462,10 +449,9 @@ class _ProductPageState extends State<ProductPage> {
       },
     );
     var jsonResponse = convert.jsonDecode(utf8.decode(response.bodyBytes));
-    if(response.statusCode > 400){
+    if (response.statusCode > 400) {
       _showDialog('مشکلی پیش آمد');
-    }
-    else{
+    } else {
       success('درخواست کاربر قبول شد.');
     }
     print(jsonResponse);
@@ -491,7 +477,7 @@ class _ProductPageState extends State<ProductPage> {
           "seller": seller_id,
           "client": userId,
           'imageUrl': image,
-          'price':price,
+          'price': price,
           'description': description,
           'stock_id': stock_id,
         }));
@@ -508,7 +494,7 @@ class _ProductPageState extends State<ProductPage> {
     // });
   }
 
-  _showDialog(String title) async{
+  _showDialog(String title) async {
     AwesomeDialog(
         context: context,
         dialogType: DialogType.ERROR,
@@ -518,10 +504,11 @@ class _ProductPageState extends State<ProductPage> {
         desc: title,
         btnOkOnPress: () {},
         btnOkIcon: Icons.cancel,
-        btnOkColor: Colors.red)..show();
+        btnOkColor: Colors.red)
+      ..show();
   }
 
-  success(String title) async{
+  success(String title) async {
     AwesomeDialog(
         context: context,
         dialogType: DialogType.SUCCES,
@@ -531,22 +518,22 @@ class _ProductPageState extends State<ProductPage> {
         desc: title,
         btnOkOnPress: () {},
         btnOkIcon: Icons.cancel,
-        btnOkColor: Colors.green)..show();
+        btnOkColor: Colors.green)
+      ..show();
   }
 
   _checkAccessibility() async {
     String chatUrl = '$baseUrl/api/room-list/create';
     var response = await getChatRoom(chatUrl);
     int room_id = convert.jsonDecode(response.body)['room_id'];
-    if(username == seller_username){
+    if (username == seller_username) {
       Navigator.pushNamed(context, ChatScreen.id, arguments: {
         'room': room_id,
         'user_id': userId,
         'username': username,
         'other_username': buyer_username,
       });
-    }
-    else {
+    } else {
       Navigator.pushNamed(context, ChatScreen.id, arguments: {
         'room': room_id,
         'user_id': userId,

@@ -91,91 +91,166 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       drawer: Drawer(
         child: myDrawer(),
       ),
-      body: FutureBuilder(
-        builder: (context, snapshot){
-        if(snapshot.hasData && snapshot.connectionState == ConnectionState.done){
-          return Stack(
-            children: [
-              Transform.rotate(
-                origin: Offset(40, -60),
-                angle: 2.4,
-                child: Container(
-                  margin: EdgeInsets.only(
-                    left: 75,
-                    top: 40,
-                  ),
-                  height: size.height * 0.5,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(80),
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      colors: [Color(0xff6f35a5), Color(0xFFA885FF)],
-                    ),
-                  ),
+      body: Stack(
+        children: [
+          Transform.rotate(
+            origin: Offset(40, -60),
+            angle: 2.4,
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 75,
+                top: 40,
+              ),
+              height: size.height * 0.5,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(80),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  colors: [Color(0xff6f35a5), Color(0xFFA885FF)],
                 ),
               ),
-              SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 10, left: 5),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.clear_all,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                    onPressed: () {
-                      _drawerKey.currentState.openDrawer();
-                    },
-                  ),
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(top: 10, left: 5),
+              child: IconButton(
+                icon: Icon(
+                  Icons.clear_all,
+                  color: Colors.white,
+                  size: 40,
                 ),
+                onPressed: () {
+                  _drawerKey.currentState.openDrawer();
+                },
               ),
-              Column(
+            ),
+          ),
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: size.height / 25,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    height: size.height / 25,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        "assets/images/elmoss.png",
-                        width: 72,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Image.asset(
-                        "assets/images/logo.png",
-                        width: 72,
-                      ),
-                    ],
+                  Image.asset(
+                    "assets/images/elmoss.png",
+                    width: 72,
                   ),
                   SizedBox(
-                    height: size.height / 35,
+                    height: 4,
                   ),
-                  Text(
-                    "اپلیکیشن جامع دانشگاه من",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                  Image.asset(
+                    "assets/images/logo.png",
+                    width: 72,
                   ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  bodyContainer(),
                 ],
               ),
+              SizedBox(
+                height: size.height / 35,
+              ),
+              Text(
+                "اپلیکیشن جامع دانشگاه من",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              bodyContainer(),
             ],
-          );
-        }
-        else{
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      }, future: getToken(),),
+          ),
+        ],
+      ),
+      // body: FutureBuilder(
+      //   builder: (context, snapshot){
+      //   if(snapshot.hasData && snapshot.connectionState == ConnectionState.done){
+      //     return Stack(
+      //       children: [
+      //         Transform.rotate(
+      //           origin: Offset(40, -60),
+      //           angle: 2.4,
+      //           child: Container(
+      //             margin: EdgeInsets.only(
+      //               left: 75,
+      //               top: 40,
+      //             ),
+      //             height: size.height * 0.5,
+      //             width: double.infinity,
+      //             decoration: BoxDecoration(
+      //               borderRadius: BorderRadius.circular(80),
+      //               gradient: LinearGradient(
+      //                 begin: Alignment.bottomLeft,
+      //                 colors: [Color(0xff6f35a5), Color(0xFFA885FF)],
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //         SafeArea(
+      //           child: Padding(
+      //             padding: EdgeInsets.only(top: 10, left: 5),
+      //             child: IconButton(
+      //               icon: Icon(
+      //                 Icons.clear_all,
+      //                 color: Colors.white,
+      //                 size: 40,
+      //               ),
+      //               onPressed: () {
+      //                 _drawerKey.currentState.openDrawer();
+      //               },
+      //             ),
+      //           ),
+      //         ),
+      //         Column(
+      //           children: <Widget>[
+      //             SizedBox(
+      //               height: size.height / 25,
+      //             ),
+      //             Row(
+      //               mainAxisAlignment: MainAxisAlignment.center,
+      //               children: <Widget>[
+      //                 Image.asset(
+      //                   "assets/images/elmoss.png",
+      //                   width: 72,
+      //                 ),
+      //                 SizedBox(
+      //                   height: 4,
+      //                 ),
+      //                 Image.asset(
+      //                   "assets/images/logo.png",
+      //                   width: 72,
+      //                 ),
+      //               ],
+      //             ),
+      //             SizedBox(
+      //               height: size.height / 35,
+      //             ),
+      //             Text(
+      //               "اپلیکیشن جامع دانشگاه من",
+      //               style: TextStyle(
+      //                   fontSize: 20,
+      //                   fontWeight: FontWeight.bold,
+      //                   color: Colors.white),
+      //             ),
+      //             SizedBox(
+      //               height: size.height * 0.02,
+      //             ),
+      //             bodyContainer(),
+      //           ],
+      //         ),
+      //       ],
+      //     );
+      //   }
+      //   else{
+      //     return Center(
+      //       child: CircularProgressIndicator(),
+      //     );
+      //   }
+      // }, future: getToken(),),
     );
   }
 

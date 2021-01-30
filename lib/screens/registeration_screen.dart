@@ -240,7 +240,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
             });
         if (codeResult.statusCode == 200) {
           // _showSnackBar(context, 'A verification code is sent to your email');
-          var jsonResponse = convert.jsonDecode(codeResult.body);
+          var jsonResponse = convert.jsonDecode(convert.utf8.decode(codeResult.bodyBytes));
           print(jsonResponse['vc_code']);
           RegisterationScreen.theCode = jsonResponse['vc_code'];
           print('******************');
@@ -249,6 +249,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
           String username = jsonBody['username'];
           String first_name = jsonBody['first_name'];
           String last_name = jsonBody['last_name'];
+          String email = jsonBody['email'];
           int user_id = jsonBody['user_id'];
           String token = jsonBody['token'];
           print(token);
@@ -258,6 +259,11 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
           });
           Navigator.pushNamed(context, EmailVerificationScreen.id, arguments: {
             'sid': sid,
+            'token': username,
+            'email': email,
+            'first_name': first_name,
+            'last_name': last_name,
+            'username': username,
           });
         } else {
           resetCounter();

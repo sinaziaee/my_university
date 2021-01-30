@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           showSpinner = false;
         });
-        var jsonResponse = convert.jsonDecode(result.body);
+        var jsonResponse = convert.jsonDecode(convert.utf8.decode(result.bodyBytes));
         print(jsonResponse['token']);
         print(jsonResponse);
         addStringToSF(jsonResponse['token'], jsonResponse['user_id'],
@@ -212,7 +212,13 @@ class _LoginScreenState extends State<LoginScreen> {
     print(prefs.getString('username'));
     print(prefs.getString('email'));
     // print(prefs.getString('user_id').toString());
-    Navigator.popAndPushNamed(context, HomeScreen.id);
+    Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
+      'token': prefs.getString('token'),
+      'email': prefs.getString('email'),
+      'first_name': prefs.getString('first_name'),
+      'last_name': prefs.getString('last_name'),
+      'username': prefs.getString('username'),
+    });
   }
 
   checkStringValueExistence() async {

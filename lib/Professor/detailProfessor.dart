@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:my_university/Professor/Professor_screen.dart';
 import 'package:my_university/components/Professor.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,29 +43,29 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
     print("Professor_id : " + Professor_id.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: kPrimaryColor,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: darkGrey),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.chevron_right,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-        title: Text(
-          ' جزئیات استاد',
-          style: PersianFonts.Shabnam.copyWith(
-              color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30.0),
-        ),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   centerTitle: true,
+      //   backgroundColor: kPrimaryColor,
+      //   elevation: 0.0,
+      //   iconTheme: IconThemeData(color: darkGrey),
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(
+      //         Icons.chevron_right,
+      //         color: Colors.white,
+      //       ),
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       },
+      //     ),
+      //   ],
+      //   title: Text(
+      //     ' جزئیات استاد',
+      //     style: PersianFonts.Shabnam.copyWith(
+      //         color: Colors.white, fontWeight: FontWeight.w500, fontSize: 30.0),
+      //   ),
+      // ),
       body: FutureBuilder(
         future: getToken(),
         builder: (context, snapshot) {
@@ -98,153 +99,250 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                           print("count : " + count.toString());
 
 
-                          return Column(
-                              children: [
-                                Container(
-                                  child: Center(
-                                    child: Banner(
-                                      color: Colors.purple.shade300,
-                                      message:
-                                          result['first_name'].toString(),
-                                      location: BannerLocation.bottomEnd,
-                                      child: FadeInImage(
-                                        height: 150,
-                                        width: 150,
+                          return Column(mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget> [
+
+                                Stack(
+                                  overflow: Overflow.visible,
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    Image(
+                                        width: double.infinity,
+                                        height: MediaQuery.of(context).size.height / 3,
                                         fit: BoxFit.cover,
-                                        placeholder: AssetImage(
-                                            'assets/images/book-1.png'),
-                                        image: NetworkImage(
+                                        image:NetworkImage( '$baseUrl' + result['faculty_image']
+                                            )
+                                    ),
+                                    Positioned(
+                                      bottom: -60.0,
+                                      child: CircleAvatar(
+                                        radius: 80,
+                                        backgroundColor: Colors.white,
+                                        backgroundImage: NetworkImage(
                                           '$baseUrl' + result['image'],
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    color: kPrimaryColor,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(40),
-                                      bottomRight: Radius.circular(40),
-                                    ),
-                                  ),
+                                  ],
                                 ),
+
+                                SizedBox(
+                                  height: 60,
+                                ),
+
+                                ListTile(
+                                  title: Center(child: Text("استاد " + result['first_name'] +" "+ result['last_name'],
+                                    style: PersianFonts.Shabnam.copyWith(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+
+                                  ),
+                                  subtitle: Center(child: Text("مرتبه علمی : " + result['academic_rank'].toString(),
+                                      style: PersianFonts.Shabnam)),
+                                ),
+
+                                FlatButton.icon(
+                                  onPressed: () {
+
+                                  },
+                                  icon: Icon(
+                                    Icons.mail,
+                                    color: Colors.white,
+                                  ),
+                                  label: Text(
+                                    'Email : ${result['email']}',
+                                    style: PersianFonts.Shabnam.copyWith(color: Colors.white),
+                                  ),
+                                  color: Colors.blue,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                                ),
+
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 5,
+
+
+                                   Padding(
+                                     padding: const EdgeInsets.only(right: 15, left: 15
+                                     ),
+                                     child: Column(mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: [
+                                        Text('درباره استاد:' , textDirection: TextDirection.rtl, style: PersianFonts.Shabnam.copyWith(fontSize: 20, fontWeight: FontWeight.w500)),
+
+                                        Text("کارشناسی : " + result['bachelor'] , textDirection: TextDirection.rtl,
+                                            style: PersianFonts.Shabnam),
+                                        Text("کارشناسی ارشد : " + result['masters'] ,textDirection: TextDirection.rtl,
+                                            style: PersianFonts.Shabnam),
+                                        Text("دکترا : " + result['phd'] ,textDirection: TextDirection.rtl,
+                                            style: PersianFonts.Shabnam),
+
+                                        Text("زمینه تحقیقاتی :  : " + result['research_axes'][0] ,textDirection: TextDirection.rtl,
+                                            textAlign: TextAlign.right,
+                                            style: PersianFonts.Shabnam),
+                                        SizedBox(height: 20,),
+
+                                      ],
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        'نام غذا',
-                                        style: PersianFonts.Shabnam.copyWith(
-                                            color: kPrimaryColor, fontSize: 28),
-                                        textDirection: TextDirection.rtl,
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 30,
-                                    vertical: 0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        result['last_name'],
-                                        textDirection: TextDirection.rtl,
-                                        style: PersianFonts.Shabnam.copyWith(
-                                            fontWeight: FontWeight.w800,
-                                            color: kPrimaryColor,
-                                            fontSize: 15),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 30,
-                                    vertical: 0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        replaceFarsiNumber(result['academic_rank'].toString()) ,
-                                        textDirection: TextDirection.rtl,
-                                        textAlign: TextAlign.right,
-                                        style: PersianFonts.Shabnam.copyWith(
-                                            fontWeight: FontWeight.w800,
-                                            color: kPrimaryColor,
-                                            fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 10,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 20,
-                                          vertical: 5,
-                                        ),
-                                        child: Text(
-                                          'محتویات',
-                                          style: PersianFonts.Shabnam.copyWith(
-                                              color: kPrimaryColor, fontSize: 28),
-                                          textDirection: TextDirection.rtl,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 30,
-                                    vertical: 0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Flexible(
-                                        child: RichText(
-                                          overflow: TextOverflow.ellipsis,
-                                          strutStyle: StrutStyle(fontSize: 12.0),
-                                          text: TextSpan(
-                                              text: result['email'],
-                                              style:
-                                                  PersianFonts.Shabnam.copyWith(
-                                                      fontWeight: FontWeight.w800,
-                                                      color: kPrimaryColor)),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                ),
+                                   ),
+
+
+
+                                      Text("تلفن دفتر دانشکده : " + result['direct_telephone'] ,textDirection: TextDirection.rtl,
+                                          style: PersianFonts.Shabnam.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+                                      //
+                                      Text("زمان های مراجعه : " + result['free_times'][0] ,textDirection: TextDirection.rtl,
+                                          style: PersianFonts.Shabnam.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+
+
+
+
+                                // Container(
+                                //   child: Center(
+                                //     child: Banner(
+                                //       color: Colors.purple.shade300,
+                                //       message:
+                                //           result['first_name'].toString(),
+                                //       location: BannerLocation.bottomEnd,
+                                //       child: FadeInImage(
+                                //         height: 150,
+                                //         width: 150,
+                                //         fit: BoxFit.cover,
+                                //         placeholder: AssetImage(
+                                //             'assets/images/book-1.png'),
+                                //         image: NetworkImage(
+                                //           '$baseUrl' + result['image'],
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                //   height: 200,
+                                //   decoration: BoxDecoration(
+                                //     color: kPrimaryColor,
+                                //     borderRadius: BorderRadius.only(
+                                //       bottomLeft: Radius.circular(40),
+                                //       bottomRight: Radius.circular(40),
+                                //     ),
+                                //   ),
+                                // ),
+                                // SizedBox(
+                                //   height: 20,
+                                // ),
+                                // Padding(
+                                //   padding: EdgeInsets.symmetric(
+                                //     horizontal: 20,
+                                //     vertical: 5,
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Text(
+                                //         'نام غذا',
+                                //         style: PersianFonts.Shabnam.copyWith(
+                                //             color: kPrimaryColor, fontSize: 28),
+                                //         textDirection: TextDirection.rtl,
+                                //         textAlign: TextAlign.right,
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // Padding(
+                                //   padding: EdgeInsets.symmetric(
+                                //     horizontal: 30,
+                                //     vertical: 0,
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Text(
+                                //         result['last_name'],
+                                //         textDirection: TextDirection.rtl,
+                                //         style: PersianFonts.Shabnam.copyWith(
+                                //             fontWeight: FontWeight.w800,
+                                //             color: kPrimaryColor,
+                                //             fontSize: 15),
+                                //         textAlign: TextAlign.right,
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // Padding(
+                                //   padding: EdgeInsets.symmetric(
+                                //     horizontal: 30,
+                                //     vertical: 0,
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       SizedBox(
+                                //         height: 20,
+                                //       ),
+                                //       Text(
+                                //         replaceFarsiNumber(result['academic_rank'].toString()) ,
+                                //         textDirection: TextDirection.rtl,
+                                //         textAlign: TextAlign.right,
+                                //         style: PersianFonts.Shabnam.copyWith(
+                                //             fontWeight: FontWeight.w800,
+                                //             color: kPrimaryColor,
+                                //             fontSize: 15),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // Padding(
+                                //   padding: EdgeInsets.symmetric(
+                                //     horizontal: 10,
+                                //     vertical: 10,
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       SizedBox(
+                                //         height: 20,
+                                //       ),
+                                //       Padding(
+                                //         padding: EdgeInsets.symmetric(
+                                //           horizontal: 20,
+                                //           vertical: 5,
+                                //         ),
+                                //         child: Text(
+                                //           'محتویات',
+                                //           style: PersianFonts.Shabnam.copyWith(
+                                //               color: kPrimaryColor, fontSize: 28),
+                                //           textDirection: TextDirection.rtl,
+                                //           textAlign: TextAlign.right,
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // Padding(
+                                //   padding: EdgeInsets.symmetric(
+                                //     horizontal: 30,
+                                //     vertical: 0,
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Flexible(
+                                //         child: RichText(
+                                //           overflow: TextOverflow.ellipsis,
+                                //           strutStyle: StrutStyle(fontSize: 12.0),
+                                //           text: TextSpan(
+                                //               text: result['email'],
+                                //               style:
+                                //                   PersianFonts.Shabnam.copyWith(
+                                //                       fontWeight: FontWeight.w800,
+                                //                       color: kPrimaryColor)),
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // SizedBox(
+                                //   height: 50,
+                                // ),
 
                                 ListView.builder(
                                   shrinkWrap: true,
@@ -315,16 +413,16 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
     );
   }
 
-  Container _getBackground() {
-    return new Container(
-      child: new Image.network(
-        widget.planet.picture,
-        fit: BoxFit.cover,
-        height: 300.0,
-      ),
-      constraints: new BoxConstraints.expand(height: 295.0),
-    );
-  }
+  // Container _getBackground() {
+  //   return new Container(
+  //     child: new Image.network(
+  //       widget.planet.picture,
+  //       fit: BoxFit.cover,
+  //       height: 300.0,
+  //     ),
+  //     constraints: new BoxConstraints.expand(height: 295.0),
+  //   );
+  // }
 
   Container _getGradient() {
     return new Container(

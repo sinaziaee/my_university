@@ -310,8 +310,8 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                   child: Text(
                                     'نام کتاب',
                                     style: PersianFonts.Shabnam.copyWith(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -445,8 +445,8 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                 child: Text(
                                   'توضیحات',
                                   style: PersianFonts.Shabnam.copyWith(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
@@ -482,6 +482,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                   width: 100,
                                   child: TextField(
                                     controller: priceController,
+                                    keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -492,8 +493,8 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                 Text(
                                   'قیمت :   ',
                                   style: PersianFonts.Shabnam.copyWith(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                   textDirection: TextDirection.rtl,
                                 ),
@@ -613,6 +614,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
     });
     try {
       if (isAddingCompletelyNewBook) {
+        print('***************************************');
         http.Response httpResponse = await http.post(newBookUrl,
             headers: {
               HttpHeaders.authorizationHeader: token,
@@ -628,7 +630,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                 'field': 1,
               },
             ));
-        if (httpResponse.statusCode == 201) {
+        if (httpResponse.statusCode < 400) {
           Map jsonBody = convert.jsonDecode(httpResponse.body);
           selectedBookId = jsonBody['id'];
         }
@@ -717,8 +719,33 @@ class _NewBookScreenState extends State<NewBookScreen> {
       showDialog(
         context: context,
         child: AlertDialog(
-          content: Center(
-            child: Text('کتابی وجود ندارد'),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          content: Container(
+            height: 100,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('کتابی وجود ندارد'),
+                    TextButton.icon(
+                      onPressed: () {
+                        _newBookDialog();
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        color: kPrimaryColor,
+                      ),
+                      label: Text(
+                        'اضافه کردن کتاب جدید',
+                        style: TextStyle(color: kPrimaryColor),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       );
@@ -952,7 +979,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                     'از گالری',
                     textDirection: TextDirection.rtl,
                     style: PersianFonts.Shabnam.copyWith(
-                        color: Colors.black,
+                      color: Colors.black,
                     ),
                   ),
                   SizedBox(
@@ -978,12 +1005,11 @@ class _NewBookScreenState extends State<NewBookScreen> {
         animType: AnimType.RIGHSLIDE,
         headerAnimationLoop: false,
         title: 'خطا',
-
         desc: message,
-
         btnOkOnPress: () {},
         btnOkIcon: Icons.cancel,
-        btnOkColor: Colors.red)..show();
+        btnOkColor: Colors.red)
+      ..show();
   }
 
   void showSuccessDialog(BuildContext context, String message) {
@@ -996,7 +1022,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
         desc: message,
         btnOkOnPress: () {},
         btnOkIcon: Icons.check_circle,
-        btnOkColor: Colors.green)..show();
+        btnOkColor: Colors.green)
+      ..show();
   }
-
 }

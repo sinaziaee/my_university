@@ -20,7 +20,7 @@ import 'detailProfessor.dart';
 class HomePageBody extends StatefulWidget {
   int faculty_id;
 
-  HomePageBody(this.faculty_id);
+  HomePageBody(this.faculty_id );
 
   @override
   _HomePageBodyState createState() => _HomePageBodyState();
@@ -51,6 +51,7 @@ class _HomePageBodyState extends State<HomePageBody> {
   Widget build(BuildContext context) {
 
     return Container(
+      color: Color(0xFFB892FF),
         child: FutureBuilder(
           future: getToken(),
           builder: (context, snapshot) {
@@ -97,11 +98,9 @@ class _HomePageBodyState extends State<HomePageBody> {
                     {
                        Professor professor = Professor(
                           id: mapList[i]['professor_id'],
-                          name: mapList[i]['first_name'] + " " + mapList[i]['last_name'],
-                          location: "مرتبه علمی : " + mapList[i]['academic_rank'] ,
-                          distance: "54.6m Km",
-                          gravity: "3.711 m/s ",
-                          description: mapList[i]['email'],
+                          name: "دکتر " + mapList[i]['first_name'] + " " + mapList[i]['last_name'],
+                         AcademicRank: "مرتبه علمی : " + mapList[i]['academic_rank'] ,
+                          Email: mapList[i]['email'],
                           image: mapList[i]['image'],
                       );
 
@@ -123,11 +122,11 @@ class _HomePageBodyState extends State<HomePageBody> {
                       // print("P[index] : " + P[index].id.toString());
                        return OrderCard2(
                          name: P[index].name,
-                         cost: P[index].location,
-                         description: P[index].description,
+                         Email: P[index].Email,
+                         AcademicRank: P[index].AcademicRank,
                          image: '$baseUrl${P[index].image}',
                          onPressed: () {
-                           navigateToProfessorDetailScreen(P[index].id);
+                           navigateToProfessorDetailScreen(P[index].id );
                          },
                        );
 
@@ -158,7 +157,7 @@ class _HomePageBodyState extends State<HomePageBody> {
     );
   }
 
-  void navigateToProfessorDetailScreen(int professor_id) {
+  void navigateToProfessorDetailScreen(int professor_id ) {
     Navigator.pushNamed(
       context,
       DetailPageProfessor.id,
