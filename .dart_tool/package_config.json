@@ -2,6 +2,12 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "android_intent",
+      "rootUri": "file:///C:/Users/Mahdi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/android_intent-0.3.7+7",
+      "packageUri": "lib/",
+      "languageVersion": "2.3"
+    },
+    {
       "name": "async",
       "rootUri": "file:///C:/Users/Mahdi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/async-2.5.0-nullsafety.1",
       "packageUri": "lib/",
@@ -488,7 +494,7 @@
       "languageVersion": "2.8"
     }
   ],
-  "generated": "2021-01-27T15:59:56.134905Z",
+  "generated": "2021-01-31T01:01:30.059608Z",
   "generator": "pub",
   "generatorVersion": "2.10.3"
 }

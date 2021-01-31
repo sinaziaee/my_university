@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/Professor/Professor_screen.dart';
@@ -145,6 +146,17 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                                 FlatButton.icon(
                                   onPressed: () {
 
+                                    if (Platform.isAndroid) {
+                                      AndroidIntent intent = AndroidIntent(
+                                        action: 'android.intent.action.MAIN',
+                                        category: 'android.intent.category.APP_EMAIL',
+
+                                      );
+
+                                      intent.launch().catchError((e) {
+
+                                      });
+                                    }
                                   },
                                   icon: Icon(
                                     Icons.mail,
