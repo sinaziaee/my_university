@@ -20,34 +20,32 @@ class ProfessorList extends StatelessWidget {
     int facultyid = args['facultyid'];
 
     return  Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size( double.infinity , 100),
-        child: Container(
-          padding:  EdgeInsets.only(top: 20),
-          height: 100,
-          child:  Center(
-            child: Text("اساتید دانشکده",
-              style: PersianFonts.Shabnam.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18.0
+        appBar: AppBar(
+          backgroundColor: kPrimaryColor,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+
+          actions: <Widget>[
+
+            IconButton(
+              icon: Icon(
+                Icons.arrow_forward_outlined,
+                color: Colors.white,
               ),
-            ),
-          ),
-          decoration:  BoxDecoration(
-            gradient:  LinearGradient(
-                colors: [
-                  const Color(0xFF6F35A5),
-                  const Color(0xFF6F35A5)
-                ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1.0, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+
+          title: Text("اساتید دانشکده" ,
+            textDirection: TextDirection.rtl,
+            textAlign: TextAlign.center,
+            style: PersianFonts.Shabnam.copyWith(
+                color: Colors.white, fontSize: 20.0
             ),
           ),
         ),
-      ),
 
       body: HomePageBody(facultyid )
 

@@ -12,8 +12,6 @@ import 'package:my_university/screens/product_screen.dart';
 import 'package:my_university/screens/settings_screen.dart';
 import 'package:my_university/screens/trade_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
-
-
 import 'Professor/Professor_screen.dart';
 import 'Professor/detailProfessor.dart';
 import 'constants.dart';

@@ -62,6 +62,20 @@ class _FacultyScreenState extends State<FacultyScreen> {
         backgroundColor: kPrimaryColor,
         elevation: 0.0,
         centerTitle: true,
+        automaticallyImplyLeading: false,
+
+        actions: <Widget>[
+
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward_outlined,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
 
         title: Text("دانشکده های دانشگاه" ,
               textDirection: TextDirection.rtl,

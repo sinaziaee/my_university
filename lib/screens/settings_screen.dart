@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_university/constants.dart';
@@ -16,9 +17,9 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _dark;
-  String token, firstName, lastName, username, email;
+  String token, firstName, lastName, username, email, phone;
   int userId;
-
+  Size size;
   @override
   void initState() {
     super.initState();
@@ -36,12 +37,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     lastName = prefs.getString('last_name');
     username = prefs.getString('username');
     email = prefs.getString('email');
+    phone = prefs.getString('phone');
     userId = prefs.getInt('user_id');
     return prefs.getString('token');
   }
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Theme(
       isMaterialAppTheme: true,
       data: ThemeData(
@@ -101,8 +104,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               leading: CircleAvatar(
                                 // backgroundImage: NetworkImage(avatars[0]),
                                 backgroundColor: Colors.white,
-                                backgroundImage: AssetImage(
-                                  "assets/images/elmoss.png",
+                                child: FadeInImage(
+                                  height: 40,
+                                  image: AssetImage('assets/images/unkown.png'),
+                                  placeholder: AssetImage('assets/images/unkown.png'),
                                 ),
                               ),
                               trailing: Icon(
@@ -122,10 +127,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               children: <Widget>[
                                 ListTile(
                                   leading: Icon(
-                                    Icons.lock_outline,
+                                    Icons.phone,
                                     color: Colors.purple,
                                   ),
-                                  title: Text("Change Password"),
+                                  title: Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
                                   // trailing: Icon(Icons.keyboard_arrow_right),
                                   onTap: () {
                                     //open change password
@@ -158,26 +163,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 20.0),
-                          Text(
-                            "Theme",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.indigo,
-                            ),
-                          ),
-                          ListTile(
-                            title: Text(_dark ? 'Dark Theme':'Light Theme'),
-                            trailing: IconButton(
-                              icon: Icon(FontAwesomeIcons.moon),
-                              onPressed: () {
-                                _dark = !_dark;
-                                setState(() {});
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 60.0),
+                          // const SizedBox(height: 20.0),
+                          // Text(
+                          //   "Theme",
+                          //   style: TextStyle(
+                          //     fontSize: 20.0,
+                          //     fontWeight: FontWeight.bold,
+                          //     color: Colors.indigo,
+                          //   ),
+                          // ),
+                          // ListTile(
+                          //   title: Text(_dark ? 'Dark Theme':'Light Theme'),
+                          //   trailing: IconButton(
+                          //     icon: Icon(FontAwesomeIcons.moon),
+                          //     onPressed: () {
+                          //       _dark = !_dark;
+                          //       setState(() {});
+                          //     },
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 60.0),
                         ],
                       ),
                     ),
@@ -203,10 +208,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          showLogoutDialog();
+                          showLogoutDialog(context, "آیا اطمینان دارید ؟");
                         },
                       ),
-                    )
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Image.asset(
+                        "assets/images/login_bottom.png",
+                        width: size.width * 0.6,
+                      ),
+                    ),
+
                   ],
                 );
               } else {
@@ -230,98 +244,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  showLogoutDialog() {
-    showDialog(
-      context: context,
-      child: AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        'خارج می شوید؟ ',
-                        textDirection: TextDirection.rtl,
-                        style: PersianFonts.Shabnam.copyWith(
-                            color: kPrimaryColor, fontSize: 20),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 0.5,
-              width: double.infinity,
-              color: Colors.grey,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    logoutApp();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'بله‌',
-                          textDirection: TextDirection.rtl,
-                          style: PersianFonts.Shabnam.copyWith(
-                              color: kPrimaryColor, fontSize: 18),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'خیر',
-                          textDirection: TextDirection.rtl,
-                          textAlign: TextAlign.center,
-                          style: PersianFonts.Shabnam.copyWith(
-                              color: kPrimaryColor, fontSize: 18),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+    showLogoutDialog(BuildContext context, String message) {
+      AwesomeDialog(
+          context: context,
+          dialogType: DialogType.WARNING,
+          animType: AnimType.RIGHSLIDE,
+          headerAnimationLoop: false,
+          title: ' خروج از برنامه',
+          desc: message,
+          btnOkOnPress: () {
+
+            logoutApp();
+          },
+          btnOkText: "بله",
+          btnOkIcon: Icons.check_circle,
+          btnOkColor: Colors.green,
+          btnCancelOnPress: (){},
+          btnCancelText: "خیر",
+          btnCancelIcon: Icons.cancel,
+          btnCancelColor: Colors.red
+
+      )
+        ..show();
   }
 
   void logoutApp() async {

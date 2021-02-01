@@ -55,7 +55,7 @@ class TodayCard extends StatelessWidget {
                   height: 150,
                   fit: BoxFit.cover,
                   image: (picture != null)
-                      ? NetworkImage("http://danibazi9.pythonanywhere.com/$picture")
+                      ? NetworkImage("$baseUrl/$picture")
                       : AssetImage('assets/joojeh.png'),
                   placeholder: AssetImage('assets/joojeh.png')
                   ,

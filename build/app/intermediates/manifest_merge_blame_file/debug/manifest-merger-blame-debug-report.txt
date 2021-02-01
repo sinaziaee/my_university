@@ -101,32 +101,23 @@
 70            android:value="2" />
 70-->F:\Flutter_Project\Professor\android\app\src\main\AndroidManifest.xml:45:13-30
 71
-72        <activity
-72-->[:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-11:74
-73            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-73-->[:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-74
-74            android:exported="false"
-74-->[:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-37
-75            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-75-->[:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
-76
-77        <provider
-77-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:11:9-19:20
-78            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-78-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:12:13-82
-79            android:authorities="com.example.my_university.flutter.image_provider"
-79-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-74
-80            android:exported="false"
-80-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-37
-81            android:grantUriPermissions="true" >
-81-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-47
-82            <meta-data
-82-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-18:75
-83                android:name="android.support.FILE_PROVIDER_PATHS"
-83-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:17:17-67
-84                android:resource="@xml/flutter_image_picker_file_paths" />
-84-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-72
-85        </provider>
-86    </application>
-87
-88</manifest>
+72        <provider
+72-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:11:9-19:20
+73            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+73-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:12:13-82
+74            android:authorities="com.example.my_university.flutter.image_provider"
+74-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-74
+75            android:exported="false"
+75-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-37
+76            android:grantUriPermissions="true" >
+76-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-47
+77            <meta-data
+77-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-18:75
+78                android:name="android.support.FILE_PROVIDER_PATHS"
+78-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:17:17-67
+79                android:resource="@xml/flutter_image_picker_file_paths" />
+79-->[:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-72
+80        </provider>
+81    </application>
+82
+83</manifest>

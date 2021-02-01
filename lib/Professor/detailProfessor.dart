@@ -100,7 +100,9 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                           print("count : " + count.toString());
 
 
-                          return Column(mainAxisAlignment: MainAxisAlignment.end,
+                          return Column(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget> [
 
                                 Stack(
@@ -139,7 +141,7 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                                   ),
 
                                   ),
-                                  subtitle: Center(child: Text("مرتبه علمی : " + result['academic_rank'].toString(),
+                                  subtitle: Center(child: Text("مرتبه علمی : " + result['academic_rank'].toString() ?? "",
                                       style: PersianFonts.Shabnam)),
                                 ),
 
@@ -190,7 +192,7 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                                         Text("دکترا : " + result['phd'] ,textDirection: TextDirection.rtl,
                                             style: PersianFonts.Shabnam),
 
-                                        Text("زمینه تحقیقاتی :  : " + result['research_axes'][0] ,textDirection: TextDirection.rtl,
+                                        Text("زمینه تحقیقاتی :  : " + result['research_axes'][0] ?? " "  ,textDirection: TextDirection.rtl,
                                             textAlign: TextAlign.right,
                                             style: PersianFonts.Shabnam),
                                         SizedBox(height: 20,),
@@ -200,14 +202,42 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                                    ),
 
 
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 15, left: 15),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                                          children: [
 
-                                      Text("تلفن دفتر دانشکده : " + result['direct_telephone'] ,textDirection: TextDirection.rtl,
-                                          style: PersianFonts.Shabnam.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
-                                      //
-                                      Text("زمان های مراجعه : " + result['free_times'][0] ,textDirection: TextDirection.rtl,
-                                          style: PersianFonts.Shabnam.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
 
 
+                                        Row(mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Text("تلفن دفتر دانشکده : " + replaceFarsiNumber(result['direct_telephone']) ,textDirection: TextDirection.rtl,
+                                                style: PersianFonts.Shabnam.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              child: Icon(Icons.phone),
+                                            ),
+
+                                          ],
+                                        ),
+                                        //
+                                        Row(mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Text("زمان های مراجعه : " + replaceFarsiNumber(result['free_times'][0])  ?? " " ,textDirection: TextDirection.rtl,
+                                                style: PersianFonts.Shabnam.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10),
+                                              child: Icon(Icons.timer),
+                                            ),
+
+                                          ],
+                                        ),
+
+                                          ],
+                                        ),
+                                      ),
 
 
                                 // Container(
@@ -389,9 +419,13 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                                 ),
                               ],
                           );
-                        } else {
+                        }
+                        else {
                           return Center(
-                            child: CircularProgressIndicator(),
+                            child: SpinKitWave(
+                              color: kPrimaryColor,
+
+                            ),
                           );
                         }
                       },
@@ -403,10 +437,8 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
 
 
           else {
-            return Center(
-              child: SpinKitWave(
-                color: kPrimaryColor,
-              ),
+            return SpinKitWave(
+              color: kPrimaryColor,
             );
           }
         },

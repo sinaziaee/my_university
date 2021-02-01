@@ -25,7 +25,7 @@ class _BucketState extends State<Bucket> {
   String orderAddUrl = '$baseUrl/api/food/user/order/add/';
 
   String postFoodUrl =
-      'http://danibazi9.pythonanywhere.com/api/food/user/order/add/';
+      '$baseUrl/api/food/user/order/add/';
 
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

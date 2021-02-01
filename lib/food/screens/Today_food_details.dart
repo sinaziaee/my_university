@@ -53,15 +53,22 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+
         elevation: 0.0,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: kBlackColor,
+        automaticallyImplyLeading: false,
+          actions: <Widget>[
+      Padding(
+      padding: EdgeInsets.only(right: 20.0),
+        child: GestureDetector(
+          onTap: () {},
+          child: Icon(
+            Icons.arrow_forward,color: Colors.black,
+            size: 26.0,
           ),
-          onPressed: () => Navigator.pop(context),
-        ),
+        )
+    ),
+    ]
       ),
       body: Stack(
         children: [
@@ -91,10 +98,10 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
                     fit: BoxFit.fill,
                     image: (picture != null)
                         ? NetworkImage(
-                            "http://danibazi9.pythonanywhere.com/$picture")
+                            "$baseUrl/$picture")
                         : AssetImage('assets/joojeh.png'),
                     placeholder: NetworkImage(
-                        "http://danibazi9.pythonanywhere.com/$picture"),
+                        "$baseUrl/$picture"),
                   ),
                 ),
               ),

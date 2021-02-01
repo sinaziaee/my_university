@@ -46,30 +46,40 @@ class MyBookItem extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                          // mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Text(
-                              name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Text(
+                                name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                            Text(
-                              author,
-                              style: TextStyle(
-                                color: kLightBlackColor,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15),
+                              child: Text(
+                                author,
+                                style: TextStyle(
+                                  color: kLightBlackColor,
+                                ),
                               ),
                             ),
-                            Text(
-                              otherUser,
-                              style: TextStyle(
-                                color: kLightBlackColor,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15),
+                              child: Text(
+                                otherUser,
+                                textDirection: TextDirection.rtl,
+                                style: TextStyle(
+                                  color: kLightBlackColor,
+                                ),
                               ),
                             ),
                             Align(
-                              alignment: Alignment.bottomRight,
+                              alignment: Alignment.bottomLeft,
                               child: Padding(
                                 padding: EdgeInsets.only(right: 20),
                                 child: Text(

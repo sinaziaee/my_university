@@ -7,7 +7,6 @@ INJECTED from F:\Flutter_Project\Professor\android\app\src\main\AndroidManifest.
 MERGED from F:\Flutter_Project\Professor\android\app\src\main\AndroidManifest.xml:1:1-47:12
 MERGED from [:image_cropper] F:\Flutter_Project\Professor\build\image_cropper\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences] F:\Flutter_Project\Professor\build\shared_preferences\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-14:12
 MERGED from [:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-22:12
 MERGED from [:flutter_plugin_android_lifecycle] F:\Flutter_Project\Professor\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:android_intent] F:\Flutter_Project\Professor\build\android_intent\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -54,8 +53,6 @@ INJECTED from F:\Flutter_Project\Professor\android\app\src\debug\AndroidManifest
 		ADDED from F:\Flutter_Project\Professor\android\app\src\main\AndroidManifest.xml:1:11-69
 application
 ADDED from F:\Flutter_Project\Professor\android\app\src\main\AndroidManifest.xml:8:5-46:19
-MERGED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
-MERGED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
 MERGED from [:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-20:19
 MERGED from [:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-20:19
 MERGED from [androidx.core:core:1.1.0] C:\Users\Mahdi\.gradle\caches\transforms-2\files-2.1\a528b13ac93e64cafa3d0480e2c93207\core-1.1.0\AndroidManifest.xml:24:5-89
@@ -120,8 +117,6 @@ MERGED from [:image_cropper] F:\Flutter_Project\Professor\build\image_cropper\in
 MERGED from [:image_cropper] F:\Flutter_Project\Professor\build\image_cropper\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] F:\Flutter_Project\Professor\build\shared_preferences\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] F:\Flutter_Project\Professor\build\shared_preferences\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] F:\Flutter_Project\Professor\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
@@ -188,14 +183,6 @@ uses-permission#android.permission.INTERNET
 ADDED from F:\Flutter_Project\Professor\android\app\src\debug\AndroidManifest.xml:6:5-66
 	android:name
 		ADDED from F:\Flutter_Project\Professor\android\app\src\debug\AndroidManifest.xml:6:22-64
-activity#io.flutter.plugins.urllauncher.WebViewActivity
-ADDED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-11:74
-	android:exported
-		ADDED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-37
-	android:theme
-		ADDED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
-	android:name
-		ADDED from [:url_launcher] F:\Flutter_Project\Professor\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-74
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from [:image_picker] F:\Flutter_Project\Professor\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
 	android:name

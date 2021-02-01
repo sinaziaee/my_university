@@ -54,12 +54,15 @@ class FoodHistoryItem extends StatelessWidget {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      foodNames[index] + ' ' + foodCounts[index].toString() + ' عدد',
-                      textDirection: TextDirection.rtl,
-                      style: TextStyle(fontSize: 15),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        foodNames[index] + ' ' + foodCounts[index].toString() + ' عدد',
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(fontSize: 15),
+                      ),
                     ),
                   ),
                     // SizedBox(width: 10,),
@@ -68,7 +71,7 @@ class FoodHistoryItem extends StatelessWidget {
               width: 50,
               height: 50,
               image: NetworkImage(
-              "http://danibazi9.pythonanywhere.com/${foodImage[index]}"),
+              "$baseUrl/${foodImage[index]}"),
               placeholder: AssetImage('assets/joojeh.png'),
               )
                 ],

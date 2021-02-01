@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:my_university/Professor/faculty_screen.dart';
 import 'package:my_university/components/my_list_tile.dart';
 import 'package:my_university/event/Screens/eventsScreen.dart';
@@ -550,7 +551,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            showLogoutDialog();
+                            showLogoutDialog(context, "آیا اطمینان دارید ؟");
                           },
                           child: Container(
                             height: size.height * 0.22,
@@ -575,104 +576,126 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  showLogoutDialog() {
-    showDialog(
-      context: context,
-      child: AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        'خارج می شوید؟ ',
-                        textDirection: TextDirection.rtl,
-                        style: PersianFonts.Shabnam.copyWith(
-                            color: kPrimaryColor, fontSize: 20),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 0.5,
-              width: double.infinity,
-              color: Colors.grey,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    logoutApp();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'بله‌',
-                          textDirection: TextDirection.rtl,
-                          style: PersianFonts.Shabnam.copyWith(
-                              color: kPrimaryColor, fontSize: 18),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'خیر',
-                          textDirection: TextDirection.rtl,
-                          textAlign: TextAlign.center,
-                          style: PersianFonts.Shabnam.copyWith(
-                              color: kPrimaryColor, fontSize: 18),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+  showLogoutDialog(BuildContext context, String message) {
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.WARNING,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: ' خروج از برنامه',
+        desc: message,
+        btnOkOnPress: () {
+
+          logoutApp();
+        },
+        btnOkText: "بله",
+        btnOkIcon: Icons.check_circle,
+        btnOkColor: Colors.green,
+        btnCancelOnPress: (){},
+        btnCancelText: "خیر",
+        btnCancelIcon: Icons.cancel,
+        btnCancelColor: Colors.red
+
+    )
+      ..show();
+
+    // showDialog(
+    //   context: context,
+    //   child: AlertDialog(
+    //     content: Column(
+    //       mainAxisSize: MainAxisSize.min,
+    //       children: [
+    //         Padding(
+    //           padding: EdgeInsets.only(right: 10),
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.end,
+    //             children: [
+    //               Expanded(
+    //                 child: Center(
+    //                   child: Text(
+    //                     'خارج می شوید؟ ',
+    //                     textDirection: TextDirection.rtl,
+    //                     style: PersianFonts.Shabnam.copyWith(
+    //                         color: kPrimaryColor, fontSize: 20),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         SizedBox(
+    //           height: 10,
+    //         ),
+    //         Container(
+    //           height: 0.5,
+    //           width: double.infinity,
+    //           color: Colors.grey,
+    //         ),
+    //         SizedBox(
+    //           height: 10,
+    //         ),
+    //         Row(
+    //           children: [
+    //             InkWell(
+    //               onTap: () {
+    //                 logoutApp();
+    //               },
+    //               child: Padding(
+    //                 padding: EdgeInsets.only(left: 10),
+    //                 child: Row(
+    //                   mainAxisAlignment: MainAxisAlignment.end,
+    //                   children: [
+    //                     Text(
+    //                       'بله‌',
+    //                       textDirection: TextDirection.rtl,
+    //                       style: PersianFonts.Shabnam.copyWith(
+    //                           color: kPrimaryColor, fontSize: 18),
+    //                     ),
+    //                     SizedBox(
+    //                       width: 20,
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ),
+    //             SizedBox(
+    //               height: 10,
+    //             ),
+    //             InkWell(
+    //               onTap: () {
+    //                 Navigator.pop(context);
+    //               },
+    //               child: Padding(
+    //                 padding: EdgeInsets.only(left: 10),
+    //                 child: Row(
+    //                   mainAxisAlignment: MainAxisAlignment.start,
+    //                   children: [
+    //                     Text(
+    //                       'خیر',
+    //                       textDirection: TextDirection.rtl,
+    //                       textAlign: TextAlign.center,
+    //                       style: PersianFonts.Shabnam.copyWith(
+    //                           color: kPrimaryColor, fontSize: 18),
+    //                     ),
+    //                     SizedBox(
+    //                       width: 20,
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ),
+    //           ],
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   void logoutApp() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
-    Navigator.pop(context);
+    // Navigator.pop(context);
     Navigator.popAndPushNamed(context, LoginScreen.id);
   }
 }
