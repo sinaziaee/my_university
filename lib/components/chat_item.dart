@@ -10,19 +10,47 @@ class ChatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      child: Container(
-        height: 50,
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    return Card(
+      color: Colors.purple.shade100,
+      child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.purple.shade100,
-        ),
-        child: Center(
-          child: Text(
+        child: ListTile(
+          onTap: onPressed,
+          leading: CircleAvatar(
+            child: FadeInImage(
+              height: 40,
+              image: AssetImage('assets/images/unkown.png'),
+              placeholder: AssetImage('assets/images/unkown.png'),
+            ),
+            radius: 40,
+            backgroundColor: Colors.white,
+          ),
+          title: Text(
             (first_username == username) ? second_username : first_username,
+          ),
+          subtitle: Text('last message'),
+          trailing: Text('last time'),
+        ),
+      ),
+    );
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Material(
+        color: Colors.purple.shade100,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: InkWell(
+          highlightColor: Colors.transparent,
+          onTap: onPressed,
+          child: Container(
+            height: 50,
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Center(
+              child: Text(
+                (first_username == username) ? second_username : first_username,
+              ),
+            ),
           ),
         ),
       ),

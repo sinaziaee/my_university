@@ -13,7 +13,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-//import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -234,20 +233,21 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Container(
-                                        decoration: BoxDecoration(boxShadow: [
-                                          BoxShadow(
-                                            color: mycolor,
-                                            spreadRadius: 5,
-                                            blurRadius: 10,
-                                            offset: Offset(0, 3),
-                                          )
-                                        ]),
+                                        // decoration: BoxDecoration(boxShadow: [
+                                        //   BoxShadow(
+                                        //     color: mycolor,
+                                        //     spreadRadius: 5,
+                                        //     blurRadius: 10,
+                                        //     offset: Offset(0, 3),
+                                        //   )
+                                        // ]),
                                         height: 40,
                                         width: 200,
                                         child: TextField(
                                           textDirection: ui.TextDirection.rtl,
                                           controller: nameController,
                                           decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.only(bottom: 20),
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -289,6 +289,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           textDirection: ui.TextDirection.rtl,
                                           controller: location,
                                           decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.only(bottom: 20),
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -559,6 +560,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                 maxLines: 40,
                                 controller: descriptionController,
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(bottom: 20),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -593,6 +595,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                           //textDirection: ui.TextDirection.rtl,
                                           controller: priceController,
                                           decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.only(bottom: 20),
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -683,6 +686,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                                         child: TextField(
                                           controller: capacity,
                                           decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.only(bottom: 20),
                                             border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),

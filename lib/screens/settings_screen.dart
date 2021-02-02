@@ -16,9 +16,9 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _dark;
-  String token, firstName, lastName, username, email;
+  String token, firstName, lastName, username, email, phone;
   int userId;
-
+  Size size;
   @override
   void initState() {
     super.initState();
@@ -36,12 +36,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     lastName = prefs.getString('last_name');
     username = prefs.getString('username');
     email = prefs.getString('email');
+    phone = prefs.getString('phone');
     userId = prefs.getInt('user_id');
     return prefs.getString('token');
   }
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Theme(
       isMaterialAppTheme: true,
       data: ThemeData(
@@ -101,8 +103,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               leading: CircleAvatar(
                                 // backgroundImage: NetworkImage(avatars[0]),
                                 backgroundColor: Colors.white,
-                                backgroundImage: AssetImage(
-                                  "assets/images/elmoss.png",
+                                child: FadeInImage(
+                                  height: 40,
+                                  image: AssetImage('assets/images/unkown.png'),
+                                  placeholder: AssetImage('assets/images/unkown.png'),
                                 ),
                               ),
                               trailing: Icon(
@@ -122,10 +126,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               children: <Widget>[
                                 ListTile(
                                   leading: Icon(
-                                    Icons.lock_outline,
+                                    Icons.phone,
                                     color: Colors.purple,
                                   ),
-                                  title: Text("Change Password"),
+                                  title: Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
                                   // trailing: Icon(Icons.keyboard_arrow_right),
                                   onTap: () {
                                     //open change password
@@ -158,26 +162,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 20.0),
-                          Text(
-                            "Theme",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.indigo,
-                            ),
-                          ),
-                          ListTile(
-                            title: Text(_dark ? 'Dark Theme':'Light Theme'),
-                            trailing: IconButton(
-                              icon: Icon(FontAwesomeIcons.moon),
-                              onPressed: () {
-                                _dark = !_dark;
-                                setState(() {});
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 60.0),
+                          // const SizedBox(height: 20.0),
+                          // Text(
+                          //   "Theme",
+                          //   style: TextStyle(
+                          //     fontSize: 20.0,
+                          //     fontWeight: FontWeight.bold,
+                          //     color: Colors.indigo,
+                          //   ),
+                          // ),
+                          // ListTile(
+                          //   title: Text(_dark ? 'Dark Theme':'Light Theme'),
+                          //   trailing: IconButton(
+                          //     icon: Icon(FontAwesomeIcons.moon),
+                          //     onPressed: () {
+                          //       _dark = !_dark;
+                          //       setState(() {});
+                          //     },
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 60.0),
                         ],
                       ),
                     ),
@@ -206,7 +210,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           showLogoutDialog();
                         },
                       ),
-                    )
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Image.asset(
+                        "assets/images/login_bottom.png",
+                        width: size.width * 0.6,
+                      ),
+                    ),
+
                   ],
                 );
               } else {

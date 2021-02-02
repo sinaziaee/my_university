@@ -179,6 +179,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                           textDirection: ui.TextDirection.rtl,
                           controller: nameController,
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -219,6 +220,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                           textDirection: ui.TextDirection.rtl,
                           controller: location,
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -512,6 +514,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                           //textDirection: ui.TextDirection.rtl,
                           controller: priceController,
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -600,6 +603,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                         child: TextField(
                           controller: capacity,
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
