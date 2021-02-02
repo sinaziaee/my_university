@@ -14,7 +14,7 @@ import '../constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import '../components/OrderCard2.dart';
-import 'detailProfessor.dart';
+import 'professor_detail_screen.dart';
 
 
 class HomePageBody extends StatefulWidget {

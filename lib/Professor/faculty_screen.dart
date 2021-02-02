@@ -68,7 +68,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
 
           IconButton(
             icon: Icon(
-              Icons.arrow_forward_outlined,
+              Icons.chevron_right,
               color: Colors.white,
             ),
             onPressed: () {

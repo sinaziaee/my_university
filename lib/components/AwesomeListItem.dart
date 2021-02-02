@@ -82,7 +82,7 @@ class _AwesomeListItemState extends State<AwesomeListItem> {
                   new Transform.translate(
                     offset: Offset(10.0, 20.0),
                     child: Material(
-                      color: Colors.black,
+                      color: kPrimaryColor,
                       child: InkWell(
                         onTap: widget.onPressed,
                         highlightColor: Colors.transparent,

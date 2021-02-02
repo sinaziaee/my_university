@@ -19,8 +19,8 @@ String begin_json, end_json;
 
 DateTime begin = DateTime.now();
 DateTime end = DateTime.now();
-String event_type = "event";
-Color mycolor = Colors.white;
+String eventType;
+Color myColor = Colors.white;
 
 class AllEventsScreen extends StatefulWidget {
   static String id = 'all_events_screen';
@@ -34,7 +34,8 @@ class _AllEventsScreenState extends State<AllEventsScreen>
   String eventsUrl = '$baseUrl/api/event/user/all',
       token,
       eventDemandUrl = '$baseUrl/api/event/user/register/',
-      myEventsUrl = '$baseUrl/api/event/user/all';
+      myEventsUrl = '$baseUrl/api/event/user/all',
+      cultureDeputiesUrl = '$baseUrl/api/event/user/cuture_deputies';
   CardController controller; //Use this to trigger swap.
   Map args;
   int _page = 1;
@@ -44,7 +45,8 @@ class _AllEventsScreenState extends State<AllEventsScreen>
   Jalali date = Jalali.now();
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-
+  String cultureDeputy;
+  int cultureDeputyId;
   //TextEditingController ownership = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController capacity = TextEditingController();
@@ -165,34 +167,29 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: mycolor,
-                            spreadRadius: 5,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),
-                          )
-                        ]),
                         height: 40,
                         width: 200,
                         child: TextField(
                           textDirection: ui.TextDirection.rtl,
                           controller: nameController,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                            contentPadding: EdgeInsets.only(
+                                bottom: 20, left: 10, right: 10),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
+                            enabledBorder: kBorderSideInActive,
+                            focusedBorder: kBorderSideActive,
                           ),
                         ),
                       ),
                       Text(
                         'نام رویداد  :  ',
                         textDirection: ui.TextDirection.rtl,
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                        style: PersianFonts.Shabnam.copyWith(
+                          color: kPrimaryColor,
+                          fontSize: 20,
+                        ),
                       ),
                     ],
                   ),
@@ -206,34 +203,26 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: mycolor,
-                            spreadRadius: 5,
-                            blurRadius: 15,
-                            offset: Offset(0, 3),
-                          )
-                        ]),
                         height: 40,
-                        width: 150,
+                        width: 200,
                         child: TextField(
                           textDirection: ui.TextDirection.rtl,
                           controller: location,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            contentPadding: EdgeInsets.only(
+                                bottom: 20, left: 10, right: 10),
+                            enabledBorder: kBorderSideInActive,
+                            focusedBorder: kBorderSideActive,
                           ),
                         ),
                       ),
                       Text(
                         'محل برگزاری  :  ',
                         textDirection: ui.TextDirection.rtl,
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                        style: PersianFonts.Shabnam.copyWith(
+                          color: kPrimaryColor,
+                          fontSize: 17,
+                        ),
                       ),
                     ],
                   ),
@@ -252,10 +241,10 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   padding: EdgeInsets.only(right: 30),
                   child: Text(
                     ' : عکس رویداد',
-                    style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                    style: PersianFonts.Shabnam.copyWith(
+                      color: kPrimaryColor,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ],
@@ -410,11 +399,6 @@ class _AllEventsScreenState extends State<AllEventsScreen>
             ] else ...[
               SizedBox(),
             ],
-
-            // SizedBox(
-            //   height: 20,
-            // ),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
@@ -450,29 +434,18 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   padding: EdgeInsets.only(right: 30),
                   child: Text(
                     ' : توضیحات',
-                    style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                    style: PersianFonts.Shabnam.copyWith(
+                      color: kPrimaryColor,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ],
             ),
-
             SizedBox(
               height: 10,
             ),
-
-            //description
             Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: mycolor,
-                  spreadRadius: 5,
-                  blurRadius: 15,
-                  offset: Offset(0, 3),
-                )
-              ]),
               height: 100,
               margin: EdgeInsets.only(left: 15, right: 15),
               child: TextField(
@@ -483,15 +456,14 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
+                  enabledBorder: kBorderSideInActive,
+                  focusedBorder: kBorderSideActive,
                 ),
               ),
             ),
-
             SizedBox(
               height: 10,
             ),
-
-            //price
             Container(
               margin: EdgeInsets.only(left: 20, right: 20),
               child: Column(
@@ -500,34 +472,30 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: mycolor,
-                            spreadRadius: 5,
-                            blurRadius: 15,
-                            offset: Offset(0, 3),
-                          )
-                        ]),
                         height: 40,
                         width: 100,
                         child: TextField(
                           //textDirection: ui.TextDirection.rtl,
                           controller: priceController,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                            contentPadding: EdgeInsets.only(
+                                bottom: 20, left: 10, right: 10),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
+                            enabledBorder: kBorderSideInActive,
+                            focusedBorder: kBorderSideActive,
                           ),
                         ),
                       ),
                       Text(
                         'قیمت :   ',
                         textDirection: ui.TextDirection.rtl,
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                        style: PersianFonts.Shabnam.copyWith(
+                          color: kPrimaryColor,
+                          fontSize: 20,
+                        ),
                       ),
                     ],
                   ),
@@ -537,21 +505,22 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   Text(
                     'زمان شروع رویداد :   ',
                     textDirection: ui.TextDirection.rtl,
-                    style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                    style: PersianFonts.Shabnam.copyWith(
+                      color: kPrimaryColor,
+                      fontSize: 20,
+                    ),
                   ),
                   RaisedButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(begin_json ?? 'زمان شروع رویداد',
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 15,
-                          //fontWeight: 5,
-                        )),
+                    child: Text(
+                      begin_json ?? 'زمان شروع رویداد',
+                      style: PersianFonts.Shabnam.copyWith(
+                        color: kPrimaryColor,
+                        fontSize: 15,
+                      ),
+                    ),
                     onPressed: () {
                       // showPickerDateCustom(context , true);
                       showCalendarDialog1();
@@ -563,10 +532,10 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   Text(
                     'زمان پایان رویداد :   ',
                     textDirection: ui.TextDirection.rtl,
-                    style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                    style: PersianFonts.Shabnam.copyWith(
+                      color: kPrimaryColor,
+                      fontSize: 20,
+                    ),
                   ),
                   RaisedButton(
                     shape: RoundedRectangleBorder(
@@ -590,33 +559,29 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: mycolor,
-                            spreadRadius: 5,
-                            blurRadius: 15,
-                            offset: Offset(0, 3),
-                          )
-                        ]),
                         height: 40,
                         width: 100,
                         child: TextField(
                           controller: capacity,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                            contentPadding: EdgeInsets.only(
+                                bottom: 20, left: 10, right: 10),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
+                            enabledBorder: kBorderSideInActive,
+                            focusedBorder: kBorderSideActive,
                           ),
                         ),
                       ),
                       Text(
                         'ظرفیت :   ',
                         textDirection: ui.TextDirection.rtl,
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                        style: PersianFonts.Shabnam.copyWith(
+                          color: kPrimaryColor,
+                          fontSize: 20,
+                        ),
                       ),
                     ],
                   ),
@@ -654,12 +619,13 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Icon(Icons.arrow_drop_down),
-                                    Text(event_type ?? 'گزینه ای انتخاب نشده',
-                                        style: TextStyle(
-                                          color: kPrimaryColor,
-                                          fontSize: 15,
-                                          //fontWeight: 5,
-                                        )),
+                                    Text(
+                                      eventType ?? 'انتخاب نشده',
+                                      style: PersianFonts.Shabnam.copyWith(
+                                        color: kPrimaryColor,
+                                        fontSize: 15,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -670,10 +636,75 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                       Text(
                         ' : نوع برگزاری',
                         //textDirection: TextDirection.rtl,
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                        style: PersianFonts.Shabnam.copyWith(
+                          color: kPrimaryColor,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'ارسال به معاونت فرهنگی',
+                        //textDirection: TextDirection.rtl,
+                        style: PersianFonts.Shabnam.copyWith(
+                          color: kPrimaryColor,
+                          fontSize: 17,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.grey[300],
+                        ),
+                        margin: EdgeInsets.only(
+                          left: 5,
+                          right: 5,
+                          top: 2,
+                          bottom: 2,
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () {
+                              _showCultureDeputySelectionDialog();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  right: 30, left: 10, top: 10, bottom: 10),
+                              child: Container(
+                                // color: Colors.grey[300],
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(Icons.arrow_drop_down),
+                                    Spacer(),
+                                    Text(
+                                      cultureDeputy ?? 'انتخاب نشده',
+                                      textAlign: TextAlign.center,
+                                      style: PersianFonts.Shabnam.copyWith(
+                                        color: kPrimaryColor,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -685,41 +716,40 @@ class _AllEventsScreenState extends State<AllEventsScreen>
               height: 30,
             ),
 
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Container(
-                margin: EdgeInsets.only(left: 100, right: 100),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        height: 20,
-                        minWidth: 20,
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        onPressed: () {
-                          validateData();
-                          // postNewBook();
-                        },
-                        child: Text(
-                          'ثبت',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
-                        color: Colors.purple.shade400,
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                children: [
+                  FlatButton(
+                    height: 20,
+                    minWidth: 20,
+                    padding: EdgeInsets.only(
+                      top: 2,
+                      bottom: 2,
+                      left: 50,
+                      right: 50,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    onPressed: () {
+                      validateData();
+                      // postNewBook();
+                    },
+                    child: Text(
+                      'ثبت',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
                       ),
                     ),
-                    // Expanded(
-                    //   flex: 1,
-                    //   child: SizedBox(),
-                    // ),
-                  ],
-                ),
+                    color: Colors.purple.shade400,
+                  ),
+                  // Expanded(
+                  //   flex: 1,
+                  //   child: SizedBox(),
+                  // ),
+                ],
               ),
             ),
 
@@ -796,8 +826,9 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: GestureDetector(
-                          onTap: (){
-                            navigateToEventDetailScreen(mapList[index]['event_id']);
+                          onTap: () {
+                            navigateToEventDetailScreen(
+                                mapList[index]['event_id']);
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -807,7 +838,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                                   height: 200,
                                   width: 300,
                                   placeholder:
-                                  AssetImage('assets/images/elmos.png'),
+                                      AssetImage('assets/images/elmos.png'),
                                   image: NetworkImage(
                                     '$baseUrl${mapList[index]['image']}',
                                   ),
@@ -999,8 +1030,9 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: GestureDetector(
-                          onTap: (){
-                            navigateToEventDetailScreen(mapList[index]['event_id']);
+                          onTap: () {
+                            navigateToEventDetailScreen(
+                                mapList[index]['event_id']);
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1249,7 +1281,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   InkWell(
                     onTap: () {
                       setState(() {
-                        event_type = "حضوری";
+                        eventType = "حضوری";
                       });
                       Navigator.pop(context);
                     },
@@ -1279,7 +1311,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   InkWell(
                     onTap: () {
                       setState(() {
-                        event_type = "آنلاین";
+                        eventType = "آنلاین";
                       });
                       Navigator.pop(context);
                     },
@@ -1306,42 +1338,47 @@ class _AllEventsScreenState extends State<AllEventsScreen>
 
   validateData() {
     if (nameController.text.length == 0) {
-      _showDialog(context, 'نام رویداد را اضافه کنید !');
+      discuss(context, 'نام رویداد را اضافه کنید !');
       return;
     }
 
     if (location.text.length == 0) {
-      _showDialog(context, 'محل برگزاری رویداد را اضافه کنید !');
+      discuss(context, 'محل برگزاری رویداد را اضافه کنید !');
       return;
     }
 
     if (capacity.text.length == 0) {
-      _showDialog(context, 'ظرفیت رویداد را اضافه کنید !');
+      discuss(context, 'ظرفیت رویداد را اضافه کنید !');
       return;
     }
 
     if (priceController.text.length == 0) {
-      _showDialog(context, 'هزینه شرکت در رویداد را اضافه کنید !');
+      discuss(context, 'هزینه شرکت در رویداد را اضافه کنید !');
       return;
     }
 
     if (descriptionController.text.length == 0) {
-      _showDialog(context, 'توضیحات رویداد را اضافه کنید !');
+      discuss(context, 'توضیحات رویداد را اضافه کنید !');
       return;
     }
 
     if (begin == DateTime.now()) {
-      _showDialog(context, 'زمان شروع را مشخص کنید !');
+      discuss(context, 'زمان شروع را مشخص کنید !');
       return;
     }
 
     if (end == DateTime.now()) {
-      _showDialog(context, 'زمان پایان را مشخص کنید !');
+      discuss(context, 'زمان پایان را مشخص کنید !');
       return;
     }
 
-    if (event_type == "event") {
-      _showDialog(context, 'نوع برگزاری را مشخص کنید !');
+    if (eventType == null) {
+      discuss(context, 'نوع برگزاری را مشخص کنید !');
+      return;
+    }
+
+    if (cultureDeputyId == null) {
+      discuss(context, 'لطفا معاونت آموزشی مقصد را انتخاب کنید !');
       return;
     }
 
@@ -1374,7 +1411,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
             'name': nameController.text,
             'cost': int.parse(priceController.text),
             'capacity': int.parse(capacity.text),
-            'hold_type': event_type,
+            'hold_type': eventType,
             'start_time': begin_json.toString(),
             'end_time': end_json.toString(),
             'location': location.text,
@@ -1385,9 +1422,6 @@ class _AllEventsScreenState extends State<AllEventsScreen>
         );
       } else {
         print("Im here Else !!!!");
-
-        //String t1 = jsonEncode(begin);
-        //String t2 = jsonEncode(end);
         print("begin_json : $begin_json");
         print("end_json : $end_json");
 
@@ -1402,8 +1436,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
             'name': nameController.text,
             'cost': int.parse(priceController.text),
             'capacity': int.parse(capacity.text),
-            //'Organizer': organizerController,
-            'hold_type': event_type,
+            'hold_type': eventType,
             'start_time': begin_json.toString(),
             'end_time': end_json.toString(),
             'location': location.text,
@@ -1417,9 +1450,9 @@ class _AllEventsScreenState extends State<AllEventsScreen>
 
       if (response.statusCode >= 400) {
         print(response.body);
-        _showDialog(context, "متاسفانه مشکلی پیش آمد.");
+        discuss(context, "متاسفانه مشکلی پیش آمد.");
       } else {
-        _showDialog(context, "رویداد اضافه شد");
+        success(context, "رویداد اضافه شد");
       }
       setState(() {
         showSpinner = false;
@@ -1432,39 +1465,39 @@ class _AllEventsScreenState extends State<AllEventsScreen>
     }
   }
 
-  _showDialog(BuildContext context, String message) {
-    // Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
-    AlertDialog dialog = AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            message,
-            textDirection: ui.TextDirection.rtl,
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          FlatButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              '!باشه',
-              style: TextStyle(color: kPrimaryColor),
-            ),
-          ),
-        ],
-      ),
-    );
-    showDialog(context: context, child: dialog);
-  }
+  // _showDialog(BuildContext context, String message) {
+  //   // Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
+  //   AlertDialog dialog = AlertDialog(
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     content: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         SizedBox(
+  //           height: 20,
+  //         ),
+  //         Text(
+  //           message,
+  //           textDirection: ui.TextDirection.rtl,
+  //           style: TextStyle(
+  //             fontSize: 20,
+  //           ),
+  //         ),
+  //         FlatButton(
+  //           onPressed: () {
+  //             Navigator.pop(context);
+  //           },
+  //           child: Text(
+  //             '!باشه',
+  //             style: TextStyle(color: kPrimaryColor),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  //   showDialog(context: context, child: dialog);
+  // }
 
   selectFromGallery() {
     _pickImage(ImageSource.gallery);
@@ -1511,8 +1544,6 @@ class _AllEventsScreenState extends State<AllEventsScreen>
       context: context,
       builder: (BuildContext _) {
         return PersianDateTimePicker(
-          // initial: '1399/12/20 19:50',
-          // initial: '1399/12/20',
           type: 'datetime',
           initial: dateToShow,
           color: kPrimaryColor,
@@ -1541,4 +1572,66 @@ class _AllEventsScreenState extends State<AllEventsScreen>
       'user_id': userId,
     });
   }
+
+  void _showCultureDeputySelectionDialog() async{
+    http.Response response = await http
+        .get(cultureDeputiesUrl, headers: {HttpHeaders.authorizationHeader: token});
+    var jsonResponse =
+    convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+    print('*****************************');
+    print(jsonResponse);
+    List<Map> mapList = [];
+    int count = 0;
+    for (Map each in jsonResponse) {
+      count++;
+      mapList.add(each);
+    }
+    if (count == 0) {
+      showDialog(
+        context: context,
+        child: AlertDialog(
+          content: Center(
+            child: Text('معاونت فرهنگی وجود ندارد'),
+          ),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        child: AlertDialog(
+          content: Container(
+            height: 400,
+            width: 250,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: count,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    cultureDeputyId = mapList[index]['culture_deputy_id'];
+                    setState(() {
+                      cultureDeputy = mapList[index]['culture_deputy_name'];
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        mapList[index]['culture_deputy_name'],
+                        style: PersianFonts.Shabnam.copyWith(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
 }

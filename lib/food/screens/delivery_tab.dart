@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/food/models/order.dart';
-import 'package:my_university/food/screens/AllFoodDetails.dart';
-import 'package:my_university/food/screens/Today_food_details.dart';
+import 'package:my_university/food/screens/not_today_food_detail_screen.dart';
+import 'package:my_university/food/screens/today_food_details.dart';
 import 'package:my_university/food/widgets/AllFoodsCard.dart';
 import 'package:my_university/food/widgets/allfoods.dart';
 import 'package:my_university/food/widgets/today_card.dart';
@@ -47,10 +47,6 @@ class DeliveryTab extends StatelessWidget {
     String date = args["date"];
     print("----");
     print(date);
-
-    // DateTime dateTime = DateTime.now();
-    // String date =
-    // dateTime.toString().substring(0,10);
 
     onPressed1(int id, String name, int price, String image, String desc,
         int remain) async {

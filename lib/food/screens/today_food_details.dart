@@ -53,39 +53,42 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-
-        elevation: 0.0,
+        elevation: 4,
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-          actions: <Widget>[
-      Padding(
-      padding: EdgeInsets.only(right: 20.0),
-        child: GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.arrow_forward,color: Colors.black,
-            size: 26.0,
+        title: Text(
+          'توضیحات غذا',
+          style: PersianFonts.Shabnam.copyWith(
+            color: Colors.black,
+            fontSize: 20,
           ),
-        )
-    ),
-    ]
+        ),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.chevron_right,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
       ),
-      body: Stack(
-        children: [
-          Positioned(
-            bottom: 0,
-            child: Container(
-              height: height * 0.60,
-              width: width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30),
-                ),
-                color: Colors.red[900].withOpacity(0.9),
+      body: Stack(children: [
+        Positioned(
+          bottom: 0,
+          child: Container(
+            height: height * 0.60,
+            width: width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30),
+                topLeft: Radius.circular(30),
               ),
+              color: Colors.red[900].withOpacity(0.9),
             ),
           ),
+        ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(
@@ -97,11 +100,9 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
                   child: FadeInImage(
                     fit: BoxFit.fill,
                     image: (picture != null)
-                        ? NetworkImage(
-                            "$baseUrl/$picture")
+                        ? NetworkImage("$baseUrl/$picture")
                         : AssetImage('assets/joojeh.png'),
-                    placeholder: NetworkImage(
-                        "$baseUrl/$picture"),
+                    placeholder: NetworkImage("$baseUrl/$picture"),
                   ),
                 ),
               ),
@@ -109,20 +110,23 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
               Text(
                 "$name",
                 textAlign: TextAlign.right,
-                style:
-                PersianFonts.Shabnam.copyWith(fontSize: 23.0 , color: Colors.white),
+                style: PersianFonts.Shabnam.copyWith(
+                    fontSize: 23.0, color: Colors.white),
               ),
               SizedBox(height: 25.0),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  "    ${replaceFarsiNumber(price.toString())} ریال " , textDirection: TextDirection.rtl,
-                  style: PersianFonts.Shabnam.copyWith(fontSize: 25.0 , color: Colors.white),
+                  "    ${replaceFarsiNumber(price.toString())} ریال ",
+                  textDirection: TextDirection.rtl,
+                  style: PersianFonts.Shabnam.copyWith(
+                      fontSize: 25.0, color: Colors.white),
                 ),
               ),
               Text(
                 "تعداد باقی مانده برای رزرو : ${replaceFarsiNumber(remain.toString())}",
-                style: PersianFonts.Shabnam.copyWith(fontSize: 20.0 , color: Colors.white),
+                style: PersianFonts.Shabnam.copyWith(
+                    fontSize: 20.0, color: Colors.white),
               ),
               // SizedBox(height: 25.0),
               // Text(
@@ -130,19 +134,21 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
               //   style: kSubtitleStyle.copyWith(color: kOrangeColor),
               // ),
               SizedBox(height: 25.0),
-              Text(description , textAlign: TextAlign.right, style: PersianFonts.Shabnam.copyWith(fontSize: 20.0 , color: Colors.white),),
+              Text(
+                description,
+                textAlign: TextAlign.right,
+                style: PersianFonts.Shabnam.copyWith(
+                    fontSize: 20.0, color: Colors.white),
+              ),
               SizedBox(height: 25.0),
-
             ],
           ),
         ),
-    ]
-      ),
+      ]),
       bottomNavigationBar: Container(
-        height: height*0.11,
+        height: height * 0.11,
         width: width,
-          color: Colors.red[900].withOpacity(0.9),
-
+        color: Colors.red[900].withOpacity(0.9),
         padding: EdgeInsets.symmetric(horizontal: 35.0),
         child: Row(
           children: [
@@ -152,15 +158,19 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
                   setState(
                     () {
                       bool flag = false;
-                      for(var each in DeliveryTab.listTodayFoods){
-                        if(each.name == name){
+                      for (var each in DeliveryTab.listTodayFoods) {
+                        if (each.name == name) {
                           flag = true;
                           break;
                         }
                       }
-                      if(flag == false){
+                      if (flag == false) {
                         DeliveryTab.listTodayFoods.add(Order(
-                            name: name, price: price, image: picture, number: 1, serveId: servid));
+                            name: name,
+                            price: price,
+                            image: picture,
+                            number: 1,
+                            serveId: servid));
                       }
                       Navigator.pushNamed(context, Bucket.id);
                     },
@@ -172,7 +182,8 @@ class _TodayFoodDetailsState extends State<TodayFoodDetails> {
                 color: Colors.white,
                 child: Text(
                   "اضافه به سبد خرید",
-                  style: PersianFonts.Shabnam.copyWith(fontSize: 20.0 , color: Colors.red),
+                  style: PersianFonts.Shabnam.copyWith(
+                      fontSize: 20.0, color: Colors.red),
                 ),
               ),
             )

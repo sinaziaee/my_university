@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:my_university/food/widgets/allfoods.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 
 import '../../constants.dart';
@@ -41,17 +40,27 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0.0,
+        elevation: 4,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: kBlackColor,
+        automaticallyImplyLeading: false,
+        title: Text(
+          'توضیحات غذا',
+          style: PersianFonts.Shabnam.copyWith(
+            color: Colors.black,
+            fontSize: 20,
           ),
-          onPressed: () => Navigator.pop(context),
         ),
-      ),
-      body: Container(
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.chevron_right,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),      body: Container(
         margin: EdgeInsets.symmetric(horizontal: 18.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -79,52 +88,10 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
               children: [
                 Row(
                   children: [
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     setState(() {
-                    //       if(counter>1){
-                    //         counter--;
-                    //       }
-                    //     });
-                    //   },
-                    //   child: Container(
-                    //     width: 40.0,
-                    //     height: 40.0,
-                    //     decoration: BoxDecoration(
-                    //       shape: BoxShape.circle,
-                    //       border: Border.all(color: kGreyColor),
-                    //     ),
-                    //     child: Icon(
-                    //       Icons.remove,
-                    //       color: kOrangeColor,
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(width: 15.0),
                     Text(
                       "رستوران بسته است",
                       style: PersianFonts.Shabnam.copyWith(color: Colors.red),
                     ),
-                    // SizedBox(width: 15.0),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     setState(() {
-                    //       counter++;
-                    //     });
-                    //   },
-                    //   child: Container(
-                    //     width: 40.0,
-                    //     height: 40.0,
-                    //     decoration: BoxDecoration(
-                    //       shape: BoxShape.circle,
-                    //       border: Border.all(color: kOrangeColor),
-                    //     ),
-                    //     child: Icon(
-                    //       Icons.add,
-                    //       color: kOrangeColor,
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
                 Spacer(),

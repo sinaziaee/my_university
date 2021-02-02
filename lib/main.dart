@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_university/Professor/faculty_screen.dart';
-import 'package:my_university/event/Screens/eventsScreen.dart';
 import 'package:my_university/event/Screens/events_screen.dart';
 import 'package:my_university/food/index.dart';
-import 'package:my_university/food/screens/AllFoodDetails.dart';
+import 'package:my_university/food/screens/not_today_food_detail_screen.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
 import 'package:my_university/screens/filter_screen.dart';
@@ -13,11 +12,10 @@ import 'package:my_university/screens/settings_screen.dart';
 import 'package:my_university/screens/trade_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'Professor/Professor_screen.dart';
-import 'Professor/detailProfessor.dart';
+import 'Professor/professor_detail_screen.dart';
 import 'constants.dart';
-import 'event/Screens/new_event_screen.dart';
 import 'event/Screens/event_details_screen.dart';
-import 'food/screens/Today_food_details.dart';
+import 'food/screens/today_food_details.dart';
 import 'kheft/books_screen.dart';
 import 'kheft/chat_rooms_screen.dart';
 import 'kheft/chat_screen.dart';
@@ -68,8 +66,6 @@ class MyApp extends StatelessWidget {
         AllFoodDetails.id : (context) => AllFoodDetails(),
         Bucket.id : (context) => Bucket(),
         EventDetailsScreen.id: (context) => EventDetailsScreen(),
-        EventsScreen.id: (context) => EventsScreen(),
-        NewEventScreen.id : (context) => NewEventScreen(),
         SettingsScreen.id: (context) => SettingsScreen(),
         AllEventsScreen.id: (context) => AllEventsScreen(),
         FacultyScreen.id : (context) => FacultyScreen(),
