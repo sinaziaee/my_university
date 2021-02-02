@@ -64,7 +64,7 @@ class OrderCard extends StatelessWidget{
                   fit: BoxFit.fill,
                   width: 70,
                   height: 70,
-                  image: NetworkImage("http://danibazi9.pythonanywhere.com/${picture}"),
+                  image: NetworkImage("$baseUrl/${picture}"),
                   placeholder: AssetImage('assets/joojeh.png'),
                 ),
               ),

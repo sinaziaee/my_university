@@ -6,6 +6,7 @@ import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/delivery_tab.dart';
 import 'package:my_university/food/screens/food_history_screen.dart';
 import 'package:my_university/food/screens/menu_screen.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 import '../constants.dart';
 
@@ -44,7 +45,7 @@ class _IndexState extends State<Index> {
         items: [
           BottomNavyBarItem(
             icon: Icon(Icons.apps),
-            title: Text('Menu'),
+            title: Text('منو' , style: PersianFonts.Shabnam,),
             activeColor: kRedColor,
             inactiveColor: kBlackColor,
           ),
@@ -56,13 +57,13 @@ class _IndexState extends State<Index> {
           // ),
           BottomNavyBarItem(
             icon: Icon(Icons.shopping_cart),
-            title: Text('bucket'),
+            title: Text('سبد خرید', style: PersianFonts.Shabnam,),
             activeColor: kRedColor,
             inactiveColor: kBlackColor,
           ),
           BottomNavyBarItem(
             icon: Icon(FontAwesomeIcons.user),
-            title: Text('orders'),
+            title: Text('سفارشات من' , style: PersianFonts.Shabnam,),
             activeColor: kRedColor,
             inactiveColor: kBlackColor,
           ),

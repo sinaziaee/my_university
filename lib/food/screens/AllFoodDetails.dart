@@ -61,9 +61,10 @@ class _AllFoodDetailsState extends State<AllFoodDetails> {
                 child: FadeInImage(
                   fit: BoxFit.fill,
                   image: (picture != null)
-                      ? NetworkImage("http://danibazi9.pythonanywhere.com/$picture")
+                      ? NetworkImage("$baseUrl/$picture")
                       : AssetImage('assets/joojeh.png'),
-                  placeholder: AssetImage('assets/joojeh.png')
+                  placeholder: NetworkImage(
+                      "$baseUrl/$picture")
                   ,
                 ),
               ),
