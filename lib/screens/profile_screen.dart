@@ -15,15 +15,15 @@ import 'dart:convert' as convert;
 
 import 'login_screen.dart';
 
-class SettingsScreen extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   // static final String path = "lib/src/pages/settings/settings1.dart";
   static String id = 'settings_screen';
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   bool showSpinner = false;
   String token, firstName, lastName, username, email, phone;
   int userId;
@@ -53,298 +53,172 @@ class _SettingsScreenState extends State<SettingsScreen> {
     size = MediaQuery.of(context).size;
     node = FocusScope.of(context);
     return Scaffold(
-        backgroundColor: Colors.grey.shade200,
-        appBar: AppBar(
-          elevation: 0,
-          iconTheme:
-              IconThemeData(color: Colors.black),
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text(
-            'تنظیمات',
-            style: TextStyle(color: Colors.black),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.chevron_right),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
+      backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Text(
+          'تنظیمات',
+          style: TextStyle(color: Colors.black),
         ),
-        // body: FutureBuilder(
-        //     future: getToken(),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.hasData &&
-        //           snapshot.connectionState == ConnectionState.done) {
-        //         return Stack(
-        //           fit: StackFit.expand,
-        //           children: <Widget>[
-        //             SingleChildScrollView(
-        //               padding: const EdgeInsets.all(16.0),
-        //               child: Column(
-        //                 crossAxisAlignment: CrossAxisAlignment.start,
-        //                 children: <Widget>[
-        //                   Card(
-        //                     elevation: 8.0,
-        //                     shape: RoundedRectangleBorder(
-        //                         borderRadius: BorderRadius.circular(10.0)),
-        //                     color: Colors.purple,
-        //                     child: ListTile(
-        //                       onTap: () {
-        //                         _showSheet();
-        //                       },
-        //                       title: Text(
-        //                         "${firstName} ${lastName}",
-        //                         style: TextStyle(
-        //                           color: Colors.white,
-        //                           fontWeight: FontWeight.w500,
-        //                         ),
-        //                       ),
-        //                       leading: CircleAvatar(
-        //                         // backgroundImage: NetworkImage(avatars[0]),
-        //                         backgroundColor: Colors.white,
-        //                         child: FadeInImage(
-        //                           height: 40,
-        //                           image: AssetImage('assets/images/unkown.png'),
-        //                           placeholder:
-        //                               AssetImage('assets/images/unkown.png'),
-        //                         ),
-        //                       ),
-        //                       trailing: Icon(
-        //                         Icons.edit,
-        //                         color: Colors.white,
-        //                       ),
-        //                     ),
-        //                   ),
-        //                   const SizedBox(height: 10.0),
-        //                   Card(
-        //                     elevation: 4.0,
-        //                     margin: const EdgeInsets.fromLTRB(
-        //                         32.0, 8.0, 32.0, 16.0),
-        //                     shape: RoundedRectangleBorder(
-        //                         borderRadius: BorderRadius.circular(10.0)),
-        //                     child: Column(
-        //                       children: <Widget>[
-        //                         ListTile(
-        //                           leading: Icon(
-        //                             Icons.phone,
-        //                             color: Colors.purple,
-        //                           ),
-        //                           title:
-        //                               Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
-        //                           // trailing: Icon(Icons.keyboard_arrow_right),
-        //                           onTap: () {
-        //                             //open change password
-        //                           },
-        //                         ),
-        //                         _buildDivider(),
-        //                         ListTile(
-        //                           leading: Icon(
-        //                             Icons.email,
-        //                             color: Colors.purple,
-        //                           ),
-        //                           title: Text(
-        //                             '${email}',
-        //                             style: TextStyle(fontSize: 14),
-        //                           ),
-        //                           // trailing: Icon(Icons.keyboard_arrow_right),
-        //                           onTap: () {
-        //                             //open change language
-        //                           },
-        //                         ),
-        //                         _buildDivider(),
-        //                         ListTile(
-        //                           leading: Icon(
-        //                             Icons.person,
-        //                             color: Colors.purple,
-        //                           ),
-        //                           title: Text("${username}"),
-        //                           // trailing: Icon(Icons.keyboard_arrow_right),
-        //                           onTap: () {
-        //                             //open change location
-        //                           },
-        //                         ),
-        //                       ],
-        //                     ),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             Positioned(
-        //               bottom: -20,
-        //               left: -20,
-        //               child: Container(
-        //                 width: 80,
-        //                 height: 80,
-        //                 alignment: Alignment.center,
-        //                 decoration: BoxDecoration(
-        //                   color: Colors.purple,
-        //                   shape: BoxShape.circle,
-        //                 ),
-        //               ),
-        //             ),
-        //             Positioned(
-        //               bottom: 00,
-        //               left: 00,
-        //               child: IconButton(
-        //                 icon: Icon(
-        //                   FontAwesomeIcons.powerOff,
-        //                   color: Colors.white,
-        //                 ),
-        //                 onPressed: () {
-        //                   showLogoutDialog(context, "آیا اطمینان دارید ؟");
-        //                 },
-        //               ),
-        //             ),
-        //             Positioned(
-        //               bottom: 0,
-        //               right: 0,
-        //               child: Image.asset(
-        //                 "assets/images/login_bottom.png",
-        //                 width: size.width * 0.6,
-        //               ),
-        //             ),
-        //           ],
-        //         );
-        //       } else {
-        //         return Center(
-        //           child: CircularProgressIndicator(),
-        //         );
-        //       }
-        //     }),
-        body: ModalProgressHUD(
-          inAsyncCall: showSpinner,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Card(
-                      elevation: 8.0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      color: Colors.purple,
-                      child: ListTile(
-                        onTap: () {
-                          _showSheet();
-                        },
-                        title: Text(
-                          "${firstName} ${lastName}",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        leading: CircleAvatar(
-                          // backgroundImage: NetworkImage(avatars[0]),
-                          backgroundColor: Colors.white,
-                          child: FadeInImage(
-                            height: 40,
-                            image: AssetImage('assets/images/unkown.png'),
-                            placeholder: AssetImage('assets/images/unkown.png'),
-                          ),
-                        ),
-                        trailing: Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    Card(
-                      elevation: 4.0,
-                      margin: const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 16.0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            leading: Icon(
-                              Icons.phone,
-                              color: Colors.purple,
-                            ),
-                            title: Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
-                            // trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: () {
-                              //open change password
-                            },
-                          ),
-                          _buildDivider(),
-                          ListTile(
-                            leading: Icon(
-                              Icons.email,
-                              color: Colors.purple,
-                            ),
-                            title: Text(
-                              '${email}',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            // trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: () {
-                              //open change language
-                            },
-                          ),
-                          _buildDivider(),
-                          ListTile(
-                            leading: Icon(
-                              Icons.person,
-                              color: Colors.purple,
-                            ),
-                            title: Text("${username}"),
-                            // trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: () {
-                              //open change location
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: -20,
-                left: -20,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.purple,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 00,
-                left: 00,
-                child: IconButton(
-                  icon: Icon(
-                    FontAwesomeIcons.powerOff,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    showLogoutDialog(context, "آیا اطمینان دارید ؟");
-                  },
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Image.asset(
-                  "assets/images/login_bottom.png",
-                  width: size.width * 0.6,
-                ),
-              ),
-            ],
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.chevron_right),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-        ));
+        ],
+      ),
+      body: FutureBuilder(
+        future: getToken(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            return ModalProgressHUD(
+              inAsyncCall: showSpinner,
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Card(
+                          elevation: 8.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          color: Colors.purple,
+                          child: ListTile(
+                            onTap: () {
+                              _showSheet();
+                            },
+                            title: Text(
+                              "${firstName} ${lastName}",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            leading: CircleAvatar(
+                              // backgroundImage: NetworkImage(avatars[0]),
+                              backgroundColor: Colors.white,
+                              child: FadeInImage(
+                                height: 40,
+                                image: AssetImage('assets/images/unkown.png'),
+                                placeholder:
+                                    AssetImage('assets/images/unkown.png'),
+                              ),
+                            ),
+                            trailing: Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Card(
+                          elevation: 4.0,
+                          margin:
+                              const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 16.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: Icon(
+                                  Icons.phone,
+                                  color: Colors.purple,
+                                ),
+                                title:
+                                    Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
+                                // trailing: Icon(Icons.keyboard_arrow_right),
+                                onTap: () {
+                                  //open change password
+                                },
+                              ),
+                              _buildDivider(),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.email,
+                                  color: Colors.purple,
+                                ),
+                                title: Text(
+                                  '${email}',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                // trailing: Icon(Icons.keyboard_arrow_right),
+                                onTap: () {
+                                  //open change language
+                                },
+                              ),
+                              _buildDivider(),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.person,
+                                  color: Colors.purple,
+                                ),
+                                title: Text("${username}"),
+                                // trailing: Icon(Icons.keyboard_arrow_right),
+                                onTap: () {
+                                  //open change location
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -20,
+                    left: -20,
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.purple,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 00,
+                    left: 00,
+                    child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.powerOff,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        showLogoutDialog(context, "آیا اطمینان دارید ؟");
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Image.asset(
+                      "assets/images/login_bottom.png",
+                      width: size.width * 0.6,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
   }
 
   Container _buildDivider() {
@@ -629,9 +503,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       child: Text(
                         'ذخیره تغییرات',
                         style: PersianFonts.Shabnam.copyWith(
-                          color: Colors.white,
-                          fontSize: 17
-                        ),
+                            color: Colors.white, fontSize: 17),
                       ),
                     ),
                     SizedBox(
@@ -648,29 +520,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  validateData(){
+  validateData() {
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
     String phone = phoneController.text;
     String username = usernameController.text;
 
-    if(firstName.length == 0){
+    if (firstName.length == 0) {
       discuss(context, 'لطفا نام را وارد کنید');
       return;
     }
-    if(lastName.length == 0){
+    if (lastName.length == 0) {
       discuss(context, 'لطفا نام خانوادگی را وارد کنید');
       return;
     }
-    if(phone.length == 0){
+    if (phone.length == 0) {
       discuss(context, 'لطفا تلفن را وارد کنید');
       return;
     }
-    if(username.length == 0){
+    if (username.length == 0) {
       discuss(context, 'لطفا نام کاربری را وارد کنید');
       return;
     }
-    postNewInformation(firstName: firstName, lastName: lastName, phone: phone, username: username);
+    postNewInformation(
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        username: username);
   }
 
   postNewInformation({
@@ -689,11 +565,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       map['first_name'] = firstName;
       map['last_name'] = lastName;
       map['username'] = username;
-      if(imageFile != null){
+      if (imageFile != null) {
         map['filename'] = imageFile.path.split('/').last;
         map['image'] = base64file;
       }
-      if(phone.length != 0){
+      if (phone.length != 0) {
         map['phone'] = phone;
       }
       response = await http.post(
@@ -734,5 +610,4 @@ class _SettingsScreenState extends State<SettingsScreen> {
     phoneController.dispose();
     usernameController.dispose();
   }
-
 }

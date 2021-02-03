@@ -8,8 +8,9 @@ import 'package:my_university/food/screens/time_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_university/kheft/books_screen.dart';
+import 'package:my_university/screens/about_us_screen.dart';
 import 'package:my_university/screens/login_screen.dart';
-import 'package:my_university/screens/settings_screen.dart';
+import 'package:my_university/screens/profile_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -239,10 +240,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       },
                     ),
                     MyListTile(
-                      text: 'تنظیمات',
+                      text: 'پروفایل',
                       icon: Icons.settings,
                       onTap: (){
-                        onPressed(SettingsScreen.id);
+                        onPressed(ProfileScreen.id);
+                      },
+                    ),
+                    MyListTile(
+                      text: 'درباره ی ما',
+                      icon: Icons.info_rounded,
+                      onTap: (){
+                        onPressed(AboutUsScreen.id);
                       },
                     ),
                   ],

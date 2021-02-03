@@ -5,10 +5,11 @@ import 'package:my_university/food/index.dart';
 import 'package:my_university/food/screens/not_today_food_detail_screen.dart';
 import 'package:my_university/food/screens/bucket_screen.dart';
 import 'package:my_university/food/screens/time_screen.dart';
+import 'package:my_university/screens/about_us_screen.dart';
 import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/filter_screen.dart';
 import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/new_book_screen.dart';
 import 'file:///D:/FlutterProjects/seyyed/my_university/lib/food/screens/product_screen.dart';
-import 'package:my_university/screens/settings_screen.dart';
+import 'package:my_university/screens/profile_screen.dart';
 import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/trade_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'Professor/Professor_screen.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         textTheme: PersianFonts.shabnamTextTheme,
       ),
-      initialRoute: LoginScreen.id,
+      initialRoute: AboutUsScreen.id,
       routes: {
         ProductPage.id: (context) => ProductPage(),
         RegisterationScreen.id: (context) => RegisterationScreen(),
@@ -66,11 +67,12 @@ class MyApp extends StatelessWidget {
         AllFoodDetails.id : (context) => AllFoodDetails(),
         Bucket.id : (context) => Bucket(),
         EventDetailsScreen.id: (context) => EventDetailsScreen(),
-        SettingsScreen.id: (context) => SettingsScreen(),
+        ProfileScreen.id: (context) => ProfileScreen(),
         AllEventsScreen.id: (context) => AllEventsScreen(),
         FacultyScreen.id : (context) => FacultyScreen(),
         DetailPageProfessor.id : (context) => DetailPageProfessor(),
         ProfessorList.id : (context) => ProfessorList(),
+        AboutUsScreen.id: (context) => AboutUsScreen(),
       },
     );
   }

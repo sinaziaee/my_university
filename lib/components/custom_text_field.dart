@@ -19,7 +19,7 @@ class CustomTextField extends StatelessWidget {
         textAlign: TextAlign.end,
         cursorColor: kPrimaryColor,
         controller: controller,
-        style: TextStyle(fontSize: 20, color: Colors.white),
+        style: TextStyle(fontSize: 17, color: Colors.black),
         decoration: InputDecoration(
           hintText: hintText,
           suffixIcon: Icon(iconData, color: kPrimaryColor,),
