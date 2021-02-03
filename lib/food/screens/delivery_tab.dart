@@ -299,9 +299,12 @@ class DeliveryTab extends StatelessWidget {
                               ),
                             );
                           } else {
-                            return Center(
-                              child: SpinKitWave(
-                                color: kPrimaryColor,
+                            return Container(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: Center(
+                                child: SpinKitWave(
+                                  color: kPrimaryColor,
+                                ),
                               ),
                             );
                           }

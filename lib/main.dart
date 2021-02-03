@@ -12,7 +12,7 @@ import 'file:///D:/FlutterProjects/seyyed/my_university/lib/food/screens/product
 import 'package:my_university/screens/profile_screen.dart';
 import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/trade_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
-import 'Professor/Professor_screen.dart';
+import 'Professor/professor_screen.dart';
 import 'Professor/professor_detail_screen.dart';
 import 'constants.dart';
 import 'event/Screens/event_details_screen.dart';
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         textTheme: PersianFonts.shabnamTextTheme,
       ),
-      initialRoute: AboutUsScreen.id,
+      initialRoute: LoginScreen.id,
       routes: {
         ProductPage.id: (context) => ProductPage(),
         RegisterationScreen.id: (context) => RegisterationScreen(),

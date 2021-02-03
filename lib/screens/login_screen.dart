@@ -16,7 +16,8 @@ import 'home_screen.dart';
 import 'registeration_screen.dart';
 
 // String myUrl = 'http://danibazi9.pythonanywhere.com/api/users-list/';
-  String myUrl = '$baseUrl/account/login';
+String myUrl = '$baseUrl/account/login';
+
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
 
@@ -25,8 +26,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String password = '',
-      email = '';
+  String password = '', email = '';
   bool isObscured = true;
   bool showSpinner = false;
 
@@ -48,9 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -85,7 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         "ورود کاربران",
                         style: PersianFonts.Shabnam.copyWith(
-                            color: kPrimaryColor, fontSize: 20, fontWeight: FontWeight.bold),
+                            color: kPrimaryColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: size.height * 0.03),
                       SvgPicture.asset(
@@ -170,17 +170,25 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           showSpinner = false;
         });
-        var jsonResponse = convert.jsonDecode(convert.utf8.decode(result.bodyBytes));
+        var jsonResponse =
+            convert.jsonDecode(convert.utf8.decode(result.bodyBytes));
         print(jsonResponse['token']);
         print(jsonResponse);
-        addStringToSF(jsonResponse['token'], jsonResponse['user_id'],
-            jsonResponse['username'], jsonResponse['first_name'], jsonResponse['last_name'], jsonResponse['email']);
+        addStringToSF(
+          jsonResponse['token'],
+          jsonResponse['user_id'],
+          jsonResponse['username'],
+          jsonResponse['first_name'],
+          jsonResponse['last_name'],
+          jsonResponse['email'],
+          jsonResponse['image'],
+          jsonResponse['mobile_number'],
+        );
       } else if (result.statusCode == 400) {
         setState(() {
           showSpinner = false;
         });
-        _showDialog(
-            context, 'آدرس ایمیل وجود ندارد یا رمز عبور اشتباه است');
+        _showDialog(context, 'آدرس ایمیل وجود ندارد یا رمز عبور اشتباه است');
       } else {
         setState(() {
           showSpinner = false;
@@ -199,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   addStringToSF(String token, int user_id, String username, String first_name,
-      String last_name, String email) async {
+      String last_name, String email, String image, String phone) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', 'Token $token');
     prefs.setInt('user_id', user_id);
@@ -207,10 +215,15 @@ class _LoginScreenState extends State<LoginScreen> {
     prefs.setString('first_name', first_name);
     prefs.setString('last_name', last_name);
     prefs.setString('email', email);
+    prefs.setString('image', image);
+    prefs.setString('phone', phone);
     print(prefs.getString('first_name'));
     print(prefs.getString('last_name'));
     print(prefs.getString('username'));
     print(prefs.getString('email'));
+    print('-----------------------------------------');
+    print(prefs.getString('image'));
+    print('-----------------------------------------');
     // print(prefs.getString('user_id').toString());
     Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
       'token': prefs.getString('token'),
@@ -218,6 +231,8 @@ class _LoginScreenState extends State<LoginScreen> {
       'first_name': prefs.getString('first_name'),
       'last_name': prefs.getString('last_name'),
       'username': prefs.getString('username'),
+      'phone': prefs.getString('phone'),
+      'image': prefs.getString('image'),
     });
   }
 
@@ -230,9 +245,10 @@ class _LoginScreenState extends State<LoginScreen> {
         'first_name': prefs.getString('first_name'),
         'last_name': prefs.getString('last_name'),
         'username': prefs.getString('username'),
+        'phone': prefs.getString('phone'),
+        'image': prefs.getString('image'),
       });
-    }
-    else {
+    } else {
       // pass
     }
   }
@@ -244,11 +260,10 @@ class _LoginScreenState extends State<LoginScreen> {
         animType: AnimType.RIGHSLIDE,
         headerAnimationLoop: false,
         title: 'خطا',
-
         desc: message,
-
         btnOkOnPress: () {},
         btnOkIcon: Icons.cancel,
-        btnOkColor: Colors.red)..show();
+        btnOkColor: Colors.red)
+      ..show();
   }
 }

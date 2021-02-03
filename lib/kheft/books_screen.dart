@@ -56,6 +56,7 @@ class _BooksScreenState extends State<BooksScreen> {
         'min': this.min,
         'max': this.max,
         'faculty': this.faculty,
+        'token': token,
       });
       Map map = LinkedHashMap.from(result);
 
@@ -82,7 +83,8 @@ class _BooksScreenState extends State<BooksScreen> {
     }
 
     _navigateToNewScreen(BuildContext context) async {
-      var result = await Navigator.pushNamed(context, NewBookScreen.id, arguments: {
+      var result =
+          await Navigator.pushNamed(context, NewBookScreen.id, arguments: {
         'token': token,
         'user_id': userId,
       });
@@ -95,6 +97,7 @@ class _BooksScreenState extends State<BooksScreen> {
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () {
+              print('hereeee');
               _navigateToNewScreen(context);
             },
           ),

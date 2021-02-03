@@ -252,8 +252,9 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
           String email = jsonBody['email'];
           int user_id = jsonBody['user_id'];
           String token = jsonBody['token'];
+          String image = jsonBody['image'];
           print(token);
-          await addStringToSF(token, user_id, username, first_name, last_name);
+          await addStringToSF(token, user_id, username, first_name, last_name, image);
           setState(() {
             showSpinner = false;
           });
@@ -264,6 +265,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
             'first_name': first_name,
             'last_name': last_name,
             'username': username,
+            'image': image,
           });
         } else {
           resetCounter();
@@ -312,7 +314,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   }
 
   addStringToSF(String token, int user_id, String username, String first_name,
-      String last_name) async {
+      String last_name, String image) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       print(prefs.getString('token'));
@@ -321,6 +323,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
       prefs.setString('username', username);
       prefs.setString('first_name', last_name);
       prefs.setString('last_name', first_name);
+      prefs.setString('last_imagename', image);
     } catch (e) {
       print('error: ' + e);
     }

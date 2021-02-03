@@ -19,7 +19,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
   String selectedFaculty, token, selectedBookName;
   int selectedBookId;
-  String facultiesUrl = '$baseUrl/api/bookbse/faculties';
+  String facultiesUrl = '$baseUrl/api/professors/faculties';
   TextEditingController searchController = TextEditingController();
   TextEditingController minController = TextEditingController();
   TextEditingController maxController = TextEditingController();
@@ -31,6 +31,7 @@ class _FilterScreenState extends State<FilterScreen> {
     String search = args['search'];
     String faculty = args['faculty'];
     int min = args['min'];
+    token = args['token'];
     int max = args['max'];
     if (search != null) {
       searchController.text = search;
@@ -114,28 +115,26 @@ class _FilterScreenState extends State<FilterScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Expanded(
-                        child: Material(
-                          child: InkWell(
-                            highlightColor: Colors.black,
-                            onTap: () {
-                              // _openDialog();
-                              _showFacultiesDialog();
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  right: 10, left: 10, top: 10, bottom: 10),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              margin: EdgeInsets.only(
-                                left: 5,
-                                right: 5,
-                                top: 2,
-                                bottom: 2,
-                              ),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            left: 5,
+                            right: 5,
+                            top: 2,
+                            bottom: 2,
+                          ),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.grey[300],
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(5),
+                              highlightColor: Colors.transparent,
+                              onTap: () {
+                                onFacultyPressed();
+                              },
                               child: Container(
-                                color: Colors.grey[300],
+                                // color: Colors.grey[300],
+                                padding: EdgeInsets.only(
+                                    right: 10, left: 10, top: 10, bottom: 10),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -299,11 +298,16 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
-  _showFacultiesDialog() async {
-    http.Response response = await http
-        .get(facultiesUrl, headers: {HttpHeaders.authorizationHeader: token});
+  onFacultyPressed() async {
+    print('token: $token');
+    http.Response response = await http.get(
+      facultiesUrl,
+      headers: {HttpHeaders.authorizationHeader: token},
+    );
     var jsonResponse =
         convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+    print('*****************************');
+    print(jsonResponse);
     List<Map> mapList = [];
     int count = 0;
     for (Map each in jsonResponse) {
@@ -325,29 +329,39 @@ class _FilterScreenState extends State<FilterScreen> {
         child: AlertDialog(
           content: Container(
             height: 400,
-            width: 200,
+            width: 250,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: count,
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    selectedFaculty = mapList[index]['name'];
-                    print(selectedFaculty);
-                    setState(() {});
-                    Navigator.pop(context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        mapList[index]['name'],
-                        textDirection: TextDirection.rtl,
-                        style: PersianFonts.Shabnam.copyWith(
-                          fontSize: 25,
+                return Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.purple.shade100,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        setState(() {
+                          selectedFaculty = mapList[index]['name'];
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Center(
+                          child: Text(
+                            mapList[index]['name'],
+                            textAlign: TextAlign.center,
+                            style: PersianFonts.Shabnam.copyWith(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 );
               },
@@ -358,28 +372,10 @@ class _FilterScreenState extends State<FilterScreen> {
     }
   }
 
-  openDialog(String title) {
-    showDialog(
-      context: context,
-      child: AlertDialog(
-        title: Text(
-          title,
-          textDirection: TextDirection.rtl,
-        ),
-        content: FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('باشه!'),
-        ),
-      ),
-    );
-  }
-
   onPressed() {
     String search = searchController.text;
     if (this.min > this.max) {
-      openDialog('حداقل قیمت نمیتواند از حداکثر قیمت بیشتر باشد.');
+      discuss(context, 'حداقل قیمت نمیتواند از حداکثر قیمت بیشتر باشد.');
     }
     if (this.min > 200000) {
       minController.text = '200000';

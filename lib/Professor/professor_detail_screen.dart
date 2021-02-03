@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:my_university/Professor/Professor_screen.dart';
+import 'package:my_university/Professor/professor_screen.dart';
 import 'package:my_university/components/Professor.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';

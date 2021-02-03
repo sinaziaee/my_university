@@ -25,12 +25,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool showSpinner = false;
-  String token, firstName, lastName, username, email, phone;
+  String token, firstName, lastName, username, email, phone, image;
   int userId;
   Size size;
   FocusNode node;
   File imageFile;
-  String userDetailUrl = '$baseUrl/api/user/update/';
+  String userDetailUrl = '$baseUrl/api/account/properties/update';
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -44,6 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     username = prefs.getString('username');
     email = prefs.getString('email');
     phone = prefs.getString('phone');
+    image = prefs.getString('image');
     userId = prefs.getInt('user_id');
     return prefs.getString('token');
   }
@@ -52,6 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     node = FocusScope.of(context);
+    print('$baseUrl$image');
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
@@ -68,7 +70,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           IconButton(
             icon: Icon(Icons.chevron_right),
             onPressed: () {
-              Navigator.pop(context);
+              Map map = {
+                'image':image.toString(),
+              };
+              Navigator.pop(context, map);
             },
           ),
         ],
@@ -93,34 +98,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           color: Colors.purple,
-                          child: ListTile(
+                          child: InkWell(
                             onTap: () {
                               _showSheet();
                             },
-                            title: Text(
-                              "${firstName} ${lastName}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
+                            child: Container(
+                              height: 90,
+                              padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10,),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // Spacer(),
+                                  CircleAvatar(
+                                    radius: 40,
+                                    // backgroundImage: NetworkImage(avatars[0]),
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: (image != null && image.length != 0) ? NetworkImage(
+                                      '$baseUrl$image',
+                                    ):AssetImage('assets/images/unkown.png'),
+                                  ),
+                                  Spacer(),
+                                  Text(
+                                    "${firstName} ${lastName}",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                  ),
+                                  // Spacer(),
+                                ],
                               ),
-                            ),
-                            leading: CircleAvatar(
-                              // backgroundImage: NetworkImage(avatars[0]),
-                              backgroundColor: Colors.white,
-                              child: FadeInImage(
-                                height: 40,
-                                image: AssetImage('assets/images/unkown.png'),
-                                placeholder:
-                                    AssetImage('assets/images/unkown.png'),
-                              ),
-                            ),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Colors.white,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10.0),
+                        const SizedBox(height: 40.0),
                         Card(
                           elevation: 4.0,
                           margin:
@@ -373,6 +390,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         imageFile = selected;
       });
+      Navigator.pop(context);
+      _showSheet();
     } catch (e) {
       print(e);
     }
@@ -410,7 +429,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
                     if (imageFile != null) ...[
                       Material(
@@ -477,15 +496,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       iconData: Icons.person,
                     ),
                     SizedBox(
-                      height: 10,
-                    ),
-                    CustomTextField(
-                      node: node,
-                      controller: usernameController,
-                      hintText: 'نام  کاربری',
-                      iconData: Icons.person,
-                    ),
-                    SizedBox(
                       height: 30,
                     ),
                     FlatButton(
@@ -493,8 +503,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 5,
+                        horizontal: 30,
+                        vertical: 10,
                       ),
                       color: kPrimaryColor,
                       onPressed: () {
@@ -524,7 +534,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
     String phone = phoneController.text;
-    String username = usernameController.text;
 
     if (firstName.length == 0) {
       discuss(context, 'لطفا نام را وارد کنید');
@@ -536,10 +545,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     if (phone.length == 0) {
       discuss(context, 'لطفا تلفن را وارد کنید');
-      return;
-    }
-    if (username.length == 0) {
-      discuss(context, 'لطفا نام کاربری را وارد کنید');
       return;
     }
     postNewInformation(
@@ -558,19 +563,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       showSpinner = true;
     });
+    print(userDetailUrl);
     try {
-      String base64file = convert.base64Encode(imageFile.readAsBytesSync());
       http.Response response;
       Map map = Map();
       map['first_name'] = firstName;
       map['last_name'] = lastName;
-      map['username'] = username;
       if (imageFile != null) {
+        String base64file = convert.base64Encode(imageFile.readAsBytesSync());
         map['filename'] = imageFile.path.split('/').last;
         map['image'] = base64file;
       }
       if (phone.length != 0) {
-        map['phone'] = phone;
+        map['mobile_number'] = phone;
       }
       response = await http.post(
         userDetailUrl,
@@ -581,12 +586,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         body: convert.jsonEncode(map),
       );
+      print('***************************');
+      print(response.body);
+      print('***************************');
       if (response.statusCode < 300) {
+        var jsonResponse = convert.jsonDecode(
+            convert.utf8.decode(response.bodyBytes));
+        print(jsonResponse);
+        Map map = jsonResponse;
         Navigator.pop(context);
-        success(context, "استاد اضافه شد");
+        success(context, "ویرایش اطلاعات با موفقیت انجام شد");
+        updateUserInformation(phone, firstName, lastName, map['image']);
       } else {
-        print(response.body);
-        Navigator.pop(context);
+        // print(response.body);
+        // Navigator.pop(context);
         discuss(context, "متاسفانه مشکلی پیش آمد.");
       }
       setState(() {
@@ -597,9 +610,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         showSpinner = false;
       });
-      Navigator.pop(context);
+      // Navigator.pop(context);
       discuss(context, "متاسفانه مشکلی پیش آمد.");
     }
+  }
+
+  updateUserInformation(String phone, String firstName, String lastName, image) async{
+    print(image);
+    print(phone);
+    print(firstName);
+    print(lastName);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('phone', phone);
+    prefs.setString('first_name', firstName);
+    prefs.setString('last_name', lastName);
+    prefs.setString('image', image);
   }
 
   @override

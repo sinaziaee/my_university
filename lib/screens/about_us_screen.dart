@@ -40,7 +40,43 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              height: size.height * 0.015,
+              height: size.height * 0.025,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'تیم محبوب و مجرب Developer برترین تیم حوزه ی IT در بیست ودومین نمایگاه IT کشوری به انتخاب معاونت علمی و فرهنگی ریاست جمهوری',
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.center,
+                style: kDescriptionStyle.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18
+                ),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.055,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AboutItem(
+                  size: size,
+                  name: 'سید محمد مهدی رضوی',
+                  skills: 'FrontEnd Developer',
+                  path: 'assets/profile/seyyed.jpg',
+                ),
+                AboutItem(
+                  size: size,
+                  name: 'مهدی آراسته فرد',
+                  skills: 'FrontEnd Developer',
+                  path: 'assets/profile/mahdi.PNG',
+                ),
+              ],
+            ),
+            SizedBox(
+              height: size.height * 0.02,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -62,32 +98,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             SizedBox(
               height: size.height * 0.01,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                AboutItem(
-                  size: size,
-                  name: 'سید محمد مهدی رضوی',
-                  skills: 'FrontEnd Developer',
-                  path: 'assets/profile/seyyed.jpg',
-                ),
-                AboutItem(
-                  size: size,
-                  name: 'مهدی آراسته فرد',
-                  skills: 'FrontEnd Developer',
-                  path: 'assets/profile/mahdi.PNG',
-                ),
-              ],
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            AboutItem(
-              size: size,
-              name: 'علیرضا حقانی',
-              skills: 'BackEnd Developer',
-              path: 'assets/profile/ali.jpg',
-            ),
+
+            // AboutItem(
+            //   size: size,
+            //   name: 'علیرضا حقانی',
+            //   skills: 'BackEnd Developer',
+            //   path: 'assets/profile/ali.jpg',
+            // ),
           ],
         ),
       ),

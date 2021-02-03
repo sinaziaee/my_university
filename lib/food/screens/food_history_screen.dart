@@ -218,9 +218,12 @@ class History extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              return Center(
-                                child: SpinKitWave(
-                                  color: kPrimaryColor,
+                              return Container(
+                                height: size.height * 0.6,
+                                child: Center(
+                                  child: SpinKitWave(
+                                    color: kPrimaryColor,
+                                  ),
                                 ),
                               );
                             }

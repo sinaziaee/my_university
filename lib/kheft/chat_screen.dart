@@ -33,14 +33,9 @@ class ChatScreen extends StatelessWidget {
     return MyHomePage(
       title: '$titleگفتگو با ',
       channel: IOWebSocketChannel.connect(
-          'ws://192.168.43.126:8000/api/chat/$room/'),
+          'ws://172.17.3.157:5000/ws/chat/$room/'),
     );
   }
-// getData(){
-//   print(room.toString());
-//   print(firstName);
-//   print(currentUserId.toString());
-// }
 }
 
 class MyHomePage extends StatefulWidget {

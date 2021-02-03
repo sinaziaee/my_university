@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  String token, username, firstName, lastName, email;
+  String token, username, firstName, lastName, email, image;
   int userId;
   Size size;
   AnimationController _controller;
@@ -65,17 +65,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  Future<String> getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token');
-    firstName = prefs.getString('first_name');
-    lastName = prefs.getString('last_name');
-    username = prefs.getString('username');
-    email = prefs.getString('token');
-    userId = prefs.getInt('user_id');
-    return prefs.getString('token');
-  }
-
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -85,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     lastName = args['last_name'];
     email = args['email'];
     token = args['token'];
-
+    image = args['image'];
+    // print(image);
     return Scaffold(
       key: _drawerKey, // assign key to Scaffold
       drawer: Drawer(
@@ -172,106 +162,133 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   myDrawer() {
+    print('***************');
+    // print(image);
+    print('$baseUrl$image');
     return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          UserAccountsDrawerHeader(
-            margin: EdgeInsets.all(0),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                colorFilter: new ColorFilter.mode(
-                    Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                image: AssetImage('assets/images/logo.png'),
-                fit: BoxFit.cover,
-              ),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // colorFilter: new ColorFilter.mode(
+            //     Colors.black.withOpacity(0.2), BlendMode.dstATop),
+            SizedBox(
+              height: 10,
             ),
-            accountName: Text(
-              'نام: ${firstName} ${lastName}',
-              style: TextStyle(color: Colors.black),
-            ),
-            accountEmail: Text(
-              'ایمیل: ${username}',
-              style: TextStyle(color: Colors.black),
-            ),
-            currentAccountPicture: Image(image: AssetImage('assets/images/elmoss.png'),),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.grey[350],
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    MyListTile(
-                      text: 'سامانه تغذیه',
-                      icon: Icons.fastfood_sharp,
-                      onTap: (){
-                        onPressed(TimeScreen.id);
-                      },
-                    ),
-                    MyListTile(
-                      text: 'سامانه رویداد ها',
-                      icon: Icons.event,
-                      onTap: (){
-                        // onPressed(EventsScreen.id);
-                        onPressed(AllEventsScreen.id);
-                      },
-                    ),
-                    MyListTile(
-                      text: 'خفت کتاب',
-                      icon: Icons.book,
-                      onTap: (){
-                        onPressed(BooksScreen.id);
-                      },
-                    ),
-                    MyListTile(
-                      text: 'گفتگوها',
-                      icon: Icons.chat,
-                      onTap: (){
-                        onPressed(ChatRoomsScreen.id);
-                      },
-                    ),
-                    MyListTile(
-                      text: 'اطلاعات اساتید',
-                      icon: Icons.person,
-                      onTap: (){
-                        onPressed(FacultyScreen.id);
-                      },
-                    ),
-                    MyListTile(
-                      text: 'پروفایل',
-                      icon: Icons.settings,
-                      onTap: (){
-                        onPressed(ProfileScreen.id);
-                      },
-                    ),
-                    MyListTile(
-                      text: 'درباره ی ما',
-                      icon: Icons.info_rounded,
-                      onTap: (){
-                        onPressed(AboutUsScreen.id);
-                      },
-                    ),
-                  ],
+            CircleAvatar(
+              radius: 80,
+              backgroundColor: kPrimaryColor,
+              child: CircleAvatar(
+                radius: 78,
+                backgroundColor: Colors.white,
+                child: FadeInImage(
+                  height: 126,
+                  placeholder: AssetImage('assets/images/elmoss.png'),
+                  image: (image != null)
+                      ? NetworkImage('$baseUrl$image')
+                      : AssetImage('assets/images/elmoss.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'نام: ${firstName} ${lastName}',
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              'ایمیل: ${email}',
+              style: TextStyle(color: Colors.black),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.grey[350],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      MyListTile(
+                        text: 'سامانه تغذیه',
+                        icon: Icons.fastfood_sharp,
+                        onTap: () {
+                          onPressed(TimeScreen.id);
+                        },
+                      ),
+                      MyListTile(
+                        text: 'سامانه رویداد ها',
+                        icon: Icons.event,
+                        onTap: () {
+                          // onPressed(EventsScreen.id);
+                          onPressed(AllEventsScreen.id);
+                        },
+                      ),
+                      MyListTile(
+                        text: 'خفت کتاب',
+                        icon: Icons.book,
+                        onTap: () {
+                          onPressed(BooksScreen.id);
+                        },
+                      ),
+                      MyListTile(
+                        text: 'گفتگوها',
+                        icon: Icons.chat,
+                        onTap: () {
+                          onPressed(ChatRoomsScreen.id);
+                        },
+                      ),
+                      MyListTile(
+                        text: 'اطلاعات اساتید',
+                        icon: Icons.person,
+                        onTap: () {
+                          onPressed(FacultyScreen.id);
+                        },
+                      ),
+                      MyListTile(
+                        text: 'پروفایل',
+                        icon: Icons.settings,
+                        onTap: () {
+                          onPressed(ProfileScreen.id);
+                        },
+                      ),
+                      MyListTile(
+                        text: 'درباره ی ما',
+                        icon: Icons.info_rounded,
+                        onTap: () {
+                          onPressed(AboutUsScreen.id);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  void onPressed(String dest){
-    Navigator.pushNamed(context, dest, arguments: {
+  void onPressed(String dest) async{
+    dynamic result = await Navigator.pushNamed(context, dest, arguments: {
       'firstName': firstName,
       'lastName': lastName,
       'username': username,
       'email': email,
       'token': token,
       'user_id': userId,
+      'image': image,
     });
+    if(result != null){
+      result = result.toString().substring(8, result.toString().length-1);
+      image = result;
+      print('--------   $image   --------------');
+    }
+    setState(() {});
   }
 
   bodyContainer() {
@@ -279,22 +296,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       height: size.height * 0.7,
       child: Stack(
         children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Image.asset(
-              "assets/images/main_top.png",
-              width: size.width * 0.35,
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Image.asset(
-              "assets/images/login_bottom.png",
-              width: size.width * 0.4,
-            ),
-          ),
+          // Positioned(
+          //   top: 0,
+          //   left: 0,
+          //   child: Image.asset(
+          //     "assets/images/main_top.png",
+          //     width: size.width * 0.35,
+          //   ),
+          // ),
+          // Positioned(
+          //   bottom: 0,
+          //   right: 0,
+          //   child: Image.asset(
+          //     "assets/images/login_bottom.png",
+          //     width: size.width * 0.4,
+          //   ),
+          // ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -341,12 +358,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            Navigator.pushNamed(context, TimeScreen.id, arguments: {
-                              'token': token,
-                              'user_id': userId,
-                              'first_name': firstName,
-                              'last_name': lastName,
-                            });
+                            Navigator.pushNamed(context, TimeScreen.id,
+                                arguments: {
+                                  'token': token,
+                                  'user_id': userId,
+                                  'first_name': firstName,
+                                  'last_name': lastName,
+                                });
                           },
                           child: Container(
                             height: size.height * 0.22,
@@ -474,15 +492,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            showLogoutDialog(context, "آیا اطمینان دارید ؟");
+                            Navigator.pushNamed(context, ProfileScreen.id,
+                                arguments: {
+                                  'token': token,
+                                  'user_id': userId,
+                                  'first_name': firstName,
+                                  'last_name': lastName,
+                                });
                           },
                           child: Container(
                             height: size.height * 0.22,
                             width: size.width * 0.45,
                             child: HomeItem(
-                              title: "خروج از برنامه",
-                              subtitle: "",
-                              img: "assets/images/shut_down.png",
+                              title: "پروفایل کاربری",
+                              subtitle: "اطلاعات من",
+                              img: "assets/profile/profile.png",
                               size: size,
                             ),
                           ),
@@ -508,18 +532,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         title: ' خروج از برنامه',
         desc: message,
         btnOkOnPress: () {
-
           logoutApp();
         },
         btnOkText: "بله",
         btnOkIcon: Icons.check_circle,
         btnOkColor: Colors.green,
-        btnCancelOnPress: (){},
+        btnCancelOnPress: () {},
         btnCancelText: "خیر",
         btnCancelIcon: Icons.cancel,
-        btnCancelColor: Colors.red
-
-    )
+        btnCancelColor: Colors.red)
       ..show();
 
     // showDialog(

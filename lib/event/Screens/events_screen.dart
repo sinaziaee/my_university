@@ -31,14 +31,14 @@ class AllEventsScreen extends StatefulWidget {
 
 class _AllEventsScreenState extends State<AllEventsScreen>
     with TickerProviderStateMixin {
-  String eventsUrl = '$baseUrl/api/event/user/all',
+  String eventsUrl = '$baseUrl/api/event/user/all/',
       token,
       eventDemandUrl = '$baseUrl/api/event/user/register/',
-      myEventsUrl = '$baseUrl/api/event/user/all',
+      myEventsUrl = '$baseUrl/api/event/user/register/',
       cultureDeputiesUrl = '$baseUrl/api/event/user/cuture_deputies';
   CardController controller; //Use this to trigger swap.
   Map args;
-  int _page = 1;
+  int _page = 0;
 
   //******************************************************************************************************//
   String postEventUrl = '$baseUrl/api/event/user/';
@@ -47,6 +47,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
   TextEditingController descriptionController = TextEditingController();
   String cultureDeputy;
   int cultureDeputyId;
+
   //TextEditingController ownership = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController capacity = TextEditingController();
@@ -70,6 +71,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
   Widget build(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
     token = args['token'];
+    print(token);
     userId = args['user_id'];
     return Scaffold(
       // backgroundColor: Colors.blueGrey[200],
@@ -201,12 +203,15 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 40,
+                        height: 150,
                         width: 200,
                         child: TextField(
                           textDirection: ui.TextDirection.rtl,
+                          minLines: 3,
+                          maxLines: 5,
                           controller: location,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(
@@ -216,12 +221,15 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                           ),
                         ),
                       ),
-                      Text(
-                        'محل برگزاری  :  ',
-                        textDirection: ui.TextDirection.rtl,
-                        style: PersianFonts.Shabnam.copyWith(
-                          color: kPrimaryColor,
-                          fontSize: 17,
+                      Padding(
+                        padding: EdgeInsets.only(top: 30),
+                        child: Text(
+                          'محل برگزاری  :  ',
+                          textDirection: ui.TextDirection.rtl,
+                          style: PersianFonts.Shabnam.copyWith(
+                            color: kPrimaryColor,
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                     ],
@@ -516,7 +524,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      begin_json ?? 'زمان شروع رویداد',
+                        (begin_json != null) ? changeDateTimeToShamsi(begin_json) : 'زمان شروع رویداد',
                       style: PersianFonts.Shabnam.copyWith(
                         color: kPrimaryColor,
                         fontSize: 15,
@@ -542,7 +550,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(end_json ?? 'زمان پایان رویداد',
+                    child: Text((end_json != null) ? changeDateTimeToShamsi(end_json) : 'زمان پایان رویداد',
                         style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 15,
@@ -796,6 +804,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
             }
             var jsonResponse =
                 convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+            print(jsonResponse);
             List<Map> mapList = [];
             int eventCount = 0;
             for (Map map in jsonResponse) {
@@ -803,7 +812,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
               mapList.add(map);
             }
             if (eventCount == 0) {
-              return errorWidget('ایوندی وجود ندارد.');
+              return errorWidget('رویدادی وجود ندارد.');
             }
             return Stack(
               children: [
@@ -836,13 +845,19 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Center(
-                                child: FadeInImage(
-                                  height: 200,
-                                  width: 300,
-                                  placeholder:
-                                      AssetImage('assets/images/elmos.png'),
-                                  image: NetworkImage(
-                                    '$baseUrl${mapList[index]['image']}',
+                                child: PhysicalModel(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  color: Colors.white,
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: FadeInImage(
+                                    height: 200,
+                                    width: 300,
+                                    placeholder:
+                                        AssetImage('assets/images/elmos.png'),
+                                    image: NetworkImage(
+                                      '$baseUrl${mapList[index]['image']}',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -860,7 +875,15 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
                                 child: Text(
-                                  'از ${mapList[index]['end_time'].toString().substring(0, 10)} تا ${mapList[index]['start_time'].toString().substring(0, 10)}',
+                                  'از ${changeTimeToShamsi(
+                                    mapList[index]['start_time']
+                                        .toString()
+                                        .substring(0, 10),
+                                  )} تا ${changeTimeToShamsi(
+                                    mapList[index]['end_time']
+                                        .toString()
+                                        .substring(0, 10),
+                                  )}',
                                   textDirection: TextDirection.rtl,
                                   textAlign: TextAlign.end,
                                   style: PersianFonts.Shabnam.copyWith(
@@ -869,47 +892,22 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                                   ),
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  Spacer(),
-                                  FlatButton(
-                                    onPressed: () {
-                                      // tryingToParticipate(false, mapList[index]);
-                                      controller.triggerLeft();
-                                    },
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 19, vertical: 10),
-                                    child: Text(
-                                      ' شرکت نمیکنم',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 16),
-                                    ),
-                                    color: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  FlatButton(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    onPressed: () {
-                                      tryingToParticipate(
-                                          true, mapList[index]['event_id']);
-                                      controller.triggerRight();
-                                    },
-                                    child: Text(
-                                      'شرکت میکنم',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 16),
-                                    ),
-                                    color: Colors.green,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                ],
+                              FlatButton(
+                                onPressed: () {
+                                  // tryingToParticipate(false, mapList[index]);
+                                  controller.triggerLeft();
+                                },
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 19, vertical: 10),
+                                child: Text(
+                                  ' شرکت نمیکنم',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                                color: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
                             ],
                           ),
@@ -966,6 +964,44 @@ class _AllEventsScreenState extends State<AllEventsScreen>
         ),
       ),
     );
+  }
+
+  changeDateTimeToShamsi(String time) {
+    String hourMin = time.substring(11, time.length);
+    time = time.substring(0,10);
+    String timeToShow = '';
+    List<String> times = time.split('-');
+    print(times);
+    Gregorian g = Gregorian(int.parse(times[0].toString()),
+        int.parse(times[1].toString()), int.parse(times[2].toString()));
+    Jalali j = g.toJalali();
+    print(j);
+    timeToShow =
+    '${int.parse(j.year.toString())}-${int.parse(j.month.toString())}-${int.parse(
+      j.day.toString(),
+    )}';
+    print('timeToShow ' + timeToShow);
+    String tel = replaceFarsiNumber(timeToShow + ' ' + hourMin);
+    print('----- $tel');
+    return tel;
+  }
+
+  changeTimeToShamsi(String time) {
+    String timeToShow = '';
+    List<String> times = time.split('-');
+    print(times);
+    Gregorian g = Gregorian(int.parse(times[0].toString()),
+        int.parse(times[1].toString()), int.parse(times[2].toString()));
+    Jalali j = g.toJalali();
+    print(j);
+    timeToShow =
+        '${int.parse(j.year.toString())}-${int.parse(j.month.toString())}-${int.parse(
+      j.day.toString(),
+    )}';
+    print('timeToShow ' + timeToShow);
+    String tel = replaceFarsiNumber(timeToShow);
+    print('----- $tel');
+    return tel;
   }
 
   Widget availablePage() {
@@ -1040,13 +1076,19 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Center(
-                                child: FadeInImage(
-                                  height: 200,
-                                  width: 300,
-                                  placeholder:
-                                      AssetImage('assets/images/elmos.png'),
-                                  image: NetworkImage(
-                                    '$baseUrl${mapList[index]['image']}',
+                                child: PhysicalModel(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  color: Colors.white,
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: FadeInImage(
+                                    height: 200,
+                                    width: 300,
+                                    placeholder:
+                                        AssetImage('assets/images/elmos.png'),
+                                    image: NetworkImage(
+                                      '$baseUrl${mapList[index]['image']}',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1064,7 +1106,11 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
                                 child: Text(
-                                  'از ${mapList[index]['end_time'].toString().substring(0, 10)} تا ${mapList[index]['start_time'].toString().substring(0, 10)}',
+                                  'از ${changeTimeToShamsi(mapList[index]['start_time'].toString().substring(0, 10))} تا ${changeTimeToShamsi(
+                                    mapList[index]['end_time']
+                                        .toString()
+                                        .substring(0, 10),
+                                  )}',
                                   textDirection: TextDirection.rtl,
                                   textAlign: TextAlign.end,
                                   style: PersianFonts.Shabnam.copyWith(
@@ -1490,7 +1536,8 @@ class _AllEventsScreenState extends State<AllEventsScreen>
           color: kPrimaryColor,
           onSelect: (date) {
             print(date);
-            List times = date.toString().split('/');
+            List dateTime = date.split(' ');
+            List times = dateTime[0].toString().split('/');
             int year = int.parse(times[0]);
             int month = int.parse(times[1]);
             int day = int.parse(times[2]);
@@ -1498,7 +1545,9 @@ class _AllEventsScreenState extends State<AllEventsScreen>
             this.date = j;
             Gregorian g = j.toGregorian();
             selectedDate1 = g.toDateTime();
-            print(selectedDate1);
+            begin_json = selectedDate1.toString().substring(0,10) + ' ' + dateTime[1];
+            // print(selectedDate1);
+            print('---- $begin_json');
             setState(() {});
           },
         );
@@ -1517,15 +1566,18 @@ class _AllEventsScreenState extends State<AllEventsScreen>
           color: kPrimaryColor,
           onSelect: (date) {
             print(date);
-            List times = date.toString().split('/');
+            List dateTime = date.split(' ');
+            List times = dateTime[0].toString().split('/');
             int year = int.parse(times[0]);
             int month = int.parse(times[1]);
             int day = int.parse(times[2]);
             Jalali j = Jalali(year, month, day);
             this.date = j;
             Gregorian g = j.toGregorian();
+            print('------ $g');
             selectedDate2 = g.toDateTime();
-            print(selectedDate2);
+            end_json = selectedDate2.toString().substring(0,10) + ' ' + dateTime[1];
+            print('---- $end_json');
             setState(() {});
           },
         );
@@ -1541,11 +1593,11 @@ class _AllEventsScreenState extends State<AllEventsScreen>
     });
   }
 
-  void _showCultureDeputySelectionDialog() async{
-    http.Response response = await http
-        .get(cultureDeputiesUrl, headers: {HttpHeaders.authorizationHeader: token});
+  void _showCultureDeputySelectionDialog() async {
+    http.Response response = await http.get(cultureDeputiesUrl,
+        headers: {HttpHeaders.authorizationHeader: token});
     var jsonResponse =
-    convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
     print('*****************************');
     print(jsonResponse);
     List<Map> mapList = [];
@@ -1610,5 +1662,4 @@ class _AllEventsScreenState extends State<AllEventsScreen>
       );
     }
   }
-
 }
