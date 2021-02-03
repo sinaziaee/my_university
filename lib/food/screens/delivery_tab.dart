@@ -11,7 +11,7 @@ import 'package:my_university/food/widgets/allfoods.dart';
 import 'package:my_university/food/widgets/today_card.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'package:my_university/screens/trade_screen.dart';
+import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/trade_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

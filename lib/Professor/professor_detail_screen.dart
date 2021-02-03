@@ -183,9 +183,7 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                                   textDirection: TextDirection.rtl,
                                   style: PersianFonts.Shabnam),
                               Text(
-                                  "زمینه تحقیقاتی :  : " +
-                                          result['research_axes'][0] ??
-                                      " ",
+                                  'زمینه تحقیقاتی : ${(result['research_axes'].length != 0) ? result['research_axes'][0] : 'N/A'}',
                                   textDirection: TextDirection.rtl,
                                   textAlign: TextAlign.right,
                                   style: PersianFonts.Shabnam),
@@ -222,10 +220,7 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                      "زمان های مراجعه : " +
-                                              replaceFarsiNumber(
-                                                  result['free_times'][0]) ??
-                                          " ",
+                                      'زمان های مراجعه : ${(result['free_times'].length != 0) ? result['free_times'][0] : 'N/A'}',
                                       textDirection: TextDirection.rtl,
                                       style: PersianFonts.Shabnam.copyWith(
                                           fontSize: 18,

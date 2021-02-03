@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:my_university/screens/product_screen.dart';
+import 'file:///D:/FlutterProjects/seyyed/my_university/lib/food/screens/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';

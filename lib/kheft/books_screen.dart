@@ -4,10 +4,10 @@ import 'dart:io';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_university/components/book_item.dart';
-import 'package:my_university/screens/filter_screen.dart';
+import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/filter_screen.dart';
 import 'package:my_university/screens/history_screen.dart';
-import 'package:my_university/screens/new_book_screen.dart';
-import 'package:my_university/screens/product_screen.dart';
+import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/new_book_screen.dart';
+import 'file:///D:/FlutterProjects/seyyed/my_university/lib/food/screens/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;

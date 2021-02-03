@@ -259,6 +259,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                       color: Colors.transparent,
                                       child: InkWell(
                                         onTap: () {
+                                          print('books dialog');
                                           _showBooksDialog();
                                         },
                                         child: Container(
@@ -386,6 +387,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                           // _openDialog();
                                           // openBooksNameDialog();
                                           // _showBooksDialog();
+                                          print('helll');
                                           _showFacultiesDialog();
                                         },
                                         child: Container(
@@ -537,7 +539,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                         ],
                       ),
@@ -575,37 +577,6 @@ class _NewBookScreenState extends State<NewBookScreen> {
     // }
     postNewBook();
     // sendFiletodjango(file: imageFile);
-  }
-
-  @override
-  Future<Map<String, dynamic>> sendFiletodjango({
-    File file,
-  }) async {
-    var endPoint = postStockUrl;
-    Map data = {};
-    String base64file = convert.base64Encode(file.readAsBytesSync());
-    // String fileName = file.path.split("/").last;
-    // data['name'] = fileName;
-    data['image'] = base64file;
-    data['book'] = 2;
-    data['filename'] = 'sina';
-    data['price'] = 20000;
-    data['edition'] = 0;
-    data['printno'] = 0;
-    data['description'] = 'descriptionController.text';
-    data['seller'] = 1;
-    // print(data);
-    try {
-      http.Response response = await http.post(endPoint,
-          headers: {
-            HttpHeaders.authorizationHeader: token,
-            "content-type": "application/json",
-          },
-          body: convert.json.encode(data));
-      print(response.body);
-    } catch (e) {
-      throw (e.toString());
-    }
   }
 
   postNewBook() async {
@@ -719,8 +690,9 @@ class _NewBookScreenState extends State<NewBookScreen> {
       showDialog(
         context: context,
         child: AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           content: Container(
             height: 100,
             child: Center(
@@ -753,6 +725,9 @@ class _NewBookScreenState extends State<NewBookScreen> {
       showDialog(
         context: context,
         child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           content: Container(
             height: 400,
             width: 250,
@@ -856,6 +831,9 @@ class _NewBookScreenState extends State<NewBookScreen> {
       showDialog(
         context: context,
         child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           content: Center(
             child: Text('دانشکده ای وجود ندارد'),
           ),
@@ -865,6 +843,9 @@ class _NewBookScreenState extends State<NewBookScreen> {
       showDialog(
         context: context,
         child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           content: Container(
             height: 400,
             width: 200,
@@ -872,25 +853,34 @@ class _NewBookScreenState extends State<NewBookScreen> {
               shrinkWrap: true,
               itemCount: count,
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    selectedFacultyId = mapList[index]['id'];
-                    setState(() {
-                      selectedFaculty = mapList[index]['name'];
-                    });
-                    Navigator.pop(context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        mapList[index]['name'],
-                        textDirection: TextDirection.rtl,
-                        style: PersianFonts.Shabnam.copyWith(
-                          fontSize: 25,
+                return Padding(
+                  padding: EdgeInsets.only(top: 10,),
+                  child: Material(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.purple.shade200,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        selectedFacultyId = mapList[index]['id'];
+                        setState(() {
+                          selectedFaculty = mapList[index]['name'];
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: Text(
+                          mapList[index]['name'],
+                          textDirection: TextDirection.rtl,
+                          style: PersianFonts.Shabnam.copyWith(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 );
               },

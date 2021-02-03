@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:my_university/components/reading_card_list.dart';
 import 'package:my_university/components/trade_item.dart';
-import 'package:my_university/screens/trade_screen.dart';
+import 'file:///D:/FlutterProjects/seyyed/my_university/lib/kheft/trade_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 
 import '../constants.dart';
-import 'product_screen.dart';
+import '../food/screens/product_screen.dart';
 
 class HistoryScreen extends StatefulWidget {
   static String id = 'history_screen';

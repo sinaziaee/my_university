@@ -1,9 +1,17 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:my_university/components/custom_text_field.dart';
 import 'package:my_university/constants.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 import 'login_screen.dart';
 
@@ -16,19 +24,17 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _dark;
+  bool showSpinner = false;
   String token, firstName, lastName, username, email, phone;
   int userId;
   Size size;
-  @override
-  void initState() {
-    super.initState();
-    _dark = false;
-  }
-
-  Brightness _getBrightness() {
-    return _dark ? Brightness.dark : Brightness.light;
-  }
+  FocusNode node;
+  File imageFile;
+  String userDetailUrl = '$baseUrl/api/user/update/';
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
 
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -45,23 +51,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Theme(
-      isMaterialAppTheme: true,
-      data: ThemeData(
-        brightness: _getBrightness(),
-      ),
-      child: Scaffold(
-        backgroundColor: _dark ? null : Colors.grey.shade200,
+    node = FocusScope.of(context);
+    return Scaffold(
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           elevation: 0,
-          brightness: _getBrightness(),
-          iconTheme: IconThemeData(color: _dark ? Colors.white : Colors.black),
+          iconTheme:
+              IconThemeData(color: Colors.black),
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
             'تنظیمات',
-            style: TextStyle(color: _dark ? Colors.white : Colors.black),
+            style: TextStyle(color: Colors.black),
           ),
           actions: <Widget>[
             IconButton(
@@ -72,165 +74,277 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ],
         ),
-        body: FutureBuilder(
-            future: getToken(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.done) {
-                return Stack(
-                  fit: StackFit.expand,
+        // body: FutureBuilder(
+        //     future: getToken(),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.hasData &&
+        //           snapshot.connectionState == ConnectionState.done) {
+        //         return Stack(
+        //           fit: StackFit.expand,
+        //           children: <Widget>[
+        //             SingleChildScrollView(
+        //               padding: const EdgeInsets.all(16.0),
+        //               child: Column(
+        //                 crossAxisAlignment: CrossAxisAlignment.start,
+        //                 children: <Widget>[
+        //                   Card(
+        //                     elevation: 8.0,
+        //                     shape: RoundedRectangleBorder(
+        //                         borderRadius: BorderRadius.circular(10.0)),
+        //                     color: Colors.purple,
+        //                     child: ListTile(
+        //                       onTap: () {
+        //                         _showSheet();
+        //                       },
+        //                       title: Text(
+        //                         "${firstName} ${lastName}",
+        //                         style: TextStyle(
+        //                           color: Colors.white,
+        //                           fontWeight: FontWeight.w500,
+        //                         ),
+        //                       ),
+        //                       leading: CircleAvatar(
+        //                         // backgroundImage: NetworkImage(avatars[0]),
+        //                         backgroundColor: Colors.white,
+        //                         child: FadeInImage(
+        //                           height: 40,
+        //                           image: AssetImage('assets/images/unkown.png'),
+        //                           placeholder:
+        //                               AssetImage('assets/images/unkown.png'),
+        //                         ),
+        //                       ),
+        //                       trailing: Icon(
+        //                         Icons.edit,
+        //                         color: Colors.white,
+        //                       ),
+        //                     ),
+        //                   ),
+        //                   const SizedBox(height: 10.0),
+        //                   Card(
+        //                     elevation: 4.0,
+        //                     margin: const EdgeInsets.fromLTRB(
+        //                         32.0, 8.0, 32.0, 16.0),
+        //                     shape: RoundedRectangleBorder(
+        //                         borderRadius: BorderRadius.circular(10.0)),
+        //                     child: Column(
+        //                       children: <Widget>[
+        //                         ListTile(
+        //                           leading: Icon(
+        //                             Icons.phone,
+        //                             color: Colors.purple,
+        //                           ),
+        //                           title:
+        //                               Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
+        //                           // trailing: Icon(Icons.keyboard_arrow_right),
+        //                           onTap: () {
+        //                             //open change password
+        //                           },
+        //                         ),
+        //                         _buildDivider(),
+        //                         ListTile(
+        //                           leading: Icon(
+        //                             Icons.email,
+        //                             color: Colors.purple,
+        //                           ),
+        //                           title: Text(
+        //                             '${email}',
+        //                             style: TextStyle(fontSize: 14),
+        //                           ),
+        //                           // trailing: Icon(Icons.keyboard_arrow_right),
+        //                           onTap: () {
+        //                             //open change language
+        //                           },
+        //                         ),
+        //                         _buildDivider(),
+        //                         ListTile(
+        //                           leading: Icon(
+        //                             Icons.person,
+        //                             color: Colors.purple,
+        //                           ),
+        //                           title: Text("${username}"),
+        //                           // trailing: Icon(Icons.keyboard_arrow_right),
+        //                           onTap: () {
+        //                             //open change location
+        //                           },
+        //                         ),
+        //                       ],
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
+        //             Positioned(
+        //               bottom: -20,
+        //               left: -20,
+        //               child: Container(
+        //                 width: 80,
+        //                 height: 80,
+        //                 alignment: Alignment.center,
+        //                 decoration: BoxDecoration(
+        //                   color: Colors.purple,
+        //                   shape: BoxShape.circle,
+        //                 ),
+        //               ),
+        //             ),
+        //             Positioned(
+        //               bottom: 00,
+        //               left: 00,
+        //               child: IconButton(
+        //                 icon: Icon(
+        //                   FontAwesomeIcons.powerOff,
+        //                   color: Colors.white,
+        //                 ),
+        //                 onPressed: () {
+        //                   showLogoutDialog(context, "آیا اطمینان دارید ؟");
+        //                 },
+        //               ),
+        //             ),
+        //             Positioned(
+        //               bottom: 0,
+        //               right: 0,
+        //               child: Image.asset(
+        //                 "assets/images/login_bottom.png",
+        //                 width: size.width * 0.6,
+        //               ),
+        //             ),
+        //           ],
+        //         );
+        //       } else {
+        //         return Center(
+        //           child: CircularProgressIndicator(),
+        //         );
+        //       }
+        //     }),
+        body: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.all(16.0),
+                    Card(
+                      elevation: 8.0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      color: Colors.purple,
+                      child: ListTile(
+                        onTap: () {
+                          _showSheet();
+                        },
+                        title: Text(
+                          "${firstName} ${lastName}",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        leading: CircleAvatar(
+                          // backgroundImage: NetworkImage(avatars[0]),
+                          backgroundColor: Colors.white,
+                          child: FadeInImage(
+                            height: 40,
+                            image: AssetImage('assets/images/unkown.png'),
+                            placeholder: AssetImage('assets/images/unkown.png'),
+                          ),
+                        ),
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Card(
+                      elevation: 4.0,
+                      margin: const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 16.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Card(
-                            elevation: 8.0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            color: Colors.purple,
-                            child: ListTile(
-                              onTap: () {
-                                //open edit profile
-                              },
-                              title: Text(
-                                "${firstName} ${lastName}",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              leading: CircleAvatar(
-                                // backgroundImage: NetworkImage(avatars[0]),
-                                backgroundColor: Colors.white,
-                                child: FadeInImage(
-                                  height: 40,
-                                  image: AssetImage('assets/images/unkown.png'),
-                                  placeholder: AssetImage('assets/images/unkown.png'),
-                                ),
-                              ),
-                              trailing: Icon(
-                                Icons.edit,
-                                color: Colors.white,
-                              ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.phone,
+                              color: Colors.purple,
                             ),
+                            title: Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
+                            // trailing: Icon(Icons.keyboard_arrow_right),
+                            onTap: () {
+                              //open change password
+                            },
                           ),
-                          const SizedBox(height: 10.0),
-                          Card(
-                            elevation: 4.0,
-                            margin: const EdgeInsets.fromLTRB(
-                                32.0, 8.0, 32.0, 16.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            child: Column(
-                              children: <Widget>[
-                                ListTile(
-                                  leading: Icon(
-                                    Icons.phone,
-                                    color: Colors.purple,
-                                  ),
-                                  title: Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
-                                  // trailing: Icon(Icons.keyboard_arrow_right),
-                                  onTap: () {
-                                    //open change password
-                                  },
-                                ),
-                                _buildDivider(),
-                                ListTile(
-                                  leading: Icon(
-                                    Icons.email,
-                                    color: Colors.purple,
-                                  ),
-                                  title: Text('${email}', style: TextStyle(fontSize: 14),),
-                                  // trailing: Icon(Icons.keyboard_arrow_right),
-                                  onTap: () {
-                                    //open change language
-                                  },
-                                ),
-                                _buildDivider(),
-                                ListTile(
-                                  leading: Icon(
-                                    Icons.person,
-                                    color: Colors.purple,
-                                  ),
-                                  title: Text("${username}"),
-                                  // trailing: Icon(Icons.keyboard_arrow_right),
-                                  onTap: () {
-                                    //open change location
-                                  },
-                                ),
-                              ],
+                          _buildDivider(),
+                          ListTile(
+                            leading: Icon(
+                              Icons.email,
+                              color: Colors.purple,
                             ),
+                            title: Text(
+                              '${email}',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            // trailing: Icon(Icons.keyboard_arrow_right),
+                            onTap: () {
+                              //open change language
+                            },
                           ),
-                          // const SizedBox(height: 20.0),
-                          // Text(
-                          //   "Theme",
-                          //   style: TextStyle(
-                          //     fontSize: 20.0,
-                          //     fontWeight: FontWeight.bold,
-                          //     color: Colors.indigo,
-                          //   ),
-                          // ),
-                          // ListTile(
-                          //   title: Text(_dark ? 'Dark Theme':'Light Theme'),
-                          //   trailing: IconButton(
-                          //     icon: Icon(FontAwesomeIcons.moon),
-                          //     onPressed: () {
-                          //       _dark = !_dark;
-                          //       setState(() {});
-                          //     },
-                          //   ),
-                          // ),
-                          // const SizedBox(height: 60.0),
+                          _buildDivider(),
+                          ListTile(
+                            leading: Icon(
+                              Icons.person,
+                              color: Colors.purple,
+                            ),
+                            title: Text("${username}"),
+                            // trailing: Icon(Icons.keyboard_arrow_right),
+                            onTap: () {
+                              //open change location
+                            },
+                          ),
                         ],
                       ),
                     ),
-                    Positioned(
-                      bottom: -20,
-                      left: -20,
-                      child: Container(
-                        width: 80,
-                        height: 80,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.purple,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 00,
-                      left: 00,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.powerOff,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          showLogoutDialog(context, "آیا اطمینان دارید ؟");
-                        },
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Image.asset(
-                        "assets/images/login_bottom.png",
-                        width: size.width * 0.6,
-                      ),
-                    ),
-
                   ],
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-      ),
-    );
+                ),
+              ),
+              Positioned(
+                bottom: -20,
+                left: -20,
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 00,
+                left: 00,
+                child: IconButton(
+                  icon: Icon(
+                    FontAwesomeIcons.powerOff,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    showLogoutDialog(context, "آیا اطمینان دارید ؟");
+                  },
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Image.asset(
+                  "assets/images/login_bottom.png",
+                  width: size.width * 0.6,
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 
   Container _buildDivider() {
@@ -244,28 +358,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-    showLogoutDialog(BuildContext context, String message) {
-      AwesomeDialog(
-          context: context,
-          dialogType: DialogType.WARNING,
-          animType: AnimType.RIGHSLIDE,
-          headerAnimationLoop: false,
-          title: ' خروج از برنامه',
-          desc: message,
-          btnOkOnPress: () {
-
-            logoutApp();
-          },
-          btnOkText: "بله",
-          btnOkIcon: Icons.check_circle,
-          btnOkColor: Colors.green,
-          btnCancelOnPress: (){},
-          btnCancelText: "خیر",
-          btnCancelIcon: Icons.cancel,
-          btnCancelColor: Colors.red
-
-      )
-        ..show();
+  showLogoutDialog(BuildContext context, String message) {
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.WARNING,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: ' خروج از برنامه',
+        desc: message,
+        btnOkOnPress: () {
+          logoutApp();
+        },
+        btnOkText: "بله",
+        btnOkIcon: Icons.check_circle,
+        btnOkColor: Colors.green,
+        btnCancelOnPress: () {},
+        btnCancelText: "خیر",
+        btnCancelIcon: Icons.cancel,
+        btnCancelColor: Colors.red)
+      ..show();
   }
 
   void logoutApp() async {
@@ -274,4 +385,354 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Navigator.pop(context);
     Navigator.popAndPushNamed(context, LoginScreen.id);
   }
+
+  onSelectImagePressed() {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'انتخاب عکس : ',
+                    textDirection: TextDirection.rtl,
+                    style: PersianFonts.Shabnam.copyWith(color: kPrimaryColor),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              height: 0.5,
+              width: double.infinity,
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {
+                selectFromCamera();
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'از دوربین‌',
+                      textDirection: TextDirection.rtl,
+                      style: PersianFonts.Shabnam.copyWith(color: Colors.black),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Icon(
+                      Icons.camera_alt,
+                      color: kPrimaryColor,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {
+                selectFromGallery();
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'از گالری',
+                      textDirection: TextDirection.rtl,
+                      style: PersianFonts.Shabnam.copyWith(color: Colors.black),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Icon(
+                      Icons.insert_photo,
+                      color: kPrimaryColor,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  selectFromGallery() {
+    _pickImage(ImageSource.gallery);
+    Navigator.pop(context);
+  }
+
+  selectFromCamera() {
+    _pickImage(ImageSource.camera);
+    Navigator.pop(context);
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final _picker = ImagePicker();
+      PickedFile image = await _picker.getImage(source: source);
+
+      final File selected = File(image.path);
+
+      setState(() {
+        imageFile = selected;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _showSheet() {
+    firstNameController.text = firstName;
+    lastNameController.text = lastName;
+    phoneController.text = phone;
+    usernameController.text = username;
+    showFlexibleBottomSheet<void>(
+      minHeight: 0,
+      initHeight: 0.5,
+      maxHeight: 1,
+      context: context,
+      builder: (BuildContext context, ScrollController scrollController,
+          double bottomSheetOffset) {
+        return SafeArea(
+          child: Material(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+            ),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFFFFFFF),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    if (imageFile != null) ...[
+                      Material(
+                        color: Colors.white,
+                        child: InkWell(
+                          highlightColor: Colors.transparent,
+                          onTap: onSelectImagePressed,
+                          child: Center(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.blueGrey[200],
+                              radius: 80,
+                              backgroundImage: FileImage(imageFile),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ] else ...[
+                      Material(
+                        color: Colors.white,
+                        child: InkWell(
+                          highlightColor: Colors.transparent,
+                          onTap: onSelectImagePressed,
+                          child: Center(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.blueGrey[200],
+                              radius: 60,
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Image(
+                                  image:
+                                      AssetImage('assets/images/add_image.png'),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                    SizedBox(
+                      height: 30,
+                    ),
+                    CustomTextField(
+                      node: node,
+                      controller: phoneController,
+                      hintText: 'شماره ی موبایل',
+                      iconData: Icons.phone,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      node: node,
+                      controller: firstNameController,
+                      hintText: 'نام',
+                      iconData: Icons.person,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      node: node,
+                      controller: lastNameController,
+                      hintText: 'نام خانوادگی',
+                      iconData: Icons.person,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      node: node,
+                      controller: usernameController,
+                      hintText: 'نام  کاربری',
+                      iconData: Icons.person,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 5,
+                      ),
+                      color: kPrimaryColor,
+                      onPressed: () {
+                        validateData();
+                      },
+                      child: Text(
+                        'ذخیره تغییرات',
+                        style: PersianFonts.Shabnam.copyWith(
+                          color: Colors.white,
+                          fontSize: 17
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      anchors: [0, 0.5, 1],
+    );
+  }
+
+  validateData(){
+    String firstName = firstNameController.text;
+    String lastName = lastNameController.text;
+    String phone = phoneController.text;
+    String username = usernameController.text;
+
+    if(firstName.length == 0){
+      discuss(context, 'لطفا نام را وارد کنید');
+      return;
+    }
+    if(lastName.length == 0){
+      discuss(context, 'لطفا نام خانوادگی را وارد کنید');
+      return;
+    }
+    if(phone.length == 0){
+      discuss(context, 'لطفا تلفن را وارد کنید');
+      return;
+    }
+    if(username.length == 0){
+      discuss(context, 'لطفا نام کاربری را وارد کنید');
+      return;
+    }
+    postNewInformation(firstName: firstName, lastName: lastName, phone: phone, username: username);
+  }
+
+  postNewInformation({
+    String firstName,
+    String lastName,
+    String phone,
+    String username,
+  }) async {
+    setState(() {
+      showSpinner = true;
+    });
+    try {
+      String base64file = convert.base64Encode(imageFile.readAsBytesSync());
+      http.Response response;
+      Map map = Map();
+      map['first_name'] = firstName;
+      map['last_name'] = lastName;
+      map['username'] = username;
+      if(imageFile != null){
+        map['filename'] = imageFile.path.split('/').last;
+        map['image'] = base64file;
+      }
+      if(phone.length != 0){
+        map['phone'] = phone;
+      }
+      response = await http.post(
+        userDetailUrl,
+        headers: {
+          HttpHeaders.authorizationHeader: token,
+          "Accept": "application/json",
+          "content-type": "application/json",
+        },
+        body: convert.jsonEncode(map),
+      );
+      if (response.statusCode < 300) {
+        Navigator.pop(context);
+        success(context, "استاد اضافه شد");
+      } else {
+        print(response.body);
+        Navigator.pop(context);
+        discuss(context, "متاسفانه مشکلی پیش آمد.");
+      }
+      setState(() {
+        showSpinner = false;
+      });
+    } catch (e) {
+      print('myError: $e');
+      setState(() {
+        showSpinner = false;
+      });
+      Navigator.pop(context);
+      discuss(context, "متاسفانه مشکلی پیش آمد.");
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    phoneController.dispose();
+    usernameController.dispose();
+  }
+
 }

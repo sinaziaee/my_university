@@ -11,8 +11,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../constants.dart';
-import '../kheft/chat_screen.dart';
+import '../../constants.dart';
+import '../../kheft/chat_screen.dart';
 
 bool showSpinner = false;
 bool isVisible = false;

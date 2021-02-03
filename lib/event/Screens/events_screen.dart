@@ -478,6 +478,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                           //textDirection: ui.TextDirection.rtl,
                           controller: priceController,
                           keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(
                                 bottom: 20, left: 10, right: 10),
@@ -564,6 +565,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                         child: TextField(
                           controller: capacity,
                           keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(
                                 bottom: 20, left: 10, right: 10),
@@ -724,8 +726,8 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                     height: 20,
                     minWidth: 20,
                     padding: EdgeInsets.only(
-                      top: 2,
-                      bottom: 2,
+                      top: 5,
+                      bottom: 5,
                       left: 50,
                       right: 50,
                     ),
@@ -754,7 +756,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
             ),
 
             SizedBox(
-              height: 10,
+              height: 30,
             ),
           ],
         ),
@@ -1465,40 +1467,6 @@ class _AllEventsScreenState extends State<AllEventsScreen>
     }
   }
 
-  // _showDialog(BuildContext context, String message) {
-  //   // Scaffold.of(context).showSnackBar(SnackBar(content: Text(message)));
-  //   AlertDialog dialog = AlertDialog(
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(20),
-  //     ),
-  //     content: Column(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         SizedBox(
-  //           height: 20,
-  //         ),
-  //         Text(
-  //           message,
-  //           textDirection: ui.TextDirection.rtl,
-  //           style: TextStyle(
-  //             fontSize: 20,
-  //           ),
-  //         ),
-  //         FlatButton(
-  //           onPressed: () {
-  //             Navigator.pop(context);
-  //           },
-  //           child: Text(
-  //             '!باشه',
-  //             style: TextStyle(color: kPrimaryColor),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  //   showDialog(context: context, child: dialog);
-  // }
-
   selectFromGallery() {
     _pickImage(ImageSource.gallery);
     Navigator.pop(context);
@@ -1599,6 +1567,9 @@ class _AllEventsScreenState extends State<AllEventsScreen>
       showDialog(
         context: context,
         child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           content: Container(
             height: 400,
             width: 250,
@@ -1606,24 +1577,30 @@ class _AllEventsScreenState extends State<AllEventsScreen>
               shrinkWrap: true,
               itemCount: count,
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    cultureDeputyId = mapList[index]['culture_deputy_id'];
-                    setState(() {
-                      cultureDeputy = mapList[index]['culture_deputy_name'];
-                    });
-                    Navigator.pop(context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
+                return Container(
+                  width: 200,
+                  child: Material(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Colors.purple.shade200,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        cultureDeputyId = mapList[index]['culture_deputy_id'];
+                        setState(() {
+                          cultureDeputy = mapList[index]['culture_deputy_name'];
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Text(
                         mapList[index]['culture_deputy_name'],
                         style: PersianFonts.Shabnam.copyWith(
                           fontSize: 20,
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 );
               },

@@ -32,6 +32,12 @@
       "languageVersion": "2.2"
     },
     {
+      "name": "bottom_sheet",
+      "rootUri": "file:///C:/Flutter%20SDK/flutter/.pub-cache/hosted/pub.dartlang.org/bottom_sheet-0.0.1-dev.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.6"
+    },
+    {
       "name": "characters",
       "rootUri": "file:///C:/Flutter%20SDK/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0-nullsafety.3",
       "packageUri": "lib/",
@@ -440,6 +446,12 @@
       "languageVersion": "2.7"
     },
     {
+      "name": "surf_lint_rules",
+      "rootUri": "file:///C:/Flutter%20SDK/flutter/.pub-cache/hosted/pub.dartlang.org/surf_lint_rules-0.0.2-dev.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "term_glyph",
       "rootUri": "file:///C:/Flutter%20SDK/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0-nullsafety.1",
       "packageUri": "lib/",
@@ -494,7 +506,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-02-01T16:31:12.526703Z",
+  "generated": "2021-02-02T16:56:17.192843Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
