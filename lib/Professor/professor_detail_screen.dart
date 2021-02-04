@@ -14,9 +14,9 @@ import 'dart:convert' as convert;
 class DetailPageProfessor extends StatefulWidget {
   static String id = "Professor_Details";
 
-  final Professor planet;
+  final Professor professor;
 
-  const DetailPageProfessor({Key key, this.planet}) : super(key: key);
+  const DetailPageProfessor({Key key, this.professor}) : super(key: key);
 
   @override
   _DetailPageProfessorState createState() => _DetailPageProfessorState();

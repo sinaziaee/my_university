@@ -88,8 +88,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
     });
   }
 
-  // *********************************************************************************************
-  @override
+  // *********************************************************************************************F
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
@@ -328,6 +327,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                 textDirection: TextDirection.rtl,
                                 controller: nameController,
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(bottom: 22.5),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -345,6 +345,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                 controller: publisherController,
                                 textAlign: TextAlign.right,
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(bottom: 22.5),
                                   hintText: 'نام ناشر',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
@@ -363,6 +364,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                 controller: authorController,
                                 textAlign: TextAlign.right,
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(bottom: 22.5),
                                   hintText: 'نام نویسنده',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
@@ -465,6 +467,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                               maxLines: 40,
                               controller: descriptionController,
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(bottom: 22.5),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -486,6 +489,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                     controller: priceController,
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(bottom: 20),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -558,19 +562,14 @@ class _NewBookScreenState extends State<NewBookScreen> {
 
   validateData() {
     String book_name = nameController.text;
-    String book_description = descriptionController.text;
-    // if (book_name.length < 4) {
-    //   _showDialog(context, 'نام کتاب نباید کمتر از سه حرف باشد.');
-    //   return;
-    // }
-    // if (book_description.length < 5) {
-    //   _showDialog(context, 'لطفا درباره ی کتاب خود توضیح دهید.');
-    //   return;
-    // }
-    // if (selectedFaculty == null) {
-    //   _showDialog(context, 'لطفا مشخص کنید که کتاب مربوط به کدام دانشکده است.');
-    //   return;
-    // }
+    if (book_name.length < 4) {
+      discuss(context, 'نام کتاب نباید کمتر از سه حرف باشد.');
+      return;
+    }
+    if (selectedFaculty == null) {
+      discuss(context, 'لطفا مشخص کنید که کتاب مربوط به کدام دانشکده است.');
+      return;
+    }
     // if (_imageFile == null){
     //   _showDialog(context, 'لطفا یک عکس را مشخص کنید.');
     //   return;
@@ -649,10 +648,10 @@ class _NewBookScreenState extends State<NewBookScreen> {
 
       if (response.statusCode == 201) {
         // _showDialog(context, "کتاب اضافه شد");
-        showSuccessDialog(context, "کتاب اضافه شد");
+        success(context, "کتاب اضافه شد");
       } else {
         print(response.body);
-        showErrorDialog(context, "متاسفانه مشکلی پیش آمد.");
+        discuss(context, "متاسفانه مشکلی پیش آمد.");
       }
       setState(() {
         showSpinner = false;
@@ -988,31 +987,4 @@ class _NewBookScreenState extends State<NewBookScreen> {
     );
   }
 
-  void showErrorDialog(BuildContext context, String message) {
-    AwesomeDialog(
-        context: context,
-        dialogType: DialogType.ERROR,
-        animType: AnimType.RIGHSLIDE,
-        headerAnimationLoop: false,
-        title: 'خطا',
-        desc: message,
-        btnOkOnPress: () {},
-        btnOkIcon: Icons.cancel,
-        btnOkColor: Colors.red)
-      ..show();
-  }
-
-  void showSuccessDialog(BuildContext context, String message) {
-    AwesomeDialog(
-        context: context,
-        dialogType: DialogType.SUCCES,
-        animType: AnimType.RIGHSLIDE,
-        headerAnimationLoop: false,
-        title: 'موفقیت',
-        desc: message,
-        btnOkOnPress: () {},
-        btnOkIcon: Icons.check_circle,
-        btnOkColor: Colors.green)
-      ..show();
-  }
 }

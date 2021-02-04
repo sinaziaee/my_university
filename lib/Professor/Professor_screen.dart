@@ -46,21 +46,12 @@ class ProfessorList extends StatelessWidget {
             ),
           ),
         ),
-
       body: HomePageBody(facultyid )
-
-      //),
     );
-
   }
-
-
-
-
 }
 
 class GradientAppBar extends StatelessWidget {
-
 
   final String title;
   final double barHeight = 66.0;

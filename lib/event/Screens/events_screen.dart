@@ -1246,35 +1246,14 @@ class _AllEventsScreenState extends State<AllEventsScreen>
     if (response.statusCode >= 400) {
       print(response.statusCode);
       print(response.body);
-      _showMessageDialog('مشکلی پیش آمد');
+      discuss(context, 'مشکلی پیش آمد');
       setState(() {});
     } else {
-      _showMessageDialog(isParticipating
+      success(context, isParticipating
           ? 'شما در رویداد ثبت نام شدید'
           : 'ثبت نام شما لغو شد');
       setState(() {});
     }
-  }
-
-  _showMessageDialog(String message) {
-    showDialog(
-      context: context,
-      child: AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: Text(
-          message,
-          textAlign: TextAlign.center,
-        ),
-        content: FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('باشه'),
-        ),
-      ),
-    );
   }
 
   Future<void> _pickImage(ImageSource source) async {
