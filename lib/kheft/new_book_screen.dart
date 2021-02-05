@@ -561,14 +561,20 @@ class _NewBookScreenState extends State<NewBookScreen> {
   }
 
   validateData() {
-    String book_name = nameController.text;
-    if (book_name.length < 4) {
-      discuss(context, 'نام کتاب نباید کمتر از سه حرف باشد.');
+    if (priceController.text.length == 0) {
+      discuss(context, 'قیمت کتاب را مشخص کنید');
       return;
     }
-    if (selectedFaculty == null) {
-      discuss(context, 'لطفا مشخص کنید که کتاب مربوط به کدام دانشکده است.');
-      return;
+    if(isAddingCompletelyNewBook){
+      if (selectedFaculty == null) {
+        discuss(context, 'لطفا مشخص کنید که کتاب مربوط به کدام دانشکده است');
+        return;
+      }
+      String book_name = nameController.text;
+      if (book_name.length < 4) {
+        discuss(context, 'نام کتاب نباید کمتر از سه حرف باشد.');
+        return;
+      }
     }
     // if (_imageFile == null){
     //   _showDialog(context, 'لطفا یک عکس را مشخص کنید.');
