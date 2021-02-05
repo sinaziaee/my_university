@@ -29,6 +29,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   bool isObscured = true;
   int count = 0;
   Color color = kPrimaryColor;
+  FocusNode node;
 
   onEyePressed() {
     if (isObscured) {
@@ -46,6 +47,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    node = FocusScope.of(context);
     return Scaffold(
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -96,6 +98,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                             onChanged: (value) {
                               email = value;
                             },
+                            node: node,
                             icon: Icons.email,
                           ),
                           RoundedInputField(
@@ -103,6 +106,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                             onChanged: (value) {
                               sid = value;
                             },
+                            node: node,
                             icon: Icons.format_italic,
                           ),
                           RoundedInputField(
@@ -110,6 +114,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                             onChanged: (value) {
                               username = value;
                             },
+                            node: node,
                             icon: Icons.person,
                           ),
                           Container(
@@ -123,6 +128,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                                     onChanged: (value) {
                                       lastName = value;
                                     },
+                                    node: node,
                                     icon: Icons.person,
                                   ),
                                 ),
@@ -136,6 +142,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                                     onChanged: (value) {
                                       firstName = value;
                                     },
+                                    node: node,
                                     icon: Icons.person,
                                   ),
                                 ),
@@ -145,6 +152,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                           RoundedPasswordField(
                             isObscured: isObscured,
                             onPressed: onEyePressed,
+                            node: node,
                             onChanged: (value) {
                               password = value;
                             },

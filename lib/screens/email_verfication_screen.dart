@@ -59,6 +59,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
   String username, token, phone, first_name, last_name, image, email;
   int user_id;
 
+  FocusNode node;
+
   @override
   void initState() {
     super.initState();
@@ -83,6 +85,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
 
   @override
   Widget build(BuildContext context) {
+    node = FocusScope.of(context);
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     // _showSnackBar(context, 'A verification code is sent to your email');
     sid = arguments['sid'];
@@ -142,7 +145,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
                         hintText: "کد تایید را وارد کنید",
                         onChanged: (value) {
                           code = value;
-                        },
+                        }, node: node,
                       ),
                       RoundedButton(
                         text: "بررسی",

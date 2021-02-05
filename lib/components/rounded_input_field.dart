@@ -8,12 +8,14 @@ class RoundedInputField extends StatelessWidget {
   final bool visible;
   final IconData icon;
   final ValueChanged<String> onChanged;
+  final FocusNode node;
   const RoundedInputField({
     Key key,
     this.hintText,
     this.visible,
     this.icon,
     this.onChanged,
+    @required this.node,
   }) : super(key: key);
 
   @override
@@ -28,13 +30,14 @@ class RoundedInputField extends StatelessWidget {
           color: kPrimaryLightColor,
           borderRadius: BorderRadius.circular(29),
         ),
-        child: TextField(
+        child: TextFormField(
           onChanged: onChanged,
           cursorColor: kPrimaryColor,
           textAlign: TextAlign.end,
           style: PersianFonts.Shabnam.copyWith(
               // fontSize: 20
           ),
+          onEditingComplete: () => node.nextFocus(), // Move focus to next
           decoration: InputDecoration(
             suffixIcon: Visibility(
               visible: visible ?? true,
@@ -63,6 +66,7 @@ class RoundedInputField extends StatelessWidget {
           style: PersianFonts.Shabnam.copyWith(
               // fontSize: 20
           ),
+          onEditingComplete: () => node.nextFocus(), // Move focus to next
           onChanged: onChanged,
           cursorColor: kPrimaryColor,
           decoration: InputDecoration(
