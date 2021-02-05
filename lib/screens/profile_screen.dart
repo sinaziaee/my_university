@@ -259,8 +259,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         onWillPop: () async {
           Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
-            'firstName': firstName,
-            'lastName': lastName,
+            'first_name': firstName,
+            'last_name': lastName,
             'username': username,
             'email': email,
             'token': token,

@@ -1473,11 +1473,16 @@ class _AllEventsScreenState extends State<AllEventsScreen>
       print(response.body);
       print(response.statusCode);
 
-      if (response.statusCode >= 400) {
+      if(response.statusCode == 401){
+        discuss(context, "شما اجازه اضافه کردن رویداد را ندارید. از معاونت فرهنگی دانشکده ی خود اجازه دسترسی بخواهید");
+      }
+
+      else if (response.statusCode >= 400) {
         print('================================================');
         print(response.body);
         print('================================================');
-        discuss(context, "متاسفانه مشکلی پیش آمد.");
+
+        discuss(context, "متاسفانه مشکلی پیش آمد");
       } else {
         success(context, "رویداد به کارتابل معاونت مربوطه فرستاده شد");
       }

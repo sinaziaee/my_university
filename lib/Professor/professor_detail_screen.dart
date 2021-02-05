@@ -219,8 +219,39 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                      'زمان های مراجعه : ${(result['free_times'].length != 0) ? result['free_times'][0] : 'N/A'}',
+                                  if (result['free_times'].length != 0) ...[
+                                    Container(
+
+                                      child: Material(
+                                        borderRadius: BorderRadius.circular(15.0),
+                                        color: Colors.blueGrey,
+                                        child: InkWell(
+                                          borderRadius:
+                                          BorderRadius.circular(10.0),
+                                          onTap: () {
+                                            _showTimesDialog(
+                                                result['free_times']);
+                                          },
+                                          child: Container(
+                                            width: 150,
+                                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                                            child: Center(
+                                              child: Text(
+                                                ' نمایش زمان ها',
+                                                textAlign: TextAlign.center,
+                                                style: PersianFonts.Shabnam.copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ] else ...[
+                                    Text('N/A'),
+                                  ],
+                                  Text('زمان های مراجعه : ',
                                       textDirection: TextDirection.rtl,
                                       style: PersianFonts.Shabnam.copyWith(
                                           fontSize: 18,
@@ -229,6 +260,7 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
                                     padding: const EdgeInsets.only(left: 10),
                                     child: Icon(Icons.timer),
                                   ),
+                                  // ${(result['free_times'].length != 0) ? result['free_times'][0] : 'N/A'}
                                 ],
                               ),
                             ],
@@ -329,40 +361,55 @@ class _DetailPageProfessorState extends State<DetailPageProfessor> {
     );
   }
 
-  // Container _getContent() {
-  //   final _overviewTitle = "Overview".toUpperCase();
-  //   return new Container(
-  //     child: new ListView(
-  //       padding: new EdgeInsets.fromLTRB(0.0, 72.0, 0.0, 32.0),
-  //       children: <Widget>[
-  //         new PlanetSummary(
-  //           widget.planet,
-  //           horizontal: false,
-  //         ),
-  //         new Container(
-  //           padding: new EdgeInsets.symmetric(horizontal: 32.0),
-  //           child: new Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: <Widget>[
-  //               new Text(
-  //                 _overviewTitle,
-  //                 style: Style.headerTextStyle,
-  //               ),
-  //               new Separator(),
-  //               new Text(widget.planet.description,
-  //                   style: Style.commonTextStyle),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  Container _getToolbar(BuildContext context) {
-    return new Container(
-      margin: new EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      child: new BackButton(color: Colors.white),
+  _showTimesDialog(List mapList) async {
+    print('======================================================');
+    print(mapList[0]);
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        content: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          // color: kPrimaryLightColor,
+          height: 450,
+          width: 250,
+          child: ListView.builder(
+            // shrinkWrap: true,
+            itemCount: mapList.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin:
+                EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.purple.shade200,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
+                      child: Text(
+                        replaceFarsiNumber(mapList[index]),
+                        textDirection: TextDirection.rtl,
+                        textAlign: TextAlign.center,
+                        style: PersianFonts.Shabnam.copyWith(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }

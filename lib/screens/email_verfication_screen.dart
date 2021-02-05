@@ -18,8 +18,16 @@ class EmailVerificationScreen extends StatefulWidget {
       _EmailVerificationScreenState();
 }
 
-addStringToSF(String token, int user_id, String username, String first_name,
-    String phone, String last_name, String image, String email, String sid) async {
+addStringToSF(
+    String token,
+    int user_id,
+    String username,
+    String first_name,
+    String phone,
+    String last_name,
+    String image,
+    String email,
+    String sid) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print(prefs.getString('token'));
@@ -264,10 +272,24 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
   }
 
   navigateToHomeScreen() async {
-    await addStringToSF(
-        token, user_id, username, first_name, phone, last_name, image, email, sid);
+    await addStringToSF(token, user_id, username, first_name, phone, last_name,
+        image, email, sid);
     Navigator.pop(context);
-    Navigator.popAndPushNamed(context, HomeScreen.id);
+    Navigator.popAndPushNamed(
+      context,
+      HomeScreen.id,
+      arguments: {
+        'sid': sid,
+        'user_id': user_id,
+        'token': username,
+        'email': email,
+        'first_name': first_name,
+        'last_name': last_name,
+        'username': username,
+        'phone': phone,
+        'image': image,
+      },
+    );
   }
 
   _showSnackBar(BuildContext context, String message) {

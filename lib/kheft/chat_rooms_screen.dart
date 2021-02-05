@@ -163,9 +163,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                             onPressed: () {
                               onPressed(
                                   username,
-                                  (username == mapList[index]['first_user_id'])
-                                      ? mapList[index]['second_user_id']
-                                      : mapList[index]['first_user_id'],
+                                mapList[index]['second_user_id'],
                                   mapList[index]['room_id'],
                                 mapList[index]['sender_image'],
                               );
@@ -174,21 +172,6 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                           );
                         },
                         itemCount: count,
-                      );
-                      return SizedBox();
-                      return Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset('assets/images/not_found.png',
-                                height: 200),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text('Not found'),
-                          ],
-                        ),
                       );
                     } else {
                       return Center(

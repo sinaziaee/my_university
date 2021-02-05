@@ -579,12 +579,13 @@ class _NewBookScreenState extends State<NewBookScreen> {
   }
 
   postNewBook() async {
+    print('theValueOfIsAdding: $isAddingCompletelyNewBook');
     setState(() {
       showSpinner = true;
     });
     try {
       if (isAddingCompletelyNewBook) {
-        print('***************************************');
+        print('****************  isAddingCompletelyNewBook  ***********************');
         http.Response httpResponse = await http.post(newBookUrl,
             headers: {
               HttpHeaders.authorizationHeader: token,
@@ -597,12 +598,21 @@ class _NewBookScreenState extends State<NewBookScreen> {
                 'author': authorController.text,
                 'publisher': publisherController.text,
                 'faculty': selectedFacultyId,
-                'field': 1,
+                'field': 2,
               },
             ));
         if (httpResponse.statusCode < 400) {
+          print('****************  addedNewBook TryingToFindThe bookId  ***********************');
           Map jsonBody = convert.jsonDecode(httpResponse.body);
           selectedBookId = jsonBody['id'];
+          print('****************  selectedBookId: $selectedBookId  ***********************');
+        }
+        else{
+          print('----------------------------------');
+          discuss(context, "متاسفانه کتاب آپلود نشد");
+          print(httpResponse.body);
+          print('----------------------------------');
+          return;
         }
       }
       http.Response response;

@@ -21,7 +21,7 @@ class RoundedInputField extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     if(visible == null){
       return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: 5),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         width: size.width * 0.8,
         decoration: BoxDecoration(
@@ -32,6 +32,9 @@ class RoundedInputField extends StatelessWidget {
           onChanged: onChanged,
           cursorColor: kPrimaryColor,
           textAlign: TextAlign.end,
+          style: PersianFonts.Shabnam.copyWith(
+              // fontSize: 20
+          ),
           decoration: InputDecoration(
             suffixIcon: Visibility(
               visible: visible ?? true,
@@ -48,7 +51,7 @@ class RoundedInputField extends StatelessWidget {
     }
     else {
       return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: 5),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         width: size.width * 0.8,
         decoration: BoxDecoration(
@@ -58,7 +61,7 @@ class RoundedInputField extends StatelessWidget {
         child: TextField(
           textAlign: TextAlign.end,
           style: PersianFonts.Shabnam.copyWith(
-              fontSize: 20
+              // fontSize: 20
           ),
           onChanged: onChanged,
           cursorColor: kPrimaryColor,

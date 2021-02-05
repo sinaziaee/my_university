@@ -40,7 +40,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
     setState(() {});
   }
 
-  String firstName = '', lastName = '', email = '', sid = '', password = '';
+  String firstName = '', lastName = '', email = '', sid = '', password = '', username = '';
   bool showSpinner = false;
 
   @override
@@ -88,8 +88,9 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                           SizedBox(height: size.height * 0.03),
                           SvgPicture.asset(
                             "assets/icons/signup.svg",
-                            height: size.height * 0.35,
+                            height: size.height * 0.25,
                           ),
+                          SizedBox(height: size.height * 0.01),
                           RoundedInputField(
                             hintText: "آدرس ایمیل",
                             onChanged: (value) {
@@ -104,18 +105,23 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                             },
                             icon: Icons.format_italic,
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 30,
-                            ),
+                          RoundedInputField(
+                            hintText: "نام کاربری",
+                            onChanged: (value) {
+                              username = value;
+                            },
+                            icon: Icons.person,
+                          ),
+                          Container(
+                            width: size.width * 0.8,
                             child: Row(
                               children: [
                                 Expanded(
                                   child: RoundedInputField(
                                     visible: false,
-                                    hintText: "نام",
+                                    hintText: "نام خانوادگی",
                                     onChanged: (value) {
-                                      firstName = value;
+                                      lastName = value;
                                     },
                                     icon: Icons.person,
                                   ),
@@ -126,9 +132,9 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                                 Expanded(
                                   child: RoundedInputField(
                                     visible: false,
-                                    hintText: "نام خانوادگی",
+                                    hintText: "نام",
                                     onChanged: (value) {
-                                      lastName = value;
+                                      firstName = value;
                                     },
                                     icon: Icons.person,
                                   ),
@@ -187,6 +193,10 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
       _showDialog(context, 'فرمت شماره دانشجویی اشتباه است');
       return;
     }
+    if (username.length == 0) {
+      _showDialog(context, 'لطفا نام کاربری را وارد کنید');
+      return;
+    }
     try {
       int.parse(sid);
     } catch (e) {
@@ -210,17 +220,14 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   }
 
   post(String url, BuildContext context) async {
-    Random random = Random();
+    // Random random = Random();
     Map data = {
       'first_name': firstName.trim(),
       'last_name': lastName.trim(),
       'email': email.trim(),
       'password': password.trim(),
       'student_id': int.parse(sid.trim()),
-      'username': firstName.trim() +
-          ' ' +
-          lastName.trim() +
-          random.nextInt(9999999).toString(),
+      'username': username.trim(),
       'mobile_number': 091000000000,
       'role': 'student',
     };
@@ -321,7 +328,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
         context: context,
         dialogType: DialogType.ERROR,
         animType: AnimType.RIGHSLIDE,
-        headerAnimationLoop: false,
+        headerAnimationLoop: true,
         title: 'خطا',
         desc: message,
         btnOkOnPress: () {},

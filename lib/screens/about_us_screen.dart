@@ -45,13 +45,29 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'تیم محبوب و مجرب Developer برترین تیم حوزه ی IT در بیست ودومین نمایگاه IT کشوری به انتخاب معاونت علمی و فرهنگی ریاست جمهوری',
+                'تیم فنی توسعه دهنده',
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
                 style: kDescriptionStyle.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18
+                    color: Colors.black,
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 18
+                ),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.015,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                'Develover',
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.center,
+                style: kDescriptionStyle.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20
                 ),
               ),
             ),
@@ -64,13 +80,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 AboutItem(
                   size: size,
                   name: 'سید محمد مهدی رضوی',
-                  skills: 'FrontEnd Developer',
+                  skills: 'Front-End Developer',
                   path: 'assets/profile/seyyed.jpg',
                 ),
                 AboutItem(
                   size: size,
                   name: 'مهدی آراسته فرد',
-                  skills: 'FrontEnd Developer',
+                  skills: 'Front-End Developer',
                   path: 'assets/profile/mahdi.PNG',
                 ),
               ],
@@ -84,14 +100,14 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 AboutItem(
                   size: size,
                   name: 'سینا ضیایی',
-                  skills: 'Full Stack Developer',
+                  skills: 'Full-Stack Developer',
                   path: 'assets/profile/sina.jpg',
                 ),
                 AboutItem(
                   size: size,
                   name: 'دانیال بازمانده',
                   path: 'assets/profile/dani.jpg',
-                  skills: 'BackEnd Developer',
+                  skills: 'Back-End Developer',
                 ),
               ],
             ),
