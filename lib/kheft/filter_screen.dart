@@ -95,6 +95,7 @@ class _FilterScreenState extends State<FilterScreen> {
                         print(searchController.text);
                       },
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(bottom: 22.5, left: 5, right: 5),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                             borderSide: BorderSide.none),
@@ -186,7 +187,9 @@ class _FilterScreenState extends State<FilterScreen> {
                             child: TextField(
                               keyboardType: TextInputType.number,
                               controller: minController,
+                              textAlign: TextAlign.center,
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(bottom: 22.5, left: 5, right: 5),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -226,6 +229,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             child: TextField(
                               keyboardType: TextInputType.number,
                               controller: maxController,
+                              textAlign: TextAlign.center,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),

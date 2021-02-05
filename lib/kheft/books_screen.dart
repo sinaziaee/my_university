@@ -47,8 +47,11 @@ class _BooksScreenState extends State<BooksScreen> {
     url = stockUrl;
   }
 
+  FocusNode node;
+
   @override
   Widget build(BuildContext context) {
+    node = FocusScope.of(context);
     _navigateToFilterScreen(BuildContext context) async {
       var result =
           await Navigator.pushNamed(context, FilterScreen.id, arguments: {
@@ -156,6 +159,7 @@ class _BooksScreenState extends State<BooksScreen> {
               ),
             ),
             child: Column(
+              // mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   decoration: BoxDecoration(
@@ -195,11 +199,12 @@ class _BooksScreenState extends State<BooksScreen> {
                         ),
                       ),
                       Expanded(
-                        child: TextField(
+                        child: TextFormField(
                           onChanged: (val) {
                             search = val;
                             onChanged();
                           },
+                          onEditingComplete:  () => node.unfocus(),
                           controller: controller,
                           cursorColor: Colors.black,
                           keyboardType: TextInputType.text,
@@ -209,7 +214,7 @@ class _BooksScreenState extends State<BooksScreen> {
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
+                              EdgeInsets.symmetric(horizontal: 15),
                               hintText: "جستجو"),
                         ),
                       ),
@@ -257,8 +262,8 @@ class _BooksScreenState extends State<BooksScreen> {
                                             // print(utf8.decode(response.bodyBytes));
                                             // List<Map> jsonResponse = convert.jsonDecode(response.body);
                                             var jsonResponse =
-                                                convert.jsonDecode(utf8.decode(
-                                                    response.bodyBytes));
+                                            convert.jsonDecode(utf8.decode(
+                                                response.bodyBytes));
                                             List<Map> mapList = [];
                                             // print(jsonResponse);
                                             // if (jsonResponse['detail'] != null) {
@@ -278,26 +283,28 @@ class _BooksScreenState extends State<BooksScreen> {
                                             }
                                             if (count == 0) {
                                               return Container(
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          120, 100, 120, 20),
-                                                      child: Image(
-                                                          image: AssetImage(
-                                                              "assets/images/book2.png")),
-                                                    ),
-                                                    Center(
-                                                      child: Text(
-                                                        'کتابی برای فروش موجود نیست',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            fontSize: 17),
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                            120, 100, 120, 20),
+                                                        child: Image(
+                                                            image: AssetImage(
+                                                                "assets/images/book2.png")),
                                                       ),
-                                                    ),
-                                                  ],
+                                                      Center(
+                                                        child: Text(
+                                                          'کتابی برای فروش موجود نیست',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                              FontWeight.w700,
+                                                              fontSize: 17),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               );
                                             }
@@ -311,13 +318,13 @@ class _BooksScreenState extends State<BooksScreen> {
                                                       token,
                                                       mapList[index]['seller'],
                                                       mapList[index]
-                                                          ['seller_username'],
+                                                      ['seller_username'],
                                                       mapList[index]['book_id'],
                                                     );
                                                   },
                                                   url: (mapList[index]
-                                                              ['image'] !=
-                                                          null)
+                                                  ['image'] !=
+                                                      null)
                                                       ? '$baseUrl/media/${mapList[index]['image']}'
                                                       : '',
                                                   cost: mapList[index]['price']
@@ -325,17 +332,17 @@ class _BooksScreenState extends State<BooksScreen> {
                                                   name: mapList[index]['name']
                                                       .toString(),
                                                   author: mapList[index]
-                                                          ['author']
+                                                  ['author']
                                                       .toString(),
                                                   timeStamp: mapList[index]
-                                                          ['upload']
+                                                  ['upload']
                                                       .toString()
                                                       .substring(10, 16),
                                                   publisher: mapList[index]
-                                                          ['faculty']
+                                                  ['faculty']
                                                       .toString(),
                                                   faculty: mapList[index]
-                                                          ['faculty']
+                                                  ['faculty']
                                                       .toString(),
                                                 );
                                               },
@@ -350,7 +357,7 @@ class _BooksScreenState extends State<BooksScreen> {
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              MainAxisAlignment.center,
                                               children: [
                                                 Image.asset(
                                                     'assets/images/not_found.png',

@@ -447,7 +447,9 @@ class _ProductPageState extends State<ProductPage> {
         'stock_id': stock_id,
       }),
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: token,
+        "Accept": "application/json",
+        "content-type": "application/json",
       },
     );
     var jsonResponse = convert.jsonDecode(utf8.decode(response.bodyBytes));
