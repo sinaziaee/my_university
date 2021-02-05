@@ -1,11 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:my_university/components/already_have_an_account_acheck.dart';
 import 'package:my_university/components/rounded_button.dart';
 import 'package:my_university/components/rounded_input_field.dart';
 import 'package:my_university/components/rounded_password_field.dart';
-import 'package:my_university/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:persian_fonts/persian_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../constants.dart';
 import 'email_verfication_screen.dart';
 import 'login_screen.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +29,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   bool isObscured = true;
   int count = 0;
   Color color = kPrimaryColor;
+  FocusNode node;
 
   onEyePressed() {
     if (isObscured) {
@@ -34,12 +41,13 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
     setState(() {});
   }
 
-  String firstName = '', lastName = '', email = '', sid = '', password = '';
+  String firstName = '', lastName = '', email = '', sid = '', password = '', username = '';
   bool showSpinner = false;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    node = FocusScope.of(context);
     return Scaffold(
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -69,87 +77,102 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
                       width: size.width * 0.25,
                     ),
                   ),
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "SIGNUP",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: size.height * 0.03),
-                        SvgPicture.asset(
-                          "assets/icons/signup.svg",
-                          height: size.height * 0.35,
-                        ),
-                        RoundedInputField(
-                          hintText: "Your Email",
-                          onChanged: (value) {
-                            email = value;
-                          },
-                          icon: Icons.email,
-                        ),
-                        RoundedInputField(
-                          hintText: "Your Student ID",
-                          onChanged: (value) {
-                            sid = value;
-                          },
-                          icon: Icons.format_italic,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 30,
+                  SafeArea(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "ثبت نام کاربران",
+                            style: PersianFonts.Shabnam.copyWith(
+                                color: kPrimaryColor, fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: RoundedInputField(
-                                  visible: false,
-                                  hintText: "First Name",
-                                  onChanged: (value) {
-                                    firstName = value;
-                                  },
-                                  icon: Icons.person,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: RoundedInputField(
-                                  visible: false,
-                                  hintText: "Last Name",
-                                  onChanged: (value) {
-                                    lastName = value;
-                                  },
-                                  icon: Icons.person,
-                                ),
-                              ),
-                            ],
+                          SizedBox(height: size.height * 0.03),
+                          SvgPicture.asset(
+                            "assets/icons/signup.svg",
+                            height: size.height * 0.25,
                           ),
-                        ),
-                        RoundedPasswordField(
-                          isObscured: isObscured,
-                          onPressed: onEyePressed,
-                          onChanged: (value) {
-                            password = value;
-                          },
-                        ),
-                        RoundedButton(
-                          color: color,
-                          text: "SIGNUP",
-                          press: () {
-                            checkValidation(context);
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.03),
-                        AlreadyHaveAnAccountCheck(
-                          login: false,
-                          press: () {
-                            Navigator.popAndPushNamed(context, LoginScreen.id);
-                          },
-                        ),
-                      ],
+                          SizedBox(height: size.height * 0.01),
+                          RoundedInputField(
+                            hintText: "آدرس ایمیل",
+                            onChanged: (value) {
+                              email = value;
+                            },
+                            node: node,
+                            icon: Icons.email,
+                          ),
+                          RoundedInputField(
+                            hintText: "شماره دانشجویی",
+                            onChanged: (value) {
+                              sid = value;
+                            },
+                            node: node,
+                            icon: Icons.format_italic,
+                          ),
+                          RoundedInputField(
+                            hintText: "نام کاربری",
+                            onChanged: (value) {
+                              username = value;
+                            },
+                            node: node,
+                            icon: Icons.person,
+                          ),
+                          Container(
+                            width: size.width * 0.8,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: RoundedInputField(
+                                    visible: false,
+                                    hintText: "نام خانوادگی",
+                                    onChanged: (value) {
+                                      lastName = value;
+                                    },
+                                    node: node,
+                                    icon: Icons.person,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: RoundedInputField(
+                                    visible: false,
+                                    hintText: "نام",
+                                    onChanged: (value) {
+                                      firstName = value;
+                                    },
+                                    node: node,
+                                    icon: Icons.person,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          RoundedPasswordField(
+                            isObscured: isObscured,
+                            onPressed: onEyePressed,
+                            node: node,
+                            onChanged: (value) {
+                              password = value;
+                            },
+                          ),
+                          RoundedButton(
+                            color: color,
+                            text: "ثبت نام",
+                            press: () {
+                              checkValidation(context);
+                            },
+                          ),
+                          SizedBox(height: size.height * 0.03),
+                          AlreadyHaveAnAccountCheck(
+                            login: false,
+                            press: () {
+                              Navigator.popAndPushNamed(context, LoginScreen.id);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -163,37 +186,33 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
 
   checkValidation(BuildContext context) async {
     if (email.length == 0) {
-      _showDialog(context, 'fill email');
+      _showDialog(context, 'لطفا آدرس ایمیل را وارد کنید');
       return;
     }
     if (firstName.length == 0) {
-      _showDialog(context, 'fill first name');
+      _showDialog(context, 'لطفا نام را وارد کنید');
       return;
     }
     if (lastName.length == 0) {
-      _showDialog(context, 'fill last name');
+      _showDialog(context, 'لطفا نام خانوادگی را وارد کنید');
       return;
     }
-    if(sid.length != 8) {
-      _showDialog(context, 'Bad student ID format');
+    if (sid.length != 8) {
+      _showDialog(context, 'فرمت شماره دانشجویی اشتباه است');
       return;
     }
-    try{
-      int.parse(sid);
-    }
-    catch(e){
-      _showDialog(context, 'Bad student ID format');
+    if (username.length == 0) {
+      _showDialog(context, 'لطفا نام کاربری را وارد کنید');
       return;
     }
     try {
       int.parse(sid);
     } catch (e) {
-      print('My Error: $e');
-      _showDialog(context, 'bad Student number format');
+      _showDialog(context, 'فرمت شماره دانشجویی اشتباه است');
       return;
     }
     if (password.length == 0) {
-      _showDialog(context, 'fill password');
+      _showDialog(context, 'لطفا رمز عبور را وارد کنید');
       return;
     }
     count++;
@@ -204,41 +223,74 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
       setState(() {
         color = Colors.grey[400];
       });
-      String baseUrl = 'http://danibazi9.pythonanywhere.com/';
       post(baseUrl, context);
     }
   }
 
   post(String url, BuildContext context) async {
+    // Random random = Random();
     Map data = {
       'first_name': firstName.trim(),
       'last_name': lastName.trim(),
       'email': email.trim(),
       'password': password.trim(),
       'student_id': int.parse(sid.trim()),
+      'username': username.trim(),
+      'mobile_number': 091000000000,
+      'role': 'student',
     };
     try {
-      http.Response result = await http.post('$url/api/users-list/',
-          body: convert.json.encode(data),
-          headers: {
-            "Accept": "application/json",
-            "content-type": "application/json"
-          });
+      http.Response result = await http.post(
+        '$url/api/account/register',
+        body: convert.json.encode(data),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
+      );
       if (result.statusCode == 201) {
-        http.Response codeResult = await http.get('$url/api/send-email/$sid');
+        Map jsonBody = convert.jsonDecode(convert.utf8.decode(result.bodyBytes));
+        print(jsonBody);
+        http.Response codeResult = await http.get('$url/api/account/send-email',
+            headers: {
+              HttpHeaders.authorizationHeader: 'Token ' + jsonBody['token']
+            });
         if (codeResult.statusCode == 200) {
           // _showSnackBar(context, 'A verification code is sent to your email');
-          var jsonResponse = convert.jsonDecode(codeResult.body);
+          var jsonResponse = convert.jsonDecode(convert.utf8.decode(codeResult.bodyBytes));
           print(jsonResponse['vc_code']);
           RegisterationScreen.theCode = jsonResponse['vc_code'];
+          print('******************');
+          String username = jsonBody['username'];
+          String first_name = jsonBody['first_name'];
+          String last_name = jsonBody['last_name'];
+          String email = jsonBody['email'];
+          int user_id = jsonBody['user_id'];
+          String token = jsonBody['token'];
+          String image = jsonBody['image'];
+          String phone = jsonBody['mobile_number'];
+          print(token);
+          // await addStringToSF(token, user_id, username, first_name, last_name, image);
           setState(() {
             showSpinner = false;
           });
           Navigator.pushNamed(context, EmailVerificationScreen.id, arguments: {
             'sid': sid,
+            'user_id': user_id,
+            'token': username,
+            'email': email,
+            'first_name': first_name,
+            'last_name': last_name,
+            'username': username,
+            'phone': phone,
+            'image': image,
           });
         } else {
-          _showDialog(context, 'failed to send email');
+          resetCounter();
+          _showDialog(context, 'در ارسال کد تاییدیه مشکلی پیش آمد');
+          setState(() {
+            showSpinner = false;
+          });
           print(codeResult.statusCode);
           print(codeResult.body);
         }
@@ -247,17 +299,19 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
           showSpinner = false;
         });
         resetCounter();
-        _showDialog(context, 'Please insert an academic email');
+        print(result.body.toString());
+        _showDialog(context, 'لطفا ایمیل دانشکده ای وارد کنید');
       } else if (result.statusCode == 500) {
         setState(() {
           showSpinner = false;
         });
         resetCounter();
-        _showDialog(context, 'This email is used by another user');
+        _showDialog(context, 'ایمیل وارد شده توسط شخص دیگری استفاده می شود');
       } else {
         setState(() {
           showSpinner = false;
         });
+        resetCounter();
         _showDialog(context, result.body);
         print(result.statusCode);
         print(result.body);
@@ -265,7 +319,7 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
     } catch (e) {
       showSpinner = false;
       resetCounter();
-      _showDialog(context, 'There is a problem with host');
+      _showDialog(context, 'مشکلی از سمت سرور وجود دارد');
       print("My Error: $e");
     }
   }
@@ -278,80 +332,16 @@ class _RegisterationScreenState extends State<RegisterationScreen> {
   }
 
   _showDialog(BuildContext context, String message) {
-    // Scaffold.of(context).showSnackBar(
-    //   SnackBar(
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.only(
-    //         topRight: Radius.circular(20),
-    //         topLeft: Radius.circular(20),
-    //       ),
-    //     ),
-    //     backgroundColor: Colors.red[400],
-    //     content: Container(
-    //       height: 40,
-    //       child: Center(
-    //         child: Text(
-    //           message,
-    //           style: TextStyle(fontSize: 30),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
-    AlertDialog dialog = AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 20,),
-          Text(message, style: TextStyle(fontSize: 20),),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: Text('Done!'),
-          //     ),
-          //   ],
-          // ),
-          FlatButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Done!', style: TextStyle(color: kPrimaryColor),),
-          ),
-        ],
-      ),
-    );
-    showDialog(context: context, child: dialog);
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: true,
+        title: 'خطا',
+        desc: message,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.cancel,
+        btnOkColor: Colors.red)..show();
   }
 
-//   _showDialog(String message) {
-//     AlertDialog dialog = AlertDialog(
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(20),
-//       ),
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           SizedBox(height: 20,),
-//           Text(message, style: TextStyle(fontSize: 25),),
-//           // Row(
-//           //   children: [
-//           //     Expanded(
-//           //       child: Text('Done!'),
-//           //     ),
-//           //   ],
-//           // ),
-//           FlatButton(
-//             onPressed: () {
-//               Navigator.pop(context);
-//             },
-//             child: Text('Done!', style: TextStyle(color: kPrimaryColor),),
-//           ),
-//         ],
-//       ),
-//     );
-//     showDialog(context: context, child: dialog);
-//   }
 }

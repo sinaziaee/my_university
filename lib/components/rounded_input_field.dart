@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 import '../constants.dart';
 
@@ -7,12 +8,14 @@ class RoundedInputField extends StatelessWidget {
   final bool visible;
   final IconData icon;
   final ValueChanged<String> onChanged;
+  final FocusNode node;
   const RoundedInputField({
     Key key,
     this.hintText,
     this.visible,
     this.icon,
     this.onChanged,
+    @required this.node,
   }) : super(key: key);
 
   @override
@@ -20,18 +23,23 @@ class RoundedInputField extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     if(visible == null){
       return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: 5),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         width: size.width * 0.8,
         decoration: BoxDecoration(
           color: kPrimaryLightColor,
           borderRadius: BorderRadius.circular(29),
         ),
-        child: TextField(
+        child: TextFormField(
           onChanged: onChanged,
           cursorColor: kPrimaryColor,
+          textAlign: TextAlign.end,
+          style: PersianFonts.Shabnam.copyWith(
+              // fontSize: 20
+          ),
+          onEditingComplete: () => node.nextFocus(), // Move focus to next
           decoration: InputDecoration(
-            icon: Visibility(
+            suffixIcon: Visibility(
               visible: visible ?? true,
               child: Icon(
                 this.icon ?? Icons.person,
@@ -46,7 +54,7 @@ class RoundedInputField extends StatelessWidget {
     }
     else {
       return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: 5),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         width: size.width * 0.8,
         decoration: BoxDecoration(
@@ -54,6 +62,11 @@ class RoundedInputField extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: TextField(
+          textAlign: TextAlign.end,
+          style: PersianFonts.Shabnam.copyWith(
+              // fontSize: 20
+          ),
+          onEditingComplete: () => node.nextFocus(), // Move focus to next
           onChanged: onChanged,
           cursorColor: kPrimaryColor,
           decoration: InputDecoration(

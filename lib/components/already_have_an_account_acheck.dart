@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 import '../constants.dart';
 
@@ -16,20 +17,22 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          login ? "Don’t have an Account ? " : "Already have an Account ? ",
-          style: TextStyle(color: kPrimaryColor),
-        ),
         GestureDetector(
           onTap: press,
           child: Text(
-            login ? "Sign Up" : "Sign In",
-            style: TextStyle(
-              color: kPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
+            login ? "ثبت نام" : "ورود",
+            style: PersianFonts.Shabnam.copyWith(
+                color: kPrimaryColor, fontSize: 20, fontWeight: FontWeight.bold),
           ),
-        )
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text(
+          login ? "تاکنون ثبت نام نکرده اید؟" : "حساب کاربری دارید؟",
+          style: PersianFonts.Shabnam.copyWith(
+              color: kPrimaryColor),
+        ),
       ],
     );
   }

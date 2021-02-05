@@ -32,6 +32,27 @@ dependencies:
   http: ^0.12.2
   modal_progress_hud: ^0.1.3
   font_awesome_flutter: ^8.10.0
+  shared_preferences: ^0.5.12+4
+  web_socket_channel: ^1.1.0
+  image_picker: ^0.6.7+7
+  image_cropper: ^1.3.1
+  dio: ^3.0.10
+  google_fonts: ^1.1.1
+  bottom_navy_bar: ^5.4.0
+  intl: ^0.16.1
+  flutter_picker: ^1.1.5
+  persian_fonts: ^1.0.2
+  jalali_calendar: ^1.0.3+1
+#  shamsi_date: ^0.9.1
+  persian_number_utility: ^0.2.6
+  flutter_spinkit: ^4.1.2+1
+  persian_datetime_picker: ^1.0.3+1
+  flutter_tindercard: ^0.2.0
+  curved_navigation_bar: ^0.3.7
+  awesome_dialog: ^1.3.0
+  android_intent: ^0.3.7+7
+  bottom_sheet: ^0.0.1-dev.7
+  awesome_card: ^1.1.0
 
 
 
@@ -55,6 +76,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/
+    - assets/profile/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -67,10 +90,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+   - family: Lemonada
+     fonts:
+       - asset: fonts/Lemonada-SemiBold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

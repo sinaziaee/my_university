@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:my_university/components/rounded_button.dart';
 import 'package:my_university/screens/login_screen.dart';
-import 'package:my_university/screens/registeration_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../constants.dart';
+import 'registeration_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome_screen';

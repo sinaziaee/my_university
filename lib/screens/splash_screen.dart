@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:my_university/components/default_button.dart';
 import 'package:my_university/components/splash_content.dart';
+import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../size_config.dart';
