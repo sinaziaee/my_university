@@ -327,7 +327,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                 textDirection: TextDirection.rtl,
                                 controller: nameController,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(bottom: 22.5),
+                                  contentPadding: EdgeInsets.only(bottom: 22.5, left: 10, right: 10),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -345,7 +345,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                 controller: publisherController,
                                 textAlign: TextAlign.right,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(bottom: 22.5),
+                                  contentPadding: EdgeInsets.only(bottom: 22.5, left: 10, right: 10),
                                   hintText: 'نام ناشر',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
@@ -364,7 +364,7 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                 controller: authorController,
                                 textAlign: TextAlign.right,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(bottom: 22.5),
+                                  contentPadding: EdgeInsets.only(bottom: 22.5, left: 10, right: 10),
                                   hintText: 'نام نویسنده',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
@@ -467,7 +467,6 @@ class _NewBookScreenState extends State<NewBookScreen> {
                               maxLines: 40,
                               controller: descriptionController,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(bottom: 22.5),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -488,8 +487,9 @@ class _NewBookScreenState extends State<NewBookScreen> {
                                   child: TextField(
                                     controller: priceController,
                                     keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
                                     decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(bottom: 20),
+                                      contentPadding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),

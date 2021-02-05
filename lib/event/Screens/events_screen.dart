@@ -35,7 +35,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
       token,
       eventDemandUrl = '$baseUrl/api/event/user/register/',
       myEventsUrl = '$baseUrl/api/event/user/register/',
-      cultureDeputiesUrl = '$baseUrl/api/event/user/cuture_deputies';
+      cultureDeputiesUrl = '$baseUrl/api/event/user/culture-deputies/';
   CardController controller; //Use this to trigger swap.
   Map args;
   int _page = 0;
@@ -238,10 +238,6 @@ class _AllEventsScreenState extends State<AllEventsScreen>
               ),
             ),
 
-            SizedBox(
-              height: 20,
-            ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -364,21 +360,21 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                   ),
                 ),
                 child: Container(
-                  height: (imageFile != null) ? 150 : 100,
-                  width: (imageFile != null) ? 150 : 100,
+                  // height: (imageFile != null) ? 200 : 100,
+                  width: (imageFile != null) ? 300 : 100,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (imageFile != null) ...[
                         Image.file(
                           imageFile,
-                          width: 150,
-                          height: 150,
+                          width: 300,
                           fit: BoxFit.cover,
                         ),
                         // Uploader(file: _imageFile),
                       ] else ...[
                         Image(
-                          width: 100,
+                          width: 200,
                           height: 100,
                           fit: BoxFit.cover,
                           image: AssetImage('assets/images/add_image.png'),
@@ -894,7 +890,8 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                               ),
                               FlatButton(
                                 onPressed: () {
-                                  // tryingToParticipate(false, mapList[index]);
+                                  tryingToParticipate(
+                                      false, mapList[index]['event_id']);
                                   controller.triggerLeft();
                                 },
                                 padding: EdgeInsets.symmetric(
@@ -1043,7 +1040,7 @@ class _AllEventsScreenState extends State<AllEventsScreen>
               mapList.add(map);
             }
             if (eventCount == 0) {
-              return errorWidget('ایوندی وجود ندارد.');
+              return errorWidget('رویدادی وجود ندارد.');
             }
             return Stack(
               children: [
@@ -1439,8 +1436,9 @@ class _AllEventsScreenState extends State<AllEventsScreen>
             'cost': int.parse(priceController.text),
             'capacity': int.parse(capacity.text),
             'hold_type': eventType,
-            'start_time': begin_json.toString(),
-            'end_time': end_json.toString(),
+            'culture_deputy_id': cultureDeputyId,
+            'start_time': '${begin_json.toString()}:00',
+            'end_time': '${end_json.toString()}:00',
             'location': location.text,
             'description': descriptionController.text,
             'filename': imageFile.path.split('/').last,
@@ -1476,10 +1474,12 @@ class _AllEventsScreenState extends State<AllEventsScreen>
       print(response.statusCode);
 
       if (response.statusCode >= 400) {
+        print('================================================');
         print(response.body);
+        print('================================================');
         discuss(context, "متاسفانه مشکلی پیش آمد.");
       } else {
-        success(context, "رویداد اضافه شد");
+        success(context, "رویداد به کارتابل معاونت مربوطه فرستاده شد");
       }
       setState(() {
         showSpinner = false;
@@ -1573,11 +1573,13 @@ class _AllEventsScreenState extends State<AllEventsScreen>
   }
 
   void _showCultureDeputySelectionDialog() async {
+    print('11111111111111111111111111111111111');
     http.Response response = await http.get(cultureDeputiesUrl,
         headers: {HttpHeaders.authorizationHeader: token});
+    print(response.body);
     var jsonResponse =
         convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-    print('*****************************');
+    print('==================================================================================================================');
     print(jsonResponse);
     List<Map> mapList = [];
     int count = 0;
@@ -1609,7 +1611,8 @@ class _AllEventsScreenState extends State<AllEventsScreen>
               itemCount: count,
               itemBuilder: (context, index) {
                 return Container(
-                  width: 200,
+                  width: 230,
+                  margin: EdgeInsets.symmetric(vertical: 5),
                   child: Material(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -1619,16 +1622,31 @@ class _AllEventsScreenState extends State<AllEventsScreen>
                       borderRadius: BorderRadius.circular(10),
                       highlightColor: Colors.transparent,
                       onTap: () {
-                        cultureDeputyId = mapList[index]['culture_deputy_id'];
+                        cultureDeputyId = mapList[index]['id'];
                         setState(() {
-                          cultureDeputy = mapList[index]['culture_deputy_name'];
+                          cultureDeputy = mapList[index]['faculty'];
                         });
                         Navigator.pop(context);
                       },
-                      child: Text(
-                        mapList[index]['culture_deputy_name'],
-                        style: PersianFonts.Shabnam.copyWith(
-                          fontSize: 20,
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              '${mapList[index]['first_name']} ${mapList[index]['last_name']}',
+                              textAlign: TextAlign.center,
+                              style: PersianFonts.Shabnam.copyWith(
+                                fontSize: 17,
+                              ),
+                            ),
+                            Text(
+                              'معاونت فرهنگی ${mapList[index]['faculty']}',
+                              textAlign: TextAlign.center,
+                              textDirection: TextDirection.rtl,
+                              style: PersianFonts.Shabnam.copyWith(
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

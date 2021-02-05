@@ -17,11 +17,6 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          login ? "تاکنون ثبت نام نکرده اید ؟" : "اکانت دارد ؟",
-          style: PersianFonts.Shabnam.copyWith(
-              color: kPrimaryColor),
-        ),
         GestureDetector(
           onTap: press,
           child: Text(
@@ -29,7 +24,15 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
             style: PersianFonts.Shabnam.copyWith(
                 color: kPrimaryColor, fontSize: 20, fontWeight: FontWeight.bold),
           ),
-        )
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text(
+          login ? "تاکنون ثبت نام نکرده اید؟" : "حساب کاربری دارید؟",
+          style: PersianFonts.Shabnam.copyWith(
+              color: kPrimaryColor),
+        ),
       ],
     );
   }

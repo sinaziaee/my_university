@@ -269,7 +269,7 @@ class DeliveryTab extends StatelessWidget {
                             return Container(
                               child: GridView.builder(
                                 itemCount: foodcount,
-                                reverse: true,
+                                reverse: false,
                                 shrinkWrap: true,
                                 physics: ScrollPhysics(),
                                 scrollDirection: Axis.vertical,

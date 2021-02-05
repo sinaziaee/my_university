@@ -14,7 +14,7 @@ class ChatScreen extends StatelessWidget {
   Map args;
   static String id = 'chat_screen';
 
-  String firstName, lastName;
+  String firstName, lastName, image;
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +25,24 @@ class ChatScreen extends StatelessWidget {
     myUsername = args['username'];
     currentUserId = args['user_id'];
     otherUsername = args['other_username'];
+    image = args['image'];
     print('room: $room');
     print('username: $myUsername');
     final title = otherUsername;
     // getData();
     // return Scaffold();
     return MyHomePage(
-      title: '$titleگفتگو با ',
-      channel: IOWebSocketChannel.connect(
-          'ws://172.17.3.157:5000/ws/chat/$room/'),
+      title: 'گفتگو با $title',
+      channel:
+          IOWebSocketChannel.connect('ws://172.17.3.157:5000/ws/chat/$room/'),
+      image: image,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   final String title;
+  final String image;
   final WebSocketChannel channel;
   final int currentUserId;
 
@@ -49,6 +52,7 @@ class MyHomePage extends StatefulWidget {
       {Key key,
       @required this.title,
       @required this.channel,
+        @required this.image,
       this.currentUserId})
       : super(key: key);
 
@@ -80,8 +84,24 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 5, top: 2, bottom: 2),
+          child: CircleAvatar(
+            // backgroundImage: NetworkImage(avatars[0]),
+            backgroundColor: Colors.white,
+            backgroundImage: (widget.image != null && widget.image.length != 0)
+                ? NetworkImage(
+                    '$baseUrl${widget.image}',
+                  )
+                : AssetImage('assets/images/unkown.png'),
+          ),
+        ),
         backgroundColor: Colors.purple.shade300,
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          textDirection: TextDirection.rtl,
+          style: TextStyle(),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.chevron_right),
@@ -177,6 +197,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
+            // Container(
+            //   height: 50,
+            //   child: TextField(
+            //     controller: _controller,
+            //     decoration: InputDecoration(
+            //       contentPadding: EdgeInsets.only(
+            //         bottom: 25,
+            //         left: 10,
+            //         right: 10
+            //       ),
+            //       // suffix: IconButton(
+            //       //   icon: Icon(
+            //       //     Icons.send,
+            //       //     size: 30,
+            //       //     color: Colors.purple.shade300,
+            //       //   ),
+            //       //   onPressed: () {
+            //       //     _sendMessage();
+            //       //   },
+            //       // ),
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(10)),
+            //     ),
+            //   ),
+            // ),
             Row(
               children: [
                 Expanded(
@@ -185,8 +230,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.only(bottom: 25, left: 10, right: 10),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(width: 1, style: BorderStyle.solid),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: kPrimaryColor,
+                              width: 2,
+                              style: BorderStyle.solid),
+                        ),
                       ),
                     ),
                   ),
@@ -194,12 +251,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   margin: EdgeInsets.only(left: 5),
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.grey[200]),
+                    color: Colors.purple.shade300,
+                    shape: BoxShape.circle,
+                  ),
                   child: IconButton(
+                    color: Colors.purple.shade300,
                     icon: Icon(
                       Icons.send,
                       size: 30,
-                      color: Colors.purple.shade300,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       _sendMessage();

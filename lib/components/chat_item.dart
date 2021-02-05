@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 
 class ChatItem extends StatelessWidget {
   final Function onPressed;
-  final String username, first_username, second_username;
+  final String username, first_username, second_username, last_message, last_time_message, image;
 
   ChatItem(
-      {this.first_username, this.second_username, this.username, this.onPressed});
+      {this.first_username, this.second_username, this.username, this.onPressed, this.last_message, this.last_time_message, this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +17,22 @@ class ChatItem extends StatelessWidget {
         child: ListTile(
           onTap: onPressed,
           leading: CircleAvatar(
-            child: FadeInImage(
-              height: 40,
-              image: AssetImage('assets/images/unkown.png'),
-              placeholder: AssetImage('assets/images/unkown.png'),
-            ),
+            // child: FadeInImage(
+            //   height: 40,
+            //   image: NetworkImage(image),
+            //   placeholder: AssetImage('assets/images/unkown.png'),
+            //   fit: BoxFit.cover,
+            // ),
+            backgroundImage: (image != null) ? NetworkImage(image):AssetImage('assets/images/unkown.png'),
             radius: 40,
             backgroundColor: Colors.white,
           ),
           title: Text(
             (first_username == username) ? second_username : first_username,
           ),
-          subtitle: Text('last message'),
-          trailing: Text('last time'),
+          subtitle: Text(last_message ?? 'last message'),
+          // trailing: Text(last_time_message ?? '19:22'),
+          trailing: (last_time_message != null)?Text(last_time_message ?? '19:22'):Icon(Icons.info_rounded),
         ),
       ),
     );

@@ -102,21 +102,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
           ),
-          SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(top: 10, left: 5),
-              child: IconButton(
-                icon: Icon(
-                  Icons.clear_all,
-                  color: Colors.white,
-                  size: 40,
-                ),
-                onPressed: () {
-                  _drawerKey.currentState.openDrawer();
-                },
-              ),
-            ),
-          ),
           SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -156,9 +141,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ],
             ),
           ),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(top: 10, left: 5),
+              child: IconButton(
+                color: Colors.black,
+                icon: Icon(
+                  Icons.clear_all,
+                  color: Colors.white,
+                  size: 40,
+                ),
+                onPressed: () {
+                  _drawerKey.currentState.openDrawer();
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  bool checkIsEnglish(String str){
+    RegExp exp = new RegExp(r"[A-Za-z]+");
+    bool result = exp.hasMatch(str);
+    print(result);
+    print(str);
+    return result;
   }
 
   myDrawer() {
@@ -176,32 +185,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               height: 10,
             ),
             CircleAvatar(
-              radius: 80,
+              radius: 60,
               backgroundColor: kPrimaryColor,
               child: CircleAvatar(
-                radius: 78,
+                radius: 58,
                 backgroundColor: Colors.white,
-                child: FadeInImage(
-                  height: 126,
-                  placeholder: AssetImage('assets/images/elmoss.png'),
-                  image: (image != null)
-                      ? NetworkImage('$baseUrl$image')
-                      : AssetImage('assets/images/elmoss.png'),
-                  fit: BoxFit.cover,
-                ),
+                backgroundImage: (image != null) ? NetworkImage('$baseUrl$image'):AssetImage('assets/images/unkown.png'),
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            Text(
-              'نام: ${firstName} ${lastName}',
-              style: TextStyle(color: Colors.black),
-            ),
-            Text(
-              'ایمیل: ${email}',
-              style: TextStyle(color: Colors.black),
-            ),
+            if(checkIsEnglish('$firstName $lastName'))...[
+              Text(
+                // 'نام: ${firstName} ${lastName}',
+                'Name: $firstName $lastName',
+                style: TextStyle(color: Colors.black),
+              ),
+              Text(
+                'Email: $email',
+                style: TextStyle(color: Colors.black),
+              ),
+            ]
+            else...[
+              Text(
+                'نام: $firstName $lastName',
+                textDirection: TextDirection.rtl,
+                style: TextStyle(color: Colors.black),
+              ),
+              Text(
+                'ایمیل: $email',
+                textDirection: TextDirection.rtl,
+                style: TextStyle(color: Colors.black),
+              ),
+            ],
             SizedBox(
               height: 20,
             ),
@@ -216,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         text: 'سامانه تغذیه',
                         icon: Icons.fastfood_sharp,
                         onTap: () {
-                          onPressed(TimeScreen.id);
+                          onPressed(TimeScreen.id, true);
                         },
                       ),
                       MyListTile(
@@ -224,42 +241,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         icon: Icons.event,
                         onTap: () {
                           // onPressed(EventsScreen.id);
-                          onPressed(AllEventsScreen.id);
+                          onPressed(AllEventsScreen.id, true);
                         },
                       ),
                       MyListTile(
                         text: 'خفت کتاب',
                         icon: Icons.book,
                         onTap: () {
-                          onPressed(BooksScreen.id);
+                          onPressed(BooksScreen.id, true);
                         },
                       ),
                       MyListTile(
                         text: 'گفتگوها',
                         icon: Icons.chat,
                         onTap: () {
-                          onPressed(ChatRoomsScreen.id);
+                          onPressed(ChatRoomsScreen.id, true);
                         },
                       ),
                       MyListTile(
                         text: 'اطلاعات اساتید',
                         icon: Icons.person,
                         onTap: () {
-                          onPressed(FacultyScreen.id);
+                          onPressed(FacultyScreen.id, true);
                         },
                       ),
                       MyListTile(
                         text: 'پروفایل',
                         icon: Icons.settings,
                         onTap: () {
-                          onPressed(ProfileScreen.id);
+                          onPressed(ProfileScreen.id, true);
                         },
                       ),
                       MyListTile(
                         text: 'درباره ی ما',
                         icon: Icons.info_rounded,
                         onTap: () {
-                          onPressed(AboutUsScreen.id);
+                          onPressed(AboutUsScreen.id, true);
                         },
                       ),
                     ],
@@ -273,22 +290,67 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  void onPressed(String dest) async{
-    dynamic result = await Navigator.pushNamed(context, dest, arguments: {
-      'firstName': firstName,
-      'lastName': lastName,
-      'username': username,
-      'email': email,
-      'token': token,
-      'user_id': userId,
-      'image': image,
-    });
-    if(result != null){
-      result = result.toString().substring(8, result.toString().length-1);
-      image = result;
-      print('--------   $image   --------------');
+  void onPressed(String dest, bool fromDrawer) async{
+    print('----------------------');
+    print(dest);
+    if(fromDrawer){
+      Navigator.pop(context);
+      if(dest == ProfileScreen.id){
+        print('here');
+        Navigator.popAndPushNamed(context, dest, arguments: {
+          'firstName': firstName,
+          'lastName': lastName,
+          'username': username,
+          'email': email,
+          'token': token,
+          'user_id': userId,
+          'image': image,
+        });
+      }
+      else{
+        await Navigator.pushNamed(context, dest, arguments: {
+          'firstName': firstName,
+          'lastName': lastName,
+          'username': username,
+          'email': email,
+          'token': token,
+          'user_id': userId,
+          'image': image,
+        });
+        setState(() {});
+      }
     }
-    setState(() {});
+    else{
+      if(dest == ProfileScreen.id){
+        print('here');
+        Navigator.popAndPushNamed(context, dest, arguments: {
+          'firstName': firstName,
+          'lastName': lastName,
+          'username': username,
+          'email': email,
+          'token': token,
+          'user_id': userId,
+          'image': image,
+        });
+      }
+      else{
+        await Navigator.pushNamed(context, dest, arguments: {
+          'firstName': firstName,
+          'lastName': lastName,
+          'username': username,
+          'email': email,
+          'token': token,
+          'user_id': userId,
+          'image': image,
+        });
+        setState(() {});
+      }
+    }
+    // if(result != null){
+    //   result = result.toString().substring(8, result.toString().length-1);
+    //   image = result;
+    //   print('--------   $image   --------------');
+    // }
   }
 
   bodyContainer() {
@@ -311,13 +373,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            Navigator.pushNamed(context, BooksScreen.id,
-                                arguments: {
-                                  'token': token,
-                                  'user_id': userId,
-                                  'first_name': firstName,
-                                  'last_name': lastName,
-                                });
+                            onPressed(BooksScreen.id, false);
                           },
                           child: Container(
                             height: size.height * 0.22,
@@ -342,13 +398,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            Navigator.pushNamed(context, TimeScreen.id,
-                                arguments: {
-                                  'token': token,
-                                  'user_id': userId,
-                                  'first_name': firstName,
-                                  'last_name': lastName,
-                                });
+                            onPressed(TimeScreen.id, false);
                           },
                           child: Container(
                             height: size.height * 0.22,
@@ -378,13 +428,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            Navigator.pushNamed(context, AllEventsScreen.id,
-                                arguments: {
-                                  'token': token,
-                                  'user_id': userId,
-                                  'first_name': firstName,
-                                  'last_name': lastName,
-                                });
+                            onPressed(AllEventsScreen.id, false);
                           },
                           child: Container(
                             height: size.height * 0.22,
@@ -409,13 +453,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            Navigator.pushNamed(context, FacultyScreen.id,
-                                arguments: {
-                                  'token': token,
-                                  'user_id': userId,
-                                  'first_name': firstName,
-                                  'last_name': lastName,
-                                });
+                            onPressed(FacultyScreen.id, false);
                           },
                           child: Container(
                             height: size.height * 0.22,
@@ -445,13 +483,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            Navigator.pushNamed(context, ChatRoomsScreen.id,
-                                arguments: {
-                                  'token': token,
-                                  'user_id': userId,
-                                  'first_name': firstName,
-                                  'last_name': lastName,
-                                });
+                            onPressed(ChatRoomsScreen.id, false);
                           },
                           child: Container(
                             height: size.height * 0.22,
@@ -476,13 +508,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(20),
                           onTap: () {
-                            Navigator.pushNamed(context, ProfileScreen.id,
-                                arguments: {
-                                  'token': token,
-                                  'user_id': userId,
-                                  'first_name': firstName,
-                                  'last_name': lastName,
-                                });
+                            onPressed(ProfileScreen.id, false);
                           },
                           child: Container(
                             height: size.height * 0.22,
@@ -512,7 +538,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         context: context,
         dialogType: DialogType.WARNING,
         animType: AnimType.RIGHSLIDE,
-        headerAnimationLoop: false,
+        headerAnimationLoop: true,
         title: ' خروج از برنامه',
         desc: message,
         btnOkOnPress: () {
@@ -526,98 +552,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         btnCancelIcon: Icons.cancel,
         btnCancelColor: Colors.red)
       ..show();
-
-    // showDialog(
-    //   context: context,
-    //   child: AlertDialog(
-    //     content: Column(
-    //       mainAxisSize: MainAxisSize.min,
-    //       children: [
-    //         Padding(
-    //           padding: EdgeInsets.only(right: 10),
-    //           child: Row(
-    //             mainAxisAlignment: MainAxisAlignment.end,
-    //             children: [
-    //               Expanded(
-    //                 child: Center(
-    //                   child: Text(
-    //                     'خارج می شوید؟ ',
-    //                     textDirection: TextDirection.rtl,
-    //                     style: PersianFonts.Shabnam.copyWith(
-    //                         color: kPrimaryColor, fontSize: 20),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         SizedBox(
-    //           height: 10,
-    //         ),
-    //         Container(
-    //           height: 0.5,
-    //           width: double.infinity,
-    //           color: Colors.grey,
-    //         ),
-    //         SizedBox(
-    //           height: 10,
-    //         ),
-    //         Row(
-    //           children: [
-    //             InkWell(
-    //               onTap: () {
-    //                 logoutApp();
-    //               },
-    //               child: Padding(
-    //                 padding: EdgeInsets.only(left: 10),
-    //                 child: Row(
-    //                   mainAxisAlignment: MainAxisAlignment.end,
-    //                   children: [
-    //                     Text(
-    //                       'بله‌',
-    //                       textDirection: TextDirection.rtl,
-    //                       style: PersianFonts.Shabnam.copyWith(
-    //                           color: kPrimaryColor, fontSize: 18),
-    //                     ),
-    //                     SizedBox(
-    //                       width: 20,
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(
-    //               height: 10,
-    //             ),
-    //             InkWell(
-    //               onTap: () {
-    //                 Navigator.pop(context);
-    //               },
-    //               child: Padding(
-    //                 padding: EdgeInsets.only(left: 10),
-    //                 child: Row(
-    //                   mainAxisAlignment: MainAxisAlignment.start,
-    //                   children: [
-    //                     Text(
-    //                       'خیر',
-    //                       textDirection: TextDirection.rtl,
-    //                       textAlign: TextAlign.center,
-    //                       style: PersianFonts.Shabnam.copyWith(
-    //                           color: kPrimaryColor, fontSize: 18),
-    //                     ),
-    //                     SizedBox(
-    //                       width: 20,
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //           ],
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   void logoutApp() async {

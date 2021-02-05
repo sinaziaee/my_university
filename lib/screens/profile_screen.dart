@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+import 'home_screen.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -54,188 +55,221 @@ class _ProfileScreenState extends State<ProfileScreen> {
     size = MediaQuery.of(context).size;
     node = FocusScope.of(context);
     print('$baseUrl$image');
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Text(
-          'تنظیمات',
-          style: TextStyle(color: Colors.black),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.chevron_right),
-            onPressed: () {
-              Map map = {
-                'image':image.toString(),
-              };
-              Navigator.pop(context, map);
-            },
+    return WillPopScope(
+        child: Scaffold(
+          backgroundColor: Colors.grey.shade200,
+          appBar: AppBar(
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black),
+            backgroundColor: Colors.transparent,
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            title: Text(
+              'تنظیمات',
+              style: TextStyle(color: Colors.black),
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.chevron_right),
+                onPressed: () {
+                  Map map = {
+                    'image': image.toString(),
+                  };
+                  Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
+                    'first_name': firstName,
+                    'last_name': lastName,
+                    'username': username,
+                    'email': email,
+                    'token': token,
+                    'user_id': userId,
+                    'image': image,
+                    'phone': phone,
+                  });
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: getToken(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return ModalProgressHUD(
-              inAsyncCall: showSpinner,
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  SingleChildScrollView(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Card(
-                          elevation: 8.0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          color: Colors.purple,
-                          child: InkWell(
-                            onTap: () {
-                              _showSheet();
-                            },
-                            child: Container(
-                              height: 90,
-                              padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10,),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  // Spacer(),
-                                  CircleAvatar(
-                                    radius: 40,
-                                    // backgroundImage: NetworkImage(avatars[0]),
-                                    backgroundColor: Colors.white,
-                                    backgroundImage: (image != null && image.length != 0) ? NetworkImage(
-                                      '$baseUrl$image',
-                                    ):AssetImage('assets/images/unkown.png'),
+          body: FutureBuilder(
+            future: getToken(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.done) {
+                return ModalProgressHUD(
+                  inAsyncCall: showSpinner,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      SingleChildScrollView(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Card(
+                              elevation: 8.0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              color: Colors.purple,
+                              child: InkWell(
+                                onTap: () {
+                                  _showSheet();
+                                },
+                                child: Container(
+                                  height: 90,
+                                  padding: EdgeInsets.only(
+                                    left: 20,
+                                    right: 20,
+                                    top: 10,
+                                    bottom: 10,
                                   ),
-                                  Spacer(),
-                                  Text(
-                                    "${firstName} ${lastName}",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      // Spacer(),
+                                      CircleAvatar(
+                                        radius: 40,
+                                        // backgroundImage: NetworkImage(avatars[0]),
+                                        backgroundColor: Colors.white,
+                                        backgroundImage:
+                                            (image != null && image.length != 0)
+                                                ? NetworkImage(
+                                                    '$baseUrl$image',
+                                                  )
+                                                : AssetImage(
+                                                    'assets/images/unkown.png'),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        "${firstName} ${lastName}",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                      ),
+                                      // Spacer(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 40.0),
+                            Card(
+                              elevation: 4.0,
+                              margin: const EdgeInsets.fromLTRB(
+                                  32.0, 8.0, 32.0, 16.0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Column(
+                                children: <Widget>[
+                                  ListTile(
+                                    leading: Icon(
+                                      Icons.phone,
+                                      color: Colors.purple,
                                     ),
+                                    title: Text(
+                                        phone ?? 'شماره ی موبایلی ثبت نشده'),
+                                    // trailing: Icon(Icons.keyboard_arrow_right),
+                                    onTap: () {
+                                      //open change password
+                                    },
                                   ),
-                                  Spacer(),
-                                  Icon(
-                                    Icons.edit,
-                                    color: Colors.white,
+                                  _buildDivider(),
+                                  ListTile(
+                                    leading: Icon(
+                                      Icons.email,
+                                      color: Colors.purple,
+                                    ),
+                                    title: Text(
+                                      '${email}',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    // trailing: Icon(Icons.keyboard_arrow_right),
+                                    onTap: () {
+                                      //open change language
+                                    },
                                   ),
-                                  // Spacer(),
+                                  _buildDivider(),
+                                  ListTile(
+                                    leading: Icon(
+                                      Icons.person,
+                                      color: Colors.purple,
+                                    ),
+                                    title: Text("${username}"),
+                                    // trailing: Icon(Icons.keyboard_arrow_right),
+                                    onTap: () {
+                                      //open change location
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: -20,
+                        left: -20,
+                        child: Container(
+                          width: 80,
+                          height: 80,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.purple,
+                            shape: BoxShape.circle,
                           ),
                         ),
-                        const SizedBox(height: 40.0),
-                        Card(
-                          elevation: 4.0,
-                          margin:
-                              const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 16.0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                leading: Icon(
-                                  Icons.phone,
-                                  color: Colors.purple,
-                                ),
-                                title:
-                                    Text(phone ?? 'شماره ی موبایلی ثبت نشده'),
-                                // trailing: Icon(Icons.keyboard_arrow_right),
-                                onTap: () {
-                                  //open change password
-                                },
-                              ),
-                              _buildDivider(),
-                              ListTile(
-                                leading: Icon(
-                                  Icons.email,
-                                  color: Colors.purple,
-                                ),
-                                title: Text(
-                                  '${email}',
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                                // trailing: Icon(Icons.keyboard_arrow_right),
-                                onTap: () {
-                                  //open change language
-                                },
-                              ),
-                              _buildDivider(),
-                              ListTile(
-                                leading: Icon(
-                                  Icons.person,
-                                  color: Colors.purple,
-                                ),
-                                title: Text("${username}"),
-                                // trailing: Icon(Icons.keyboard_arrow_right),
-                                onTap: () {
-                                  //open change location
-                                },
-                              ),
-                            ],
+                      ),
+                      Positioned(
+                        bottom: 00,
+                        left: 00,
+                        child: IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.powerOff,
+                            color: Colors.white,
                           ),
+                          onPressed: () {
+                            showLogoutDialog(context, "آیا اطمینان دارید ؟");
+                          },
                         ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -20,
-                    left: -20,
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.purple,
-                        shape: BoxShape.circle,
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 00,
-                    left: 00,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.powerOff,
-                        color: Colors.white,
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Image.asset(
+                          "assets/images/login_bottom.png",
+                          width: size.width * 0.6,
+                        ),
                       ),
-                      onPressed: () {
-                        showLogoutDialog(context, "آیا اطمینان دارید ؟");
-                      },
-                    ),
+                    ],
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Image.asset(
-                      "assets/images/login_bottom.png",
-                      width: size.width * 0.6,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        ),
+        onWillPop: () async {
+          Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
+            'firstName': firstName,
+            'lastName': lastName,
+            'username': username,
+            'email': email,
+            'token': token,
+            'user_id': userId,
+            'image': image,
+            'phone': phone,
+          });
+          return false;
+        });
   }
 
   Container _buildDivider() {
@@ -273,7 +307,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void logoutApp() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
-    Navigator.pop(context);
     Navigator.popAndPushNamed(context, LoginScreen.id);
   }
 
@@ -590,8 +623,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(response.body);
       print('***************************');
       if (response.statusCode < 300) {
-        var jsonResponse = convert.jsonDecode(
-            convert.utf8.decode(response.bodyBytes));
+        var jsonResponse =
+            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         print(jsonResponse);
         Map map = jsonResponse;
         Navigator.pop(context);
@@ -615,7 +648,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  updateUserInformation(String phone, String firstName, String lastName, image) async{
+  updateUserInformation(
+      String phone, String firstName, String lastName, image) async {
     print(image);
     print(phone);
     print(firstName);

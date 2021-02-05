@@ -303,9 +303,11 @@ class _ProductPageState extends State<ProductPage> {
                                           // "Conjure Women",
                                           result['name'],
                                           style: TextStyle(
-                                            fontSize: 30,
+                                            fontSize: 25,
                                             fontWeight: FontWeight.w700,
                                           ),
+                                          textDirection: TextDirection.rtl,
+                                          textAlign: TextAlign.start,
                                         ),
                                         SizedBox(
                                           height: 8,

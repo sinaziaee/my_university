@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import '../constants.dart';
 import 'home_screen.dart';
@@ -17,6 +18,25 @@ class EmailVerificationScreen extends StatefulWidget {
       _EmailVerificationScreenState();
 }
 
+addStringToSF(String token, int user_id, String username, String first_name,
+    String phone, String last_name, String image, String email, String sid) async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('token'));
+    prefs.setString('token', 'Token $token');
+    prefs.setInt('user_id', user_id);
+    prefs.setString('username', username);
+    prefs.setString('first_name', last_name);
+    prefs.setString('last_name', first_name);
+    prefs.setString('phone', phone);
+    prefs.setString('image', image);
+    prefs.setString('email', email);
+    prefs.setString('sid', sid);
+  } catch (e) {
+    print('error: ' + e);
+  }
+}
+
 class _EmailVerificationScreenState extends State<EmailVerificationScreen>
     with SingleTickerProviderStateMixin {
   String code = '';
@@ -28,6 +48,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
   int progress = 0;
   Color color = kPrimaryColor;
   int count = 0;
+  String username, token, phone, first_name, last_name, image, email;
+  int user_id;
 
   @override
   void initState() {
@@ -56,6 +78,16 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     // _showSnackBar(context, 'A verification code is sent to your email');
     sid = arguments['sid'];
+    user_id = arguments['user_id'];
+    username = arguments['username'];
+    print(username);
+    first_name = arguments['first_name'];
+    last_name = arguments['last_name'];
+    token = arguments['token'];
+    email = arguments['email'];
+    image = arguments['image'];
+    phone = arguments['phone'];
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: ModalProgressHUD(
@@ -189,8 +221,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
       http.Response codeResult = await http.get('$url');
       if (codeResult.statusCode == 200) {
         showSpinner = false;
-        _showSnackBar(context,
-            'یک کد تایید تا سی ثانیه دیگر برای شما ایمیل خواهد شد');
+        _showSnackBar(
+            context, 'یک کد تایید تا سی ثانیه دیگر برای شما ایمیل خواهد شد');
         var jsonResponse = convert.jsonDecode(codeResult.body);
         print(jsonResponse['vc_code']);
         RegisterationScreen.theCode = jsonResponse['vc_code'];
@@ -222,15 +254,20 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen>
     if (theCode != null) {
       if (theCode == int.parse(this.code)) {
         _showSnackBar(context, 'تایید شد');
-        Future.delayed(Duration(milliseconds: 500), () {
-          Navigator.popAndPushNamed(context, HomeScreen.id);
-        });
+        navigateToHomeScreen();
       } else {
         _showSnackBar(context, 'خطا');
       }
     } else {
       _showSnackBar(context, 'کد شما منقضی شده');
     }
+  }
+
+  navigateToHomeScreen() async {
+    await addStringToSF(
+        token, user_id, username, first_name, phone, last_name, image, email, sid);
+    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, HomeScreen.id);
   }
 
   _showSnackBar(BuildContext context, String message) {

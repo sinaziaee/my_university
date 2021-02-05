@@ -14,6 +14,12 @@
       "languageVersion": "2.10"
     },
     {
+      "name": "awesome_card",
+      "rootUri": "file:///C:/Flutter%20SDK/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "awesome_dialog",
       "rootUri": "file:///C:/Flutter%20SDK/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_dialog-1.3.1",
       "packageUri": "lib/",
@@ -506,7 +512,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-02-03T12:03:49.197174Z",
+  "generated": "2021-02-04T21:16:11.316208Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
