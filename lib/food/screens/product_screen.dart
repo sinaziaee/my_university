@@ -412,6 +412,8 @@ class _ProductPageState extends State<ProductPage> {
     } else {
       http.Response result = await http.post(reportUrl,
           headers: {
+            "Accept": "application/json",
+            "content-type": "application/json",
             HttpHeaders.authorizationHeader: token,
           },
           body: convert.jsonEncode({
@@ -473,6 +475,7 @@ class _ProductPageState extends State<ProductPage> {
     http.Response response = await http.post(demandUrl,
         headers: {
           HttpHeaders.authorizationHeader: token,
+          "Accept": "application/json",
           "content-type": "application/json",
         },
         body: convert.jsonEncode({
@@ -551,7 +554,8 @@ class _ProductPageState extends State<ProductPage> {
     return http.post(
       chatUrl,
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        "Accept": "application/json",
+        "content-type": "application/json",
         HttpHeaders.authorizationHeader: token,
       },
       body: jsonEncode(<String, int>{

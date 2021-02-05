@@ -106,7 +106,9 @@ class _TradeScreenState extends State<TradeScreen> {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   http.Response response = snapshot.data;
-
+                  print('------------------------------------------------------------------------------------');
+                  print(response.statusCode);
+                  print(response.body);
                   Map result = convert
                       .jsonDecode(convert.utf8.decode(response.bodyBytes));
                   // if (isVisible == null && result['seller_username'] == username){
@@ -459,6 +461,7 @@ class _TradeScreenState extends State<TradeScreen> {
       http.Response result = await http.post('$reportUrl/?tradeID=$tradeId',
           headers: {
             HttpHeaders.authorizationHeader: token,
+            "Accept": "application/json",
             "content-type": "application/json",
           },
           body: convert.jsonEncode({
@@ -545,7 +548,8 @@ class _TradeScreenState extends State<TradeScreen> {
       return http.post(
         chatUrl,
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
+          "Accept": "application/json",
+          "content-type": "application/json",
           HttpHeaders.authorizationHeader: token,
         },
         body: jsonEncode(<String, int>{
@@ -556,7 +560,8 @@ class _TradeScreenState extends State<TradeScreen> {
       return http.post(
         chatUrl,
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
+          "Accept": "application/json",
+          "content-type": "application/json",
           HttpHeaders.authorizationHeader: token,
         },
         body: jsonEncode(<String, int>{

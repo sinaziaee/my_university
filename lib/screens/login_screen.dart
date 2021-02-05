@@ -198,6 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print(result.body);
       }
     } catch (e) {
+      _showDialog(context, e);
       setState(() {
         showSpinner = false;
       });

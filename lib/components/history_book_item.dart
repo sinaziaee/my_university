@@ -31,7 +31,7 @@ class MyBookItem extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(40),
           child: Card(

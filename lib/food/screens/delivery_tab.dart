@@ -182,7 +182,7 @@ class DeliveryTab extends StatelessWidget {
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                reverse: true,
+                                // reverse: true,
                                 itemCount: pendingCount,
                                 itemBuilder: (context, index) {
                                   return TodayCard(
@@ -195,7 +195,7 @@ class DeliveryTab extends StatelessWidget {
                                           mapList[index]['description'],
                                           mapList[index]['remaining_count']);
                                     },
-
+                                    size: MediaQuery.of(context).size,
                                     id: mapList[index]['serve_id'],
                                     name: mapList[index]['name'],
                                     price: mapList[index]['cost'],
@@ -289,6 +289,7 @@ class DeliveryTab extends StatelessWidget {
                                           mapList[index]['image'],
                                           mapList[index]['description']);
                                     },
+                                    size: MediaQuery.of(context).size,
                                     name: mapList[index]['name'],
                                     price: mapList[index]['cost'],
                                     picture: mapList[index]['image'],
